@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -759,12 +759,6 @@
                     </button>
                 </li>
                 <li>
-                    <button class="sidebar-link" data-view="live" onclick="switchView('live')">
-                        <span class="sidebar-listIcon"><i class="fas fa-broadcast-tower"></i></span>
-                        <span class="sidebar-text">Live</span>
-                    </button>
-                </li>
-                <li>
                     <button class="sidebar-link" data-view="about" onclick="switchView('about')">
                         <span class="sidebar-listIcon"><i class="fas fa-circle-info"></i></span>
                         <span class="sidebar-text">About</span>
@@ -995,19 +989,10 @@
             <div class="video-filters">
                 <button class="video-filter-btn active" data-filter="new" onclick="setVideoFilter('new')">New</button>
                 <button class="video-filter-btn" data-filter="popular" onclick="setVideoFilter('popular')">Popular</button>
+                <button class="video-filter-btn" data-filter="live" onclick="setVideoFilter('live')">Live</button>
             </div>
             <div class="videos-grid" id="videos-grid"></div>
             <div class="video-pagination" id="video-pagination"></div>
-        </div>
-        <div class="watermark">Lag0n</div>
-    </div>
-
-    
-    <div class="main-content" id="view-live" style="display: none;">
-        <h1 class="header-title">Live Streams</h1>
-        <div class="videos-wrap">
-            <p style="color: white; font-weight: 700; text-align: center; margin: 0 0 18px; opacity: 0.9;">Blooket livestreams on YouTube — open to watch.</p>
-            <div class="videos-grid" id="live-grid"></div>
         </div>
         <div class="watermark">Lag0n</div>
     </div>
@@ -1089,14 +1074,13 @@
             });
         }
         function switchView(view, skipUrl) {
-            const allowed = ['home', 'countdown', 'leaks', 'videos', 'live', 'about'];
+            const allowed = ['home', 'countdown', 'leaks', 'videos', 'about'];
             if (!allowed.includes(view)) view = 'home';
             currentView = view;
             document.getElementById('view-home').style.display = view === 'home' ? 'flex' : 'none';
             document.getElementById('view-countdown').style.display = view === 'countdown' ? 'flex' : 'none';
             document.getElementById('view-leaks').style.display = view === 'leaks' ? 'flex' : 'none';
             document.getElementById('view-videos').style.display = view === 'videos' ? 'flex' : 'none';
-            document.getElementById('view-live').style.display = view === 'live' ? 'flex' : 'none';
             document.getElementById('view-about').style.display = view === 'about' ? 'flex' : 'none';
             document.getElementById('info-btn').style.display = view === 'countdown' ? 'flex' : 'none';
             if (view !== 'countdown') {
@@ -1105,14 +1089,16 @@
             } else {
                 applyPage(currentPage);
             }
-            if (view === 'live') renderLive();
+            if (view === 'videos') renderVideos();
             updateSidebarActive();
             closeSidebar();
             if (!skipUrl) {
-                const path = view === 'home' ? '/' : '/' + view;
-                if (location.pathname !== path) {
-                    history.pushState({ view }, '', path);
-                }
+                try {
+                    const path = view === 'home' ? '/' : '/' + view;
+                    if (location.protocol !== 'file:' && location.pathname !== path) {
+                        history.pushState({ view }, '', path);
+                    }
+                } catch (e) {}
             }
         }
 
@@ -1498,6 +1484,43 @@
             { id: 'JaZIJbB93ro', title: 'Invite Blooket Plus Members', channel: 'Blooket', likes: 40, views: '1K', cat: 'popular' },
             { id: 'xUXHheHj1vU', title: 'Plus Group Plan Reports', channel: 'Blooket', likes: 35, views: '825', cat: 'popular' },
             { id: 'pyx7pg3nkpQ', title: 'Ranking EVERY Blooket Youtuber!', channel: 'Lag0n', likes: 27, views: '901', cat: 'popular' },
+            // LIVE — streams / VODs (paginated up to 10 pages)
+            { id: 'fpgX98agHBc', title: 'Play Blooket With Me *LIVE*', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'R1fXmUzpLec', title: 'Play Blooket With Me *LIVE* (no hacks)', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: '9xqk2pRExhw', title: 'Blooket *NEW BLOOK RUSH MODE* Anyone can play!!!', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'QlnAKmcqWAE', title: '*NEW BLOOK RUSH MODE* Anyone can play!!!', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'nbsE_Cag3IU', title: 'SNOWDAY STREAM!!! Blooket, Games and other stuff', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'Ql5trc5UA3s', title: 'SNOWDAY STREAM!!! Blooket (VOD 2)', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'zy_frXYqMno', title: 'Play Blooket With Me! Anyone Can Join! (NO HACKING)', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'YExj_mKDbvE', title: 'Play Blooket With Me! NEW VIDEO OUT!!', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'UbV6Pnu_gS8', title: 'Play Blooket With Me! Almost 600 subs!', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'Udn0Acwtwaw', title: 'TRACKY TUESDAY BLOOKET LIVE!!', channel: 'FastyJay', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'TWGkXEEbcuk', title: 'Blooket LIVE! (No Autohost or 24/7)', channel: 'FastyJay', likes: 0, views: 'Live', cat: 'live' },
+            { id: '4iJbSO5Vcxs', title: 'BLOOKET LIVE OPENINGS! (10k+)', channel: 'Monkey Master', likes: 76, views: '2.8K', cat: 'live' },
+            { id: 'm_1YCVaNfCM', title: 'OPENING BLOOKET AUTUMN PACKS! 10k+', channel: 'Monkey Master', likes: 61, views: '2.4K', cat: 'live' },
+            { id: 'B7-YZP-HSaU', title: "BLOOKET LIVE GAMES WITH Y'ALL", channel: 'Monkey Master', likes: 32, views: '927', cat: 'live' },
+            { id: 'UvM3OnAbDqs', title: 'OPENING BLOOKET PACKS! (ACC GIVEAWAY)', channel: 'Monkey Master', likes: 71, views: '2.6K', cat: 'live' },
+            { id: 'zsRdjQpwqBU', title: 'BLOOKET GAMES LIVE', channel: 'Lag0n', likes: 6, views: '88', cat: 'live' },
+            { id: 'qHTCLv9x8aU', title: 'LIVE BLOOKET GAMES - WONDERFUL WEDNESDAY', channel: 'Blooket Ace', likes: 50, views: '3K', cat: 'live' },
+            { id: 'agoGiKvPFR4', title: 'Hosting Live BLOOKET With Viewers', channel: 'the blooket gamer', likes: 18, views: '856', cat: 'live' },
+            { id: 'fpgX98agHBc', title: 'Play Blooket With Me *LIVE* (Rec Room)', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: '9xqk2pRExhw', title: 'BLOOK RUSH MODE Stream', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'R1fXmUzpLec', title: '1k Subscribers Live Stream', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'nbsE_Cag3IU', title: 'Snowday Blooket Games Stream', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'zy_frXYqMno', title: 'Anyone Can Join Blooket Live', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'TWGkXEEbcuk', title: 'FastyJay Blooket Live Session', channel: 'FastyJay', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'Udn0Acwtwaw', title: 'Tracky Tuesday Live Replay', channel: 'FastyJay', likes: 0, views: 'Live', cat: 'live' },
+            { id: '4iJbSO5Vcxs', title: 'Monkey Master Pack Opening Live', channel: 'Monkey Master', likes: 76, views: '2.8K', cat: 'live' },
+            { id: 'B7-YZP-HSaU', title: 'Live Games With Viewers', channel: 'Monkey Master', likes: 32, views: '927', cat: 'live' },
+            { id: 'zsRdjQpwqBU', title: 'Lag0n Blooket Games Live', channel: 'Lag0n', likes: 6, views: '88', cat: 'live' },
+            { id: 'qHTCLv9x8aU', title: 'Wonderful Wednesday Live', channel: 'Blooket Ace', likes: 50, views: '3K', cat: 'live' },
+            { id: 'agoGiKvPFR4', title: 'Live Hosting With Viewers', channel: 'the blooket gamer', likes: 18, views: '856', cat: 'live' },
+            { id: 'QlnAKmcqWAE', title: 'Blook Rush Extended Stream', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'Ql5trc5UA3s', title: 'Snowday Stream Part 2', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'YExj_mKDbvE', title: 'Short Live Clip Session', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'UbV6Pnu_gS8', title: 'Sub Goal Live Stream', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'm_1YCVaNfCM', title: 'Autumn Packs Live Opening', channel: 'Monkey Master', likes: 61, views: '2.4K', cat: 'live' },
+            { id: 'UvM3OnAbDqs', title: 'Pack Opening + Giveaway Live', channel: 'Monkey Master', likes: 71, views: '2.6K', cat: 'live' }
         ];
 
         let currentVideoFilter = 'new';
@@ -1538,6 +1561,7 @@
             if (currentVideoPage > totalPages) currentVideoPage = totalPages;
             const start = (currentVideoPage - 1) * VIDEOS_PER_PAGE;
             const pageItems = list.slice(start, start + VIDEOS_PER_PAGE);
+            const isLive = currentVideoFilter === 'live';
 
             grid.innerHTML = pageItems.map(v => `
                 <a class="video-card" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener noreferrer">
@@ -1546,8 +1570,9 @@
                         <div class="video-title">${v.title}</div>
                         <div class="video-meta">
                             <span>${v.channel}</span>
-                            <span>${v.views} views</span>
-                            <span class="likes"><i class="fas fa-thumbs-up"></i> ${formatLikes(v.likes)}</span>
+                            ${isLive
+                                ? `<span class="likes"><i class="fas fa-broadcast-tower"></i> Live / VOD</span>`
+                                : `<span>${v.views} views</span><span class="likes"><i class="fas fa-thumbs-up"></i> ${formatLikes(v.likes)}</span>`}
                         </div>
                     </div>
                 </a>
@@ -1563,43 +1588,9 @@
             }
         }
 
-        const liveStreams = [
-            { id: 'fpgX98agHBc', title: 'Play Blooket With Me *LIVE*', channel: 'Waymore' },
-            { id: 'R1fXmUzpLec', title: 'Play Blooket With Me *LIVE* (no hacks)', channel: 'Waymore' },
-            { id: '9xqk2pRExhw', title: 'Blooket *NEW BLOOK RUSH MODE* Anyone can play!!!', channel: 'Waymore' },
-            { id: 'QlnAKmcqWAE', title: '*NEW BLOOK RUSH MODE* Anyone can play!!!', channel: 'Waymore' },
-            { id: 'nbsE_Cag3IU', title: 'SNOWDAY STREAM!!! Blooket, Games and other stuff', channel: 'Waymore' },
-            { id: 'zy_frXYqMno', title: 'Play Blooket With Me! Anyone Can Join! (NO HACKING)', channel: 'Waymore' },
-            { id: 'Udn0Acwtwaw', title: 'TRACKY TUESDAY BLOOKET LIVE!!', channel: 'FastyJay' },
-            { id: 'TWGkXEEbcuk', title: 'Blooket LIVE! (No Autohost or 24/7)', channel: 'FastyJay' },
-            { id: '4iJbSO5Vcxs', title: 'BLOOKET LIVE OPENINGS! (10k+)', channel: 'Monkey Master' },
-            { id: 'm_1YCVaNfCM', title: 'OPENING BLOOKET AUTUMN PACKS! 10k+', channel: 'Monkey Master' },
-            { id: 'B7-YZP-HSaU', title: 'BLOOKET LIVE GAMES WITH Y\'ALL', channel: 'Monkey Master' },
-            { id: 'zsRdjQpwqBU', title: 'BLOOKET GAMES LIVE', channel: 'Lag0n' },
-            { id: 'qHTCLv9x8aU', title: 'LIVE BLOOKET GAMES - WONDERFUL WEDNESDAY', channel: 'Blooket Ace' },
-            { id: 'agoGiKvPFR4', title: 'Hosting Live BLOOKET With Viewers', channel: 'theblooketgamer' }
-        ];
-
-        function renderLive() {
-            const grid = document.getElementById('live-grid');
-            if (!grid) return;
-            grid.innerHTML = liveStreams.map(v => `
-                <a class="video-card" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener noreferrer">
-                    <img class="video-thumb" src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy">
-                    <div class="video-info">
-                        <div class="video-title">${v.title}</div>
-                        <div class="video-meta">
-                            <span>${v.channel}</span>
-                            <span class="likes"><i class="fas fa-broadcast-tower"></i> Live / VOD</span>
-                        </div>
-                    </div>
-                </a>
-            `).join('');
-        }
-
         function initFromPath() {
             const seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || 'home';
-            const map = { home: 'home', countdown: 'countdown', leaks: 'leaks', videos: 'videos', live: 'live', about: 'about' };
+            const map = { home: 'home', countdown: 'countdown', leaks: 'leaks', videos: 'videos', about: 'about' };
             switchView(map[seg] || 'home', true);
         }
 
@@ -1608,7 +1599,6 @@
         applyPage(0);
         setInterval(updateCountdown, 1000);
         renderVideos();
-        renderLive();
         initFromPath();
         
 </script>
