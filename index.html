@@ -1,25 +1,1607 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blookbase</title>
-<link rel="icon" type="image/png" href="favicon.png">
-<style>
-body{font-family:system-ui,sans-serif;max-width:640px;margin:48px auto;padding:0 20px;line-height:1.5;color:#222}
-code{background:#f0f0f0;padding:2px 6px;border-radius:4px}
-a{color:#9a49aa}
-.box{background:#9a49aa;color:#fff;padding:20px;border-radius:12px;margin:20px 0}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Countdown to Blooket Season 8 and Spooktober.">
+    <title>Blookbase — Blooket Countdown</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Titan+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+
+        :root {
+            --bg-top: #0bc2cf;
+            --bg-bottom: #349aef;
+            --accent: rgb(154, 73, 170);
+            --accent-dark: rgb(122, 3, 157);
+        }
+        body {
+            cursor: auto;
+            overflow-x: hidden;
+            font-family: 'Nunito', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+            min-height: 100vh;
+            color: #333;
+            transition: background 0.4s;
+        }
+
+        /* --- ANIMATED BACKGROUND --- */
+        .background {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+            background: linear-gradient(var(--bg-top), var(--bg-bottom));
+            z-index: -2;
+            transition: background 0.4s;
+        }
+        .bgBlooks {
+            position: fixed;
+            width: 300%;
+            height: 300%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(15deg);
+            background-image: url('https://ac.blooket.com/dashboard/65a43218fd1cabe52bdf1cda34613e9e.png');
+            background-size: var(--bg-blook-size, 1200px) var(--bg-blook-size, 1200px);
+            background-repeat: repeat;
+            background-position: 0 0;
+            opacity: 0.1;
+            pointer-events: none;
+            animation: bgScroll 40s linear infinite;
+        }
+        @keyframes bgScroll {
+            from { background-position: 0 0; }
+            to { background-position: var(--bg-blook-size, 1200px) var(--bg-blook-size, 1200px); }
+        }
+
+        .video-pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 22px;
+            flex-wrap: wrap;
+        }
+        .page-btn {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 14px;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 10px;
+            border-radius: 8px;
+            border: 3px solid rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            cursor: pointer;
+            transition: 0.12s;
+        }
+        .page-btn:hover { background: rgba(255,255,255,0.28); }
+        .page-btn.active {
+            background: #9a49aa;
+            border-color: rgba(255,255,255,0.55);
+        }
+        .page-btn:disabled {
+            opacity: 0.4;
+            cursor: default;
+        }
+
+        /* --- MAIN CONTENT AREA --- */
+        .main-content {
+            margin: 0 auto;
+            max-width: 900px;
+            padding: 60px 20px 30px 20px;
+            min-height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* --- LEAKS PAGE --- */
+        .leaks-wrap {
+            width: 100%;
+            max-width: 820px;
+            text-align: left;
+            padding-bottom: 40px;
+        }
+        .leaks-section {
+            background-color: #9a49aa;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin-bottom: 18px;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
+            color: #ffffff;
+        }
+        .leaks-section h3 {
+            font-family: 'Titan One', sans-serif;
+            font-weight: normal;
+            font-size: 22px;
+            color: #ffffff;
+            margin: 0 0 12px;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+        }
+        .leaks-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .leaks-section li {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .leaks-section li:last-child {
+            border-bottom: none;
+        }
+        .leaks-section li .tag {
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(0,0,0,0.25);
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .leaks-section li .tag.upcoming {
+            background: rgba(255, 193, 7, 0.9);
+            color: #5c4400;
+        }
+        .leaks-section li .tag.released {
+            background: rgba(40, 167, 69, 0.9);
+            color: #fff;
+        }
+        .leaks-images {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+        @media (max-width: 600px) {
+            .leaks-images {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .leaks-images img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 3px solid rgba(255,255,255,0.25);
+            background: rgba(0,0,0,0.15);
+        }
+        .achieve-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .achieve-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0,0,0,0.18);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        .achieve-item img {
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+        }
+        .achieve-cat {
+            font-family: 'Titan One', sans-serif;
+            font-size: 16px;
+            color: rgba(255,255,255,0.95);
+            margin: 18px 0 8px;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+        }
+        .achieve-cat:first-of-type {
+            margin-top: 4px;
+        }
+
+        /* --- VIDEOS PAGE --- */
+        .videos-wrap {
+            width: 100%;
+            max-width: 900px;
+            text-align: left;
+            padding-bottom: 40px;
+        }
+        .video-filters {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 22px;
+            flex-wrap: wrap;
+        }
+        .video-filter-btn {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 15px;
+            padding: 10px 22px;
+            border-radius: 10px;
+            border: 3px solid rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+        }
+        .video-filter-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+        .video-filter-btn.active {
+            background: #9a49aa;
+            border-color: rgba(255,255,255,0.5);
+            box-shadow: 0 4px 0 rgba(122, 3, 157, 0.6);
+        }
+        .video-filter-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.15);
+        }
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+        }
+        .video-card {
+            background-color: #9a49aa;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            color: #fff;
+            text-decoration: none;
+            transition: transform 0.15s, filter 0.15s;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .video-card:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.08);
+        }
+        .video-thumb {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            background: rgba(0,0,0,0.25);
+            display: block;
+        }
+        .video-info {
+            padding: 12px 14px 14px;
+        }
+        .video-title {
+            font-weight: 800;
+            font-size: 14px;
+            line-height: 1.35;
+            margin: 0 0 6px;
+            color: #fff;
+        }
+        .video-meta {
+            font-size: 12px;
+            font-weight: 700;
+            opacity: 0.9;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 12px;
+            align-items: center;
+        }
+        .video-meta .likes {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* About purple box */
+        .about-box {
+            background-color: #9a49aa;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 24px 22px;
+            max-width: 480px;
+            text-align: left;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
+            color: #ffffff;
+            margin-top: 10px;
+        }
+        .about-box a {
+            color: #fff3b0;
+        }
+        .about-box hr {
+            border: none;
+            border-top: 2px solid rgba(255,255,255,0.2);
+            margin: 16px 0;
+        }
+        .about-box p {
+            font-size: 15px;
+            line-height: 1.65;
+            margin: 0 0 12px;
+            color: #ffffff;
+        }
+        .about-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .header-title {
+            font-family: 'Titan One', sans-serif;
+            font-weight: normal;
+            font-size: 56px;
+            color: white;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+            margin-top: 0;
+            margin-bottom: 40px;
+            line-height: 1.15;
+        }
+
+        /* --- COUNTDOWN --- */
+        .countdown-grid {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .countdown-box {
+            background: var(--accent);
+            border-radius: 12px;
+            padding: 20px 18px;
+            min-width: 100px;
+            box-shadow: 0 6px 0 var(--accent-dark);
+            transition: background 0.4s, box-shadow 0.4s;
+        }
+        .countdown-number {
+            font-family: 'Titan One', sans-serif;
+            font-size: 44px;
+            color: white;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+        }
+        .countdown-label {
+            font-size: 14px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.85);
+            margin-top: 4px;
+        }
+        .countdown-done {
+            font-family: 'Titan One', sans-serif;
+            font-size: 40px;
+            color: white;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+        }
+
+        /* --- WATERMARK FOOTER (x3 bigger) --- */
+        .watermark {
+            font-family: 'Titan One', sans-serif;
+            font-size: 72px;
+            color: white;
+            opacity: 0.25;
+            margin-top: auto;
+            padding-bottom: 20px;
+            text-shadow: 4px 4px 0 rgba(0,0,0,0.1);
+            user-select: none;
+            letter-spacing: 2px;
+        }
+
+        /* --- INFO BUTTON --- */
+        .info-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: none;
+            box-shadow: 0 5px 0 var(--accent-dark);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.1s, filter 0.2s, background 0.4s, box-shadow 0.4s;
+            z-index: 500;
+            font-family: 'Titan One', sans-serif;
+            font-size: 26px;
+        }
+        .info-btn:hover {
+            filter: brightness(1.1);
+        }
+        .info-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0 0 0 var(--accent-dark);
+        }
+
+        /* --- INFO MODAL --- */
+        #info-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+        }
+        .info-modal-box {
+            background: white;
+            width: 90vw;
+            max-width: 420px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .info-modal-header {
+            background: var(--accent);
+            color: white;
+            padding: 18px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .info-modal-header h2 {
+            margin: 0;
+            font-family: 'Titan One', sans-serif;
+            font-weight: normal;
+            font-size: 22px;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+        }
+        .info-close-btn {
+            background: rgba(0,0,0,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .info-close-btn:hover { background: rgba(0,0,0,0.4); }
+        .info-modal-body {
+            padding: 25px 22px;
+            text-align: left;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .info-modal-body b {
+            color: var(--accent);
+        }
+        .page-switch-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        @media (max-width: 400px) {
+            .page-switch-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .page-switch-btn {
+            border: 2px solid #eee;
+            background: #f8f8f8;
+            border-radius: 10px;
+            padding: 14px 8px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 13px;
+            color: #333;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-align: center;
+        }
+        .page-switch-btn i {
+            font-size: 18px;
+        }
+        .page-switch-btn:hover {
+            background: #efefef;
+            transform: translateY(-2px);
+        }
+        .page-switch-btn.active {
+            background: var(--accent);
+            border-color: var(--accent-dark);
+            color: white;
+        }
+
+        /* --- SNOW OVERLAY (Christmas page) --- */
+        #snow-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
+            display: none;
+        }
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            opacity: 0.85;
+            user-select: none;
+            animation-name: snowfall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+        @keyframes snowfall {
+            0% { transform: translateY(-10vh) translateX(0); }
+            100% { transform: translateY(110vh) translateX(20px); }
+        }
+
+        /* --- HAMBURGER / SIDEBAR --- */
+        .menu-btn {
+            position: fixed;
+            top: 18px;
+            left: 18px;
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            background: var(--accent);
+            border: none;
+            box-shadow: 0 4px 0 var(--accent-dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 600;
+            transition: transform 0.1s, filter 0.2s, background 0.4s, box-shadow 0.4s;
+            padding: 0;
+        }
+        .menu-btn:hover {
+            filter: brightness(1.1);
+        }
+        .menu-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 var(--accent-dark);
+        }
+        .menu-btn img {
+            width: 26px;
+            height: auto;
+            pointer-events: none;
+        }
+
+        #sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 700;
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        #sidebar-overlay.open {
+            display: block;
+            opacity: 1;
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 220px;
+            height: 100%;
+            background-color: #9a49aa;
+            color: #ffffff;
+            z-index: 800;
+            transform: translateX(-100%);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px 10px 20px 0;
+            box-shadow: inset -10px 0 rgba(0, 0, 0, 0.2);
+            overflow: hidden auto;
+            box-sizing: border-box;
+        }
+        #sidebar.open {
+            transform: translateX(0);
+        }
+
+        .sidebar-logo {
+            font-family: 'Titan One', sans-serif;
+            font-size: 26px;
+            color: white;
+            text-align: center;
+            margin: 4px auto 14px;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+            letter-spacing: 0.5px;
+            user-select: none;
+            width: 80%;
+        }
+
+        .sidebar-list {
+            list-style: none;
+            margin: 25px 0 0;
+            padding: 0;
+            font-size: 20px;
+            flex: 1;
+        }
+        .sidebar-list li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar-link {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin: 8px 0;
+            padding: 0 0 0 30px;
+            width: 190px;
+            height: 40px;
+            border: none;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            background: transparent;
+            color: #ffffff;
+            text-decoration: none;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s linear;
+            box-sizing: border-box;
+            text-align: left;
+        }
+        .sidebar-link:hover {
+            background: rgba(255,255,255,0.12);
+        }
+        .sidebar-link.active {
+            background-color: #ffffff;
+            color: #9a49aa;
+        }
+
+        .sidebar-listIcon {
+            margin-top: 2px;
+            width: 26px;
+            font-size: 22px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .sidebar-text {
+            margin-left: 10px;
+        }
+
+        .sidebar-footer {
+            padding: 12px 10px 4px;
+            text-align: center;
+            font-size: 12px;
+            color: rgba(255,255,255,0.65);
+            font-weight: 600;
+        }
+        .sidebar-footer a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: underline;
+        }
+    
 </style>
 </head>
 <body>
-<h1>Blookbase</h1>
-<div class="box">
-<p><strong>Almost there.</strong> The full site file is ready locally but is large for auto-push.</p>
-<p>On this repo page: click <strong>Add file → Upload files</strong>, then upload your local <code>index.html</code> (from the project artifacts folder).</p>
-<p>Also upload <code>favicon.png</code> when you have it.</p>
-</div>
-<p>Repo: <a href="https://github.com/Lag0ndev/blookbase">github.com/Lag0ndev/blookbase</a></p>
-<p>After upload, connect the repo on <a href="https://vercel.com">Vercel</a> — <code>vercel.json</code> is already set.</p>
+
+    <div class="background">
+        <div class="bgBlooks"></div>
+    </div>
+
+    <div id="snow-overlay"></div>
+
+    
+    <button class="menu-btn" onclick="toggleSidebar()" aria-label="Open menu">
+        <img src="https://hippowatermelon.github.io/blooket4free/assets/misc_images/borgor.svg" alt="Menu">
+    </button>
+
+    
+    <div id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    
+    <nav id="sidebar">
+        <div>
+            <div class="sidebar-logo">Blookbase</div>
+            <ul class="sidebar-list">
+                <li>
+                    <button class="sidebar-link active" data-view="home" onclick="switchView('home')">
+                        <span class="sidebar-listIcon"><i class="fas fa-home"></i></span>
+                        <span class="sidebar-text">Home</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="sidebar-link" data-view="countdown" onclick="switchView('countdown')">
+                        <span class="sidebar-listIcon"><i class="fas fa-hourglass-half"></i></span>
+                        <span class="sidebar-text">Countdown</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="sidebar-link" data-view="leaks" onclick="switchView('leaks')">
+                        <span class="sidebar-listIcon"><i class="fas fa-bolt"></i></span>
+                        <span class="sidebar-text">Leaks</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="sidebar-link" data-view="videos" onclick="switchView('videos')">
+                        <span class="sidebar-listIcon"><i class="fas fa-play"></i></span>
+                        <span class="sidebar-text">Videos</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="sidebar-link" data-view="about" onclick="switchView('about')">
+                        <span class="sidebar-listIcon"><i class="fas fa-circle-info"></i></span>
+                        <span class="sidebar-text">About</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">
+            Made by <a href="https://www.youtube.com/@Lag0n4/" target="_blank" rel="noopener noreferrer">Lag0n</a>
+        </div>
+    </nav>
+
+    
+    <div class="main-content" id="view-home">
+        <h1 class="header-title">Welcome to Blookbase</h1>
+        <div class="watermark">Lag0n</div>
+    </div>
+
+    
+    <div class="main-content" id="view-countdown" style="display: none;">
+        <h1 class="header-title" id="page-title">Blooket Season 8 Countdown</h1>
+
+        <div class="countdown-grid" id="countdown">
+            <div class="countdown-box">
+                <div class="countdown-number" id="days">--</div>
+                <div class="countdown-label">Days</div>
+            </div>
+            <div class="countdown-box">
+                <div class="countdown-number" id="hours">--</div>
+                <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-box">
+                <div class="countdown-number" id="minutes">--</div>
+                <div class="countdown-label">Minutes</div>
+            </div>
+            <div class="countdown-box">
+                <div class="countdown-number" id="seconds">--</div>
+                <div class="countdown-label">Seconds</div>
+            </div>
+        </div>
+
+        <div class="watermark">Lag0n</div>
+    </div>
+
+    
+    <div class="main-content" id="view-leaks" style="display: none;">
+        <h1 class="header-title">Season 8 Leaks</h1>
+        <div class="leaks-wrap">
+            <div class="leaks-section">
+                <h3>Highlights</h3>
+                <ul>
+                    <li>Ice / Cloud Themed Pack</li>
+                    <li>Achievements (~56 currently discovered)</li>
+                    <li>New Class Pass</li>
+                    <li>Fish Tank Trouble Gamemode <span class="tag upcoming">Upcoming</span></li>
+                    <li>Starstream Odyssey Gamemode <span class="tag upcoming">Upcoming</span></li>
+                    <li>Claw Mania Gamemode <span class="tag upcoming">Upcoming</span></li>
+                    <li>Snake Escape Gamemode <span class="tag upcoming">Upcoming</span> — works like Google Snake</li>
+                    <li>Laser Tag <span class="tag released">Released</span></li>
+                </ul>
+            </div>
+
+            <div class="leaks-section">
+                <h3>Gamemode Notes</h3>
+                <ul>
+                    <li><b>Fish Tank Trouble</b> — Upcoming gamemode</li>
+                    <li><b>Starstream Odyssey</b> — ???</li>
+                    <li><b>Laser Tag</b> — Released</li>
+                    <li><b>Prizes</b> — Ticket from Claw Mania potentially referencing that gamemode (Upcoming)</li>
+                    <li><b>Snake Escape</b> — Upcoming gamemode</li>
+                </ul>
+            </div>
+
+            <div class="leaks-section">
+                <h3>Leak Images</h3>
+                <div class="leaks-images">
+                    <img src="https://cdn.phototourl.com/free/2026-09-13-185cf10d-4155-4899-9fd3-4f3cb233a863.png" alt="Season 8 leak 1" loading="lazy">
+                    <img src="https://cdn.phototourl.com/free/2026-09-13-76b8ae3e-0300-4079-9823-279e3d44d0d2.png" alt="Season 8 leak 2" loading="lazy">
+                    <img src="https://cdn.phototourl.com/free/2026-09-13-71beddc3-f121-4e64-a16d-d7f33ee3f7cd.png" alt="Season 8 leak 3" loading="lazy">
+                    <img src="https://cdn.phototourl.com/free/2026-09-13-b3793d40-0bb8-4d79-96b1-25fd8d4cb4b8.jpg" alt="Season 8 leak 4" loading="lazy">
+                    <img src="https://cdn.phototourl.com/free/2026-09-13-644b1c73-c1cd-45ef-90c2-47cf7fb58dfd.jpg" alt="Season 8 leak 5" loading="lazy">
+                </div>
+            </div>
+
+            <div class="leaks-section">
+                <h3>Achievements (~56 discovered)</h3>
+
+                <div class="achieve-cat">General</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/tokensEarned.svg" alt=""><span>Tokens Earned</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/questionsCorrect.svg" alt=""><span>Questions Correct</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/timePlayed.svg" alt=""><span>Time Played</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/gamesWon.svg" alt=""><span>Games Won</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/soloGamesPlayed.svg" alt=""><span>Solo Games Played</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/topFives.svg" alt=""><span>Top Fives</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/playersDefeated.svg" alt=""><span>Players Defeated</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/packsOpened.svg" alt=""><span>Packs Opened</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/homeworkCompleted.svg" alt=""><span>Homework Completed</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/studyQuestionsAnswered.svg" alt=""><span>Study Questions Answered</span></div>
+                </div>
+
+                <div class="achieve-cat">Factory</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/factoryCashEarned.svg" alt=""><span>Factory Cash Earned</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/factoryBlooksUpgraded.svg" alt=""><span>Factory Blooks Upgraded</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/factorySynergiesActivated.svg" alt=""><span>Factory Synergies Activated</span></div>
+                </div>
+
+                <div class="achieve-cat">Zorblitz</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/bricksAliensBounced.svg" alt=""><span>Aliens Bounced</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/bricksBricksBroken.svg" alt=""><span>Bricks Broken</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/bricksUniqueLevelsCleared.svg" alt=""><span>Unique Levels Cleared</span></div>
+                </div>
+
+                <div class="achieve-cat">Tower Defense 1</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/defenseDamageDealt.svg" alt=""><span>Damage Dealt</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/defenseWavesCleared.svg" alt=""><span>Waves Cleared</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/defenseTowersUpgraded.svg" alt=""><span>Towers Upgraded</span></div>
+                </div>
+
+                <div class="achieve-cat">Tower Defense 2</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/defense2DamageDealt.svg" alt=""><span>Damage Dealt</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/defense2WavesCleared.svg" alt=""><span>Waves Cleared</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/defense2TowersUpgraded.svg" alt=""><span>Towers Upgraded</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/defense2CompletedWave30Hard.svg" alt=""><span>Completed Wave 30 (Hard)</span></div>
+                </div>
+
+                <div class="achieve-cat">Plushie Panic</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/bubbleUniqueLevelsCleared.svg" alt=""><span>Unique Levels Cleared</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/bubbleHighScore.svg" alt=""><span>High Score</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/bubblePlushiesSaved.svg" alt=""><span>Plushies Saved</span></div>
+                </div>
+
+                <div class="achieve-cat">Kingdom</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/kingdomHappinessGained.svg" alt=""><span>Happiness Gained</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/kingdomGoldSpent.svg" alt=""><span>Gold Spent</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/kingdomGuestsAddressed.svg" alt=""><span>Guests Addressed</span></div>
+                </div>
+
+                <div class="achieve-cat">Fishing Frenzy</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/fishFishCaughtWeight.svg" alt=""><span>Fish Caught Weight</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/fishLureUpgradedCount.svg" alt=""><span>Lures Upgraded</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/fishFrenziesStarted.svg" alt=""><span>Frenzies Started</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/fishMegalodonCaught.svg" alt=""><span>Megalodon Caught</span></div>
+                </div>
+
+                <div class="achieve-cat">Pirate Pool</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/carromSurvivalHighscore.svg" alt=""><span>Survival Highscore</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/carromTrickshotsScored.svg" alt=""><span>Trickshots Scored</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/carromDoubloonsScored.svg" alt=""><span>Doubloons Scored</span></div>
+                </div>
+
+                <div class="achieve-cat">Laser Tag</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/laserTargetsHit.svg" alt=""><span>Targets Hit</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/laserPlayersTagged.svg" alt=""><span>Players Tagged</span></div>
+                </div>
+
+                <div class="achieve-cat">Battle Royale</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/royaleBattlesWon.svg" alt=""><span>Battles Won</span></div>
+                </div>
+
+                <div class="achieve-cat">Gold Quest</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/goldGoldEarned.svg" alt=""><span>Gold Earned</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/goldGoldStolen.svg" alt=""><span>Gold Stolen</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/goldPlayersSwapped.svg" alt=""><span>Players Swapped</span></div>
+                </div>
+
+                <div class="achieve-cat">Monster Brawl</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/brawlHiddenCombosActivated.svg" alt=""><span>Hidden Combos Activated</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/brawlAbilitiesUpgraded.svg" alt=""><span>Abilities Upgraded</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/brawlXpCollected.svg" alt=""><span>XP Collected</span></div>
+                </div>
+
+                <div class="achieve-cat">Star Grazer</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/planetsStarsCollected.svg" alt=""><span>Stars Collected</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/planetsBattlesWon.svg" alt=""><span>Battles Won</span></div>
+                </div>
+
+                <div class="achieve-cat">Cafe</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/cafeCustomersServed.svg" alt=""><span>Customers Served</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/cafeFoodUpgraded.svg" alt=""><span>Food Upgraded</span></div>
+                </div>
+
+                <div class="achieve-cat">Deceptive Dinos</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/dinosCheatersCaught.svg" alt=""><span>Cheaters Caught</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/dinosFossilsExcavated.svg" alt=""><span>Fossils Excavated</span></div>
+                </div>
+
+                <div class="achieve-cat">Busy Bees</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/beesBeesHired.svg" alt=""><span>Bees Hired</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/beesHoneyStolen.svg" alt=""><span>Honey Stolen</span></div>
+                </div>
+
+                <div class="achieve-cat">Mini Mines</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/miningOreMined.svg" alt=""><span>Ore Mined</span></div>
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/miningTreasureCollected.svg" alt=""><span>Treasure Collected</span></div>
+                </div>
+
+                <div class="achieve-cat">Cyber Hack</div>
+                <div class="achieve-grid">
+                    <div class="achieve-item"><img src="https://ac.blooket.com/achievements/hackPasswordsCorrect.svg" alt=""><span>Passwords Correct</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="watermark">Lag0n</div>
+    </div>
+
+    
+    <div class="main-content" id="view-videos" style="display: none;">
+        <h1 class="header-title">Blooket Videos</h1>
+        <div class="videos-wrap">
+            <div class="video-filters">
+                <button class="video-filter-btn active" data-filter="new" onclick="setVideoFilter('new')">New</button>
+                <button class="video-filter-btn" data-filter="popular" onclick="setVideoFilter('popular')">Popular</button>
+                <button class="video-filter-btn" data-filter="live" onclick="setVideoFilter('live')">Live</button>
+            </div>
+            <div class="videos-grid" id="videos-grid"></div>
+            <div class="video-pagination" id="video-pagination"></div>
+        </div>
+        <div class="watermark">Lag0n</div>
+    </div>
+
+    
+    <div class="main-content" id="view-about" style="display: none;">
+        <h1 class="header-title">About</h1>
+        <div class="about-box">
+            <p>
+                <b><a href="https://www.youtube.com/@Lag0n4/" target="_blank" rel="noopener noreferrer">Lag0n</a></b> made this.
+            </p>
+            <p>
+                All assets are Blooket's — this is just a fanmade countdown timer and is not affiliated with or endorsed by Blooket.
+            </p>
+            <hr>
+            <p>
+                <b>Blookbase</b> is a fan site for tracking upcoming Blooket seasonal updates and events.
+            </p>
+            <p>
+                Use <b>Countdown</b> to switch between Season 8, Spooktober, Christmas, Valentine's, St. Patrick's, and Spring timers. Open the <b>!</b> button on that page to change events and view past release dates.
+            </p>
+            <p>
+                <b>Leaks</b> covers Season 8 info, gamemodes, and achievements. <b>Videos</b> features top Blooket YouTubers.
+            </p>
+        </div>
+        <div class="watermark">Lag0n</div>
+    </div>
+
+    <button class="info-btn" id="info-btn" onclick="openInfoModal()" aria-label="About this page" style="display: none;">!</button>
+
+    <div id="info-modal">
+        <div class="info-modal-box">
+            <div class="info-modal-header">
+                <h2><i class="fas fa-circle-info"></i> Switch Countdown</h2>
+                <button class="info-close-btn" onclick="closeInfoModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="info-modal-body">
+                <p style="font-family: 'Titan One', sans-serif; font-size: 17px; color: var(--accent); margin-bottom: 10px;">Switch Countdown</p>
+                <div class="page-switch-list" id="page-switch-list"></div>
+                <hr style="border: none; border-top: 2px solid #eee; margin: 18px 0;">
+                <p style="font-family: 'Titan One', sans-serif; font-size: 17px; color: var(--accent); margin-bottom: 10px;" id="history-title">Past Season Releases</p>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 15px;" id="history-list">
+                    <li style="margin-bottom: 6px;">Season 1 — September 17th</li>
+                    <li style="margin-bottom: 6px;">Season 2 — September 15th</li>
+                    <li style="margin-bottom: 6px;">Season 3 — September 22nd</li>
+                    <li style="margin-bottom: 6px;">Season 4 — September 13th</li>
+                    <li style="margin-bottom: 6px;">Season 5 — September 21st</li>
+                    <li style="margin-bottom: 6px;">Season 6 — November 5th</li>
+                    <li style="margin-bottom: 6px;">Season 7 — September 16th</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        /* ---------- SIDEBAR / VIEWS ---------- */
+        let currentView = 'home';
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            const isOpen = sidebar.classList.contains('open');
+            if (isOpen) {
+                closeSidebar();
+            } else {
+                sidebar.classList.add('open');
+                overlay.classList.add('open');
+                updateSidebarActive();
+            }
+        }
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebar-overlay').classList.remove('open');
+        }
+        function updateSidebarActive() {
+            document.querySelectorAll('.sidebar-link[data-view]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === currentView);
+            });
+        }
+        function switchView(view, skipUrl) {
+            const allowed = ['home', 'countdown', 'leaks', 'videos', 'about'];
+            if (!allowed.includes(view)) view = 'home';
+            currentView = view;
+            document.getElementById('view-home').style.display = view === 'home' ? 'flex' : 'none';
+            document.getElementById('view-countdown').style.display = view === 'countdown' ? 'flex' : 'none';
+            document.getElementById('view-leaks').style.display = view === 'leaks' ? 'flex' : 'none';
+            document.getElementById('view-videos').style.display = view === 'videos' ? 'flex' : 'none';
+            document.getElementById('view-about').style.display = view === 'about' ? 'flex' : 'none';
+            document.getElementById('info-btn').style.display = view === 'countdown' ? 'flex' : 'none';
+            if (view !== 'countdown') {
+                setVars(classicTheme);
+                toggleSnow(false);
+            } else {
+                applyPage(currentPage);
+            }
+            if (view === 'videos') renderVideos();
+            updateSidebarActive();
+            closeSidebar();
+            if (!skipUrl) {
+                try {
+                    const path = view === 'home' ? '/' : '/' + view;
+                    if (location.protocol !== 'file:' && location.pathname !== path) {
+                        history.pushState({ view }, '', path);
+                    }
+                } catch (e) {}
+            }
+        }
+
+        /* ---------- INFO MODAL ---------- */
+        function openInfoModal() {
+            document.getElementById('info-modal').style.display = 'flex';
+            renderPageSwitchList();
+            renderHistory();
+        }
+        function closeInfoModal() {
+            document.getElementById('info-modal').style.display = 'none';
+        }
+        document.getElementById('info-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeInfoModal();
+        });
+
+        function renderHistory() {
+            const page = pages[currentPage];
+            document.getElementById('history-title').textContent = page.historyTitle;
+            const list = document.getElementById('history-list');
+            list.innerHTML = '';
+            page.history.forEach(item => {
+                const li = document.createElement('li');
+                li.style.marginBottom = '6px';
+                li.textContent = item;
+                list.appendChild(li);
+            });
+        }
+
+        function renderPageSwitchList() {
+            const list = document.getElementById('page-switch-list');
+            list.innerHTML = '';
+            pages.forEach((page, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'page-switch-btn' + (index === currentPage ? ' active' : '');
+                btn.innerHTML = `<i class="fas ${page.icon}"></i><span>${page.label}</span>`;
+                btn.onclick = () => {
+                    applyPage(index);
+                    renderPageSwitchList();
+                    renderHistory();
+                };
+                list.appendChild(btn);
+            });
+        }
+
+        /* ---------- PAGES / PAGE SWITCHER ---------- */
+        const pages = [
+            {
+                key: 'season8',
+                label: 'Season 8',
+                icon: 'fa-calendar-days',
+                title: 'Blooket Season 8 Countdown',
+                target: new Date("2026-09-15T00:00:00"),
+                doneText: '🎉 Season 8 is here! 🎉',
+                lockTheme: false,
+                historyTitle: 'Past Season Releases',
+                history: [
+                    'Season 1 — September 17th',
+                    'Season 2 — September 15th',
+                    'Season 3 — September 22nd',
+                    'Season 4 — September 13th',
+                    'Season 5 — September 21st',
+                    'Season 6 — November 5th',
+                    'Season 7 — September 16th'
+                ]
+            },
+            {
+                key: 'spooktober',
+                label: 'Spooktober',
+                icon: 'fa-ghost',
+                title: 'Blooket Spooktober Countdown',
+                target: new Date("2026-10-01T00:00:00"),
+                doneText: '🎃 Spooktober is here! 🎃',
+                lockTheme: true,
+                fixedTheme: { bgTop: "#1a0d2e", bgBottom: "#050107", accent: "rgb(230, 110, 15)", accentDark: "rgb(150, 60, 5)" },
+                historyTitle: 'Past Spooktober Releases',
+                history: [
+                    '2019 — October 28th',
+                    '2020 — October 13th',
+                    '2021 — October 10th',
+                    '2022 — October 20th',
+                    '2023 — October 3rd',
+                    '2024 — October 11th',
+                    '2025 — October 1st'
+                ]
+            },
+            {
+                key: 'christmas',
+                label: 'Christmas',
+                icon: 'fa-snowflake',
+                title: 'Blooket Christmas Countdown',
+                target: new Date("2026-12-01T00:00:00"),
+                doneText: '🎄 Christmas Update is here! 🎄',
+                lockTheme: true,
+                fixedTheme: { bgTop: "#a8dcf0", bgBottom: "#3a7bb5", accent: "rgb(30, 100, 160)", accentDark: "rgb(15, 65, 110)" },
+                historyTitle: 'Past Christmas Releases',
+                history: [
+                    '2020 — December 7th',
+                    '2021 — December 14th',
+                    '2022 — December 9th',
+                    '2023 — December 12th',
+                    '2024 — December 4th',
+                    '2025 — December 2nd'
+                ]
+            },
+            {
+                key: 'valentines',
+                label: "Valentine's",
+                icon: 'fa-heart',
+                title: "Blooket Valentine's Countdown",
+                target: new Date("2027-02-14T00:00:00"),
+                doneText: "💕 Valentine's Update is here! 💕",
+                lockTheme: true,
+                fixedTheme: { bgTop: "#ff6b9d", bgBottom: "#c9184a", accent: "rgb(230, 57, 70)", accentDark: "rgb(160, 20, 40)" },
+                historyTitle: "Past Valentine's Releases",
+                history: [
+                    '2021 — February 14th',
+                    '2022 — February 14th',
+                    '2023 — February 14th',
+                    '2024 — February 14th',
+                    '2025 — February 14th'
+                ]
+            },
+            {
+                key: 'stpatricks',
+                label: "St. Patrick's",
+                icon: 'fa-clover',
+                title: "Blooket St. Patrick's Countdown",
+                target: new Date("2027-03-17T00:00:00"),
+                doneText: "☘️ St. Patrick's Update is here! ☘️",
+                lockTheme: true,
+                fixedTheme: { bgTop: "#2d6a4f", bgBottom: "#081c15", accent: "rgb(64, 145, 108)", accentDark: "rgb(27, 94, 56)" },
+                historyTitle: "Past St. Patrick's Releases",
+                history: [
+                    '2021 — March 17th',
+                    '2022 — March 17th',
+                    '2023 — March 17th',
+                    '2024 — March 17th',
+                    '2025 — March 17th'
+                ]
+            },
+            {
+                key: 'spring',
+                label: 'Spring',
+                icon: 'fa-seedling',
+                title: 'Blooket Spring Countdown',
+                target: new Date("2027-03-28T00:00:00"),
+                doneText: '🌸 Spring Update is here! 🌸',
+                lockTheme: true,
+                fixedTheme: { bgTop: "#fff3b0", bgBottom: "#c8b6ff", accent: "rgb(129, 199, 132)", accentDark: "rgb(76, 140, 80)" },
+                historyTitle: 'Past Spring (Easter) Releases',
+                history: [
+                    '2021 — April 4th',
+                    '2022 — April 17th',
+                    '2023 — April 9th',
+                    '2024 — March 31st',
+                    '2025 — April 20th',
+                    '2026 — April 5th'
+                ]
+            }
+        ];
+
+        let currentPage = 0;
+
+        function setVars(t) {
+            const root = document.documentElement.style;
+            root.setProperty('--bg-top', t.bgTop);
+            root.setProperty('--bg-bottom', t.bgBottom);
+            root.setProperty('--accent', t.accent);
+            root.setProperty('--accent-dark', t.accentDark);
+        }
+
+        const classicTheme = { bgTop: "#0bc2cf", bgBottom: "#349aef", accent: "rgb(154, 73, 170)", accentDark: "rgb(122, 3, 157)" };
+
+        function applyPage(index) {
+            currentPage = index;
+            const page = pages[index];
+            document.getElementById('page-title').textContent = page.title;
+            setVars(page.lockTheme ? page.fixedTheme : classicTheme);
+            toggleSnow(page.key === 'christmas');
+            updateCountdown();
+        }
+
+        /* ---------- SNOW EFFECT ---------- */
+        let snowGenerated = false;
+        function toggleSnow(show) {
+            const overlay = document.getElementById('snow-overlay');
+            if (show && !snowGenerated) {
+                generateSnow();
+                snowGenerated = true;
+            }
+            overlay.style.display = show ? 'block' : 'none';
+        }
+        function generateSnow() {
+            const overlay = document.getElementById('snow-overlay');
+            const count = 60;
+            for (let i = 0; i < count; i++) {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.textContent = '❄';
+                const size = 10 + Math.random() * 18;
+                flake.style.left = Math.random() * 100 + 'vw';
+                flake.style.fontSize = size + 'px';
+                flake.style.opacity = (0.4 + Math.random() * 0.5).toFixed(2);
+                const duration = 6 + Math.random() * 8;
+                flake.style.animationDuration = duration + 's';
+                flake.style.animationDelay = (Math.random() * duration) + 's';
+                overlay.appendChild(flake);
+            }
+        }
+
+        /* ---------- COUNTDOWN ---------- */
+        function updateCountdown() {
+            const page = pages[currentPage];
+            const now = new Date();
+            const diff = page.target - now;
+            const container = document.getElementById('countdown');
+
+            if (diff <= 0) {
+                container.innerHTML = '<div class="countdown-done">' + page.doneText + '</div>';
+                return;
+            }
+
+            if (!document.getElementById('days')) {
+                container.innerHTML = `
+                    <div class="countdown-box">
+                        <div class="countdown-number" id="days">--</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-number" id="hours">--</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-number" id="minutes">--</div>
+                        <div class="countdown-label">Minutes</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-number" id="seconds">--</div>
+                        <div class="countdown-label">Seconds</div>
+                    </div>
+                `;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('days').innerText = days;
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        }
+
+        /* ---------- VIDEOS ---------- */
+        const videoData = [
+            // NEW
+            { id: 'sa1QVTdbXe8', title: 'I Pulled The RAREST ITEMS In Blooket', channel: 'Waymore', likes: 5000, views: '218K', cat: 'new' },
+            { id: 'XgxsyizaWtw', title: 'I SPEEDRAN EVERY Blooket Gamemode', channel: 'Waymore', likes: 800, views: '22K', cat: 'new' },
+            { id: 'BRfZ4vZ6cE8', title: "I Spent 50,000 COINS On Blooket's SUMMER PACK!", channel: 'Waymore', likes: 600, views: '15K', cat: 'new' },
+            { id: 'IBo8ClyOurk', title: 'I Pulled The WEIRDEST BLOOKS In Blooket!', channel: 'Waymore', likes: 4500, views: '203K', cat: 'new' },
+            { id: 'fSdsx5QJPj8', title: 'I Opened EVERY UNRELEASED Pack In BLOOKET', channel: 'Waymore', likes: 2500, views: '80K', cat: 'new' },
+            { id: 'kgOZj97VOk8', title: "Blooket's New Update Changed EVERYTHING...", channel: 'Waymore', likes: 7000, views: '322K', cat: 'new' },
+            { id: 'QPUvB0phtgQ', title: 'I Played EVERY Blooket Knock Off!', channel: 'Waymore', likes: 7200, views: '807K', cat: 'new' },
+            { id: 'lohJtLa4hUM', title: 'I SOLD 1000 BLOOKS In BLOOKET', channel: 'Waymore', likes: 395, views: '21K', cat: 'new' },
+            { id: 'lxAiCVCFwgI', title: 'I Pulled My DREAM BLOOK In Blooket!', channel: 'Waymore', likes: 23300, views: '945K', cat: 'new' },
+            { id: 'sPQPmfgxTtk', title: 'I Sold EVERY BLOOK In BLOOKET!', channel: 'Waymore', likes: 412, views: '9.7K', cat: 'new' },
+            { id: '3-xjscHn93I', title: 'This Blooket Knock-Off Is About PICKLES?!', channel: 'Waymore', likes: 2100, views: '143K', cat: 'new' },
+            { id: 'wSePycdMywo', title: 'BLOOKET CAME OUT WITH THIS', channel: 'Monkey Master', likes: 100, views: '—', cat: 'new' },
+            { id: 'S8eQMeQ3ExQ', title: "YOU WON'T BELIEVE THESE NEW BLOOKET CHROMAS", channel: 'Monkey Master', likes: 90, views: '—', cat: 'new' },
+            { id: 'TF8Kxjfdsy4', title: "BLOOKETS AUTUMN PACK CAME BACK WITH CHROMAS!", channel: 'Monkey Master', likes: 80, views: '—', cat: 'new' },
+            { id: '0zjZCxOJfq0', title: 'Opening Spooky Packs for the Rarest Chromas!', channel: 'Monkey Master', likes: 120, views: '—', cat: 'new' },
+            { id: 'tevz9vNbX9Q', title: 'BLOOKET PACK WAR: LUNCH VS ICE, WHO WON?', channel: 'Monkey Master', likes: 150, views: '—', cat: 'new' },
+            { id: 'BSIqpB9IyfE', title: 'BLOOKETS SPOOKY PACK HAS SECRET CHROMAS!', channel: 'Monkey Master', likes: 85, views: '—', cat: 'new' },
+            { id: '02d99tGMawE', title: 'I OPENED TOO MANY BLOOKET LUNCH PACKS...', channel: 'Monkey Master', likes: 200, views: '—', cat: 'new' },
+            { id: 'w4SfCm8VM2Q', title: 'THE BLOOKET SEASON 7 MASTERPIECE', channel: 'Monkey Master', likes: 110, views: '—', cat: 'new' },
+            { id: '5bTIlkCzEjE', title: 'BLOOKET SEASON 7 IS AROUND THE CORNER', channel: 'Monkey Master', likes: 95, views: '—', cat: 'new' },
+            { id: '1KfzEkodjeA', title: "Blooket's NEWEST Event Update Is HERE!", channel: 'Blooket Ace', likes: 130, views: '—', cat: 'new' },
+            { id: '-EWC_Hmh00I', title: "Blooket's Newest KNOCKOFF Is Here, And It's INSANE!", channel: 'Blooket Ace', likes: 140, views: '—', cat: 'new' },
+            { id: 'j4_-G0c1qu8', title: 'Opening Packs Until I Get EVERY SINGLE BLOOK', channel: 'Blooket Ace', likes: 180, views: '—', cat: 'new' },
+            { id: 'slMzZiQDTvg', title: 'BLOOKET SEASON 7 HAS ARRIVED! (4 NEW GAMEMODES)', channel: 'Blooket Ace', likes: 220, views: '—', cat: 'new' },
+            { id: '6Gt6p3cof9M', title: '*NEW* Season 7 SNAKE & MINING GAMEMODES Confirmed!', channel: 'Blooket Ace', likes: 160, views: '—', cat: 'new' },
+            { id: 'oyeF8sJ4Y4c', title: "Blooket's *NEW* Update Is LIVE!", channel: 'Blooket Ace', likes: 170, views: '—', cat: 'new' },
+            { id: 'e8_-mrR8K_I', title: 'TOKEN GRINDING IN BLOOKET HAS NEVER BEEN EASIER', channel: 'Blooket Ace', likes: 100, views: '—', cat: 'new' },
+            { id: '3quqs5T5h4c', title: 'It might actually FINALLY happen... (2026 predictions)', channel: 'Blooket Ace', likes: 138, views: '5.2K', cat: 'new' },
+            { id: '4iJbSO5Vcxs', title: 'BLOOKET LIVE OPENINGS! (10k+)', channel: 'Monkey Master', likes: 76, views: '2.8K', cat: 'new' },
+            { id: 'zsRdjQpwqBU', title: 'BLOOKET GAMES LIVE', channel: 'Lag0n', likes: 6, views: '88', cat: 'new' },
+            { id: 'ew-ETfNNFYw', title: 'How I Pulled THIS In Blooket', channel: 'Waymore', likes: 242, views: '6.1K', cat: 'new' },
+            { id: 'JKAW7mlwyDw', title: 'Beat Me In Blooket, Get $1,000!', channel: 'Waymore', likes: 813, views: '48K', cat: 'new' },
+            { id: 'pyx7pg3nkpQ', title: 'Ranking EVERY Blooket Youtuber!', channel: 'Lag0n', likes: 27, views: '901', cat: 'new' },
+            { id: 'tABAPUAkQJg', title: 'The Most STACKED Blooket Accounts TOUR! (2026)', channel: 'Lag0n', likes: 648, views: '47.5K', cat: 'new' },
+            { id: 'pBgbGk1dXwY', title: 'Blooket Class Pass Explained', channel: 'Blooket', likes: 74, views: '2.6K', cat: 'new' },
+            { id: 'Y9IpA_zmulw', title: 'Blooket Market Updates!', channel: 'Blooket', likes: 80, views: '7K', cat: 'new' },
+            { id: 'o5o21nMl--w', title: 'Blooket | Science Pack Showcase', channel: 'iBlooket', likes: 200, views: '17K', cat: 'new' },
+            { id: 'UK4U9P9EJio', title: 'Blooket | NEW PIRATE PACK CHROMA???', channel: 'iBlooket', likes: 120, views: '9.5K', cat: 'new' },
+            { id: '48HbSvMmNCI', title: 'THE BEST BLOOKET CONTENT IN 2025', channel: 'Blooket Ace', likes: 17, views: '583', cat: 'new' },
+            { id: '7mvEHrdsiEw', title: 'Blooket Settings You Need to Know', channel: 'Blooket', likes: 74, views: '6.8K', cat: 'new' },
+            { id: 'Hfp5XOEQTos', title: 'Blooket Team Game Modes', channel: 'Blooket', likes: 90, views: '5.8K', cat: 'new' },
+            { id: 'JaZIJbB93ro', title: 'How to Invite Blooket Plus Group Plan Members', channel: 'Blooket', likes: 40, views: '1K', cat: 'new' },
+            { id: 'xUXHheHj1vU', title: 'Blooket Plus Group Plan Reports Overview', channel: 'Blooket', likes: 35, views: '825', cat: 'new' },
+            { id: 'WKZOJl_ofrU', title: 'Blooket Reports: History & Homework Overview', channel: 'Blooket', likes: 45, views: '2K', cat: 'new' },
+            { id: '42kACDNUG98', title: 'Blooket Homework: The Complete Guide (2.0)', channel: 'Blooket', likes: 49, views: '6.3K', cat: 'new' },
+            { id: 'nKGGYjbl2WA', title: "Blooket | NEW ST. PATRICK'S DAY BLOOK", channel: 'iBlooket', likes: 95, views: '7.4K', cat: 'new' },
+            { id: 'OIBt_WVLhPs', title: "Blooket | Designing 2 Valentine's Day Blooks!", channel: 'iBlooket', likes: 60, views: '2.1K', cat: 'new' },
+            { id: '1APYgu_smtY', title: 'Recreating My FIRST CUSTOM BLOOK 2 Years Later', channel: 'iBlooket', likes: 55, views: '2.5K', cat: 'new' },
+            { id: 'DLIYaRrVka8', title: 'Blooket | SPORTS PACK CUSTOM DESIGN', channel: 'iBlooket', likes: 70, views: '4.4K', cat: 'new' },
+            { id: '8vc8zTJMRLQ', title: 'Huge Announcement', channel: 'iBlooket', likes: 180, views: '14K', cat: 'new' },
+            { id: 'LkOJyhlOozM', title: 'Blooket | How I made the Thanksgiving Pack', channel: 'iBlooket', likes: 50, views: '2.8K', cat: 'new' },
+            { id: 'zzWFs_tm8A4', title: 'Blooket | NEW CONTEST OF CHRISTMAS BLOOK??', channel: 'iBlooket', likes: 85, views: '4.7K', cat: 'new' },
+            { id: '7g89dbRCS9A', title: 'Blooket | Rubber Duck Blook (TRADING SOON!)', channel: 'iBlooket', likes: 65, views: '3K', cat: 'new' },
+            { id: 'R8dB9CG-qos', title: 'I Played Every BLOOKET REMAKE on SCRATCH', channel: 'Waymore', likes: 900, views: '44K', cat: 'new' },
+            { id: '0yiiIgbINtI', title: '*NEW* FREE SPRING CHROMA IN BLOOKET!', channel: 'Waymore', likes: 200, views: '6.2K', cat: 'new' },
+            { id: 'XQ2sF1MPLYE', title: 'BLOOKET IS BACK!!', channel: 'Waymore', likes: 400, views: '20K', cat: 'new' },
+            { id: 'GgOe0UbAd4A', title: 'I Tricked EVERYONE...', channel: 'Waymore', likes: 300, views: '13K', cat: 'new' },
+            { id: 'rwJ1JybWMRo', title: 'HUGE Blooket Ice Box Opening! (chroma...)', channel: 'Waymore', likes: 800, views: '67K', cat: 'new' },
+            { id: 'Z4rBw5viyiw', title: "I Spent 25,000 Coins On Blooket's AUTUMN PACK!", channel: 'Waymore', likes: 2100, views: '196K', cat: 'new' },
+            { id: 'm_1YCVaNfCM', title: 'OPENING BLOOKET AUTUMN PACKS! 10k+', channel: 'Monkey Master', likes: 61, views: '2.4K', cat: 'new' },
+            { id: 'qHTCLv9x8aU', title: 'LIVE BLOOKET GAMES - WONDERFUL WEDNESDAY', channel: 'Blooket Ace', likes: 50, views: '3K', cat: 'new' },
+            { id: 'Udn0Acwtwaw', title: 'TRACKY TUESDAY BLOOKET LIVE!!', channel: 'FastyJay', likes: 80, views: 'Live', cat: 'new' },
+            { id: 'fpgX98agHBc', title: 'Play Blooket With Me *LIVE*', channel: 'Waymore', likes: 150, views: 'Live', cat: 'new' },
+            { id: '9xqk2pRExhw', title: 'Blooket *NEW BLOOK RUSH MODE*', channel: 'Waymore', likes: 200, views: 'Live', cat: 'new' },
+            { id: '_ZjgcHKRwNs', title: "Testing Blooket Hacks that Shouldn't Exist", channel: 'Unblooked', likes: 123, views: '10.7K', cat: 'new' },
+            { id: 'pXx2eT29yUc', title: 'Blooket: What BLOOK says about YOU 11!', channel: 'FastyJay', likes: 2000, views: '110K', cat: 'new' },
+            // POPULAR
+            { id: 'lxAiCVCFwgI', title: 'I Pulled My DREAM BLOOK In Blooket!', channel: 'Waymore', likes: 23300, views: '945K', cat: 'popular' },
+            { id: 'QPUvB0phtgQ', title: 'I Played EVERY Blooket Knock Off!', channel: 'Waymore', likes: 7200, views: '807K', cat: 'popular' },
+            { id: 'kgOZj97VOk8', title: "Blooket's New Update Changed EVERYTHING...", channel: 'Waymore', likes: 7000, views: '322K', cat: 'popular' },
+            { id: 'sa1QVTdbXe8', title: 'I Pulled The RAREST ITEMS In Blooket', channel: 'Waymore', likes: 5000, views: '218K', cat: 'popular' },
+            { id: 'IBo8ClyOurk', title: 'I Pulled The WEIRDEST BLOOKS In Blooket!', channel: 'Waymore', likes: 4500, views: '203K', cat: 'popular' },
+            { id: '3-xjscHn93I', title: 'This Blooket Knock-Off Is About PICKLES?!', channel: 'Waymore', likes: 2100, views: '143K', cat: 'popular' },
+            { id: 'fSdsx5QJPj8', title: 'I Opened EVERY UNRELEASED Pack In BLOOKET', channel: 'Waymore', likes: 2500, views: '80K', cat: 'popular' },
+            { id: 'XgxsyizaWtw', title: 'I SPEEDRAN EVERY Blooket Gamemode', channel: 'Waymore', likes: 800, views: '22K', cat: 'popular' },
+            { id: 'BRfZ4vZ6cE8', title: "I Spent 50,000 COINS On Blooket's SUMMER PACK!", channel: 'Waymore', likes: 600, views: '15K', cat: 'popular' },
+            { id: 'slMzZiQDTvg', title: 'BLOOKET SEASON 7 HAS ARRIVED!', channel: 'Blooket Ace', likes: 220, views: '—', cat: 'popular' },
+            { id: '02d99tGMawE', title: 'I OPENED TOO MANY BLOOKET LUNCH PACKS...', channel: 'Monkey Master', likes: 200, views: '—', cat: 'popular' },
+            { id: 'GwWlkcRUkBc', title: 'I Gave Away My RAREST BLOOKS In Blooket!', channel: 'Waymore', likes: 17200, views: '1M', cat: 'popular' },
+            { id: 'ILVaON4JbEE', title: 'Blooket, But If I Lose I SELL MY RAREST BLOOK', channel: 'Waymore', likes: 15000, views: '1.2M', cat: 'popular' },
+            { id: 'hhn7dAP6BF8', title: 'Getting Started with Blooket - Teacher Edition', channel: 'Blooket', likes: 15000, views: '1M', cat: 'popular' },
+            { id: '2rFPj2q1Gos', title: 'I Ranked EVERY GAME In Blooket!', channel: 'Waymore', likes: 12000, views: '1.2M', cat: 'popular' },
+            { id: 'HOohvRlNsMQ', title: 'The Rarest Blook in Blooket.', channel: 'Unblooked', likes: 12000, views: '965K', cat: 'popular' },
+            { id: 'n_pMUdxxs1E', title: 'I Spent 100,000 Coins In Blooket...', channel: 'Waymore', likes: 10000, views: '747K', cat: 'popular' },
+            { id: 'Sb840tmslo4', title: 'I Opened 500 PACKS In Blooket...', channel: 'Waymore', likes: 9000, views: '822K', cat: 'popular' },
+            { id: 'rOBqluC1aX4', title: "I Spent 50,000 COINS On Blooket's BLIZZARD PACK!", channel: 'Waymore', likes: 8500, views: '582K', cat: 'popular' },
+            { id: 'LgmbhMy6_uk', title: "I Spent 25,000 Coins On Blooket's WORST PACK…", channel: 'Waymore', likes: 8000, views: '991K', cat: 'popular' },
+            { id: 'H9CqpOz68qE', title: 'Beat Me In Blooket, Keep My Blook!', channel: 'Waymore', likes: 6200, views: '454K', cat: 'popular' },
+            { id: 'BpZ2FvCvdbc', title: "I Opened Blooket's RAREST PACK", channel: 'Waymore', likes: 5500, views: '514K', cat: 'popular' },
+            { id: 'd_RIIg0xuSc', title: 'Getting Started with Blooket - Student Edition', channel: 'Blooket', likes: 5000, views: '347K', cat: 'popular' },
+            { id: 'JJWR2qk57W8', title: "I Played Blooket's TRIANGLE Knock-Off", channel: 'Waymore', likes: 4000, views: '307K', cat: 'popular' },
+            { id: '4NHs9ptGOUI', title: 'I Beat EVERY GAME MODE In Blooket', channel: 'Waymore', likes: 3700, views: '865K', cat: 'popular' },
+            { id: 'sfmbBnYdpNE', title: 'Blooket: What BLOOK says about YOU 4!', channel: 'FastyJay', likes: 3500, views: '378K', cat: 'popular' },
+            { id: 'ePH_BkXHOFA', title: 'I Played BLOOKET In ROBLOX', channel: 'Waymore', likes: 2200, views: '159K', cat: 'popular' },
+            { id: 'Z4rBw5viyiw', title: "I Spent 25,000 Coins On Blooket's AUTUMN PACK!", channel: 'Waymore', likes: 2100, views: '196K', cat: 'popular' },
+            { id: 'pXx2eT29yUc', title: 'Blooket: What BLOOK says about YOU 11!', channel: 'FastyJay', likes: 2000, views: '110K', cat: 'popular' },
+            { id: 'd5r2HyRQv8U', title: 'How to Create a Blooket Question Set', channel: 'Blooket', likes: 1200, views: '83K', cat: 'popular' },
+            { id: 'VpHFA029e3Y', title: 'I Ranked EVERY PACK In Blooket!', channel: 'Waymore', likes: 1100, views: '76K', cat: 'popular' },
+            { id: 'R8dB9CG-qos', title: 'I Played Every BLOOKET REMAKE on SCRATCH', channel: 'Waymore', likes: 900, views: '44K', cat: 'popular' },
+            { id: 'JKAW7mlwyDw', title: 'Beat Me In Blooket, Get $1,000!', channel: 'Waymore', likes: 813, views: '48K', cat: 'popular' },
+            { id: 'rwJ1JybWMRo', title: 'HUGE Blooket Ice Box Opening!', channel: 'Waymore', likes: 800, views: '67K', cat: 'popular' },
+            { id: 'tABAPUAkQJg', title: 'The Most STACKED Blooket Accounts TOUR!', channel: 'Lag0n', likes: 648, views: '47.5K', cat: 'popular' },
+            { id: 'XQ2sF1MPLYE', title: 'BLOOKET IS BACK!!', channel: 'Waymore', likes: 400, views: '20K', cat: 'popular' },
+            { id: 'GgOe0UbAd4A', title: 'I Tricked EVERYONE...', channel: 'Waymore', likes: 300, views: '13K', cat: 'popular' },
+            { id: 'ew-ETfNNFYw', title: 'How I Pulled THIS In Blooket', channel: 'Waymore', likes: 242, views: '6.1K', cat: 'popular' },
+            { id: 'o5o21nMl--w', title: 'Blooket | Science Pack Showcase', channel: 'iBlooket', likes: 200, views: '17K', cat: 'popular' },
+            { id: '0yiiIgbINtI', title: 'FREE SPRING CHROMA IN BLOOKET!', channel: 'Waymore', likes: 200, views: '6.2K', cat: 'popular' },
+            { id: '8vc8zTJMRLQ', title: 'Huge Announcement', channel: 'iBlooket', likes: 180, views: '14K', cat: 'popular' },
+            { id: 'UK4U9P9EJio', title: 'NEW PIRATE PACK CHROMA???', channel: 'iBlooket', likes: 120, views: '9.5K', cat: 'popular' },
+            { id: '_ZjgcHKRwNs', title: 'Testing Blooket Hacks', channel: 'Unblooked', likes: 123, views: '10.7K', cat: 'popular' },
+            { id: 'nKGGYjbl2WA', title: "NEW ST. PATRICK'S DAY BLOOK", channel: 'iBlooket', likes: 95, views: '7.4K', cat: 'popular' },
+            { id: 'Hfp5XOEQTos', title: 'Blooket Team Game Modes', channel: 'Blooket', likes: 90, views: '5.8K', cat: 'popular' },
+            { id: 'zzWFs_tm8A4', title: 'NEW CONTEST OF CHRISTMAS BLOOK??', channel: 'iBlooket', likes: 85, views: '4.7K', cat: 'popular' },
+            { id: 'Y9IpA_zmulw', title: 'Blooket Market Updates!', channel: 'Blooket', likes: 80, views: '7K', cat: 'popular' },
+            { id: '7mvEHrdsiEw', title: 'Blooket Settings You Need to Know', channel: 'Blooket', likes: 74, views: '6.8K', cat: 'popular' },
+            { id: 'pBgbGk1dXwY', title: 'Blooket Class Pass Explained', channel: 'Blooket', likes: 74, views: '2.6K', cat: 'popular' },
+            { id: 'DLIYaRrVka8', title: 'SPORTS PACK CUSTOM DESIGN', channel: 'iBlooket', likes: 70, views: '4.4K', cat: 'popular' },
+            { id: '7g89dbRCS9A', title: 'Rubber Duck Blook', channel: 'iBlooket', likes: 65, views: '3K', cat: 'popular' },
+            { id: 'm_1YCVaNfCM', title: 'OPENING AUTUMN PACKS!', channel: 'Monkey Master', likes: 61, views: '2.4K', cat: 'popular' },
+            { id: 'OIBt_WVLhPs', title: "Designing Valentine's Day Blooks!", channel: 'iBlooket', likes: 60, views: '2.1K', cat: 'popular' },
+            { id: '1APYgu_smtY', title: 'Recreating My FIRST CUSTOM BLOOK', channel: 'iBlooket', likes: 55, views: '2.5K', cat: 'popular' },
+            { id: 'LkOJyhlOozM', title: 'How I made the Thanksgiving Pack', channel: 'iBlooket', likes: 50, views: '2.8K', cat: 'popular' },
+            { id: '42kACDNUG98', title: 'Blooket Homework Complete Guide', channel: 'Blooket', likes: 49, views: '6.3K', cat: 'popular' },
+            { id: 'WKZOJl_ofrU', title: 'Blooket Reports Overview', channel: 'Blooket', likes: 45, views: '2K', cat: 'popular' },
+            { id: 'JaZIJbB93ro', title: 'Invite Blooket Plus Members', channel: 'Blooket', likes: 40, views: '1K', cat: 'popular' },
+            { id: 'xUXHheHj1vU', title: 'Plus Group Plan Reports', channel: 'Blooket', likes: 35, views: '825', cat: 'popular' },
+            { id: 'pyx7pg3nkpQ', title: 'Ranking EVERY Blooket Youtuber!', channel: 'Lag0n', likes: 27, views: '901', cat: 'popular' },
+            // LIVE — streams / VODs (paginated up to 10 pages)
+            { id: 'fpgX98agHBc', title: 'Play Blooket With Me *LIVE*', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'R1fXmUzpLec', title: 'Play Blooket With Me *LIVE* (no hacks)', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: '9xqk2pRExhw', title: 'Blooket *NEW BLOOK RUSH MODE* Anyone can play!!!', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'QlnAKmcqWAE', title: '*NEW BLOOK RUSH MODE* Anyone can play!!!', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'nbsE_Cag3IU', title: 'SNOWDAY STREAM!!! Blooket, Games and other stuff', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'Ql5trc5UA3s', title: 'SNOWDAY STREAM!!! Blooket (VOD 2)', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'zy_frXYqMno', title: 'Play Blooket With Me! Anyone Can Join! (NO HACKING)', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'YExj_mKDbvE', title: 'Play Blooket With Me! NEW VIDEO OUT!!', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'UbV6Pnu_gS8', title: 'Play Blooket With Me! Almost 600 subs!', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'Udn0Acwtwaw', title: 'TRACKY TUESDAY BLOOKET LIVE!!', channel: 'FastyJay', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'TWGkXEEbcuk', title: 'Blooket LIVE! (No Autohost or 24/7)', channel: 'FastyJay', likes: 0, views: 'Live', cat: 'live' },
+            { id: '4iJbSO5Vcxs', title: 'BLOOKET LIVE OPENINGS! (10k+)', channel: 'Monkey Master', likes: 76, views: '2.8K', cat: 'live' },
+            { id: 'm_1YCVaNfCM', title: 'OPENING BLOOKET AUTUMN PACKS! 10k+', channel: 'Monkey Master', likes: 61, views: '2.4K', cat: 'live' },
+            { id: 'B7-YZP-HSaU', title: "BLOOKET LIVE GAMES WITH Y'ALL", channel: 'Monkey Master', likes: 32, views: '927', cat: 'live' },
+            { id: 'UvM3OnAbDqs', title: 'OPENING BLOOKET PACKS! (ACC GIVEAWAY)', channel: 'Monkey Master', likes: 71, views: '2.6K', cat: 'live' },
+            { id: 'zsRdjQpwqBU', title: 'BLOOKET GAMES LIVE', channel: 'Lag0n', likes: 6, views: '88', cat: 'live' },
+            { id: 'qHTCLv9x8aU', title: 'LIVE BLOOKET GAMES - WONDERFUL WEDNESDAY', channel: 'Blooket Ace', likes: 50, views: '3K', cat: 'live' },
+            { id: 'agoGiKvPFR4', title: 'Hosting Live BLOOKET With Viewers', channel: 'the blooket gamer', likes: 18, views: '856', cat: 'live' },
+            { id: 'fpgX98agHBc', title: 'Play Blooket With Me *LIVE* (Rec Room)', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: '9xqk2pRExhw', title: 'BLOOK RUSH MODE Stream', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'R1fXmUzpLec', title: '1k Subscribers Live Stream', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'nbsE_Cag3IU', title: 'Snowday Blooket Games Stream', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'zy_frXYqMno', title: 'Anyone Can Join Blooket Live', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'TWGkXEEbcuk', title: 'FastyJay Blooket Live Session', channel: 'FastyJay', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'Udn0Acwtwaw', title: 'Tracky Tuesday Live Replay', channel: 'FastyJay', likes: 0, views: 'Live', cat: 'live' },
+            { id: '4iJbSO5Vcxs', title: 'Monkey Master Pack Opening Live', channel: 'Monkey Master', likes: 76, views: '2.8K', cat: 'live' },
+            { id: 'B7-YZP-HSaU', title: 'Live Games With Viewers', channel: 'Monkey Master', likes: 32, views: '927', cat: 'live' },
+            { id: 'zsRdjQpwqBU', title: 'Lag0n Blooket Games Live', channel: 'Lag0n', likes: 6, views: '88', cat: 'live' },
+            { id: 'qHTCLv9x8aU', title: 'Wonderful Wednesday Live', channel: 'Blooket Ace', likes: 50, views: '3K', cat: 'live' },
+            { id: 'agoGiKvPFR4', title: 'Live Hosting With Viewers', channel: 'the blooket gamer', likes: 18, views: '856', cat: 'live' },
+            { id: 'QlnAKmcqWAE', title: 'Blook Rush Extended Stream', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'Ql5trc5UA3s', title: 'Snowday Stream Part 2', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'YExj_mKDbvE', title: 'Short Live Clip Session', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'UbV6Pnu_gS8', title: 'Sub Goal Live Stream', channel: 'Waymore', likes: 0, views: 'Live', cat: 'live' },
+            { id: 'm_1YCVaNfCM', title: 'Autumn Packs Live Opening', channel: 'Monkey Master', likes: 61, views: '2.4K', cat: 'live' },
+            { id: 'UvM3OnAbDqs', title: 'Pack Opening + Giveaway Live', channel: 'Monkey Master', likes: 71, views: '2.6K', cat: 'live' }
+        ];
+
+        let currentVideoFilter = 'new';
+        let currentVideoPage = 1;
+        const VIDEOS_PER_PAGE = 12;
+        const MAX_VIDEO_PAGES = 10;
+
+        function formatLikes(n) {
+            if (n >= 1000000) return (n / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+            if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+            return String(n);
+        }
+
+        function setVideoFilter(filter) {
+            currentVideoFilter = filter;
+            currentVideoPage = 1;
+            document.querySelectorAll('.video-filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === filter);
+            });
+            renderVideos();
+        }
+
+        function setVideoPage(page) {
+            currentVideoPage = page;
+            renderVideos();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderVideos() {
+            const grid = document.getElementById('videos-grid');
+            const pager = document.getElementById('video-pagination');
+            if (!grid) return;
+            let list = videoData.filter(v => v.cat === currentVideoFilter);
+            if (currentVideoFilter === 'popular') {
+                list = list.slice().sort((a, b) => b.likes - a.likes);
+            }
+            const totalPages = Math.min(MAX_VIDEO_PAGES, Math.max(1, Math.ceil(list.length / VIDEOS_PER_PAGE)));
+            if (currentVideoPage > totalPages) currentVideoPage = totalPages;
+            const start = (currentVideoPage - 1) * VIDEOS_PER_PAGE;
+            const pageItems = list.slice(start, start + VIDEOS_PER_PAGE);
+            const isLive = currentVideoFilter === 'live';
+
+            grid.innerHTML = pageItems.map(v => `
+                <a class="video-card" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener noreferrer">
+                    <img class="video-thumb" src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy">
+                    <div class="video-info">
+                        <div class="video-title">${v.title}</div>
+                        <div class="video-meta">
+                            <span>${v.channel}</span>
+                            ${isLive
+                                ? `<span class="likes"><i class="fas fa-broadcast-tower"></i> Live / VOD</span>`
+                                : `<span>${v.views} views</span><span class="likes"><i class="fas fa-thumbs-up"></i> ${formatLikes(v.likes)}</span>`}
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+
+            if (pager) {
+                let html = `<button class="page-btn" ${currentVideoPage <= 1 ? 'disabled' : ''} onclick="setVideoPage(${currentVideoPage - 1})">‹</button>`;
+                for (let i = 1; i <= totalPages; i++) {
+                    html += `<button class="page-btn${i === currentVideoPage ? ' active' : ''}" onclick="setVideoPage(${i})">${i}</button>`;
+                }
+                html += `<button class="page-btn" ${currentVideoPage >= totalPages ? 'disabled' : ''} onclick="setVideoPage(${currentVideoPage + 1})">›</button>`;
+                pager.innerHTML = html;
+            }
+        }
+
+        function initFromPath() {
+            const seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || 'home';
+            const map = { home: 'home', countdown: 'countdown', leaks: 'leaks', videos: 'videos', about: 'about' };
+            switchView(map[seg] || 'home', true);
+        }
+
+        window.addEventListener('popstate', () => initFromPath());
+
+        applyPage(0);
+        setInterval(updateCountdown, 1000);
+        renderVideos();
+        initFromPath();
+        
+</script>
 </body>
 </html>
