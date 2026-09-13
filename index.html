@@ -1,2 +1,83 @@
 <!DOCTYPE html>
-<!-- PLACEHOLDER: full file too large for single tool payload; using push_files next -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Countdown to Blooket Season 8 and Spooktober.">
+    <title>Blookbase — Blooket Countdown</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=Titan+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background"><div class="bgBlooks"></div></div>
+    <div id="snow-overlay"></div>
+    <button class="menu-btn" onclick="toggleSidebar()" aria-label="Open menu">
+        <img src="https://hippowatermelon.github.io/blooket4free/assets/misc_images/borgor.svg" alt="Menu">
+    </button>
+    <div id="sidebar-overlay" onclick="closeSidebar()"></div>
+    <nav id="sidebar">
+        <div>
+            <div class="sidebar-logo">Blookbase</div>
+            <ul class="sidebar-list">
+                <li><button class="sidebar-link active" data-view="home" onclick="switchView('home')"><span class="sidebar-listIcon"><i class="fas fa-home"></i></span><span class="sidebar-text">Home</span></button></li>
+                <li><button class="sidebar-link" data-view="countdown" onclick="switchView('countdown')"><span class="sidebar-listIcon"><i class="fas fa-hourglass-half"></i></span><span class="sidebar-text">Countdown</span></button></li>
+                <li><button class="sidebar-link" data-view="leaks" onclick="switchView('leaks')"><span class="sidebar-listIcon"><i class="fas fa-fire"></i></span><span class="sidebar-text">Leaks</span></button></li>
+                <li><button class="sidebar-link" data-view="videos" onclick="switchView('videos')"><span class="sidebar-listIcon"><i class="fas fa-play"></i></span><span class="sidebar-text">Videos</span></button></li>
+                <li><button class="sidebar-link" data-view="about" onclick="switchView('about')"><span class="sidebar-listIcon"><i class="fas fa-circle-info"></i></span><span class="sidebar-text">About</span></button></li>
+            </ul>
+        </div>
+        <div class="sidebar-footer">Made by <a href="https://www.youtube.com/@Lag0n4/" target="_blank" rel="noopener noreferrer">Lag0n</a></div>
+    </nav>
+    <div class="main-content" id="view-home">
+        <h1 class="header-title">Blookbase</h1>
+        <div class="watermark">Lag0n</div>
+    </div>
+    <div class="main-content" id="view-countdown" style="display:none;">
+        <h1 class="header-title" id="page-title">Season 8</h1>
+        <div class="countdown-grid" id="countdown"></div>
+        <div class="watermark">Lag0n</div>
+    </div>
+    <div class="main-content" id="view-leaks" style="display:none;">
+        <h1 class="header-title">Season 8 Leaks</h1>
+        <div class="leaks-wrap" id="leaks-content">Loading…</div>
+        <div class="watermark">Lag0n</div>
+    </div>
+    <div class="main-content" id="view-videos" style="display:none;">
+        <h1 class="header-title">Blooket Videos</h1>
+        <div class="videos-wrap">
+            <div class="video-filters">
+                <button class="video-filter-btn active" data-filter="new" onclick="setVideoFilter('new')">New</button>
+                <button class="video-filter-btn" data-filter="popular" onclick="setVideoFilter('popular')">Popular</button>
+                <button class="video-filter-btn" data-filter="live" onclick="setVideoFilter('live')">Live</button>
+            </div>
+            <div class="videos-grid" id="videos-grid"></div>
+            <div class="video-pagination" id="video-pagination"></div>
+        </div>
+        <div class="watermark">Lag0n</div>
+    </div>
+    <div class="main-content" id="view-about" style="display:none;">
+        <h1 class="header-title">About</h1>
+        <div class="about-box">
+            <p><b><a href="https://www.youtube.com/@Lag0n4/" target="_blank" rel="noopener noreferrer">Lag0n</a></b> made this.</p>
+            <p>All assets are Blooket's — this is just a fanmade countdown timer and is not affiliated with or endorsed by Blooket.</p>
+        </div>
+        <div class="watermark">Lag0n</div>
+    </div>
+    <button class="info-btn" id="info-btn" onclick="openInfoModal()" aria-label="About this page" style="display:none;">!</button>
+    <div id="info-modal">
+        <div class="info-modal-box">
+            <div class="info-modal-header">
+                <h2><i class="fas fa-circle-info"></i> Switch Countdown</h2>
+                <button class="info-close-btn" onclick="closeInfoModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="info-modal-body" id="info-modal-body"></div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
