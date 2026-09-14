@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,7 +92,7 @@
         }
         .page-btn:hover { background: rgba(255,255,255,0.28); }
         .page-btn.active {
-            background: #9a49aa;
+            background: var(--accent);
             border-color: rgba(255,255,255,0.55);
         }
         .page-btn:disabled {
@@ -120,7 +121,7 @@
             padding-bottom: 40px;
         }
         .leaks-section {
-            background-color: #9a49aa;
+            background-color: var(--accent);
             border: 6px solid rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             padding: 16px 18px;
@@ -258,7 +259,7 @@
             background: rgba(255,255,255,0.25);
         }
         .video-filter-btn.active {
-            background: #9a49aa;
+            background: var(--accent);
             border-color: rgba(255,255,255,0.5);
             box-shadow: 0 4px 0 rgba(122, 3, 157, 0.6);
         }
@@ -272,7 +273,7 @@
             gap: 16px;
         }
         .video-card {
-            background-color: #9a49aa;
+            background-color: var(--accent);
             border: 6px solid rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
@@ -322,7 +323,7 @@
 
         /* About purple box */
         .about-box {
-            background-color: #9a49aa;
+            background-color: var(--accent);
             border: 6px solid rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             padding: 24px 22px;
@@ -345,7 +346,7 @@
             gap: 14px;
         }
         .gm-card {
-            background-color: #9a49aa;
+            background-color: var(--accent);
             border: 6px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
@@ -370,8 +371,8 @@
             filter: brightness(1.08);
         }
         .gm-card img {
-            width: 180px;
-            height: 180px;
+            width: 200px;
+            height: 200px;
             flex-shrink: 0;
             object-fit: contain;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
@@ -409,7 +410,7 @@
             padding: 16px;
         }
         .gm-modal-box {
-            background-color: #9a49aa;
+            background-color: var(--accent);
             border: 6px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
@@ -478,18 +479,18 @@
         #view-market {
             max-width: 1100px;
         }
-.market-wrap {
+        .market-wrap {
             width: 100%;
-            max-width: 980px;
+            max-width: 1100px;
             padding-bottom: 40px;
         }
         .market-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
         }
         .pack-card {
-            background-color: #9a49aa;
+            background-color: var(--accent);
             border: 6px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
@@ -500,9 +501,10 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            gap: 0;
             transition: transform 0.15s, filter 0.15s;
             text-align: center;
-            min-height: 190px;
+            min-height: 220px;
             box-sizing: border-box;
         }
         .pack-card:hover {
@@ -510,8 +512,9 @@
             filter: brightness(1.08);
         }
         .pack-card img {
-            width: 140px;
-            height: 140px;
+            width: 180px;
+            height: 180px;
+            flex-shrink: 0;
             object-fit: contain;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
         }
@@ -542,7 +545,7 @@
             padding: 16px;
         }
         .pack-modal-box {
-            background-color: #9a49aa;
+            background-color: var(--accent);
             border: 6px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
@@ -659,10 +662,8 @@
         .rarity-Rare { color: #6cb6ff; }
         .rarity-Epic { color: #c77dff; }
         .rarity-Common { color: #ccc; }
-        .rarity-Mystical { color: #ff6b9d; }
-        .rarity-Unique { color: #ffe066; }
-        .rarity-Unique { color: #f9a8d4; }
-        .rarity-Mystical { color: #f87171; }
+        .rarity-Mystical { color: #c084fc; }
+        .rarity-Unique { color: #2dd4bf; }
         .pack-modal-close {
             position: absolute;
             top: 10px;
@@ -694,6 +695,218 @@
         }
         .about-box p:last-child {
             margin-bottom: 0;
+        }
+
+        /* --- SETTINGS --- */
+        .settings-wrap {
+            width: 100%;
+            max-width: 560px;
+            text-align: left;
+            padding-bottom: 40px;
+        }
+        .settings-section {
+            background-color: var(--accent);
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
+            color: #fff;
+            padding: 20px 18px;
+            margin-bottom: 18px;
+        }
+        .settings-section h3 {
+            font-family: 'Titan One', sans-serif;
+            font-weight: normal;
+            font-size: 22px;
+            margin: 0 0 6px;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+        }
+        .settings-hint {
+            font-size: 13px;
+            font-weight: 700;
+            opacity: 0.85;
+            margin: 0 0 14px;
+            line-height: 1.4;
+        }
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        .theme-card {
+            border: 3px solid rgba(255,255,255,0.25);
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            background: rgba(0,0,0,0.18);
+            transition: 0.15s;
+            text-align: center;
+        }
+        .theme-card:hover {
+            background: rgba(0,0,0,0.28);
+            transform: translateY(-2px);
+        }
+        .theme-card.active {
+            border-color: #fff;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.35);
+        }
+        .theme-swatch {
+            height: 52px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        .theme-name {
+            font-weight: 900;
+            font-size: 13px;
+        }
+        .bg-size-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .bg-size-row input[type="range"] {
+            flex: 1;
+            min-width: 140px;
+            accent-color: #fff;
+            height: 8px;
+            cursor: pointer;
+        }
+        .bg-size-value {
+            font-weight: 900;
+            font-size: 15px;
+            min-width: 72px;
+            text-align: right;
+        }
+        .settings-reset-btn {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 14px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 3px solid rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.18);
+            color: #fff;
+            cursor: pointer;
+            transition: 0.12s;
+        }
+        .settings-reset-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .custom-colors {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .custom-color-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-weight: 800;
+            font-size: 12px;
+            background: rgba(0,0,0,0.18);
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .custom-color-item input[type="color"] {
+            width: 100%;
+            height: 36px;
+            border: none;
+            border-radius: 6px;
+            padding: 0;
+            cursor: pointer;
+            background: transparent;
+        }
+        #sidebar,
+        .leaks-section,
+        .video-card,
+        .gm-card,
+        .gm-modal-box,
+        .pack-card,
+        .pack-modal-box,
+        .about-box,
+        .settings-section,
+        .updates-section,
+        .home-card,
+        .home-banner-btn,
+        .video-modal-box,
+        .page-btn.active,
+        .video-filter-btn.active {
+            transition: background-color 0.35s, background 0.35s, box-shadow 0.35s, color 0.35s;
+        }
+
+        /* --- UPDATES / CHANGELOG --- */
+        .updates-wrap {
+            width: 100%;
+            max-width: 640px;
+            text-align: left;
+            padding-bottom: 60px;
+            display: block;
+            visibility: visible;
+            opacity: 1;
+        }
+        #view-updates {
+            overflow: visible;
+        }
+        #view-updates .updates-section {
+            display: block;
+        }
+        .updates-section {
+            background-color: var(--accent);
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
+            color: #fff;
+            padding: 18px 18px 16px;
+            margin-bottom: 16px;
+        }
+        .updates-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .updates-version {
+            font-family: 'Titan One', sans-serif;
+            font-size: 22px;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+        }
+        .updates-date {
+            font-size: 12px;
+            font-weight: 800;
+            opacity: 0.85;
+            background: rgba(0,0,0,0.22);
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+        .updates-title {
+            font-weight: 900;
+            font-size: 15px;
+            margin: 0 0 10px;
+            opacity: 0.95;
+        }
+        .updates-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .updates-section li {
+            font-size: 14px;
+            font-weight: 700;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+            line-height: 1.4;
+        }
+        .updates-section li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .updates-section li::before {
+            content: "• ";
+            opacity: 0.7;
         }
 
         .header-title {
@@ -965,7 +1178,7 @@
             left: 0;
             width: 220px;
             height: 100%;
-            background-color: #9a49aa;
+            background-color: var(--accent);
             color: #ffffff;
             z-index: 800;
             transform: translateX(-100%);
@@ -980,6 +1193,311 @@
         }
         #sidebar.open {
             transform: translateX(0);
+        }
+
+        /* Sidebar layout modes */
+        body.sb-always .menu-btn { display: none !important; }
+        body.sb-always #sidebar-overlay { display: none !important; pointer-events: none !important; }
+
+        body.sb-left.sb-always #sidebar {
+            transform: translateX(0) !important;
+        }
+        body.sb-left.sb-always {
+            padding-left: 220px;
+            box-sizing: border-box;
+            transition: padding-left 0.2s ease, padding-right 0.2s ease, padding-top 0.2s ease, padding-bottom 0.2s ease;
+        }
+        body.sb-left.sb-always .main-content {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 900px;
+            width: 100%;
+        }
+        body.sb-left.sb-always #view-market {
+            max-width: 1100px;
+        }
+
+        body.sb-right #sidebar {
+            left: auto;
+            right: 0;
+            transform: translateX(100%);
+            box-shadow: inset 10px 0 rgba(0, 0, 0, 0.2);
+            padding: 20px 0 20px 10px;
+        }
+        body.sb-right #sidebar.open {
+            transform: translateX(0);
+        }
+        body.sb-right.sb-always #sidebar {
+            transform: translateX(0) !important;
+        }
+        body.sb-right .menu-btn {
+            left: auto;
+            right: 18px;
+        }
+        body.sb-right .sidebar-link {
+            padding: 0 30px 0 0;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            margin-left: auto;
+        }
+        body.sb-right.sb-always {
+            padding-right: 220px;
+            padding-left: 0;
+            box-sizing: border-box;
+            transition: padding-left 0.2s ease, padding-right 0.2s ease, padding-top 0.2s ease, padding-bottom 0.2s ease;
+        }
+        body.sb-right.sb-always .main-content {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 900px;
+            width: 100%;
+        }
+        body.sb-right.sb-always #view-market {
+            max-width: 1100px;
+        }
+
+        /* ---- TOP sidebar ---- */
+        body.sb-top #sidebar {
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: auto;
+            width: 100%;
+            height: auto !important;
+            max-height: none;
+            transform: translateY(-120%);
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 20px;
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15);
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+        body.sb-top #sidebar.open,
+        body.sb-top.sb-always #sidebar {
+            transform: translateY(0);
+        }
+        body.sb-top #sidebar > div:first-child {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex: 0 1 auto;
+            min-width: 0;
+            width: auto;
+        }
+        body.sb-top .sidebar-logo {
+            margin: 0;
+            font-size: 20px;
+            width: auto;
+            flex-shrink: 0;
+            letter-spacing: 0.5px;
+        }
+        body.sb-top .sidebar-list {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            flex: 0 1 auto;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 16px;
+        }
+        body.sb-top .sidebar-list li {
+            margin: 0;
+            padding: 0;
+        }
+        body.sb-top .sidebar-link {
+            width: auto !important;
+            height: 38px;
+            padding: 0 14px !important;
+            margin: 0 !important;
+            border-radius: 10px !important;
+            border-top-right-radius: 10px !important;
+            border-bottom-right-radius: 10px !important;
+        }
+        body.sb-top .sidebar-text {
+            margin-left: 8px;
+            font-size: 15px;
+        }
+        body.sb-top .sidebar-listIcon {
+            width: 20px;
+            font-size: 16px;
+            margin-top: 0;
+        }
+        body.sb-top .sidebar-footer {
+            margin-top: 0 !important;
+            padding: 0 !important;
+            flex-shrink: 0;
+            width: auto;
+        }
+        body.sb-top .sidebar-footer-icons {
+            gap: 4px;
+        }
+        body.sb-top .sidebar-foot-btn {
+            width: 36px;
+            height: 36px;
+            font-size: 16px;
+        }
+        body.sb-top .menu-btn { top: 18px; left: 18px; }
+        body.sb-top.sb-always #sidebar {
+            transform: translateY(0) !important;
+        }
+        body.sb-top.sb-always {
+            padding-left: 0;
+            padding-right: 0;
+            padding-top: var(--sb-bar-size, 64px);
+            box-sizing: border-box;
+            transition: padding-top 0.2s ease;
+        }
+        body.sb-top.sb-always .main-content {
+            padding-top: 40px;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 900px;
+            width: 100%;
+        }
+        body.sb-top.sb-always #view-market {
+            max-width: 1100px;
+        }
+
+        /* ---- BOTTOM sidebar ---- */
+        body.sb-bottom #sidebar {
+            top: auto;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: auto !important;
+            max-height: none;
+            transform: translateY(120%);
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 20px;
+            box-shadow: 0 -6px 0 rgba(0, 0, 0, 0.15);
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+        body.sb-bottom #sidebar.open,
+        body.sb-bottom.sb-always #sidebar {
+            transform: translateY(0);
+        }
+        body.sb-bottom #sidebar > div:first-child {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex: 0 1 auto;
+            min-width: 0;
+            width: auto;
+        }
+        body.sb-bottom .sidebar-logo {
+            margin: 0;
+            font-size: 20px;
+            width: auto;
+            flex-shrink: 0;
+            letter-spacing: 0.5px;
+        }
+        body.sb-bottom .sidebar-list {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            flex: 0 1 auto;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 16px;
+        }
+        body.sb-bottom .sidebar-list li {
+            margin: 0;
+            padding: 0;
+        }
+        body.sb-bottom .sidebar-link {
+            width: auto !important;
+            height: 38px;
+            padding: 0 14px !important;
+            margin: 0 !important;
+            border-radius: 10px !important;
+            border-top-right-radius: 10px !important;
+            border-bottom-right-radius: 10px !important;
+        }
+        body.sb-bottom .sidebar-text {
+            margin-left: 8px;
+            font-size: 15px;
+        }
+        body.sb-bottom .sidebar-listIcon {
+            width: 20px;
+            font-size: 16px;
+            margin-top: 0;
+        }
+        body.sb-bottom .sidebar-footer {
+            margin-top: 0 !important;
+            padding: 0 !important;
+            flex-shrink: 0;
+            width: auto;
+        }
+        body.sb-bottom .sidebar-footer-icons {
+            gap: 4px;
+        }
+        body.sb-bottom .sidebar-foot-btn {
+            width: 36px;
+            height: 36px;
+            font-size: 16px;
+        }
+        body.sb-bottom .menu-btn { top: auto; bottom: 25px; left: 18px; }
+        body.sb-bottom.sb-always #sidebar {
+            transform: translateY(0) !important;
+        }
+        body.sb-bottom.sb-always {
+            padding-left: 0;
+            padding-right: 0;
+            padding-bottom: var(--sb-bar-size, 64px);
+            box-sizing: border-box;
+            transition: padding-bottom 0.2s ease;
+        }
+        body.sb-bottom.sb-always .main-content {
+            padding-bottom: 40px;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 900px;
+            width: 100%;
+        }
+        body.sb-bottom.sb-always #view-market {
+            max-width: 1100px;
+        }
+
+        @media (max-width: 720px) {
+            body.sb-top .sidebar-text,
+            body.sb-bottom .sidebar-text {
+                display: none;
+            }
+            body.sb-top .sidebar-link,
+            body.sb-bottom .sidebar-link {
+                padding: 0 10px !important;
+                width: 38px !important;
+                justify-content: center;
+            }
+            body.sb-top .sidebar-listIcon,
+            body.sb-bottom .sidebar-listIcon {
+                margin: 0;
+                width: auto;
+            }
+            body.sb-top .sidebar-logo,
+            body.sb-bottom .sidebar-logo {
+                font-size: 16px;
+            }
         }
 
         .sidebar-logo {
@@ -1033,7 +1551,7 @@
         }
         .sidebar-link.active {
             background-color: #ffffff;
-            color: #9a49aa;
+            color: var(--accent);
         }
 
         .sidebar-listIcon {
@@ -1048,15 +1566,199 @@
         }
 
         .sidebar-footer {
-            padding: 12px 10px 4px;
+            padding: 10px 8px 18px;
             text-align: center;
-            font-size: 12px;
-            color: rgba(255,255,255,0.65);
+            margin-top: auto;
+        }
+        .sidebar-footer-icons {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+            gap: 4px;
+        }
+        .sidebar-footer-icons li {
+            margin: 0;
+            padding: 0;
+        }
+        .sidebar-foot-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+            background: transparent;
+            color: rgba(255,255,255,0.85);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: 0.15s;
+        }
+        .sidebar-foot-btn:hover {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+        }
+        .sidebar-foot-btn.active {
+            background: #fff;
+            color: var(--accent);
+        }
+        .sidebar-credit {
+            margin-top: 10px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.55);
             font-weight: 600;
         }
-        .sidebar-footer a {
-            color: rgba(255,255,255,0.9);
+        .sidebar-credit a {
+            color: rgba(255,255,255,0.85);
             text-decoration: underline;
+        }
+
+        /* --- HOME DASHBOARD --- */
+        .home-wrap {
+            width: 100%;
+            max-width: 820px;
+            text-align: left;
+            padding-bottom: 30px;
+        }
+        .home-banner {
+            background-color: var(--accent);
+            border: 6px solid rgba(255,255,255,0.2);
+            border-radius: 14px;
+            box-shadow: 4px 4px rgba(0,0,0,0.2);
+            padding: 22px 24px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            color: #fff;
+        }
+        .home-banner-label {
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.9);
+            margin: 0 0 4px;
+        }
+        .home-banner h2 {
+            font-family: 'Titan One', sans-serif;
+            font-weight: normal;
+            font-size: 28px;
+            color: #fff;
+            margin: 0 0 6px;
+            line-height: 1.15;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+        }
+        .home-banner p {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.95);
+            line-height: 1.4;
+        }
+        .home-banner-btn {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 14px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255,255,255,0.22);
+            color: #fff;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.12s;
+        }
+        .home-banner-btn:hover { background: rgba(255,255,255,0.35); }
+        .home-banner-btn:active {
+            transform: translateY(2px);
+        }
+        .home-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+        @media (max-width: 640px) {
+            .home-grid { grid-template-columns: 1fr; }
+        }
+        .home-card {
+            background-color: var(--accent);
+            border: 6px solid rgba(255,255,255,0.2);
+            border-radius: 14px;
+            box-shadow: 4px 4px rgba(0,0,0,0.2);
+            color: #fff;
+            padding: 20px 18px;
+            display: flex;
+            flex-direction: column;
+            min-height: 180px;
+            box-sizing: border-box;
+        }
+        .home-card-wide {
+            grid-column: 1 / -1;
+            min-height: 140px;
+        }
+        .home-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .home-card-label {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+        .home-card-badge {
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: #fff;
+            color: var(--accent);
+            padding: 3px 10px;
+            border-radius: 999px;
+        }
+        .home-card h3 {
+            font-family: 'Titan One', sans-serif;
+            font-weight: normal;
+            font-size: 24px;
+            margin: 0 0 8px;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+            line-height: 1.15;
+        }
+        .home-card p {
+            margin: 0 0 16px;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.45;
+            opacity: 0.95;
+            flex: 1;
+        }
+        .home-card-btn {
+            align-self: flex-start;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 13px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255,255,255,0.22);
+            color: #fff;
+            cursor: pointer;
+            transition: 0.12s;
+        }
+        .home-card-btn:hover {
+            background: rgba(255,255,255,0.35);
         }
     
 
@@ -1073,7 +1775,7 @@
             padding: 16px;
         }
         .video-modal-box {
-            background-color: #9a49aa;
+            background-color: var(--accent);
             border: 6px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
@@ -1163,7 +1865,7 @@
         .vm-btn:hover { background: rgba(255,255,255,0.3); }
         .vm-btn.primary {
             background: #fff;
-            color: #9a49aa;
+            color: var(--accent);
             border-color: rgba(255,255,255,0.8);
         }
         .video-modal-close {
@@ -1241,22 +1943,69 @@
                         <span class="sidebar-text">Packs</span>
                     </button>
                 </li>
-                <li>
-                    <button class="sidebar-link" data-view="about" onclick="switchView('about')">
-                        <span class="sidebar-listIcon"><i class="fas fa-circle-info"></i></span>
-                        <span class="sidebar-text">About</span>
-                    </button>
-                </li>
             </ul>
         </div>
         <div class="sidebar-footer">
-            Made by <a href="https://www.youtube.com/@Lag0n4/" target="_blank" rel="noopener noreferrer">Lag0n</a>
+            <ul class="sidebar-footer-icons">
+                <li>
+                    <button class="sidebar-foot-btn" data-view="updates" onclick="switchView('updates')" title="Updates" aria-label="Updates">
+                        <i class="fas fa-newspaper"></i>
+                    </button>
+                </li>
+                <li>
+                    <button class="sidebar-foot-btn" data-view="about" onclick="switchView('about')" title="About" aria-label="About">
+                        <i class="fas fa-circle-info"></i>
+                    </button>
+                </li>
+                <li>
+                    <button class="sidebar-foot-btn" data-view="settings" onclick="switchView('settings')" title="Settings" aria-label="Settings">
+                        <i class="fas fa-gear"></i>
+                    </button>
+                </li>
+            </ul>
         </div>
     </nav>
 
     
     <div class="main-content" id="view-home">
-        <h1 class="header-title" id="home-title">Welcome to Blookbase</h1>
+        <h1 class="header-title" id="home-title">Welcome To Blookbase</h1>
+        <div class="home-wrap">
+            <div class="home-banner">
+                <div>
+                    <div class="home-banner-label">Season 8 Countdown</div>
+                    <h2>Season 8 is coming!</h2>
+                    <p>Keep an eye on the countdown for the latest release timing.</p>
+                </div>
+                <button class="home-banner-btn" onclick="switchView('countdown')">View Countdown →</button>
+            </div>
+            <div class="home-grid">
+                <div class="home-card">
+                    <div class="home-card-top">
+                        <span class="home-card-label">Latest Leak</span>
+                        <span class="home-card-badge">New</span>
+                    </div>
+                    <h3>Season 8 Highlights</h3>
+                    <p>Check out the newest discoveries, gamemode teases, and leaked details.</p>
+                    <button class="home-card-btn" onclick="switchView('leaks')">View Leaks →</button>
+                </div>
+                <div class="home-card" id="home-featured-card">
+                    <div class="home-card-top">
+                        <span class="home-card-label" id="home-featured-label">Featured</span>
+                    </div>
+                    <h3 id="home-featured-title">Try something new</h3>
+                    <p id="home-featured-desc">Explore the Blooket gamemodes and find your next favorite.</p>
+                    <button class="home-card-btn" id="home-featured-btn" onclick="switchView('gamemodes')">Browse Gamemodes →</button>
+                </div>
+                <div class="home-card home-card-wide">
+                    <div class="home-card-top">
+                        <span class="home-card-label">Videos</span>
+                    </div>
+                    <h3>What's on YouTube?</h3>
+                    <p>New openings, lives, and popular Blooket videos from creators.</p>
+                    <button class="home-card-btn" onclick="switchView('videos')">Watch Videos →</button>
+                </div>
+            </div>
+        </div>
         <div class="watermark">Lag0n</div>
     </div>
 
@@ -1512,6 +2261,174 @@
     </div>
 
     
+    <div class="main-content" id="view-updates" style="display: none;">
+        <h1 class="header-title">Updates</h1>
+        <div class="updates-wrap" id="updates-list">
+            <div class="updates-section">
+                <div class="updates-header">
+                    <span class="updates-version">v2.6</span>
+                    <span class="updates-date">Sep 14, 2026</span>
+                </div>
+                <div class="updates-title">Sidebar layouts &amp; home dashboard</div>
+                <ul>
+                    <li>Sidebar position options: Left, Right, Top, Bottom</li>
+                    <li>Always-show sidebar toggle (no hamburger)</li>
+                    <li>Home dashboard cards (countdown, leaks, featured, videos)</li>
+                    <li>Featured home card rotates between pages</li>
+                    <li>Updates / About / Settings moved to sidebar footer icons</li>
+                    <li>Fixed always-show lock glitches and content centering</li>
+                </ul>
+            </div>
+            <div class="updates-section">
+                <div class="updates-header">
+                    <span class="updates-version">v2.5</span>
+                    <span class="updates-date">Sep 14, 2026</span>
+                </div>
+                <div class="updates-title">Home &amp; footer polish</div>
+                <ul>
+                    <li>Home title fixed to “Welcome To Blookbase”</li>
+                    <li>Home banner matches purple card style</li>
+                    <li>Sidebar footer icons only (no Made by text)</li>
+                </ul>
+            </div>
+            <div class="updates-section">
+                <div class="updates-header">
+                    <span class="updates-version">v2.4</span>
+                    <span class="updates-date">Sep 14, 2026</span>
+                </div>
+                <div class="updates-title">Seasonal packs &amp; pack fixes</div>
+                <ul>
+                    <li>Added Autumn pack (2024) with full drop rates + Golden Pumpkin Pie</li>
+                    <li>Added Blizzard pack (2021) with drop rates, contest awards &amp; retired chromas</li>
+                    <li>Spooky pack: Haunted Pumpkin → Chroma 0.05%; Gummy Bears → Chroma 0.02%</li>
+                    <li>Spooky &amp; Blizzard release year set to 2021</li>
+                    <li>Mystical text color purple · Unique text color turquoise</li>
+                    <li>New Updates page with versioned changelog</li>
+                </ul>
+            </div>
+            <div class="updates-section">
+                <div class="updates-header">
+                    <span class="updates-version">v2.3</span>
+                    <span class="updates-date">Sep 14, 2026</span>
+                </div>
+                <div class="updates-title">Spooky pack</div>
+                <ul>
+                    <li>Added Spooky pack with official drop rates</li>
+                    <li>Event / retired / mystical blooks listed as Event</li>
+                    <li>Breakfast Pizza corrected to Epic 2%</li>
+                </ul>
+            </div>
+            <div class="updates-section">
+                <div class="updates-header">
+                    <span class="updates-version">v2.2</span>
+                    <span class="updates-date">Sep 14, 2026</span>
+                </div>
+                <div class="updates-title">Themes &amp; Breakfast pack</div>
+                <ul>
+                    <li>Themes now recolor sidebar, cards, and background</li>
+                    <li>Added Custom theme with gradient &amp; accent color pickers</li>
+                    <li>Added Breakfast pack with full drop rates</li>
+                </ul>
+            </div>
+            <div class="updates-section">
+                <div class="updates-header">
+                    <span class="updates-version">v2.1</span>
+                    <span class="updates-date">Sep 14, 2026</span>
+                </div>
+                <div class="updates-title">Settings page</div>
+                <ul>
+                    <li>New Settings page in the sidebar</li>
+                    <li>5 site themes (Classic, Midnight, Sunset, Forest, Candy)</li>
+                    <li>Blook checkers background size slider</li>
+                    <li>Themes do not override countdown event pages</li>
+                    <li>Settings saved in localStorage</li>
+                </ul>
+            </div>
+            <div class="updates-section">
+                <div class="updates-header">
+                    <span class="updates-version">v2.0</span>
+                    <span class="updates-date">Sep 14, 2026</span>
+                </div>
+                <div class="updates-title">Packs &amp; gamemodes layout</div>
+                <ul>
+                    <li>Packs page cards match gamemodes size &amp; grid</li>
+                    <li>Larger pack &amp; gamemode images</li>
+                </ul>
+            </div>
+            <div class="updates-section">
+                <div class="updates-header">
+                    <span class="updates-version">v1.0</span>
+                    <span class="updates-date">Sep 13, 2026</span>
+                </div>
+                <div class="updates-title">Blookbase launch</div>
+                <ul>
+                    <li>Home, Countdown, Leaks, Videos, Gamemodes, Packs, About</li>
+                    <li>Season &amp; holiday countdown timers</li>
+                    <li>Season 8 leaks, achievements, and video hub</li>
+                    <li>Market packs browser with drop rates</li>
+                </ul>
+            </div>
+        </div>
+        <div class="watermark">Lag0n</div>
+    </div>
+
+    <div class="main-content" id="view-settings" style="display: none;">
+        <h1 class="header-title">Settings</h1>
+        <div class="settings-wrap">
+            <div class="settings-section">
+                <h3>Site Theme</h3>
+                <p class="settings-hint">Applies to Home, Leaks, Videos, Gamemodes, Packs, Settings &amp; About — background, sidebar, and cards. Countdown pages keep their own event themes.</p>
+                <div class="theme-grid" id="theme-grid"></div>
+                <div id="custom-theme-panel" style="display:none;margin-top:16px;">
+                    <p class="settings-hint" style="margin-bottom:10px;">Pick your gradient and accent colors:</p>
+                    <div class="custom-colors">
+                        <label class="custom-color-item">
+                            <span>Gradient top</span>
+                            <input type="color" id="custom-top" value="#667eea" oninput="updateCustomTheme('bgTop', this.value)">
+                        </label>
+                        <label class="custom-color-item">
+                            <span>Gradient bottom</span>
+                            <input type="color" id="custom-bottom" value="#764ba2" oninput="updateCustomTheme('bgBottom', this.value)">
+                        </label>
+                        <label class="custom-color-item">
+                            <span>Cards / sidebar</span>
+                            <input type="color" id="custom-accent" value="#5b4db8" oninput="updateCustomTheme('accent', this.value)">
+                        </label>
+                        <label class="custom-color-item">
+                            <span>Accent shadow</span>
+                            <input type="color" id="custom-accent-dark" value="#3d2f8c" oninput="updateCustomTheme('accentDark', this.value)">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h3>Blook Checkers Size</h3>
+                <p class="settings-hint">Resize the background pattern (Blooket checker tiles).</p>
+                <div class="bg-size-row">
+                    <input type="range" id="bg-size-slider" min="400" max="2400" step="50" value="1200" oninput="setBgBlookSize(this.value)">
+                    <span class="bg-size-value" id="bg-size-value">1200px</span>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h3>Sidebar</h3>
+                <p class="settings-hint">Choose where the menu sits and whether it stays open.</p>
+                <div class="theme-grid" id="sidebar-layout-grid"></div>
+                <div style="margin-top:12px;">
+                    <label class="custom-color-item" style="flex-direction:row;align-items:center;gap:10px;cursor:pointer;">
+                        <input type="checkbox" id="sidebar-always" onchange="setSidebarAlways(this.checked)" style="width:18px;height:18px;accent-color:#fff;">
+                        <span>Always show sidebar (no hamburger)</span>
+                    </label>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h3>Reset</h3>
+                <p class="settings-hint">Restore default theme, background size, and sidebar.</p>
+                <button class="settings-reset-btn" onclick="resetSettings()">Reset to defaults</button>
+            </div>
+        </div>
+        <div class="watermark">Lag0n</div>
+    </div>
+
     <div class="main-content" id="view-about" style="display: none;">
         <h1 class="header-title">About</h1>
         <div class="about-box">
@@ -1575,28 +2492,36 @@
         let currentView = 'home';
 
         function toggleSidebar() {
+            if (sidebarAlways) return;
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
+            if (!sidebar) return;
             const isOpen = sidebar.classList.contains('open');
             if (isOpen) {
                 closeSidebar();
             } else {
                 sidebar.classList.add('open');
-                overlay.classList.add('open');
+                if (overlay) overlay.classList.add('open');
                 updateSidebarActive();
             }
         }
         function closeSidebar() {
-            document.getElementById('sidebar').classList.remove('open');
-            document.getElementById('sidebar-overlay').classList.remove('open');
+            if (sidebarAlways) return;
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (sidebar) sidebar.classList.remove('open');
+            if (overlay) overlay.classList.remove('open');
         }
         function updateSidebarActive() {
             document.querySelectorAll('.sidebar-link[data-view]').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.view === currentView);
             });
+            document.querySelectorAll('.sidebar-foot-btn[data-view]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === currentView);
+            });
         }
         function switchView(view, skipUrl) {
-            const allowed = ['home', 'countdown', 'leaks', 'videos', 'gamemodes', 'market', 'about'];
+            const allowed = ['home', 'countdown', 'leaks', 'videos', 'gamemodes', 'market', 'updates', 'settings', 'about'];
             if (!allowed.includes(view)) view = 'home';
             currentView = view;
             document.getElementById('view-home').style.display = view === 'home' ? 'flex' : 'none';
@@ -1605,10 +2530,12 @@
             document.getElementById('view-videos').style.display = view === 'videos' ? 'flex' : 'none';
             document.getElementById('view-gamemodes').style.display = view === 'gamemodes' ? 'flex' : 'none';
             document.getElementById('view-market').style.display = view === 'market' ? 'flex' : 'none';
+            document.getElementById('view-updates').style.display = view === 'updates' ? 'flex' : 'none';
+            document.getElementById('view-settings').style.display = view === 'settings' ? 'flex' : 'none';
             document.getElementById('view-about').style.display = view === 'about' ? 'flex' : 'none';
             document.getElementById('info-btn').style.display = view === 'countdown' ? 'flex' : 'none';
             if (view !== 'countdown') {
-                setVars(classicTheme);
+                applySiteTheme();
                 toggleSnow(false);
             } else {
                 applyPage(currentPage);
@@ -1616,6 +2543,7 @@
             if (view === 'videos') renderVideos();
             if (view === 'gamemodes') renderGamemodes();
             if (view === 'market') renderMarket();
+            if (view === 'settings') renderSettings();
             if (view === 'home') setHomeTitle();
             updateSidebarActive();
             closeSidebar();
@@ -1629,36 +2557,76 @@
             }
         }
 
-        const homeMessages = [
-            'Welcome to Blookbase',
-            'Blooks. Packs. Chaos.',
-            'Another day, another chroma chase',
-            'Season 8 is cooking…',
-            'Did someone say Class Pass?',
-            'Pulling legendaries since day one',
-            'Your hub for Blooket hype',
-            'Leaks, countdowns, and vibes',
-            'No bots. Just blooks.',
-            'May the pack RNG be ever in your favor',
-            'Fish Tank Trouble incoming?',
-            'Snake Escape? Don\'t blink.',
-            'Token grinding never stops',
-            'Welcome back, pack opener',
-            'Blookbase: where the wait is half the fun',
-            'Counting down so you don\'t have to',
-            'Chromas loading… please wait',
-            'Pro tip: the market resets, hope doesn\'t',
-            'Lag0n approved Blooket corner',
-            'If you can read this, Season 8 isn\'t out yet',
-            'Home of the Blooket countdown addicts',
-            'One more pack. For science.'
+        const homeFeaturedItems = [
+            {
+                label: 'Featured Gamemode',
+                title: 'Try something new',
+                desc: 'Explore the Blooket gamemodes and find your next favorite.',
+                btn: 'Browse Gamemodes →',
+                view: 'gamemodes'
+            },
+            {
+                label: 'Site Updates',
+                title: 'What\'s new on Blookbase',
+                desc: 'See the latest version notes, pack additions, and site changes.',
+                btn: 'View Updates →',
+                view: 'updates'
+            },
+            {
+                label: 'Latest Leaks',
+                title: 'Season 8 is cooking',
+                desc: 'New gamemode teases, Class Pass info, and achievement leaks.',
+                btn: 'Open Leaks →',
+                view: 'leaks'
+            },
+            {
+                label: 'Videos',
+                title: 'Watch Blooket creators',
+                desc: 'New openings, lives, and popular videos from the community.',
+                btn: 'Watch Videos →',
+                view: 'videos'
+            },
+            {
+                label: 'Packs',
+                title: 'Check the market',
+                desc: 'Browse pack drop rates, chromas, and seasonal exclusives.',
+                btn: 'Browse Packs →',
+                view: 'market'
+            },
+            {
+                label: 'Settings',
+                title: 'Make it yours',
+                desc: 'Switch themes, resize the blook checkers background, and more.',
+                btn: 'Open Settings →',
+                view: 'settings'
+            },
+            {
+                label: 'Countdown',
+                title: 'Don\'t miss the drop',
+                desc: 'Track Season 8, Spooktober, Christmas, and other event timers.',
+                btn: 'Open Countdown →',
+                view: 'countdown'
+            }
         ];
 
         function setHomeTitle() {
             const el = document.getElementById('home-title');
-            if (!el) return;
-            const msg = homeMessages[Math.floor(Math.random() * homeMessages.length)];
-            el.textContent = msg;
+            if (el) el.textContent = 'Welcome To Blookbase';
+            renderHomeFeatured();
+        }
+
+        function renderHomeFeatured() {
+            const item = homeFeaturedItems[Math.floor(Math.random() * homeFeaturedItems.length)];
+            const label = document.getElementById('home-featured-label');
+            const title = document.getElementById('home-featured-title');
+            const desc = document.getElementById('home-featured-desc');
+            const btn = document.getElementById('home-featured-btn');
+            if (!label || !title || !desc || !btn) return;
+            label.textContent = item.label;
+            title.textContent = item.title;
+            desc.textContent = item.desc;
+            btn.textContent = item.btn;
+            btn.onclick = () => switchView(item.view);
         }
 
         /* ---------- INFO MODAL ---------- */
@@ -1830,13 +2798,284 @@
             root.setProperty('--accent-dark', t.accentDark);
         }
 
-        const classicTheme = { bgTop: "#0bc2cf", bgBottom: "#349aef", accent: "rgb(154, 73, 170)", accentDark: "rgb(122, 3, 157)" };
+        const siteThemes = [
+            {
+                key: 'classic',
+                name: 'Classic',
+                bgTop: '#0bc2cf',
+                bgBottom: '#349aef',
+                accent: '#9a49aa',
+                accentDark: '#7a039d'
+            },
+            {
+                key: 'midnight',
+                name: 'Midnight',
+                bgTop: '#1a1a2e',
+                bgBottom: '#16213e',
+                accent: '#6c5ce7',
+                accentDark: '#4834b4'
+            },
+            {
+                key: 'sunset',
+                name: 'Sunset',
+                bgTop: '#ff6b35',
+                bgBottom: '#c44569',
+                accent: '#f0932b',
+                accentDark: '#b45a14'
+            },
+            {
+                key: 'forest',
+                name: 'Forest',
+                bgTop: '#2d6a4f',
+                bgBottom: '#1b4332',
+                accent: '#40916c',
+                accentDark: '#1b5e38'
+            },
+            {
+                key: 'candy',
+                name: 'Candy',
+                bgTop: '#ff9a9e',
+                bgBottom: '#fad0c4',
+                accent: '#ff69b4',
+                accentDark: '#c83c8c'
+            },
+            {
+                key: 'custom',
+                name: 'Custom',
+                bgTop: '#667eea',
+                bgBottom: '#764ba2',
+                accent: '#5b4db8',
+                accentDark: '#3d2f8c'
+            }
+        ];
+
+        let currentThemeKey = 'classic';
+        let currentBgBlookSize = 1200;
+        let customTheme = { bgTop: '#667eea', bgBottom: '#764ba2', accent: '#5b4db8', accentDark: '#3d2f8c' };
+        let sidebarPos = 'left';
+        let sidebarAlways = false;
+
+        const sidebarLayouts = [
+            { key: 'left', name: 'Left' },
+            { key: 'right', name: 'Right' },
+            { key: 'top', name: 'Top' },
+            { key: 'bottom', name: 'Bottom' }
+        ];
+
+        function updateSidebarBarSize() {
+            const sidebar = document.getElementById('sidebar');
+            const root = document.documentElement;
+            if (!sidebar || !sidebarAlways || (sidebarPos !== 'top' && sidebarPos !== 'bottom')) {
+                root.style.setProperty('--sb-bar-size', '0px');
+                return;
+            }
+            // Force visible measure
+            const h = Math.ceil(sidebar.getBoundingClientRect().height || sidebar.offsetHeight || 64);
+            root.style.setProperty('--sb-bar-size', Math.max(h, 52) + 'px');
+        }
+
+        function applySidebarLayout() {
+            const b = document.body;
+            b.classList.remove('sb-left', 'sb-right', 'sb-top', 'sb-bottom', 'sb-always');
+            b.style.paddingLeft = '';
+            b.style.paddingRight = '';
+            b.style.paddingTop = '';
+            b.style.paddingBottom = '';
+            const pos = sidebarPos || 'left';
+            b.classList.add('sb-' + pos);
+            if (sidebarAlways) b.classList.add('sb-always');
+
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (sidebarAlways) {
+                if (sidebar) sidebar.classList.add('open');
+                if (overlay) {
+                    overlay.classList.remove('open');
+                    overlay.style.display = 'none';
+                }
+            } else {
+                if (sidebar) sidebar.classList.remove('open');
+                if (overlay) {
+                    overlay.classList.remove('open');
+                    overlay.style.display = '';
+                }
+                document.documentElement.style.setProperty('--sb-bar-size', '0px');
+            }
+            const cb = document.getElementById('sidebar-always');
+            if (cb) cb.checked = !!sidebarAlways;
+            renderSidebarLayoutGrid();
+            // Measure after layout paints so content shifts under the bar
+            requestAnimationFrame(() => {
+                updateSidebarBarSize();
+                requestAnimationFrame(updateSidebarBarSize);
+            });
+        }
+
+        window.addEventListener('resize', () => {
+            if (sidebarAlways && (sidebarPos === 'top' || sidebarPos === 'bottom')) {
+                updateSidebarBarSize();
+            }
+        });
+
+        function setSidebarPos(pos) {
+            if (!sidebarLayouts.some(x => x.key === pos)) return;
+            sidebarPos = pos;
+            try { localStorage.setItem('blookbase_sidebar_pos', pos); } catch (e) {}
+            applySidebarLayout();
+        }
+
+        function setSidebarAlways(on) {
+            sidebarAlways = !!on;
+            try { localStorage.setItem('blookbase_sidebar_always', sidebarAlways ? '1' : '0'); } catch (e) {}
+            applySidebarLayout();
+        }
+
+        function renderSidebarLayoutGrid() {
+            const grid = document.getElementById('sidebar-layout-grid');
+            if (!grid) return;
+            grid.innerHTML = sidebarLayouts.map(l => `
+                <div class="theme-card${l.key === sidebarPos ? ' active' : ''}" onclick="setSidebarPos('${l.key}')" role="button" tabindex="0">
+                    <div class="theme-swatch" style="background: rgba(0,0,0,0.25); display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;">
+                        <i class="fas fa-${l.key === 'left' ? 'arrow-left' : l.key === 'right' ? 'arrow-right' : l.key === 'top' ? 'arrow-up' : 'arrow-down'}"></i>
+                    </div>
+                    <div class="theme-name">${l.name}</div>
+                </div>
+            `).join('');
+        }
+
+        function getSiteTheme() {
+            if (currentThemeKey === 'custom') {
+                return {
+                    key: 'custom',
+                    name: 'Custom',
+                    bgTop: customTheme.bgTop,
+                    bgBottom: customTheme.bgBottom,
+                    accent: customTheme.accent,
+                    accentDark: customTheme.accentDark
+                };
+            }
+            return siteThemes.find(t => t.key === currentThemeKey) || siteThemes[0];
+        }
+
+        function applySiteTheme() {
+            setVars(getSiteTheme());
+        }
+
+        function setSiteTheme(key) {
+            if (!siteThemes.some(t => t.key === key)) return;
+            currentThemeKey = key;
+            try { localStorage.setItem('blookbase_theme', key); } catch (e) {}
+            if (currentView !== 'countdown') applySiteTheme();
+            renderSettings();
+        }
+
+        function updateCustomTheme(part, value) {
+            if (!['bgTop', 'bgBottom', 'accent', 'accentDark'].includes(part)) return;
+            customTheme[part] = value;
+            if (part === 'accent' && !customTheme.accentDark) {
+                customTheme.accentDark = value;
+            }
+            try { localStorage.setItem('blookbase_custom_theme', JSON.stringify(customTheme)); } catch (e) {}
+            currentThemeKey = 'custom';
+            try { localStorage.setItem('blookbase_theme', 'custom'); } catch (e) {}
+            if (currentView !== 'countdown') applySiteTheme();
+            renderSettings();
+        }
+
+        function setBgBlookSize(px) {
+            const n = Math.max(400, Math.min(2400, Number(px) || 1200));
+            currentBgBlookSize = n;
+            document.documentElement.style.setProperty('--bg-blook-size', n + 'px');
+            const label = document.getElementById('bg-size-value');
+            if (label) label.textContent = n + 'px';
+            const slider = document.getElementById('bg-size-slider');
+            if (slider && Number(slider.value) !== n) slider.value = String(n);
+            try { localStorage.setItem('blookbase_bg_size', String(n)); } catch (e) {}
+        }
+
+        function renderSettings() {
+            const grid = document.getElementById('theme-grid');
+            if (grid) {
+                grid.innerHTML = siteThemes.map(t => {
+                    const swTop = t.key === 'custom' ? customTheme.bgTop : t.bgTop;
+                    const swBot = t.key === 'custom' ? customTheme.bgBottom : t.bgBottom;
+                    return `
+                    <div class="theme-card${t.key === currentThemeKey ? ' active' : ''}" onclick="setSiteTheme('${t.key}')" role="button" tabindex="0">
+                        <div class="theme-swatch" style="background: linear-gradient(${swTop}, ${swBot});"></div>
+                        <div class="theme-name">${t.name}</div>
+                    </div>`;
+                }).join('');
+            }
+            const customPanel = document.getElementById('custom-theme-panel');
+            if (customPanel) {
+                customPanel.style.display = currentThemeKey === 'custom' ? 'block' : 'none';
+                const ct = document.getElementById('custom-top');
+                const cb = document.getElementById('custom-bottom');
+                const ca = document.getElementById('custom-accent');
+                const cd = document.getElementById('custom-accent-dark');
+                if (ct) ct.value = customTheme.bgTop;
+                if (cb) cb.value = customTheme.bgBottom;
+                if (ca) ca.value = customTheme.accent;
+                if (cd) cd.value = customTheme.accentDark;
+            }
+            const slider = document.getElementById('bg-size-slider');
+            const label = document.getElementById('bg-size-value');
+            if (slider) slider.value = String(currentBgBlookSize);
+            if (label) label.textContent = currentBgBlookSize + 'px';
+            renderSidebarLayoutGrid();
+            const cb = document.getElementById('sidebar-always');
+            if (cb) cb.checked = !!sidebarAlways;
+        }
+
+        function resetSettings() {
+            customTheme = { bgTop: '#667eea', bgBottom: '#764ba2', accent: '#5b4db8', accentDark: '#3d2f8c' };
+            try { localStorage.setItem('blookbase_custom_theme', JSON.stringify(customTheme)); } catch (e) {}
+            setSiteTheme('classic');
+            setBgBlookSize(1200);
+            sidebarPos = 'left';
+            sidebarAlways = false;
+            try {
+                localStorage.setItem('blookbase_sidebar_pos', 'left');
+                localStorage.setItem('blookbase_sidebar_always', '0');
+            } catch (e) {}
+            applySidebarLayout();
+        }
+
+        function loadSettings() {
+            try {
+                const t = localStorage.getItem('blookbase_theme');
+                if (t && siteThemes.some(x => x.key === t)) currentThemeKey = t;
+                const s = localStorage.getItem('blookbase_bg_size');
+                if (s) currentBgBlookSize = Math.max(400, Math.min(2400, Number(s) || 1200));
+                const c = localStorage.getItem('blookbase_custom_theme');
+                if (c) {
+                    const parsed = JSON.parse(c);
+                    if (parsed && parsed.bgTop && parsed.bgBottom && parsed.accent) {
+                        customTheme = {
+                            bgTop: parsed.bgTop,
+                            bgBottom: parsed.bgBottom,
+                            accent: parsed.accent,
+                            accentDark: parsed.accentDark || parsed.accent
+                        };
+                    }
+                }
+                const sp = localStorage.getItem('blookbase_sidebar_pos');
+                if (sp && sidebarLayouts.some(x => x.key === sp)) sidebarPos = sp;
+                const sa = localStorage.getItem('blookbase_sidebar_always');
+                if (sa === '1') sidebarAlways = true;
+            } catch (e) {}
+            document.documentElement.style.setProperty('--bg-blook-size', currentBgBlookSize + 'px');
+            if (currentView !== 'countdown') applySiteTheme();
+            applySidebarLayout();
+        }
 
         function applyPage(index) {
             currentPage = index;
             const page = pages[index];
             document.getElementById('page-title').textContent = page.title;
-            setVars(page.lockTheme ? page.fixedTheme : classicTheme);
+            // Countdown pages never use site themes — event themes only
+            const classic = { bgTop: '#0bc2cf', bgBottom: '#349aef', accent: 'rgb(154, 73, 170)', accentDark: 'rgb(122, 3, 157)' };
+            setVars(page.lockTheme ? page.fixedTheme : classic);
             toggleSnow(page.key === 'christmas');
             updateCountdown();
         }
@@ -2972,10 +4211,128 @@
         "year": 2019,
         "about": "Outer space \u2014 planets, aliens, astronauts and UFOs.",
         "icon": "https://ac.blooket.com/blookassets/packs/space.png"
+    },
+    {
+        "name": "Breakfast",
+        "price": 20,
+        "blooks": [
+            { "name": "Toast", "chance": 12.5, "rarity": "Uncommon" },
+            { "name": "Cereal", "chance": 12.5, "rarity": "Uncommon" },
+            { "name": "Yogurt", "chance": 12.5, "rarity": "Uncommon" },
+            { "name": "Breakfast Combo", "chance": 12.5, "rarity": "Uncommon" },
+            { "name": "Orange Juice", "chance": 12.5, "rarity": "Uncommon" },
+            { "name": "Milk", "chance": 12.5, "rarity": "Uncommon" },
+            { "name": "Waffle", "chance": 9.0, "rarity": "Rare" },
+            { "name": "Pancakes", "chance": 9.0, "rarity": "Rare" },
+            { "name": "French Toast", "chance": 5.0, "rarity": "Epic" },
+            { "name": "Pizza", "chance": 2.0, "rarity": "Epic" }
+        ],
+        "year": 2019,
+        "about": "Breakfast foods — toast, cereal, waffles, pancakes and more.",
+        "icon": "https://ac.blooket.com/blookassets/packs/breakfast.png"
+    },
+    {
+        "name": "Spooky",
+        "price": 25,
+        "blooks": [
+            { "name": "Pumpkin", "chance": 15.2, "rarity": "Uncommon" },
+            { "name": "Swamp Monster", "chance": 15.2, "rarity": "Uncommon" },
+            { "name": "Frankenstein", "chance": 15.2, "rarity": "Uncommon" },
+            { "name": "Vampire", "chance": 15.2, "rarity": "Uncommon" },
+            { "name": "Zombie", "chance": 15.2, "rarity": "Uncommon" },
+            { "name": "Mummy", "chance": 4.0, "rarity": "Rare" },
+            { "name": "Caramel Apple", "chance": 4.0, "rarity": "Rare" },
+            { "name": "Candy Corn", "chance": 4.0, "rarity": "Rare" },
+            { "name": "Crow", "chance": 4.0, "rarity": "Rare" },
+            { "name": "Vampire Bat", "chance": 4.0, "rarity": "Rare" },
+            { "name": "Werewolf", "chance": 3.29, "rarity": "Epic" },
+            { "name": "Ghost", "chance": 0.65, "rarity": "Legendary" },
+            { "name": "Skeleton Fish", "chance": 0.04, "rarity": "Chroma" },
+            { "name": "Super Glider", "chance": 0.02, "rarity": "Chroma" },
+            { "name": "Haunted Pumpkin", "chance": 0.05, "rarity": "Chroma" },
+            { "name": "Pumpkin Cookie", "chance": null, "rarity": "Unique" },
+            { "name": "Ghost Cookie", "chance": null, "rarity": "Unique" },
+            { "name": "Red Gummy Bear", "chance": 0.02, "rarity": "Chroma" },
+            { "name": "Blue Gummy Bear", "chance": 0.02, "rarity": "Chroma" },
+            { "name": "Green Gummy Bear", "chance": 0.02, "rarity": "Chroma" },
+            { "name": "Chick Chicken", "chance": null, "rarity": "Unique" },
+            { "name": "Chicken Chick", "chance": null, "rarity": "Unique" },
+            { "name": "Raccoon Bandit", "chance": null, "rarity": "Unique" },
+            { "name": "Owl Sheriff", "chance": null, "rarity": "Unique" },
+            { "name": "Vampire Frog", "chance": null, "rarity": "Unique" },
+            { "name": "Pumpkin King", "chance": null, "rarity": "Unique" },
+            { "name": "Anaconda Wizard", "chance": null, "rarity": "Mystical" },
+            { "name": "Spooky Pumpkin", "chance": null, "rarity": "Unique" },
+            { "name": "Spooky Mummy", "chance": null, "rarity": "Unique" },
+            { "name": "Spooky Ghost", "chance": null, "rarity": "Mystical" }
+        ],
+        "year": 2021,
+        "about": "Halloween Spooktober pack — classic spooky blooks, chromas, and limited event exclusives.",
+        "icon": "https://ac.blooket.com/blookassets/packs/spooky.png"
+    },
+    {
+        "name": "Autumn",
+        "price": 25,
+        "blooks": [
+            { "name": "Black Bear", "chance": 19.5, "rarity": "Uncommon" },
+            { "name": "Pumpkin Pie", "chance": 19.5, "rarity": "Uncommon" },
+            { "name": "Chipmunk", "chance": 19.5, "rarity": "Uncommon" },
+            { "name": "Cornucopia", "chance": 19.5, "rarity": "Uncommon" },
+            { "name": "Autumn Cat", "chance": 6.0, "rarity": "Rare" },
+            { "name": "Pumpkin Puppy", "chance": 6.0, "rarity": "Rare" },
+            { "name": "Red Squirrel", "chance": 6.0, "rarity": "Rare" },
+            { "name": "Autumn Crow", "chance": 2.95, "rarity": "Epic" },
+            { "name": "Turkey", "chance": 1.0, "rarity": "Legendary" },
+            { "name": "Goldfinch", "chance": 0.05, "rarity": "Chroma" },
+            { "name": "Golden Pumpkin Pie", "chance": 0.05, "rarity": "Chroma" }
+        ],
+        "year": 2024,
+        "about": "Thanksgiving autumn pack — harvest vibes, Turkey legendary, and Goldfinch chroma.",
+        "icon": "https://ac.blooket.com/blookassets/packs/autumn.png"
+    },
+    {
+        "name": "Blizzard",
+        "price": 25,
+        "blooks": [
+            { "name": "Snow Globe", "chance": 14.5, "rarity": "Uncommon" },
+            { "name": "Holiday Gift", "chance": 14.5, "rarity": "Uncommon" },
+            { "name": "Hot Chocolate", "chance": 14.5, "rarity": "Uncommon" },
+            { "name": "Holiday Wreath", "chance": 14.5, "rarity": "Uncommon" },
+            { "name": "Stocking", "chance": 14.5, "rarity": "Uncommon" },
+            { "name": "Gingerbread Man", "chance": 5.55, "rarity": "Rare" },
+            { "name": "Gingerbread House", "chance": 5.55, "rarity": "Rare" },
+            { "name": "Reindeer", "chance": 5.55, "rarity": "Rare" },
+            { "name": "Santa's Sleigh", "chance": 5.55, "rarity": "Rare" },
+            { "name": "Snowman", "chance": 4.25, "rarity": "Epic" },
+            { "name": "Santa Claus", "chance": 1.0, "rarity": "Legendary" },
+            { "name": "Peppermint Bark", "chance": 0.03, "rarity": "Chroma" },
+            { "name": "Chilly Chameleon", "chance": 0.02, "rarity": "Chroma" },
+            { "name": "Santa Claws", "chance": null, "rarity": "Unique" },
+            { "name": "Cookies Combo", "chance": null, "rarity": "Unique" },
+            { "name": "Chilly Flamingo", "chance": null, "rarity": "Unique" },
+            { "name": "Snowy Bush Monster", "chance": null, "rarity": "Unique" },
+            { "name": "Nutcracker Koala", "chance": null, "rarity": "Unique" },
+            { "name": "Hamsta Claus", "chance": null, "rarity": "Mystical" },
+            { "name": "Frost Wreath", "chance": null, "rarity": "Chroma" },
+            { "name": "Tropical Globe", "chance": null, "rarity": "Chroma" },
+            { "name": "London Snow Globe", "chance": null, "rarity": "Chroma" },
+            { "name": "Japan Snow Globe", "chance": null, "rarity": "Chroma" },
+            { "name": "Egypt Snow Globe", "chance": null, "rarity": "Chroma" },
+            { "name": "Paris Snow Globe", "chance": null, "rarity": "Chroma" },
+            { "name": "New York Snow Globe", "chance": null, "rarity": "Chroma" },
+            { "name": "Blue Sweater Snowman", "chance": null, "rarity": "Chroma" },
+            { "name": "Red Sweater Snowman", "chance": null, "rarity": "Chroma" },
+            { "name": "Elf Sweater Snowman", "chance": null, "rarity": "Chroma" },
+            { "name": "Holiday Elf", "chance": null, "rarity": "Chroma" },
+            { "name": "Cozy Baby Penguin", "chance": null, "rarity": "Chroma" }
+        ],
+        "year": 2021,
+        "about": "Christmas Blizzard pack — holiday classics, Santa Claus legendary, chromas, contest awards, and retired chromas.",
+        "icon": "https://ac.blooket.com/blookassets/packs/blizzard.png"
     }
 ];
 
-        const blookImageMap = {"Witch": "https://ac.blooket.com/marketassets/blooks/witch.svg", "Rainbow Jellyfish": "https://ac.blooket.com/marketassets/blooks/rainbowjellyfish.svg", "Two of Spades": "https://ac.blooket.com/marketassets/blooks/twoofspades.svg", "Old Boot": "https://ac.blooket.com/marketassets/blooks/oldboot.svg", "Wizard": "https://ac.blooket.com/marketassets/blooks/wizard.svg", "Bear": "https://ac.blooket.com/marketassets/blooks/bear.svg", "Dingo": "https://ac.blooket.com/marketassets/blooks/dingo.svg", "Dog": "https://ac.blooket.com/marketassets/blooks/dog.svg", "Snowy Owl": "https://ac.blooket.com/marketassets/blooks/snowyowl.svg", "Pumpkin": "https://ac.blooket.com/marketassets/blooks/pumpkin.svg", "Tiger": "https://ac.blooket.com/marketassets/blooks/tiger.svg", "Eat Me": "https://ac.blooket.com/marketassets/blooks/eatme.svg", "Jellyfish": "https://ac.blooket.com/marketassets/blooks/jellyfish.svg", "Ice Bat": "https://ac.blooket.com/marketassets/blooks/icebat.svg", "Snow Globe": "https://ac.blooket.com/marketassets/blooks/snowglobe.svg", "Lil Bot": "https://ac.blooket.com/marketassets/blooks/lilbot.svg", "Blizzard Clownfish": "https://ac.blooket.com/marketassets/blooks/blizzardclownfish.svg", "Ant": "https://ac.blooket.com/marketassets/blooks/ant.svg", "Toast": "https://ac.blooket.com/marketassets/blooks/toast.svg", "Baby Blue": "https://ac.blooket.com/marketassets/blooks/babyblue.svg", "Amber": "https://ac.blooket.com/marketassets/blooks/amber.svg", "Bananas": "https://ac.blooket.com/marketassets/blooks/bananas.svg", "Chick": "https://ac.blooket.com/marketassets/blooks/chick.svg", "Black Bear": "https://ac.blooket.com/marketassets/blooks/blackbear.svg", "Panda": "https://ac.blooket.com/marketassets/blooks/panda.svg", "Deckhand": "https://ac.blooket.com/marketassets/blooks/deckhand.svg", "Earth": "https://ac.blooket.com/marketassets/blooks/earth.svg", "Polar Bear": "https://ac.blooket.com/marketassets/blooks/polarbear.svg", "Swamp Monster": "https://ac.blooket.com/marketassets/blooks/swampmonster.svg", "Black": "https://ac.blooket.com/marketassets/blooks/black.svg", "Orangutan": "https://ac.blooket.com/marketassets/blooks/orangutan.svg", "Buccaneer": "https://ac.blooket.com/marketassets/blooks/buccaneer.svg", "Rhino Beetle": "https://ac.blooket.com/marketassets/blooks/rhinobeetle.svg", "Dino Egg": "https://ac.blooket.com/marketassets/blooks/dinoegg.svg", "Moose": "https://ac.blooket.com/marketassets/blooks/moose.svg", "Chicken": "https://ac.blooket.com/marketassets/blooks/chicken.svg", "Cereal": "https://ac.blooket.com/marketassets/blooks/cereal.svg", "Holiday Gift": "https://ac.blooket.com/marketassets/blooks/holidaygift.svg", "Meteor": "https://ac.blooket.com/marketassets/blooks/meteor.svg", "Clownfish": "https://ac.blooket.com/marketassets/blooks/clownfish.svg", "Lovely Frog": "https://ac.blooket.com/marketassets/blooks/lovelyfrog.svg", "Pumpkin Pie": "https://ac.blooket.com/marketassets/blooks/pumpkinpie.svg", "Echidna": "https://ac.blooket.com/marketassets/blooks/echidna.svg", "Watermelon": "https://ac.blooket.com/marketassets/blooks/watermelon.svg", "Cat": "https://ac.blooket.com/marketassets/blooks/cat.svg", "Elf": "https://ac.blooket.com/marketassets/blooks/elf.svg", "Lovely Bot": "https://ac.blooket.com/marketassets/blooks/lovelybot.svg", "Drink Me": "https://ac.blooket.com/marketassets/blooks/drinkme.svg", "Sloth": "https://ac.blooket.com/marketassets/blooks/sloth.svg", "Ice Bug": "https://ac.blooket.com/marketassets/blooks/icebug.svg", "Alice": "https://ac.blooket.com/marketassets/blooks/alice.svg", "Arctic Fox": "https://ac.blooket.com/marketassets/blooks/arcticfox.svg", "Swashbuckler": "https://ac.blooket.com/marketassets/blooks/swashbuckler.svg", "Tenrec": "https://ac.blooket.com/marketassets/blooks/tenrec.svg", "Ladybug": "https://ac.blooket.com/marketassets/blooks/ladybug.svg", "Lucky Frog": "https://ac.blooket.com/marketassets/blooks/luckyfrog.svg", "Rabbit": "https://ac.blooket.com/marketassets/blooks/rabbit.svg", "Cow": "https://ac.blooket.com/marketassets/blooks/cow.svg", "Yogurt": "https://ac.blooket.com/marketassets/blooks/yogurt.svg", "Cockatoo": "https://ac.blooket.com/marketassets/blooks/cockatoo.svg", "Koala": "https://ac.blooket.com/marketassets/blooks/koala.svg", "Chipmunk": "https://ac.blooket.com/marketassets/blooks/chipmunk.svg", "Fairy": "https://ac.blooket.com/marketassets/blooks/fairy.svg", "Ice Elemental": "https://ac.blooket.com/marketassets/blooks/iceelemental.svg", "Blue": "https://ac.blooket.com/marketassets/blooks/blue.svg", "Angry Bot": "https://ac.blooket.com/marketassets/blooks/angrybot.svg", "Fox": "https://ac.blooket.com/marketassets/blooks/fox.svg", "Stars": "https://ac.blooket.com/marketassets/blooks/stars.svg", "Frog": "https://ac.blooket.com/marketassets/blooks/frog.svg", "Frankenstein": "https://ac.blooket.com/marketassets/blooks/frankenstein.svg", "Hot Chocolate": "https://ac.blooket.com/marketassets/blooks/hotchocolate.svg", "Dino Fossil": "https://ac.blooket.com/marketassets/blooks/dinofossil.svg", "Cheese": "https://ac.blooket.com/marketassets/blooks/cheese.svg", "Goldfish": "https://ac.blooket.com/marketassets/blooks/goldfish.svg", "Breakfast Combo": "https://ac.blooket.com/marketassets/blooks/breakfastcombo.svg", "Vampire": "https://ac.blooket.com/marketassets/blooks/vampire.svg", "Rock Monster": "https://ac.blooket.com/marketassets/blooks/rockmonster.svg", "Slime Monster": "https://ac.blooket.com/marketassets/blooks/slimemonster.svg", "Goat": "https://ac.blooket.com/marketassets/blooks/goat.svg", "Fly": "https://ac.blooket.com/marketassets/blooks/fly.svg", "Queen of Hearts": "https://ac.blooket.com/marketassets/blooks/queenofhearts.svg", "Alien": "https://ac.blooket.com/marketassets/blooks/alien.svg", "Crab": "https://ac.blooket.com/marketassets/blooks/crab.svg", "Doughnut": "https://ac.blooket.com/marketassets/blooks/doughnut.svg", "Kookaburra": "https://ac.blooket.com/marketassets/blooks/kookaburra.svg", "Treasure Map": "https://ac.blooket.com/marketassets/blooks/treasuremap.svg", "Holiday Wreath": "https://ac.blooket.com/marketassets/blooks/holidaywreath.svg", "Stegosaurus": "https://ac.blooket.com/marketassets/blooks/stegosaurus.svg", "Spring Frog": "https://ac.blooket.com/marketassets/blooks/springfrog.svg", "Flamingo": "https://ac.blooket.com/marketassets/blooks/flamingo.svg", "Cornucopia": "https://ac.blooket.com/marketassets/blooks/cornucopia.svg", "Brown": "https://ac.blooket.com/marketassets/blooks/brown.svg", "Happy Bot": "https://ac.blooket.com/marketassets/blooks/happybot.svg", "Raccoon": "https://ac.blooket.com/marketassets/blooks/raccoon.svg", "Parrot": "https://ac.blooket.com/marketassets/blooks/parrot.svg", "Baby Penguin": "https://ac.blooket.com/marketassets/blooks/babypenguin.svg", "Dink": "https://ac.blooket.com/marketassets/blooks/dink.svg", "Dormouse": "https://ac.blooket.com/marketassets/blooks/dormouse.svg", "Burgandy": "https://ac.blooket.com/marketassets/blooks/burgandy.svg", "Squirrel": "https://ac.blooket.com/marketassets/blooks/squirrel.svg", "Anaconda": "https://ac.blooket.com/marketassets/blooks/anaconda.svg", "Autumn Cat": "https://ac.blooket.com/marketassets/blooks/autumncat.svg", "Planet": "https://ac.blooket.com/marketassets/blooks/planet.svg", "Horse": "https://ac.blooket.com/marketassets/blooks/horse.svg", "Seagull": "https://ac.blooket.com/marketassets/blooks/seagull.svg", "Worm": "https://ac.blooket.com/marketassets/blooks/worm.svg", "Pufferfish": "https://ac.blooket.com/marketassets/blooks/pufferfish.svg", "Zebra": "https://ac.blooket.com/marketassets/blooks/zebra.svg", "Penguin": "https://ac.blooket.com/marketassets/blooks/penguin.svg", "Stocking": "https://ac.blooket.com/marketassets/blooks/stocking.svg", "Jester": "https://ac.blooket.com/marketassets/blooks/jester.svg", "Platypus": "https://ac.blooket.com/marketassets/blooks/platypus.svg", "Hamster": "https://ac.blooket.com/marketassets/blooks/hamster.svg", "Watson": "https://ac.blooket.com/marketassets/blooks/watson.svg", "Orange Juice": "https://ac.blooket.com/marketassets/blooks/orangejuice.svg", "Poison Dart Frog": "https://ac.blooket.com/marketassets/blooks/poisondartfrog.svg", "Zombie": "https://ac.blooket.com/marketassets/blooks/zombie.svg", "Velociraptor": "https://ac.blooket.com/marketassets/blooks/velociraptor.svg", "Taco": "https://ac.blooket.com/marketassets/blooks/taco.svg", "Arctic Hare": "https://ac.blooket.com/marketassets/blooks/arctichare.svg", "Mummy": "https://ac.blooket.com/marketassets/blooks/mummy.svg", "Pig": "https://ac.blooket.com/marketassets/blooks/pig.svg", "Turtle": "https://ac.blooket.com/marketassets/blooks/turtle.svg", "Dull Blue": "https://ac.blooket.com/marketassets/blooks/dullblue.svg", "Jaguar": "https://ac.blooket.com/marketassets/blooks/jaguar.svg", "White Rabbit": "https://ac.blooket.com/marketassets/blooks/whiterabbit.svg", "Bee": "https://ac.blooket.com/marketassets/blooks/bee.svg", "Gingerbread Man": "https://ac.blooket.com/marketassets/blooks/gingerbreadman.svg", "Buddy Bot": "https://ac.blooket.com/marketassets/blooks/buddybot.svg", "Milk": "https://ac.blooket.com/marketassets/blooks/milk.svg", "UFO": "https://ac.blooket.com/marketassets/blooks/ufo.svg", "Blobfish": "https://ac.blooket.com/marketassets/blooks/blobfish.svg", "Lucky Hamster": "https://ac.blooket.com/marketassets/blooks/luckyhamster.svg", "Dragon": "https://ac.blooket.com/marketassets/blooks/dragon.svg", "Bao": "https://ac.blooket.com/marketassets/blooks/bao.svg", "Donk": "https://ac.blooket.com/marketassets/blooks/donk.svg", "Joey": "https://ac.blooket.com/marketassets/blooks/joey.svg", "Pumpkin Puppy": "https://ac.blooket.com/marketassets/blooks/pumpkinpuppy.svg", "Jolly Pirate": "https://ac.blooket.com/marketassets/blooks/jollypirate.svg", "Owl": "https://ac.blooket.com/marketassets/blooks/owl.svg", "Elephant": "https://ac.blooket.com/marketassets/blooks/elephant.svg", "Brontosaurus": "https://ac.blooket.com/marketassets/blooks/brontosaurus.svg", "Cheshire Cat": "https://ac.blooket.com/marketassets/blooks/cheshirecat.svg", "Spaceship": "https://ac.blooket.com/marketassets/blooks/spaceship.svg", "Kitten": "https://ac.blooket.com/marketassets/blooks/kitten.svg", "Caramel Apple": "https://ac.blooket.com/marketassets/blooks/caramelapple.svg", "Triceratops": "https://ac.blooket.com/marketassets/blooks/triceratops.svg", "Kangaroo": "https://ac.blooket.com/marketassets/blooks/kangaroo.svg", "Pirate Ship": "https://ac.blooket.com/marketassets/blooks/pirateship.svg", "Mantis": "https://ac.blooket.com/marketassets/blooks/mantis.svg", "Queen": "https://ac.blooket.com/marketassets/blooks/queen.svg", "Sushi": "https://ac.blooket.com/marketassets/blooks/sushi.svg", "Dust": "https://ac.blooket.com/marketassets/blooks/dust.svg", "Octopus": "https://ac.blooket.com/marketassets/blooks/octopus.svg", "Lucky Bee": "https://ac.blooket.com/marketassets/blooks/luckybee.svg", "Macaw": "https://ac.blooket.com/marketassets/blooks/macaw.svg", "Gingerbread House": "https://ac.blooket.com/marketassets/blooks/gingerbreadhouse.svg", "Lemur": "https://ac.blooket.com/marketassets/blooks/lemur.svg", "Seal": "https://ac.blooket.com/marketassets/blooks/seal.svg", "Sheep": "https://ac.blooket.com/marketassets/blooks/sheep.svg", "Waffle": "https://ac.blooket.com/marketassets/blooks/waffle.svg", "Hedgehog": "https://ac.blooket.com/marketassets/blooks/hedgehog.svg", "Bush Monster": "https://ac.blooket.com/marketassets/blooks/bushmonster.svg", "Brainy Bot": "https://ac.blooket.com/marketassets/blooks/brainybot.svg", "Red Squirrel": "https://ac.blooket.com/marketassets/blooks/redsquirrel.svg", "Pancakes": "https://ac.blooket.com/marketassets/blooks/pancakes.svg", "Crocodile": "https://ac.blooket.com/marketassets/blooks/crocodile.svg", "Caterpillar": "https://ac.blooket.com/marketassets/blooks/caterpillar.svg", "Cheeseburger": "https://ac.blooket.com/marketassets/blooks/cheeseburger.svg", "Walrus": "https://ac.blooket.com/marketassets/blooks/walrus.svg", "Yeti": "https://ac.blooket.com/marketassets/blooks/yeti.svg", "Gray": "https://ac.blooket.com/marketassets/blooks/gray.svg", "Peacock": "https://ac.blooket.com/marketassets/blooks/peacock.svg", "Tyrannosaurus Rex": "https://ac.blooket.com/marketassets/blooks/tyrannosaurusrex.svg", "Butterfly": "https://ac.blooket.com/marketassets/blooks/butterfly.svg", "Puppy": "https://ac.blooket.com/marketassets/blooks/puppy.svg", "Duck": "https://ac.blooket.com/marketassets/blooks/duck.svg", "Candy Corn": "https://ac.blooket.com/marketassets/blooks/candycorn.svg", "Reindeer": "https://ac.blooket.com/marketassets/blooks/reindeer.svg", "Mega Bot": "https://ac.blooket.com/marketassets/blooks/megabot.svg", "Narwhal": "https://ac.blooket.com/marketassets/blooks/narwhal.svg", "Kraken": "https://ac.blooket.com/marketassets/blooks/kraken.svg", "Autumn Crow": "https://ac.blooket.com/marketassets/blooks/autumncrow.svg", "Unicorn": "https://ac.blooket.com/marketassets/blooks/unicorn.svg", "Astronaut": "https://ac.blooket.com/marketassets/blooks/astronaut.svg", "Toucan": "https://ac.blooket.com/marketassets/blooks/toucan.svg", "Lucky Cat": "https://ac.blooket.com/marketassets/blooks/luckycat.svg", "Deer": "https://ac.blooket.com/marketassets/blooks/deer.svg", "Wolf": "https://ac.blooket.com/marketassets/blooks/wolf.svg", "Turkey": "https://ac.blooket.com/marketassets/blooks/turkey.svg", "Green": "https://ac.blooket.com/marketassets/blooks/green.svg", "Alpaca": "https://ac.blooket.com/marketassets/blooks/alpaca.svg", "Panther": "https://ac.blooket.com/marketassets/blooks/panther.svg", "Crow": "https://ac.blooket.com/marketassets/blooks/crow.svg", "French Toast": "https://ac.blooket.com/marketassets/blooks/frenchtoast.svg", "Chocolate Rabbit": "https://ac.blooket.com/marketassets/blooks/chocolaterabbit.svg", "King": "https://ac.blooket.com/marketassets/blooks/king.svg", "Mad Hatter": "https://ac.blooket.com/marketassets/blooks/madhatter.svg", "Captain Blackbeard": "https://ac.blooket.com/marketassets/blooks/captainblackbeard.svg", "Dolphin": "https://ac.blooket.com/marketassets/blooks/dolphin.svg", "Sugar Glider": "https://ac.blooket.com/marketassets/blooks/sugarglider.svg", "Chameleon": "https://ac.blooket.com/marketassets/blooks/chameleon.svg", "Sandwich": "https://ac.blooket.com/marketassets/blooks/sandwich.svg", "Beaver": "https://ac.blooket.com/marketassets/blooks/beaver.svg", "Baby Shark": "https://ac.blooket.com/marketassets/blooks/babyshark.svg", "Capuchin": "https://ac.blooket.com/marketassets/blooks/capuchin.svg", "Snowman": "https://ac.blooket.com/marketassets/blooks/snowman.svg", "Spring Rabbit": "https://ac.blooket.com/marketassets/blooks/springrabbit.svg", "Lion": "https://ac.blooket.com/marketassets/blooks/lion.svg", "Pizza": "https://ac.blooket.com/marketassets/blooks/pizza.svg", "King of Hearts": "https://ac.blooket.com/marketassets/blooks/kingofhearts.svg", "Light Blue": "https://ac.blooket.com/marketassets/blooks/lightblue.svg", "Vampire Bat": "https://ac.blooket.com/marketassets/blooks/vampirebat.svg", "Werewolf": "https://ac.blooket.com/marketassets/blooks/werewolf.svg", "Santa Claus": "https://ac.blooket.com/marketassets/blooks/santaclaus.svg", "Gorilla": "https://ac.blooket.com/marketassets/blooks/gorilla.svg", "Megalodon": "https://ac.blooket.com/marketassets/blooks/megalodon.svg", "Spring Deer": "https://ac.blooket.com/marketassets/blooks/springdeer.svg", "Lime": "https://ac.blooket.com/marketassets/blooks/lime.svg", "Maroon": "https://ac.blooket.com/marketassets/blooks/maroon.svg", "Hippo": "https://ac.blooket.com/marketassets/blooks/hippo.svg", "Ghost": "https://ac.blooket.com/marketassets/blooks/ghost.svg", "Spring Dragon": "https://ac.blooket.com/marketassets/blooks/springdragon.svg", "Lemon Crab": "https://ac.blooket.com/marketassets/blooks/lemoncrab.svg", "Rhino": "https://ac.blooket.com/marketassets/blooks/rhino.svg", "Mint": "https://ac.blooket.com/marketassets/blooks/mint.svg", "Orange": "https://ac.blooket.com/marketassets/blooks/orange.svg", "Pirate Pufferfish": "https://ac.blooket.com/marketassets/blooks/piratepufferfish.svg", "Giraffe": "https://ac.blooket.com/marketassets/blooks/giraffe.svg", "Donut Blobfish": "https://ac.blooket.com/marketassets/blooks/donutblobfish.svg", "Pink": "https://ac.blooket.com/marketassets/blooks/pink.svg", "Purple": "https://ac.blooket.com/marketassets/blooks/purple.svg", "Crimson Octopus": "https://ac.blooket.com/marketassets/blooks/crimsonoctopus.svg", "Rainbow Narwhal": "https://ac.blooket.com/marketassets/blooks/rainbownarwhal.svg", "Red": "https://ac.blooket.com/marketassets/blooks/red.svg", "Salmon": "https://ac.blooket.com/marketassets/blooks/salmon.svg", "Frost Wreath": "https://ac.blooket.com/marketassets/blooks/frostwreath.svg", "Tropical Globe": "https://ac.blooket.com/marketassets/blooks/tropicalglobe.svg", "Tan": "https://ac.blooket.com/marketassets/blooks/tan.svg", "Teal": "https://ac.blooket.com/marketassets/blooks/teal.svg", "New York Snow Globe": "https://ac.blooket.com/marketassets/blooks/newyorksnowglobe.svg", "London Snow Globe": "https://ac.blooket.com/marketassets/blooks/londonsnowglobe.svg", "Yellow": "https://ac.blooket.com/marketassets/blooks/yellow.svg", "Japan Snow Globe": "https://ac.blooket.com/marketassets/blooks/japansnowglobe.svg", "Egypt Snow Globe": "https://ac.blooket.com/marketassets/blooks/egyptsnowglobe.svg", "Paris Snow Globe": "https://ac.blooket.com/marketassets/blooks/parissnowglobe.svg", "Red Sweater Snowman": "https://ac.blooket.com/marketassets/blooks/redsweatersnowman.svg", "Blue Sweater Snowman": "https://ac.blooket.com/marketassets/blooks/bluesweatersnowman.svg", "Elf Sweater Snowman": "https://ac.blooket.com/marketassets/blooks/elfsweatersnowman.svg", "Holiday Elf": "https://ac.blooket.com/marketassets/blooks/holidayelf.svg", "Cozy Baby Penguin": "https://ac.blooket.com/marketassets/blooks/cozybabypenguin.svg", "Peppermint Bark": "https://ac.blooket.com/marketassets/blooks/peppermintbark.svg", "Chilly Chameleon": "https://ac.blooket.com/marketassets/blooks/chillychameleon.svg", "Santa Claws": "https://ac.blooket.com/marketassets/blooks/santaclaws.svg", "Cookies Combo": "https://ac.blooket.com/marketassets/blooks/cookiescombo.svg", "Chilly Flamingo": "https://ac.blooket.com/marketassets/blooks/chillyflamingo.svg", "Snowy Bush Monster": "https://ac.blooket.com/marketassets/blooks/snowybushmonster.svg", "Nutcracker Koala": "https://ac.blooket.com/marketassets/blooks/nutcrackerkoala.svg", "Half a Sandwich": "https://ac.blooket.com/marketassets/blooks/halfasandwich.svg", "Ice Slime": "https://ac.blooket.com/marketassets/blooks/iceslime.svg", "Frozen Fossil": "https://ac.blooket.com/marketassets/blooks/frozenfossil.svg", "Ice Crab": "https://ac.blooket.com/marketassets/blooks/icecrab.svg", "Rainbow Panda": "https://ac.blooket.com/marketassets/blooks/rainbowpanda.svg", "White Peacock": "https://ac.blooket.com/marketassets/blooks/whitepeacock.svg", "Tiger Zebra": "https://ac.blooket.com/marketassets/blooks/tigerzebra.svg", "Teal Platypus": "https://ac.blooket.com/marketassets/blooks/tealplatypus.svg", "Golden Pumpkin Pie": "https://ac.blooket.com/marketassets/blooks/goldenpumpkinpie.svg", "Goldfinch": "https://ac.blooket.com/marketassets/blooks/goldfinch.svg", "Blue Butterfly": "https://ac.blooket.com/marketassets/blooks/bluebutterfly.svg", "Red Astronaut": "https://ac.blooket.com/marketassets/blooks/redastronaut.svg", "Orange Astronaut": "https://ac.blooket.com/marketassets/blooks/orangeastronaut.svg", "Yellow Astronaut": "https://ac.blooket.com/marketassets/blooks/yellowastronaut.svg", "Lime Astronaut": "https://ac.blooket.com/marketassets/blooks/limeastronaut.svg", "Green Astronaut": "https://ac.blooket.com/marketassets/blooks/greenastronaut.svg", "Cyan Astronaut": "https://ac.blooket.com/marketassets/blooks/cyanastronaut.svg", "Blue Astronaut": "https://ac.blooket.com/marketassets/blooks/blueastronaut.svg", "Pink Astronaut": "https://ac.blooket.com/marketassets/blooks/pinkastronaut.svg", "Purple Astronaut": "https://ac.blooket.com/marketassets/blooks/purpleastronaut.svg", "Brown Astronaut": "https://ac.blooket.com/marketassets/blooks/brownastronaut.svg", "Black Astronaut": "https://ac.blooket.com/marketassets/blooks/blackastronaut.svg", "Lovely Planet": "https://ac.blooket.com/marketassets/blooks/lovelyplanet.svg", "Lovely Peacock": "https://ac.blooket.com/marketassets/blooks/lovelypeacock.svg", "Lovely Fox": "https://ac.blooket.com/marketassets/blooks/lovelyfox.svg", "Lovely Rabbit": "https://ac.blooket.com/marketassets/blooks/lovelyrabbit.svg", "Lovely Hedgehogs": "https://ac.blooket.com/marketassets/blooks/lovelyhedgehogs.svg", "Haunted Pumpkin": "https://ac.blooket.com/marketassets/blooks/hauntedpumpkin.svg", "Pumpkin Cookie": "https://ac.blooket.com/marketassets/blooks/pumpkincookie.svg", "Ghost Cookie": "https://ac.blooket.com/marketassets/blooks/ghostcookie.svg", "Red Gummy Bear": "https://ac.blooket.com/marketassets/blooks/redgummybear.svg", "Blue Gummy Bear": "https://ac.blooket.com/marketassets/blooks/bluegummybear.svg", "Green Gummy Bear": "https://ac.blooket.com/marketassets/blooks/greengummybear.svg", "Skeleton Fish": "https://ac.blooket.com/marketassets/blooks/skeletonfish.svg", "Super Glider": "https://ac.blooket.com/marketassets/blooks/superglider.svg", "Chick Chicken": "https://ac.blooket.com/marketassets/blooks/chickchicken.svg", "Chicken Chick": "https://ac.blooket.com/marketassets/blooks/chickenchick.svg", "Raccoon Bandit": "https://ac.blooket.com/marketassets/blooks/raccoonbandit.svg", "Owl Sheriff": "https://ac.blooket.com/marketassets/blooks/owlsheriff.svg", "Vampire Frog": "https://ac.blooket.com/marketassets/blooks/vampirefrog.svg", "Pumpkin King": "https://ac.blooket.com/marketassets/blooks/pumpkinking.svg", "Leprechaun": "https://ac.blooket.com/marketassets/blooks/leprechaun.svg", "Anaconda Wizard": "https://ac.blooket.com/marketassets/blooks/anacondawizard.svg", "Spooky Pumpkin": "https://ac.blooket.com/marketassets/blooks/spookypumpkin.svg", "Spooky Mummy": "https://ac.blooket.com/marketassets/blooks/spookymummy.svg", "Agent Owl": "https://ac.blooket.com/marketassets/blooks/agentowl.svg", "Master Elf": "https://ac.blooket.com/marketassets/blooks/masterelf.svg", "Party Pig": "https://ac.blooket.com/marketassets/blooks/partypig.svg", "Wise Owl": "https://ac.blooket.com/marketassets/blooks/wiseowl.svg", "Wise Caterpillar": "https://ac.blooket.com/marketassets/blooks/wisecaterpillar.svg", "Spooky Ghost": "https://ac.blooket.com/marketassets/blooks/spookyghost.svg", "Fuego": "https://ac.blooket.com/marketassets/blooks/fuego.svg", "Phantom King": "https://ac.blooket.com/marketassets/blooks/phantomking.svg", "Tim the Alien": "https://ac.blooket.com/marketassets/blooks/timthealien.svg", "Rainbow Astronaut": "https://ac.blooket.com/marketassets/blooks/rainbowastronaut.svg", "Hamsta Claus": "https://ac.blooket.com/marketassets/blooks/hamstaclaus.svg", "Astronaut of the Day Placeholder": "https://ac.blooket.com/marketassets/blooks/placeholder.svg"};
+        const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/blooks/santassleigh.svg", "Witch": "https://ac.blooket.com/marketassets/blooks/witch.svg", "Rainbow Jellyfish": "https://ac.blooket.com/marketassets/blooks/rainbowjellyfish.svg", "Two of Spades": "https://ac.blooket.com/marketassets/blooks/twoofspades.svg", "Old Boot": "https://ac.blooket.com/marketassets/blooks/oldboot.svg", "Wizard": "https://ac.blooket.com/marketassets/blooks/wizard.svg", "Bear": "https://ac.blooket.com/marketassets/blooks/bear.svg", "Dingo": "https://ac.blooket.com/marketassets/blooks/dingo.svg", "Dog": "https://ac.blooket.com/marketassets/blooks/dog.svg", "Snowy Owl": "https://ac.blooket.com/marketassets/blooks/snowyowl.svg", "Pumpkin": "https://ac.blooket.com/marketassets/blooks/pumpkin.svg", "Tiger": "https://ac.blooket.com/marketassets/blooks/tiger.svg", "Eat Me": "https://ac.blooket.com/marketassets/blooks/eatme.svg", "Jellyfish": "https://ac.blooket.com/marketassets/blooks/jellyfish.svg", "Ice Bat": "https://ac.blooket.com/marketassets/blooks/icebat.svg", "Snow Globe": "https://ac.blooket.com/marketassets/blooks/snowglobe.svg", "Lil Bot": "https://ac.blooket.com/marketassets/blooks/lilbot.svg", "Blizzard Clownfish": "https://ac.blooket.com/marketassets/blooks/blizzardclownfish.svg", "Ant": "https://ac.blooket.com/marketassets/blooks/ant.svg", "Toast": "https://ac.blooket.com/marketassets/blooks/toast.svg", "Baby Blue": "https://ac.blooket.com/marketassets/blooks/babyblue.svg", "Amber": "https://ac.blooket.com/marketassets/blooks/amber.svg", "Bananas": "https://ac.blooket.com/marketassets/blooks/bananas.svg", "Chick": "https://ac.blooket.com/marketassets/blooks/chick.svg", "Black Bear": "https://ac.blooket.com/marketassets/blooks/blackbear.svg", "Panda": "https://ac.blooket.com/marketassets/blooks/panda.svg", "Deckhand": "https://ac.blooket.com/marketassets/blooks/deckhand.svg", "Earth": "https://ac.blooket.com/marketassets/blooks/earth.svg", "Polar Bear": "https://ac.blooket.com/marketassets/blooks/polarbear.svg", "Swamp Monster": "https://ac.blooket.com/marketassets/blooks/swampmonster.svg", "Black": "https://ac.blooket.com/marketassets/blooks/black.svg", "Orangutan": "https://ac.blooket.com/marketassets/blooks/orangutan.svg", "Buccaneer": "https://ac.blooket.com/marketassets/blooks/buccaneer.svg", "Rhino Beetle": "https://ac.blooket.com/marketassets/blooks/rhinobeetle.svg", "Dino Egg": "https://ac.blooket.com/marketassets/blooks/dinoegg.svg", "Moose": "https://ac.blooket.com/marketassets/blooks/moose.svg", "Chicken": "https://ac.blooket.com/marketassets/blooks/chicken.svg", "Cereal": "https://ac.blooket.com/marketassets/blooks/cereal.svg", "Holiday Gift": "https://ac.blooket.com/marketassets/blooks/holidaygift.svg", "Meteor": "https://ac.blooket.com/marketassets/blooks/meteor.svg", "Clownfish": "https://ac.blooket.com/marketassets/blooks/clownfish.svg", "Lovely Frog": "https://ac.blooket.com/marketassets/blooks/lovelyfrog.svg", "Pumpkin Pie": "https://ac.blooket.com/marketassets/blooks/pumpkinpie.svg", "Echidna": "https://ac.blooket.com/marketassets/blooks/echidna.svg", "Watermelon": "https://ac.blooket.com/marketassets/blooks/watermelon.svg", "Cat": "https://ac.blooket.com/marketassets/blooks/cat.svg", "Elf": "https://ac.blooket.com/marketassets/blooks/elf.svg", "Lovely Bot": "https://ac.blooket.com/marketassets/blooks/lovelybot.svg", "Drink Me": "https://ac.blooket.com/marketassets/blooks/drinkme.svg", "Sloth": "https://ac.blooket.com/marketassets/blooks/sloth.svg", "Ice Bug": "https://ac.blooket.com/marketassets/blooks/icebug.svg", "Alice": "https://ac.blooket.com/marketassets/blooks/alice.svg", "Arctic Fox": "https://ac.blooket.com/marketassets/blooks/arcticfox.svg", "Swashbuckler": "https://ac.blooket.com/marketassets/blooks/swashbuckler.svg", "Tenrec": "https://ac.blooket.com/marketassets/blooks/tenrec.svg", "Ladybug": "https://ac.blooket.com/marketassets/blooks/ladybug.svg", "Lucky Frog": "https://ac.blooket.com/marketassets/blooks/luckyfrog.svg", "Rabbit": "https://ac.blooket.com/marketassets/blooks/rabbit.svg", "Cow": "https://ac.blooket.com/marketassets/blooks/cow.svg", "Yogurt": "https://ac.blooket.com/marketassets/blooks/yogurt.svg", "Cockatoo": "https://ac.blooket.com/marketassets/blooks/cockatoo.svg", "Koala": "https://ac.blooket.com/marketassets/blooks/koala.svg", "Chipmunk": "https://ac.blooket.com/marketassets/blooks/chipmunk.svg", "Fairy": "https://ac.blooket.com/marketassets/blooks/fairy.svg", "Ice Elemental": "https://ac.blooket.com/marketassets/blooks/iceelemental.svg", "Blue": "https://ac.blooket.com/marketassets/blooks/blue.svg", "Angry Bot": "https://ac.blooket.com/marketassets/blooks/angrybot.svg", "Fox": "https://ac.blooket.com/marketassets/blooks/fox.svg", "Stars": "https://ac.blooket.com/marketassets/blooks/stars.svg", "Frog": "https://ac.blooket.com/marketassets/blooks/frog.svg", "Frankenstein": "https://ac.blooket.com/marketassets/blooks/frankenstein.svg", "Hot Chocolate": "https://ac.blooket.com/marketassets/blooks/hotchocolate.svg", "Dino Fossil": "https://ac.blooket.com/marketassets/blooks/dinofossil.svg", "Cheese": "https://ac.blooket.com/marketassets/blooks/cheese.svg", "Goldfish": "https://ac.blooket.com/marketassets/blooks/goldfish.svg", "Breakfast Combo": "https://ac.blooket.com/marketassets/blooks/breakfastcombo.svg", "Vampire": "https://ac.blooket.com/marketassets/blooks/vampire.svg", "Rock Monster": "https://ac.blooket.com/marketassets/blooks/rockmonster.svg", "Slime Monster": "https://ac.blooket.com/marketassets/blooks/slimemonster.svg", "Goat": "https://ac.blooket.com/marketassets/blooks/goat.svg", "Fly": "https://ac.blooket.com/marketassets/blooks/fly.svg", "Queen of Hearts": "https://ac.blooket.com/marketassets/blooks/queenofhearts.svg", "Alien": "https://ac.blooket.com/marketassets/blooks/alien.svg", "Crab": "https://ac.blooket.com/marketassets/blooks/crab.svg", "Doughnut": "https://ac.blooket.com/marketassets/blooks/doughnut.svg", "Kookaburra": "https://ac.blooket.com/marketassets/blooks/kookaburra.svg", "Treasure Map": "https://ac.blooket.com/marketassets/blooks/treasuremap.svg", "Holiday Wreath": "https://ac.blooket.com/marketassets/blooks/holidaywreath.svg", "Stegosaurus": "https://ac.blooket.com/marketassets/blooks/stegosaurus.svg", "Spring Frog": "https://ac.blooket.com/marketassets/blooks/springfrog.svg", "Flamingo": "https://ac.blooket.com/marketassets/blooks/flamingo.svg", "Cornucopia": "https://ac.blooket.com/marketassets/blooks/cornucopia.svg", "Brown": "https://ac.blooket.com/marketassets/blooks/brown.svg", "Happy Bot": "https://ac.blooket.com/marketassets/blooks/happybot.svg", "Raccoon": "https://ac.blooket.com/marketassets/blooks/raccoon.svg", "Parrot": "https://ac.blooket.com/marketassets/blooks/parrot.svg", "Baby Penguin": "https://ac.blooket.com/marketassets/blooks/babypenguin.svg", "Dink": "https://ac.blooket.com/marketassets/blooks/dink.svg", "Dormouse": "https://ac.blooket.com/marketassets/blooks/dormouse.svg", "Burgandy": "https://ac.blooket.com/marketassets/blooks/burgandy.svg", "Squirrel": "https://ac.blooket.com/marketassets/blooks/squirrel.svg", "Anaconda": "https://ac.blooket.com/marketassets/blooks/anaconda.svg", "Autumn Cat": "https://ac.blooket.com/marketassets/blooks/autumncat.svg", "Planet": "https://ac.blooket.com/marketassets/blooks/planet.svg", "Horse": "https://ac.blooket.com/marketassets/blooks/horse.svg", "Seagull": "https://ac.blooket.com/marketassets/blooks/seagull.svg", "Worm": "https://ac.blooket.com/marketassets/blooks/worm.svg", "Pufferfish": "https://ac.blooket.com/marketassets/blooks/pufferfish.svg", "Zebra": "https://ac.blooket.com/marketassets/blooks/zebra.svg", "Penguin": "https://ac.blooket.com/marketassets/blooks/penguin.svg", "Stocking": "https://ac.blooket.com/marketassets/blooks/stocking.svg", "Jester": "https://ac.blooket.com/marketassets/blooks/jester.svg", "Platypus": "https://ac.blooket.com/marketassets/blooks/platypus.svg", "Hamster": "https://ac.blooket.com/marketassets/blooks/hamster.svg", "Watson": "https://ac.blooket.com/marketassets/blooks/watson.svg", "Orange Juice": "https://ac.blooket.com/marketassets/blooks/orangejuice.svg", "Poison Dart Frog": "https://ac.blooket.com/marketassets/blooks/poisondartfrog.svg", "Zombie": "https://ac.blooket.com/marketassets/blooks/zombie.svg", "Velociraptor": "https://ac.blooket.com/marketassets/blooks/velociraptor.svg", "Taco": "https://ac.blooket.com/marketassets/blooks/taco.svg", "Arctic Hare": "https://ac.blooket.com/marketassets/blooks/arctichare.svg", "Mummy": "https://ac.blooket.com/marketassets/blooks/mummy.svg", "Pig": "https://ac.blooket.com/marketassets/blooks/pig.svg", "Turtle": "https://ac.blooket.com/marketassets/blooks/turtle.svg", "Dull Blue": "https://ac.blooket.com/marketassets/blooks/dullblue.svg", "Jaguar": "https://ac.blooket.com/marketassets/blooks/jaguar.svg", "White Rabbit": "https://ac.blooket.com/marketassets/blooks/whiterabbit.svg", "Bee": "https://ac.blooket.com/marketassets/blooks/bee.svg", "Gingerbread Man": "https://ac.blooket.com/marketassets/blooks/gingerbreadman.svg", "Buddy Bot": "https://ac.blooket.com/marketassets/blooks/buddybot.svg", "Milk": "https://ac.blooket.com/marketassets/blooks/milk.svg", "UFO": "https://ac.blooket.com/marketassets/blooks/ufo.svg", "Blobfish": "https://ac.blooket.com/marketassets/blooks/blobfish.svg", "Lucky Hamster": "https://ac.blooket.com/marketassets/blooks/luckyhamster.svg", "Dragon": "https://ac.blooket.com/marketassets/blooks/dragon.svg", "Bao": "https://ac.blooket.com/marketassets/blooks/bao.svg", "Donk": "https://ac.blooket.com/marketassets/blooks/donk.svg", "Joey": "https://ac.blooket.com/marketassets/blooks/joey.svg", "Pumpkin Puppy": "https://ac.blooket.com/marketassets/blooks/pumpkinpuppy.svg", "Jolly Pirate": "https://ac.blooket.com/marketassets/blooks/jollypirate.svg", "Owl": "https://ac.blooket.com/marketassets/blooks/owl.svg", "Elephant": "https://ac.blooket.com/marketassets/blooks/elephant.svg", "Brontosaurus": "https://ac.blooket.com/marketassets/blooks/brontosaurus.svg", "Cheshire Cat": "https://ac.blooket.com/marketassets/blooks/cheshirecat.svg", "Spaceship": "https://ac.blooket.com/marketassets/blooks/spaceship.svg", "Kitten": "https://ac.blooket.com/marketassets/blooks/kitten.svg", "Caramel Apple": "https://ac.blooket.com/marketassets/blooks/caramelapple.svg", "Triceratops": "https://ac.blooket.com/marketassets/blooks/triceratops.svg", "Kangaroo": "https://ac.blooket.com/marketassets/blooks/kangaroo.svg", "Pirate Ship": "https://ac.blooket.com/marketassets/blooks/pirateship.svg", "Mantis": "https://ac.blooket.com/marketassets/blooks/mantis.svg", "Queen": "https://ac.blooket.com/marketassets/blooks/queen.svg", "Sushi": "https://ac.blooket.com/marketassets/blooks/sushi.svg", "Dust": "https://ac.blooket.com/marketassets/blooks/dust.svg", "Octopus": "https://ac.blooket.com/marketassets/blooks/octopus.svg", "Lucky Bee": "https://ac.blooket.com/marketassets/blooks/luckybee.svg", "Macaw": "https://ac.blooket.com/marketassets/blooks/macaw.svg", "Gingerbread House": "https://ac.blooket.com/marketassets/blooks/gingerbreadhouse.svg", "Lemur": "https://ac.blooket.com/marketassets/blooks/lemur.svg", "Seal": "https://ac.blooket.com/marketassets/blooks/seal.svg", "Sheep": "https://ac.blooket.com/marketassets/blooks/sheep.svg", "Waffle": "https://ac.blooket.com/marketassets/blooks/waffle.svg", "Hedgehog": "https://ac.blooket.com/marketassets/blooks/hedgehog.svg", "Bush Monster": "https://ac.blooket.com/marketassets/blooks/bushmonster.svg", "Brainy Bot": "https://ac.blooket.com/marketassets/blooks/brainybot.svg", "Red Squirrel": "https://ac.blooket.com/marketassets/blooks/redsquirrel.svg", "Pancakes": "https://ac.blooket.com/marketassets/blooks/pancakes.svg", "Crocodile": "https://ac.blooket.com/marketassets/blooks/crocodile.svg", "Caterpillar": "https://ac.blooket.com/marketassets/blooks/caterpillar.svg", "Cheeseburger": "https://ac.blooket.com/marketassets/blooks/cheeseburger.svg", "Walrus": "https://ac.blooket.com/marketassets/blooks/walrus.svg", "Yeti": "https://ac.blooket.com/marketassets/blooks/yeti.svg", "Gray": "https://ac.blooket.com/marketassets/blooks/gray.svg", "Peacock": "https://ac.blooket.com/marketassets/blooks/peacock.svg", "Tyrannosaurus Rex": "https://ac.blooket.com/marketassets/blooks/tyrannosaurusrex.svg", "Butterfly": "https://ac.blooket.com/marketassets/blooks/butterfly.svg", "Puppy": "https://ac.blooket.com/marketassets/blooks/puppy.svg", "Duck": "https://ac.blooket.com/marketassets/blooks/duck.svg", "Candy Corn": "https://ac.blooket.com/marketassets/blooks/candycorn.svg", "Reindeer": "https://ac.blooket.com/marketassets/blooks/reindeer.svg", "Mega Bot": "https://ac.blooket.com/marketassets/blooks/megabot.svg", "Narwhal": "https://ac.blooket.com/marketassets/blooks/narwhal.svg", "Kraken": "https://ac.blooket.com/marketassets/blooks/kraken.svg", "Autumn Crow": "https://ac.blooket.com/marketassets/blooks/autumncrow.svg", "Unicorn": "https://ac.blooket.com/marketassets/blooks/unicorn.svg", "Astronaut": "https://ac.blooket.com/marketassets/blooks/astronaut.svg", "Toucan": "https://ac.blooket.com/marketassets/blooks/toucan.svg", "Lucky Cat": "https://ac.blooket.com/marketassets/blooks/luckycat.svg", "Deer": "https://ac.blooket.com/marketassets/blooks/deer.svg", "Wolf": "https://ac.blooket.com/marketassets/blooks/wolf.svg", "Turkey": "https://ac.blooket.com/marketassets/blooks/turkey.svg", "Green": "https://ac.blooket.com/marketassets/blooks/green.svg", "Alpaca": "https://ac.blooket.com/marketassets/blooks/alpaca.svg", "Panther": "https://ac.blooket.com/marketassets/blooks/panther.svg", "Crow": "https://ac.blooket.com/marketassets/blooks/crow.svg", "French Toast": "https://ac.blooket.com/marketassets/blooks/frenchtoast.svg", "Chocolate Rabbit": "https://ac.blooket.com/marketassets/blooks/chocolaterabbit.svg", "King": "https://ac.blooket.com/marketassets/blooks/king.svg", "Mad Hatter": "https://ac.blooket.com/marketassets/blooks/madhatter.svg", "Captain Blackbeard": "https://ac.blooket.com/marketassets/blooks/captainblackbeard.svg", "Dolphin": "https://ac.blooket.com/marketassets/blooks/dolphin.svg", "Sugar Glider": "https://ac.blooket.com/marketassets/blooks/sugarglider.svg", "Chameleon": "https://ac.blooket.com/marketassets/blooks/chameleon.svg", "Sandwich": "https://ac.blooket.com/marketassets/blooks/sandwich.svg", "Beaver": "https://ac.blooket.com/marketassets/blooks/beaver.svg", "Baby Shark": "https://ac.blooket.com/marketassets/blooks/babyshark.svg", "Capuchin": "https://ac.blooket.com/marketassets/blooks/capuchin.svg", "Snowman": "https://ac.blooket.com/marketassets/blooks/snowman.svg", "Spring Rabbit": "https://ac.blooket.com/marketassets/blooks/springrabbit.svg", "Lion": "https://ac.blooket.com/marketassets/blooks/lion.svg", "Pizza": "https://ac.blooket.com/marketassets/blooks/pizza.svg", "King of Hearts": "https://ac.blooket.com/marketassets/blooks/kingofhearts.svg", "Light Blue": "https://ac.blooket.com/marketassets/blooks/lightblue.svg", "Vampire Bat": "https://ac.blooket.com/marketassets/blooks/vampirebat.svg", "Werewolf": "https://ac.blooket.com/marketassets/blooks/werewolf.svg", "Santa Claus": "https://ac.blooket.com/marketassets/blooks/santaclaus.svg", "Gorilla": "https://ac.blooket.com/marketassets/blooks/gorilla.svg", "Megalodon": "https://ac.blooket.com/marketassets/blooks/megalodon.svg", "Spring Deer": "https://ac.blooket.com/marketassets/blooks/springdeer.svg", "Lime": "https://ac.blooket.com/marketassets/blooks/lime.svg", "Maroon": "https://ac.blooket.com/marketassets/blooks/maroon.svg", "Hippo": "https://ac.blooket.com/marketassets/blooks/hippo.svg", "Ghost": "https://ac.blooket.com/marketassets/blooks/ghost.svg", "Spring Dragon": "https://ac.blooket.com/marketassets/blooks/springdragon.svg", "Lemon Crab": "https://ac.blooket.com/marketassets/blooks/lemoncrab.svg", "Rhino": "https://ac.blooket.com/marketassets/blooks/rhino.svg", "Mint": "https://ac.blooket.com/marketassets/blooks/mint.svg", "Orange": "https://ac.blooket.com/marketassets/blooks/orange.svg", "Pirate Pufferfish": "https://ac.blooket.com/marketassets/blooks/piratepufferfish.svg", "Giraffe": "https://ac.blooket.com/marketassets/blooks/giraffe.svg", "Donut Blobfish": "https://ac.blooket.com/marketassets/blooks/donutblobfish.svg", "Pink": "https://ac.blooket.com/marketassets/blooks/pink.svg", "Purple": "https://ac.blooket.com/marketassets/blooks/purple.svg", "Crimson Octopus": "https://ac.blooket.com/marketassets/blooks/crimsonoctopus.svg", "Rainbow Narwhal": "https://ac.blooket.com/marketassets/blooks/rainbownarwhal.svg", "Red": "https://ac.blooket.com/marketassets/blooks/red.svg", "Salmon": "https://ac.blooket.com/marketassets/blooks/salmon.svg", "Frost Wreath": "https://ac.blooket.com/marketassets/blooks/frostwreath.svg", "Tropical Globe": "https://ac.blooket.com/marketassets/blooks/tropicalglobe.svg", "Tan": "https://ac.blooket.com/marketassets/blooks/tan.svg", "Teal": "https://ac.blooket.com/marketassets/blooks/teal.svg", "New York Snow Globe": "https://ac.blooket.com/marketassets/blooks/newyorksnowglobe.svg", "London Snow Globe": "https://ac.blooket.com/marketassets/blooks/londonsnowglobe.svg", "Yellow": "https://ac.blooket.com/marketassets/blooks/yellow.svg", "Japan Snow Globe": "https://ac.blooket.com/marketassets/blooks/japansnowglobe.svg", "Egypt Snow Globe": "https://ac.blooket.com/marketassets/blooks/egyptsnowglobe.svg", "Paris Snow Globe": "https://ac.blooket.com/marketassets/blooks/parissnowglobe.svg", "Red Sweater Snowman": "https://ac.blooket.com/marketassets/blooks/redsweatersnowman.svg", "Blue Sweater Snowman": "https://ac.blooket.com/marketassets/blooks/bluesweatersnowman.svg", "Elf Sweater Snowman": "https://ac.blooket.com/marketassets/blooks/elfsweatersnowman.svg", "Holiday Elf": "https://ac.blooket.com/marketassets/blooks/holidayelf.svg", "Cozy Baby Penguin": "https://ac.blooket.com/marketassets/blooks/cozybabypenguin.svg", "Peppermint Bark": "https://ac.blooket.com/marketassets/blooks/peppermintbark.svg", "Chilly Chameleon": "https://ac.blooket.com/marketassets/blooks/chillychameleon.svg", "Santa Claws": "https://ac.blooket.com/marketassets/blooks/santaclaws.svg", "Cookies Combo": "https://ac.blooket.com/marketassets/blooks/cookiescombo.svg", "Chilly Flamingo": "https://ac.blooket.com/marketassets/blooks/chillyflamingo.svg", "Snowy Bush Monster": "https://ac.blooket.com/marketassets/blooks/snowybushmonster.svg", "Nutcracker Koala": "https://ac.blooket.com/marketassets/blooks/nutcrackerkoala.svg", "Half a Sandwich": "https://ac.blooket.com/marketassets/blooks/halfasandwich.svg", "Ice Slime": "https://ac.blooket.com/marketassets/blooks/iceslime.svg", "Frozen Fossil": "https://ac.blooket.com/marketassets/blooks/frozenfossil.svg", "Ice Crab": "https://ac.blooket.com/marketassets/blooks/icecrab.svg", "Rainbow Panda": "https://ac.blooket.com/marketassets/blooks/rainbowpanda.svg", "White Peacock": "https://ac.blooket.com/marketassets/blooks/whitepeacock.svg", "Tiger Zebra": "https://ac.blooket.com/marketassets/blooks/tigerzebra.svg", "Teal Platypus": "https://ac.blooket.com/marketassets/blooks/tealplatypus.svg", "Golden Pumpkin Pie": "https://ac.blooket.com/marketassets/blooks/goldenpumpkinpie.svg", "Goldfinch": "https://ac.blooket.com/marketassets/blooks/goldfinch.svg", "Blue Butterfly": "https://ac.blooket.com/marketassets/blooks/bluebutterfly.svg", "Red Astronaut": "https://ac.blooket.com/marketassets/blooks/redastronaut.svg", "Orange Astronaut": "https://ac.blooket.com/marketassets/blooks/orangeastronaut.svg", "Yellow Astronaut": "https://ac.blooket.com/marketassets/blooks/yellowastronaut.svg", "Lime Astronaut": "https://ac.blooket.com/marketassets/blooks/limeastronaut.svg", "Green Astronaut": "https://ac.blooket.com/marketassets/blooks/greenastronaut.svg", "Cyan Astronaut": "https://ac.blooket.com/marketassets/blooks/cyanastronaut.svg", "Blue Astronaut": "https://ac.blooket.com/marketassets/blooks/blueastronaut.svg", "Pink Astronaut": "https://ac.blooket.com/marketassets/blooks/pinkastronaut.svg", "Purple Astronaut": "https://ac.blooket.com/marketassets/blooks/purpleastronaut.svg", "Brown Astronaut": "https://ac.blooket.com/marketassets/blooks/brownastronaut.svg", "Black Astronaut": "https://ac.blooket.com/marketassets/blooks/blackastronaut.svg", "Lovely Planet": "https://ac.blooket.com/marketassets/blooks/lovelyplanet.svg", "Lovely Peacock": "https://ac.blooket.com/marketassets/blooks/lovelypeacock.svg", "Lovely Fox": "https://ac.blooket.com/marketassets/blooks/lovelyfox.svg", "Lovely Rabbit": "https://ac.blooket.com/marketassets/blooks/lovelyrabbit.svg", "Lovely Hedgehogs": "https://ac.blooket.com/marketassets/blooks/lovelyhedgehogs.svg", "Haunted Pumpkin": "https://ac.blooket.com/marketassets/blooks/hauntedpumpkin.svg", "Pumpkin Cookie": "https://ac.blooket.com/marketassets/blooks/pumpkincookie.svg", "Ghost Cookie": "https://ac.blooket.com/marketassets/blooks/ghostcookie.svg", "Red Gummy Bear": "https://ac.blooket.com/marketassets/blooks/redgummybear.svg", "Blue Gummy Bear": "https://ac.blooket.com/marketassets/blooks/bluegummybear.svg", "Green Gummy Bear": "https://ac.blooket.com/marketassets/blooks/greengummybear.svg", "Skeleton Fish": "https://ac.blooket.com/marketassets/blooks/skeletonfish.svg", "Super Glider": "https://ac.blooket.com/marketassets/blooks/superglider.svg", "Chick Chicken": "https://ac.blooket.com/marketassets/blooks/chickchicken.svg", "Chicken Chick": "https://ac.blooket.com/marketassets/blooks/chickenchick.svg", "Raccoon Bandit": "https://ac.blooket.com/marketassets/blooks/raccoonbandit.svg", "Owl Sheriff": "https://ac.blooket.com/marketassets/blooks/owlsheriff.svg", "Vampire Frog": "https://ac.blooket.com/marketassets/blooks/vampirefrog.svg", "Pumpkin King": "https://ac.blooket.com/marketassets/blooks/pumpkinking.svg", "Leprechaun": "https://ac.blooket.com/marketassets/blooks/leprechaun.svg", "Anaconda Wizard": "https://ac.blooket.com/marketassets/blooks/anacondawizard.svg", "Spooky Pumpkin": "https://ac.blooket.com/marketassets/blooks/spookypumpkin.svg", "Spooky Mummy": "https://ac.blooket.com/marketassets/blooks/spookymummy.svg", "Agent Owl": "https://ac.blooket.com/marketassets/blooks/agentowl.svg", "Master Elf": "https://ac.blooket.com/marketassets/blooks/masterelf.svg", "Party Pig": "https://ac.blooket.com/marketassets/blooks/partypig.svg", "Wise Owl": "https://ac.blooket.com/marketassets/blooks/wiseowl.svg", "Wise Caterpillar": "https://ac.blooket.com/marketassets/blooks/wisecaterpillar.svg", "Spooky Ghost": "https://ac.blooket.com/marketassets/blooks/spookyghost.svg", "Fuego": "https://ac.blooket.com/marketassets/blooks/fuego.svg", "Phantom King": "https://ac.blooket.com/marketassets/blooks/phantomking.svg", "Tim the Alien": "https://ac.blooket.com/marketassets/blooks/timthealien.svg", "Rainbow Astronaut": "https://ac.blooket.com/marketassets/blooks/rainbowastronaut.svg", "Hamsta Claus": "https://ac.blooket.com/marketassets/blooks/hamstaclaus.svg", "Astronaut of the Day Placeholder": "https://ac.blooket.com/marketassets/blooks/placeholder.svg"};
 
         function getBlookImg(name) {
             if (name === 'Dink') return 'https://ac.blooket.com/marketassets/blooks/dink.svg';
@@ -3011,11 +4368,11 @@
                 <div class="pack-blooks-title">Blooks in this pack</div>
                 <div class="pack-blooks-grid">
                     ${items.map(b => `
-                        <div class="pack-blook" title="${b.name} · ${b.chance}% · ${b.rarity}">
+                        <div class="pack-blook" title="${b.name} · ${b.chance == null ? "Event" : b.chance + "%"} · ${b.rarity}">
                             <img src="${getBlookImg(b.name)}" alt="${b.name}" loading="lazy">
                             <div class="bn">${b.name}</div>
                             <div class="br rarity-${b.rarity}">${b.rarity}</div>
-                            <div class="chance">${b.chance}%</div>
+                            <div class="chance">${b.chance == null ? "Event" : b.chance + "%"}</div>
                         </div>
                     `).join('')}
                 </div>
@@ -3035,12 +4392,13 @@
 
         function initFromPath() {
             const seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || 'home';
-            const map = { home: 'home', countdown: 'countdown', leaks: 'leaks', videos: 'videos', gamemodes: 'gamemodes', market: 'market', about: 'about' };
+            const map = { home: 'home', countdown: 'countdown', leaks: 'leaks', videos: 'videos', gamemodes: 'gamemodes', market: 'market', updates: 'updates', settings: 'settings', about: 'about' };
             switchView(map[seg] || 'home', true);
         }
 
         window.addEventListener('popstate', () => initFromPath());
 
+        loadSettings();
         applyPage(0);
         setInterval(updateCountdown, 1000);
         renderVideos();
