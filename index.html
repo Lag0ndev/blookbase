@@ -976,6 +976,43 @@
             line-height: 1;
         }
 
+        .online-counter {
+            position: fixed;
+            left: 18px;
+            bottom: 14px;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 14px;
+            color: white;
+            opacity: 0.35;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+            user-select: none;
+            pointer-events: none;
+            letter-spacing: 0.3px;
+        }
+        .online-counter .online-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #7dffa3;
+            box-shadow: 0 0 8px rgba(125, 255, 163, 0.8);
+            animation: onlinePulse 1.6s ease-in-out infinite;
+        }
+        @keyframes onlinePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.45; transform: scale(0.85); }
+        }
+        .online-counter strong {
+            font-family: 'Titan One', sans-serif;
+            font-weight: normal;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+
         /* --- INFO BUTTON --- */
         .info-btn {
             position: fixed;
@@ -2484,7 +2521,12 @@
     </div>
 
         <div class="watermark">Lag0n</div>
+        <div class="online-counter" id="online-counter" title="People on Blookbase right now">
+            <span class="online-dot" aria-hidden="true"></span>
+            <span><strong id="online-count">—</strong> online</span>
+        </div>
 
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
     <script>
 
         /* ---------- SIDEBAR / VIEWS ---------- */
@@ -2677,7 +2719,7 @@
                 label: 'Season 8',
                 icon: 'fa-calendar-days',
                 title: 'Blooket Season 8 Countdown',
-                target: new Date("2026-09-14T19:00:00-05:00"), // 7:00 PM Central (CDT)
+                target: new Date("2026-09-15T00:00:00.000Z"), // 7:00 PM Central US (CDT) — same instant worldwide
                 doneText: '🎉 Season 8 is here! 🎉',
                 lockTheme: false,
                 historyTitle: 'Past Season Releases',
@@ -4488,6 +4530,131 @@
         renderVideos();
         renderGamemodes();
         initFromPath();
+
+        /* ---------- LIVE ONLINE COUNTER (MQTT presence, works on static Vercel) ---------- */
+        (function initOnlineCounter() {
+            const TOPIC_PREFIX = 'blookbase/v1/online/';
+            const BROKERS = [
+                'wss://broker.emqx.io:8084/mqtt',
+                'wss://broker.hivemq.com:8884/mqtt'
+            ];
+            let sessionId = null;
+            try {
+                sessionId = sessionStorage.getItem('blookbase_sid');
+                if (!sessionId) {
+                    sessionId = 's' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+                    sessionStorage.setItem('blookbase_sid', sessionId);
+                }
+            } catch (e) {
+                sessionId = 's' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+            }
+
+            const onlineMap = new Map(); // id -> lastSeen
+            const countEl = document.getElementById('online-count');
+
+            function renderCount() {
+                const now = Date.now();
+                // drop stale (> 90s without refresh)
+                for (const [id, t] of onlineMap) {
+                    if (now - t > 90000) onlineMap.delete(id);
+                }
+                // always include self
+                onlineMap.set(sessionId, now);
+                const n = onlineMap.size;
+                if (countEl) countEl.textContent = String(n);
+            }
+
+            function onPresenceMessage(topic, payload) {
+                if (!topic || !topic.startsWith(TOPIC_PREFIX)) return;
+                const id = topic.slice(TOPIC_PREFIX.length);
+                if (!id) return;
+                const text = payload ? payload.toString() : '';
+                if (!text) {
+                    onlineMap.delete(id);
+                } else {
+                    onlineMap.set(id, Date.now());
+                }
+                renderCount();
+            }
+
+            if (typeof mqtt === 'undefined') {
+                renderCount();
+                return;
+            }
+
+            let client = null;
+            let brokerIndex = 0;
+            let heartbeatTimer = null;
+            let pruneTimer = null;
+
+            function myTopic() {
+                return TOPIC_PREFIX + sessionId;
+            }
+
+            function publishHere() {
+                if (!client || !client.connected) return;
+                client.publish(myTopic(), String(Date.now()), { qos: 0, retain: true });
+                onlineMap.set(sessionId, Date.now());
+                renderCount();
+            }
+
+            function connectBroker() {
+                if (brokerIndex >= BROKERS.length) {
+                    renderCount();
+                    return;
+                }
+                const url = BROKERS[brokerIndex];
+                try {
+                    if (client) {
+                        try { client.end(true); } catch (e) {}
+                    }
+                    client = mqtt.connect(url, {
+                        clientId: 'bb_' + sessionId.slice(0, 18),
+                        clean: true,
+                        reconnectPeriod: 4000,
+                        connectTimeout: 8000,
+                        will: {
+                            topic: myTopic(),
+                            payload: '',
+                            retain: true,
+                            qos: 0
+                        }
+                    });
+                    client.on('connect', () => {
+                        client.subscribe(TOPIC_PREFIX + '#', { qos: 0 });
+                        publishHere();
+                        if (heartbeatTimer) clearInterval(heartbeatTimer);
+                        heartbeatTimer = setInterval(publishHere, 25000);
+                        if (pruneTimer) clearInterval(pruneTimer);
+                        pruneTimer = setInterval(renderCount, 15000);
+                    });
+                    client.on('message', (topic, payload) => onPresenceMessage(topic, payload));
+                    client.on('error', () => {});
+                    client.on('close', () => {
+                        // try next broker once if never connected well
+                    });
+                    client.on('offline', () => {});
+                } catch (e) {
+                    brokerIndex += 1;
+                    connectBroker();
+                }
+            }
+
+            // visibility: republish when tab focuses
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) publishHere();
+            });
+            window.addEventListener('beforeunload', () => {
+                try {
+                    if (client && client.connected) {
+                        client.publish(myTopic(), '', { qos: 0, retain: true });
+                    }
+                } catch (e) {}
+            });
+
+            renderCount();
+            connectBroker();
+        })();
         setHomeTitle();
         
 </script>
