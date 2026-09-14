@@ -957,24 +957,30 @@
             text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
         }
 
-        /* --- WATERMARK FOOTER (x3 bigger) --- */
+        /* --- WATERMARK (fixed bottom-right) --- */
         .watermark {
+            position: fixed;
+            right: 18px;
+            bottom: 12px;
+            z-index: 50;
             font-family: 'Titan One', sans-serif;
             font-size: 72px;
             color: white;
             opacity: 0.25;
-            margin-top: auto;
-            padding-bottom: 20px;
+            margin: 0;
+            padding: 0;
             text-shadow: 4px 4px 0 rgba(0,0,0,0.1);
             user-select: none;
+            pointer-events: none;
             letter-spacing: 2px;
+            line-height: 1;
         }
 
         /* --- INFO BUTTON --- */
         .info-btn {
             position: fixed;
             bottom: 25px;
-            right: 25px;
+            left: 25px;
             width: 55px;
             height: 55px;
             border-radius: 50%;
@@ -1011,12 +1017,14 @@
             backdrop-filter: blur(8px);
         }
         .info-modal-box {
-            background: white;
+            background: var(--accent);
+            border: 6px solid rgba(255, 255, 255, 0.2);
             width: 90vw;
             max-width: 420px;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.25);
+            color: #fff;
             animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         @keyframes popIn {
@@ -1024,7 +1032,7 @@
             to { transform: scale(1); opacity: 1; }
         }
         .info-modal-header {
-            background: var(--accent);
+            background: rgba(0, 0, 0, 0.18);
             color: white;
             padding: 18px 22px;
             display: flex;
@@ -1055,10 +1063,16 @@
             text-align: left;
             font-size: 16px;
             line-height: 1.6;
-            color: #333;
+            color: #fff;
         }
         .info-modal-body b {
-            color: var(--accent);
+            color: #fff;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+        .info-modal-body a {
+            color: #fff;
+            font-weight: 800;
         }
         .page-switch-list {
             display: grid;
@@ -1306,8 +1320,8 @@
             margin: 0;
             padding: 0;
             flex: 0 1 auto;
-            flex-wrap: wrap;
-            gap: 6px;
+            flex-wrap: nowrap;
+            gap: 8px;
             font-size: 16px;
         }
         body.sb-top .sidebar-list li {
@@ -1315,22 +1329,25 @@
             padding: 0;
         }
         body.sb-top .sidebar-link {
-            width: auto !important;
-            height: 38px;
-            padding: 0 14px !important;
+            width: 48px !important;
+            height: 48px !important;
+            padding: 0 !important;
             margin: 0 !important;
-            border-radius: 10px !important;
-            border-top-right-radius: 10px !important;
-            border-bottom-right-radius: 10px !important;
+            border-radius: 12px !important;
+            border-top-right-radius: 12px !important;
+            border-bottom-right-radius: 12px !important;
+            justify-content: center;
+            align-items: center;
         }
         body.sb-top .sidebar-text {
-            margin-left: 8px;
-            font-size: 15px;
+            display: none !important;
         }
         body.sb-top .sidebar-listIcon {
-            width: 20px;
-            font-size: 16px;
+            width: auto;
+            margin: 0;
             margin-top: 0;
+            font-size: 22px;
+            text-align: center;
         }
         body.sb-top .sidebar-footer {
             margin-top: 0 !important;
@@ -1342,9 +1359,10 @@
             gap: 4px;
         }
         body.sb-top .sidebar-foot-btn {
-            width: 36px;
-            height: 36px;
-            font-size: 16px;
+            width: 48px;
+            height: 48px;
+            font-size: 20px;
+            border-radius: 12px;
         }
         body.sb-top .menu-btn { top: 18px; left: 18px; }
         body.sb-top.sb-always #sidebar {
@@ -1416,8 +1434,8 @@
             margin: 0;
             padding: 0;
             flex: 0 1 auto;
-            flex-wrap: wrap;
-            gap: 6px;
+            flex-wrap: nowrap;
+            gap: 8px;
             font-size: 16px;
         }
         body.sb-bottom .sidebar-list li {
@@ -1425,22 +1443,25 @@
             padding: 0;
         }
         body.sb-bottom .sidebar-link {
-            width: auto !important;
-            height: 38px;
-            padding: 0 14px !important;
+            width: 48px !important;
+            height: 48px !important;
+            padding: 0 !important;
             margin: 0 !important;
-            border-radius: 10px !important;
-            border-top-right-radius: 10px !important;
-            border-bottom-right-radius: 10px !important;
+            border-radius: 12px !important;
+            border-top-right-radius: 12px !important;
+            border-bottom-right-radius: 12px !important;
+            justify-content: center;
+            align-items: center;
         }
         body.sb-bottom .sidebar-text {
-            margin-left: 8px;
-            font-size: 15px;
+            display: none !important;
         }
         body.sb-bottom .sidebar-listIcon {
-            width: 20px;
-            font-size: 16px;
+            width: auto;
+            margin: 0;
             margin-top: 0;
+            font-size: 22px;
+            text-align: center;
         }
         body.sb-bottom .sidebar-footer {
             margin-top: 0 !important;
@@ -1452,9 +1473,10 @@
             gap: 4px;
         }
         body.sb-bottom .sidebar-foot-btn {
-            width: 36px;
-            height: 36px;
-            font-size: 16px;
+            width: 48px;
+            height: 48px;
+            font-size: 20px;
+            border-radius: 12px;
         }
         body.sb-bottom .menu-btn { top: auto; bottom: 25px; left: 18px; }
         body.sb-bottom.sb-always #sidebar {
@@ -1478,27 +1500,7 @@
             max-width: 1100px;
         }
 
-        @media (max-width: 720px) {
-            body.sb-top .sidebar-text,
-            body.sb-bottom .sidebar-text {
-                display: none;
-            }
-            body.sb-top .sidebar-link,
-            body.sb-bottom .sidebar-link {
-                padding: 0 10px !important;
-                width: 38px !important;
-                justify-content: center;
-            }
-            body.sb-top .sidebar-listIcon,
-            body.sb-bottom .sidebar-listIcon {
-                margin: 0;
-                width: auto;
-            }
-            body.sb-top .sidebar-logo,
-            body.sb-bottom .sidebar-logo {
-                font-size: 16px;
-            }
-        }
+
 
         .sidebar-logo {
             font-family: 'Titan One', sans-serif;
@@ -2006,7 +2008,6 @@
                 </div>
             </div>
         </div>
-        <div class="watermark">Lag0n</div>
     </div>
 
     
@@ -2032,7 +2033,6 @@
             </div>
         </div>
 
-        <div class="watermark">Lag0n</div>
     </div>
 
     
@@ -2211,7 +2211,6 @@
                 </div>
             </div>
         </div>
-        <div class="watermark">Lag0n</div>
     </div>
 
     
@@ -2226,7 +2225,6 @@
             <div class="videos-grid" id="videos-grid"></div>
             <div class="video-pagination" id="video-pagination"></div>
         </div>
-        <div class="watermark">Lag0n</div>
     </div>
 
     
@@ -2235,7 +2233,6 @@
         <div class="gamemodes-wrap">
             <div class="gamemodes-grid" id="gamemodes-grid"></div>
         </div>
-        <div class="watermark">Lag0n</div>
     </div>
 
     <div id="gm-modal" onclick="if(event.target===this)closeGmModal()">
@@ -2250,7 +2247,6 @@
         <div class="market-wrap">
             <div class="market-grid" id="market-grid"></div>
         </div>
-        <div class="watermark">Lag0n</div>
     </div>
 
     <div id="pack-modal" onclick="if(event.target===this)closePackModal()">
@@ -2369,7 +2365,6 @@
                 </ul>
             </div>
         </div>
-        <div class="watermark">Lag0n</div>
     </div>
 
     <div class="main-content" id="view-settings" style="display: none;">
@@ -2426,7 +2421,6 @@
                 <button class="settings-reset-btn" onclick="resetSettings()">Reset to defaults</button>
             </div>
         </div>
-        <div class="watermark">Lag0n</div>
     </div>
 
     <div class="main-content" id="view-about" style="display: none;">
@@ -2449,7 +2443,6 @@
                 <b>Leaks</b> covers Season 8 info, gamemodes, and achievements. <b>Videos</b> features top Blooket YouTubers.
             </p>
         </div>
-        <div class="watermark">Lag0n</div>
     </div>
 
     <button class="info-btn" id="info-btn" onclick="openInfoModal()" aria-label="About this page" style="display: none;">!</button>
@@ -2485,6 +2478,8 @@
             <div id="video-modal-body"></div>
         </div>
     </div>
+
+        <div class="watermark">Lag0n</div>
 
     <script>
 
