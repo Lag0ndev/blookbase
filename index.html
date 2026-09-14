@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -331,6 +332,352 @@
             color: #ffffff;
             margin-top: 10px;
         }
+
+        /* --- GAMEMODES --- */
+        .gamemodes-wrap {
+            width: 100%;
+            max-width: 1100px;
+            padding-bottom: 40px;
+        }
+        .gamemodes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+        }
+        .gm-card {
+            background-color: #9a49aa;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
+            color: #fff;
+            cursor: pointer;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            transition: transform 0.15s, filter 0.15s;
+            text-align: center;
+            min-height: 220px;
+            box-sizing: border-box;
+        }
+        .gm-card .gm-text {
+            display: none;
+        }
+        .gm-card:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.08);
+        }
+        .gm-card img {
+            width: 180px;
+            height: 180px;
+            flex-shrink: 0;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+        }
+        .gm-card .gm-text {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 0;
+        }
+        .gm-card .gm-name {
+            font-weight: 900;
+            font-size: 17px;
+            line-height: 1.2;
+        }
+        .gm-card .gm-plus {
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            background: rgba(0,0,0,0.25);
+            padding: 3px 8px;
+            border-radius: 6px;
+            width: fit-content;
+        }
+        #gm-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+            padding: 16px;
+        }
+        .gm-modal-box {
+            background-color: #9a49aa;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
+            color: #fff;
+            width: 100%;
+            max-width: 420px;
+            padding: 24px 22px 22px;
+            text-align: center;
+            position: relative;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .gm-modal-box img {
+            width: 160px;
+            height: 160px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+        }
+        .gm-modal-box h2 {
+            font-family: 'Titan One', sans-serif;
+            font-weight: normal;
+            font-size: 28px;
+            margin: 0 0 8px;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+        }
+        .gm-modal-box .gm-about {
+            font-weight: 800;
+            font-size: 15px;
+            margin: 0 0 14px;
+            opacity: 0.95;
+        }
+        .gm-modal-box .gm-details {
+            font-weight: 700;
+            font-size: 13.5px;
+            line-height: 1.55;
+            opacity: 0.95;
+            background: rgba(0,0,0,0.18);
+            border-radius: 8px;
+            padding: 14px 16px;
+            text-align: left;
+        }
+        .gm-modal-box .gm-details div {
+            margin: 5px 0;
+        }
+        .gm-modal-box .gm-details b {
+            font-weight: 900;
+            opacity: 0.85;
+        }
+        .gm-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.25);
+            border: none;
+            color: white;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .gm-modal-close:hover { background: rgba(0,0,0,0.4); }
+
+        /* --- MARKET / PACKS --- */
+        
+        #view-market {
+            max-width: 1100px;
+        }
+.market-wrap {
+            width: 100%;
+            max-width: 980px;
+            padding-bottom: 40px;
+        }
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+        .pack-card {
+            background-color: #9a49aa;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
+            color: #fff;
+            cursor: pointer;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.15s, filter 0.15s;
+            text-align: center;
+            min-height: 190px;
+            box-sizing: border-box;
+        }
+        .pack-card:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.08);
+        }
+        .pack-card img {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+        }
+        .pack-card .pack-name, .pack-card .pack-meta, .pack-card .pack-tag { display: none; }
+        .pack-card .pack-meta {
+            font-size: 11px;
+            font-weight: 700;
+            opacity: 0.85;
+        }
+        .pack-card .pack-tag {
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            background: rgba(0,0,0,0.25);
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        #pack-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+            padding: 16px;
+        }
+        .pack-modal-box {
+            background-color: #9a49aa;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
+            color: #fff;
+            width: 100%;
+            max-width: 560px;
+            max-height: min(88vh, 720px);
+            overflow-y: auto;
+            padding: 22px 20px 20px;
+            text-align: center;
+            position: relative;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .pack-modal-box > img.pack-hero {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
+        }
+        .pack-modal-box h2 {
+            font-family: 'Titan One', sans-serif;
+            font-weight: normal;
+            font-size: 26px;
+            margin: 0 0 6px;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+        }
+        .pack-modal-box .pack-about {
+            font-weight: 800;
+            font-size: 14px;
+            margin: 0 0 12px;
+            opacity: 0.95;
+        }
+        .pack-info-block {
+            font-weight: 700;
+            font-size: 13px;
+            line-height: 1.5;
+            text-align: left;
+            background: rgba(0,0,0,0.18);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+        }
+        .pack-info-block div { margin: 4px 0; }
+        .pack-info-block b { font-weight: 900; opacity: 0.85; }
+        .pack-rates {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .pack-rate-pill {
+            font-size: 11px;
+            font-weight: 900;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: rgba(0,0,0,0.25);
+        }
+        .pack-blooks-title {
+            font-weight: 900;
+            font-size: 14px;
+            text-align: left;
+            margin: 0 0 10px;
+            opacity: 0.95;
+        }
+        .pack-blooks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
+            gap: 10px;
+        }
+        .pack-blook {
+            background: rgba(0,0,0,0.18);
+            border-radius: 8px;
+            padding: 8px 4px 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .pack-blook img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
+        .pack-blook .bn {
+            font-size: 10px;
+            font-weight: 800;
+            line-height: 1.2;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .pack-blook .br {
+            font-size: 9px;
+            font-weight: 900;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+        .rarity-Common { color: #d0d0d0; }
+        .rarity-Uncommon { color: #7dce82; }
+        .rarity-Rare { color: #6eb5ff; }
+        .rarity-Epic { color: #c084fc; }
+        .rarity-Legendary { color: #ffb347; }
+        .rarity-Chroma { color: #5eead4; }
+
+        .pack-blook .chance {
+            font-size: 11px;
+            font-weight: 800;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+        .rarity-Uncommon { color: #7dffb3; }
+        .rarity-Rare { color: #6cb6ff; }
+        .rarity-Epic { color: #c77dff; }
+        .rarity-Common { color: #ccc; }
+        .rarity-Mystical { color: #ff6b9d; }
+        .rarity-Unique { color: #ffe066; }
+        .rarity-Unique { color: #f9a8d4; }
+        .rarity-Mystical { color: #f87171; }
+        .pack-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.25);
+            border: none;
+            color: white;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .pack-modal-close:hover { background: rgba(0,0,0,0.4); }
         .about-box a {
             color: #fff3b0;
         }
@@ -712,7 +1059,130 @@
             text-decoration: underline;
         }
     
-</style>
+
+        /* Video detail modal */
+        #video-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+            padding: 16px;
+        }
+        .video-modal-box {
+            background-color: #9a49aa;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
+            color: #fff;
+            width: 100%;
+            max-width: 520px;
+            max-height: min(88vh, 700px);
+            overflow-y: auto;
+            padding: 22px 20px 20px;
+            text-align: center;
+            position: relative;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .video-modal-box .vm-thumb {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            background: rgba(0,0,0,0.25);
+        }
+        .video-modal-box h2 {
+            font-family: 'Titan One', sans-serif;
+            font-weight: normal;
+            font-size: 22px;
+            margin: 0 0 12px;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+            line-height: 1.25;
+        }
+        .vm-channel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .vm-channel img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.35);
+            object-fit: cover;
+            background: rgba(0,0,0,0.2);
+        }
+        .vm-channel .vm-name {
+            font-weight: 900;
+            font-size: 16px;
+        }
+        .vm-meta {
+            font-size: 13px;
+            font-weight: 700;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+        .vm-desc {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.5;
+            text-align: left;
+            background: rgba(0,0,0,0.18);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+        }
+        .vm-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .vm-btn {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 14px;
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 3px solid rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.18);
+            color: #fff;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.12s;
+        }
+        .vm-btn:hover { background: rgba(255,255,255,0.3); }
+        .vm-btn.primary {
+            background: #fff;
+            color: #9a49aa;
+            border-color: rgba(255,255,255,0.8);
+        }
+        .video-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.25);
+            border: none;
+            color: white;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .video-modal-close:hover { background: rgba(0,0,0,0.4); }
+
+    </style>
 </head>
 <body>
 
@@ -757,6 +1227,18 @@
                     <button class="sidebar-link" data-view="videos" onclick="switchView('videos')">
                         <span class="sidebar-listIcon"><i class="fas fa-play"></i></span>
                         <span class="sidebar-text">Videos</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="sidebar-link" data-view="gamemodes" onclick="switchView('gamemodes')">
+                        <span class="sidebar-listIcon"><i class="fas fa-gamepad"></i></span>
+                        <span class="sidebar-text">Gamemodes</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="sidebar-link" data-view="market" onclick="switchView('market')">
+                        <span class="sidebar-listIcon"><i class="fas fa-store"></i></span>
+                        <span class="sidebar-text">Packs</span>
                     </button>
                 </li>
                 <li>
@@ -999,6 +1481,37 @@
     </div>
 
     
+    <div class="main-content" id="view-gamemodes" style="display: none;">
+        <h1 class="header-title">Gamemodes</h1>
+        <div class="gamemodes-wrap">
+            <div class="gamemodes-grid" id="gamemodes-grid"></div>
+        </div>
+        <div class="watermark">Lag0n</div>
+    </div>
+
+    <div id="gm-modal" onclick="if(event.target===this)closeGmModal()">
+        <div class="gm-modal-box" id="gm-modal-box">
+            <button class="gm-modal-close" onclick="closeGmModal()" aria-label="Close"><i class="fas fa-times"></i></button>
+            <div id="gm-modal-body"></div>
+        </div>
+    </div>
+
+    <div class="main-content" id="view-market" style="display: none;">
+        <h1 class="header-title">Packs</h1>
+        <div class="market-wrap">
+            <div class="market-grid" id="market-grid"></div>
+        </div>
+        <div class="watermark">Lag0n</div>
+    </div>
+
+    <div id="pack-modal" onclick="if(event.target===this)closePackModal()">
+        <div class="pack-modal-box">
+            <button class="pack-modal-close" onclick="closePackModal()" aria-label="Close"><i class="fas fa-times"></i></button>
+            <div id="pack-modal-body"></div>
+        </div>
+    </div>
+
+    
     <div class="main-content" id="view-about" style="display: none;">
         <h1 class="header-title">About</h1>
         <div class="about-box">
@@ -1048,6 +1561,14 @@
         </div>
     </div>
 
+    
+    <div id="video-modal" onclick="if(event.target===this)closeVideoModal()">
+        <div class="video-modal-box">
+            <button class="video-modal-close" onclick="closeVideoModal()"><i class="fas fa-times"></i></button>
+            <div id="video-modal-body"></div>
+        </div>
+    </div>
+
     <script>
 
         /* ---------- SIDEBAR / VIEWS ---------- */
@@ -1075,13 +1596,15 @@
             });
         }
         function switchView(view, skipUrl) {
-            const allowed = ['home', 'countdown', 'leaks', 'videos', 'about'];
+            const allowed = ['home', 'countdown', 'leaks', 'videos', 'gamemodes', 'market', 'about'];
             if (!allowed.includes(view)) view = 'home';
             currentView = view;
             document.getElementById('view-home').style.display = view === 'home' ? 'flex' : 'none';
             document.getElementById('view-countdown').style.display = view === 'countdown' ? 'flex' : 'none';
             document.getElementById('view-leaks').style.display = view === 'leaks' ? 'flex' : 'none';
             document.getElementById('view-videos').style.display = view === 'videos' ? 'flex' : 'none';
+            document.getElementById('view-gamemodes').style.display = view === 'gamemodes' ? 'flex' : 'none';
+            document.getElementById('view-market').style.display = view === 'market' ? 'flex' : 'none';
             document.getElementById('view-about').style.display = view === 'about' ? 'flex' : 'none';
             document.getElementById('info-btn').style.display = view === 'countdown' ? 'flex' : 'none';
             if (view !== 'countdown') {
@@ -1091,6 +1614,8 @@
                 applyPage(currentPage);
             }
             if (view === 'videos') renderVideos();
+            if (view === 'gamemodes') renderGamemodes();
+            if (view === 'market') renderMarket();
             if (view === 'home') setHomeTitle();
             updateSidebarActive();
             closeSidebar();
@@ -1426,7 +1951,7 @@
             { id: 'pyx7pg3nkpQ', title: 'Ranking EVERY Blooket Youtuber!', channel: 'Lag0n', likes: 27, views: '901', cat: 'new' },
             { id: 'tABAPUAkQJg', title: 'The Most STACKED Blooket Accounts TOUR! (2026)', channel: 'Lag0n', likes: 648, views: '47.5K', cat: 'new' },
             { id: 'pBgbGk1dXwY', title: 'Blooket Class Pass Explained', channel: 'Blooket', likes: 74, views: '2.6K', cat: 'new' },
-            { id: 'Y9IpA_zmulw', title: 'Blooket Market Updates!', channel: 'Blooket', likes: 80, views: '7K', cat: 'new' },
+            { id: 'Y9IpA_zmulw', title: 'Blooket Packs Updates!', channel: 'Blooket', likes: 80, views: '7K', cat: 'new' },
             { id: 'o5o21nMl--w', title: 'Blooket | Science Pack Showcase', channel: 'iBlooket', likes: 200, views: '17K', cat: 'new' },
             { id: 'UK4U9P9EJio', title: 'Blooket | NEW PIRATE PACK CHROMA???', channel: 'iBlooket', likes: 120, views: '9.5K', cat: 'new' },
             { id: '48HbSvMmNCI', title: 'THE BEST BLOOKET CONTENT IN 2025', channel: 'Blooket Ace', likes: 17, views: '583', cat: 'new' },
@@ -1557,6 +2082,82 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        
+        const channelProfiles = {
+            'Waymore': { handle: '@Waymore', url: 'https://www.youtube.com/@Waymore', about: 'Blooket creator known for huge pack openings, challenges, and knock-off reviews.' },
+            'Monkey Master': { handle: '@MonkeyMaster', url: 'https://www.youtube.com/@MonkeyMaster', about: 'Blooket pack openings, season updates, and chroma hunts.' },
+            'Blooket Ace': { handle: '@BlooketAce', url: 'https://www.youtube.com/@BlooketAce', about: 'Season news, pack openings, and Blooket gameplay guides.' },
+            'Lag0n': { handle: '@Lag0n4', url: 'https://www.youtube.com/@Lag0n4', about: 'Blooket content creator and maker of Blookbase.' },
+            'Blooket': { handle: '@Blooket', url: 'https://www.youtube.com/@Blooket', about: 'Official Blooket channel — tutorials, updates, and product news.' },
+            'iBlooket': { handle: '@iBlooket', url: 'https://www.youtube.com/@iBlooket', about: 'Custom blooks, pack showcases, and design content.' },
+            'Unblooked': { handle: '@Unblooked', url: 'https://www.youtube.com/@Unblooked', about: 'Blooket rarity deep-dives, hacks testing, and analysis.' },
+            'FastyJay': { handle: '@FastyJay', url: 'https://www.youtube.com/@FastyJay', about: 'Blooket quizzes, "What Blook says about YOU" series, and live games.' },
+            'Logan DeRosa': { handle: '@LoganDeRosa', url: 'https://www.youtube.com/@LoganDeRosa', about: '24/7 Blooket live streams viewers can join.' },
+            'Purple Panda': { handle: '@PurplePanda', url: 'https://www.youtube.com/results?search_query=Purple+Panda+Blooket', about: 'Blooket live streams — Gold, Crypto, Fishing and more.' },
+            'Neonate': { handle: '@Neonate', url: 'https://www.youtube.com/results?search_query=Neonate+Blooket+live', about: 'Blooket live with viewers — play, study, and chat.' },
+            'Richie Hustles TV': { handle: '@RichieHustlesTV', url: 'https://www.youtube.com/results?search_query=Richie+Hustles+Blooket', about: 'Blooket live streams with viewers.' },
+            'KREEKCRAFTTS': { handle: '@KREEKCRAFTTS', url: 'https://www.youtube.com/results?search_query=KREEKCRAFTTS+Blooket', about: 'Blooket live — playing with viewers.' },
+            'Kuba': { handle: '@Kuba', url: 'https://www.youtube.com/results?search_query=Kuba+Blooket+live', about: '24/7 Blooket live streams viewers can join.' },
+            'epicmines33': { handle: '@epicmines33', url: 'https://www.youtube.com/results?search_query=epicmines33+blooket', about: 'Blooket live streams.' }
+        };
+
+        const ytPfpMap = {"Conix": "https://yt3.ggpht.com/mIVOey2emNcrDkSdv6ASwMwCSQ8JiCKcMSCv1WlBFX53QSqp1TuXFqeiQbs9IfRwk-HwnHzjbA=s800-c-k-c0x00ffffff-no-rj", "Waymore": "https://yt3.googleusercontent.com/fpVQ5VoYlN-UptRogESSqHnxEX61T-7YW1YNGObVrFX2w_1jBO-njl76kt-6vkPF_2cC9x66kQ=s800-c-k-c0x00ffffff-no-rj", "Lag0n": "https://yt3.googleusercontent.com/sGMDSWtF1ljfF1LvdvSfWvvHUaDFY7xiqhNZHawJ-Kz-pLvMcd2sf3HkX3ojPe7XIAOHxgAzkm4=s800-c-k-c0x00ffffff-no-rj", "iBlooket": "https://yt3.googleusercontent.com/OmDwNKSgt4mxydmndADjlva5mWYKLVpm2BGLrzMlU7GWIRTgE3eReMX40s147P31K4Z1k51Phg=s800-c-k-c0x00ffffff-no-rj", "Blooket": "https://yt3.googleusercontent.com/ytc/AIdro_n9MuS8YZrvKTzvVPJhLaRlgDjUouMy9flhM8rbKox6epI=s800-c-k-c0x00ffffff-no-rj", "BIL": "https://yt3.googleusercontent.com/vWuC0e00QIpkpWhkt30Vfc8ogrOL2ego-TH_B55U-EC4Xf-WmiInutIW7gLvtrLmUs6yt4eZPNg=s800-c-k-c0x00ffffff-no-rj", "Unblooked": "https://yt3.googleusercontent.com/w_Hs7-L_VL_uZGxhSfncFe7aZfhRjkP5O1BF2NjukAKYbGfSeFcLeCYTDfyfNnRH95l32Aj6DA=s800-c-k-c0x00ffffff-no-rj", "FastyJay": "https://yt3.googleusercontent.com/VuM8z5VYXi_TIw7dr0z5mg9O6fwzy8lzOGUFTR63zmciyPMVzB8ORpnSAwdcs_AUISyBHH0K=s800-c-k-c0x00ffffff-no-rj", "Monkey Master": "https://yt3.ggpht.com/vHPdt2TV8_lN5eYY6ODGprTOb2rLt9Z0PHCA8I5n0vwvcvzrFCo-0ZC3B9MR7M16hyZMcIgT4miW-w=s400-c-fcrop64=1,38000000c7ffffff-rw-nd-v1", "Blooket Ace": "https://yt3.googleusercontent.com/qfQMmUYa3shmyhWigiZwO0T-shBfKTJ09Nv1L9W3dUQWuIhlNGk6ZGGC14Yqz1uaMmLmrm25=s800-c-k-c0x00ffffff-no-rj", "Blooket Life": "https://yt3.googleusercontent.com/HxCKe0ddw-6wBwSAXONowZ6eEokbrh3qhN-J4ZvNJXGtMEMMseFp-wXALCIxPnORl86wjeJn5w=s800-c-k-c0x00ffffff-no-rj", "theblooketgamer": "https://yt3.googleusercontent.com/IbwGyfwHd4-lH4gA69Uns3iHqwO9VnyM4azJEca1sjiRn2yEzZf5vDBbs0zC4hjvEzK4en3L=s800-c-k-c0x00ffffff-no-rj", "Blooket Gods": "https://yt3.googleusercontent.com/f0PsafM-0nW8e0CGsGMZnwfpmHeBJ48AO3GQEoJRALPjI95md4n8VFiN8Q1aQ_prZHPjXY8YfQ=s800-c-k-c0x00ffffff-no-rj", "Slade2": "https://yt3.googleusercontent.com/xcACNowE58NcX9Cvp7bHHhnOwJdmPMYgm1KnWD1I4UKARwl7hQw_QJYWOHRpIkdtLNjVVaRexg=s120-c-k-c0x00ffffff-no-rj", "Mr noble wywy": "https://yt3.googleusercontent.com/dRi2fR45zyViyRwN5hek0j3KLfmk5L1kzpbLht_ey0jOAp4QsKIMfwtnkG_qxJOPPpanpJjCqQ=s800-c-k-c0x00ffffff-no-rj", "JustaPanda": "https://yt3.googleusercontent.com/kkz1dMJi7Lbnv4QbrCOEOlGGwjslE8emd3jHpNpT4JayVESMM1CMM0LvzC2L_Iw2R457266n=s900-c-k-c0x00ffffff-no-rj", "imbac": "https://yt3.googleusercontent.com/m8wXh9fT6lDwuMjW9SER4YvY-qCTzGGMjHjA3HxHjDHxDfIhmDgzr4Nlb9gGXgHKFM7Y3ac-gg=s800-c-k-c0x00ffffff-no-rj", "Blooket Insane": "https://ac.blooket.com/marketassets/blooks/timthealien.svg", "KoolKid": "https://yt3.googleusercontent.com/DbDqelZlcX3qzPbMhluKY-6rG3_K9xgnfpVyL7RpLxJ-2Oruyx9AzO51ZHvPEFPCDGcSEe92zQ=s900-c-k-c0x00ffffff-no-rj", "notRIC": "https://yt3.googleusercontent.com/qC52cG4ReXALa5C8j_pgLnFDX_cYQv9q4Ps8Ldp0kMFgbRyYPdGCGjUmn4Rx0LYt2aYOEChP=s800-c-k-c0x00ffffff-no-rj", "SRN Games": "https://yt3.googleusercontent.com/JsVykeiTKj9vJGwD1iNvzE2znEaVwdiCcbrgtNb8-HLfB4CFW24AeQwXkw87NNY8znH2lmwi=s800-c-k-c0x00ffffff-no-rj", "BlooketBam": "https://yt3.googleusercontent.com/aFNdNrcYHFMPYonDeyBJ_kiEtYcinQ4UtemafkNBwprzM4bBmDlfkWOGHLDaqcvE6yhGfnYrFQ=s900-c-k-c0x00ffffff-no-rj", "Caterpillar9": "https://yt3.googleusercontent.com/Z_gfa-nheOPveNJSeraE6o1jaIKwZr10b67_pSYudbMmihoYJ_e1yiMdTINNmxgYnz54E9tPKMw=s800-c-k-c0x00ffffff-no-rj", "Twisted Bread": "https://yt3.googleusercontent.com/RFzqZI0f0iEEDVO7eub262ajY7d_AHG0TaYHvG_AF19tecRVqelU4WVgF2DPLYHE6AGDzPkG8bY=s900-c-k-c0x00ffffff-no-rj", "Blook Master": "https://external-content.duckduckgo.com/iu/?u=https://yt3.googleusercontent.com/ytc/AIdro_l1w6Mc5WEokWWYbrNNP_5BEshKUO25cIZVOqiU6AojVw=s900-c-k-c0x00ffffff-no-rj&f=1&nofb=1&ipt=9e9827da110a3ddd46c8388025131ce04094fdaa5ea06308022c4c6612b4d6ff", "Blookbread": "https://yt3.googleusercontent.com/YBrBVXBLRqRpFFiLvJGgfnjboHu7I2rW572cTDhgdXHKLqTIh3pzVgalhAIOq8FsUOaOMMdP=s800-c-k-c0x00ffffff-no-rj", "Pig55": "https://yt3.googleusercontent.com/D8v4jgmppYAy3lseL7_c_TUXZLiKKEiTe2j_xNbQW1EW9l57wGHuNvlPoB4k6r9OukttkjGiy3I=s900-c-k-c0x00ffffff-no-rj", "Green astronaut": "https://yt3.googleusercontent.com/5HAD5jYBrkxa1xkRDbAYULmxszJQprUc-nPkjIJL1ImCQdrIuxb_2Y4MwIgwV_JDt2J2Ab2wUw=s900-c-k-c0x00ffffff-no-rj", "Blooket Elite": "https://yt3.googleusercontent.com/dK4xmnwEWzflE11UaFoy_KMR5amTBVofIz02wbU5KgiI1DVJpKnZcU2I6buwgbmLtckYi1zv9g=s900-c-k-c0x00ffffff-no-rj", "Turtelix": "https://mathuniverse.online/turtelix.png", "TheBlooketDude": "https://yt3.googleusercontent.com/3gDy-EvuADRawQGXUqjLPiBEKYqDjKpfUfWuV0s6UnTPWOME-WKbbA7Mlex0UtKU7jYkIHEX7A=s900-c-k-c0x00ffffff-no-rj", "KingTurtleYT": "https://external-content.duckduckgo.com/iu/?u=https://yt3.googleusercontent.com/ytc/AIdro_l1w6Mc5WEokWWYbrNNP_5BEshKUO25cIZVOqiU6AojVw=s900-c-k-c0x00ffffff-no-rj&f=1&nofb=1&ipt=9e9827da110a3ddd46c8388025131ce04094fdaa5ea06308022c4c6612b4d6ff", "Cereal.For.Blooket": "https://yt3.googleusercontent.com/iwc7v3Qc_OFfWVp9EFcHu6q0yIfzcqqoVHRpgjLAZlYCdjsqusUFmV8wX3JeGLOTo66Ynn3r=s3840-c-k-c0x00ffffff-no-rj", "Blooket Warrior": "https://yt3.googleusercontent.com/it5rmpwxDWxJktHp4E3KWslikkQQ9xuWFpJ-kvVAQdnEAy_aTriFrRthtJmV_LzfZ1ib_--rOg=s800-c-k-c0x00ffffff-no-rj", "Blooket Studio": "https://yt3.googleusercontent.com/cipU1kNo9hXwrbFvGUGr6SuMxfaxdL4iHLHTqbNC2KC7qzNh4IIUfo6UcxbLA4MCEcv08UG-CA=s800-c-k-c0x00ffffff-no-rj", "TOBP Blooket": "https://yt3.googleusercontent.com/DZTf5N836Mzg_Rs3xm7RC93lW1mdmAy4mdcuGeaVaaPnTDnIT8-MaBMJSqhKHYgF0GDWYacYkQ=s800-c-k-c0x00ffffff-no-rj", "YouLostMan": "https://yt3.googleusercontent.com/VUW4XPzxbAW7jvsmJwvrIxCnYZ4ZFzGYjo87k7k2SvuOmMONcNcv4dzz2RvOV40D7vEkklJmCBs=s800-c-k-c0x00ffffff-no-rj", "Matt Lett": "https://yt3.googleusercontent.com/-bZqhGl9eXQcj9b8SAGJ6a1XFH3kfcAU47gB4GAFXoLF_-4v70dd8y93lQPWT6Z45JmeYfeJ=s800-c-k-c0x00ffffff-no-rj", "Panda Blooket": "https://yt3.googleusercontent.com/c6Th0sFvyGAZNY4XR6kV0DTw3vu0r8IMO4zceBYMNQv6uIGXSu_loDtYCnecfeeVFmo3MF38=s800-c-k-c0x00ffffff-no-rj", "Peetwick": "https://yt3.googleusercontent.com/XupwnkZIgVmXhVelkGEtqKPSbwtRlQrmF3a1gqk1w4qhzJkfOllwwMQX0Egiss2cMPhfoFbMBQ=s800-c-k-c0x00ffffff-no-rj", "Blooklet": "https://yt3.googleusercontent.com/qrfdS1J5B9t4JkMwgpY9UTzxdDltBCDFdcOUHnCvYd_TYTApVxwzEqgyROeDwjyLtpE_ehVk=s800-c-k-c0x00ffffff-no-rj", "Freedo": "https://yt3.googleusercontent.com/XQJuP7Lx7GXcsmQvOSgHroXzz0pRSwhNaIpLFs3oDUKJQkZMZ04kW1dJMPiQp6VCTmP7punAOA=s900-c-k-c0x00ffffff-no-rj", "Blooket Blitz": "https://yt3.googleusercontent.com/iC2Iy2Ru5-wGjnRf949EXWhTyhb0Mzb08LrAHP9_MhPLr-CkwMDUQ3AvPkcl167FZyQGeLcMHw=s900-c-k-c0x00ffffff-no-rj"};
+
+        function channelPfp(name) {
+            if (ytPfpMap[name]) return ytPfpMap[name];
+            // fuzzy match
+            const key = Object.keys(ytPfpMap).find(k => k.toLowerCase() === String(name||'').toLowerCase());
+            if (key) return ytPfpMap[key];
+            const colors = ['9a49aa','349aef','0bc2cf','e67e22','e74c3c','2ecc71','f1c40f'];
+            let h = 0;
+            for (let i = 0; i < (name||'').length; i++) h = (h + name.charCodeAt(i) * 17) % colors.length;
+            return 'https://ui-avatars.com/api/?name=' + encodeURIComponent(name||'?') + '&background=' + colors[h] + '&color=fff&bold=true&size=128';
+        }
+
+        function openVideoModal(idx) {
+            const list = window._videoPageItems || [];
+            const v = list[idx];
+            if (!v) return;
+            const isLive = currentVideoFilter === 'live' || v.views === 'LIVE' || v.cat === 'live';
+            const ch = channelProfiles[v.channel] || { handle: v.channel, url: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(v.channel + ' Blooket'), about: 'Blooket content creator.' };
+            const watchUrl = 'https://www.youtube.com/watch?v=' + v.id;
+            const body = document.getElementById('video-modal-body');
+            body.innerHTML = `
+                <img class="vm-thumb" src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="">
+                <h2>${v.title}</h2>
+                <div class="vm-channel">
+                    <img src="${channelPfp(v.channel)}" alt="${v.channel}">
+                    <div>
+                        <div class="vm-name">${v.channel}</div>
+                        <div style="font-size:12px;opacity:0.85;font-weight:700;">${ch.handle || ''}</div>
+                    </div>
+                </div>
+                <div class="vm-meta">
+                    ${isLive
+                        ? '<span style="color:#ff6b6b;"><i class="fas fa-circle" style="font-size:8px;"></i> LIVE</span>'
+                        : `<span>${v.views} views</span> · <span><i class="fas fa-thumbs-up"></i> ${formatLikes(v.likes)}</span>`}
+                </div>
+                <div class="vm-desc">
+                    <b>About the creator</b><br>${ch.about}<br><br>
+                    <b>Video</b><br>${v.title}
+                </div>
+                <div class="vm-actions">
+                    <a class="vm-btn primary" href="${watchUrl}" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-youtube"></i> Watch on YouTube
+                    </a>
+                    <a class="vm-btn" href="${ch.url}" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-user"></i> Channel
+                    </a>
+                </div>
+            `;
+            document.getElementById('video-modal').style.display = 'flex';
+        }
+
+        function closeVideoModal() {
+            document.getElementById('video-modal').style.display = 'none';
+        }
+
+
         function renderVideos() {
             const grid = document.getElementById('videos-grid');
             const pager = document.getElementById('video-pagination');
@@ -1586,19 +2187,23 @@
                 </a>`;
             }
 
-            html += pageItems.map(v => `
-                <a class="video-card" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener noreferrer">
+            window._videoPageItems = pageItems;
+            html += pageItems.map((v, idx) => `
+                <div class="video-card" onclick="openVideoModal(${idx})" role="button" tabindex="0">
                     <img class="video-thumb" src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="" loading="lazy">
                     <div class="video-info">
                         <div class="video-title">${v.title}</div>
                         <div class="video-meta">
-                            <span>${v.channel}</span>
+                            <span style="display:inline-flex;align-items:center;gap:6px;">
+                                <img src="${channelPfp(v.channel)}" alt="" style="width:20px;height:20px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.35);">
+                                ${v.channel}
+                            </span>
                             ${isLive
                                 ? `<span class="likes" style="color:#ff6b6b;"><i class="fas fa-circle" style="font-size:8px;"></i> LIVE</span>`
                                 : `<span>${v.views} views</span><span class="likes"><i class="fas fa-thumbs-up"></i> ${formatLikes(v.likes)}</span>`}
                         </div>
                     </div>
-                </a>
+                </div>
             `).join('');
 
             grid.innerHTML = html;
@@ -1613,9 +2218,824 @@
             }
         }
 
+        const gamemodes = [
+            { name: 'Gold Quest', about: 'Exciting Twists and Chests Full of Gold!', difficulty: 'Simple', skills: 'Luck & Speed', time: '7 min', questions: 'Self-paced, High frequency', players: '1 min · 5 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/gold.png', plus: false },
+            { name: 'Fishing Frenzy', about: 'Cast, Reel, and Prepare for Surprises!', difficulty: 'Simple', skills: 'Speed & Luck', time: '7 min', questions: 'Self-paced, High frequency', players: '1 min · 6 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/fish.png', plus: false },
+            { name: 'Cyber Hack', about: 'Super Secure and Chaotic Hacking Fun!', difficulty: 'Normal', skills: 'Memory & Speed', time: '7 min', questions: 'Self-paced, Normal frequency', players: '1 min · 8 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/hack2.png', plus: false },
+            { name: 'Busy Bees', about: 'Hire Bees and Make Sweet Honey!', difficulty: 'Simple', skills: 'Speed & Luck', time: '7 min', questions: 'Self-paced, High frequency', players: '1 min · 6 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/bees.png', plus: true },
+            { name: 'Mini Mine', about: 'Mine Ores and Discover Treasure!', difficulty: 'Normal', skills: 'Speed & Dexterity', time: '7 min', questions: 'Self-paced, Normal frequency', players: '1 min · 8 ideal · 60 free max · 60 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/mining.png', plus: true },
+            { name: 'Star Grazer', about: 'Graze Among the Stars and Battle Planets!', difficulty: 'Simple', skills: 'Speed & Accuracy', time: '7 min', questions: 'Self-paced, Normal frequency', players: '1 min · 8 ideal · 60 free max · 60 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/planets.png', plus: true },
+            { name: 'Laser Tag', about: 'Fire and Dodge Flying Lasers!', difficulty: 'Normal', skills: 'Dexterity & Speed', time: '7 min', questions: 'Self-paced, Normal frequency', players: '1 min · 8 ideal · 60 free max · 60 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/laser.png', plus: true },
+            { name: 'Cocoa Cottage', about: 'Collect Ingredients and Stir Up a Smoothie!', difficulty: 'Normal', skills: 'Dexterity & Speed', time: '5 min', questions: 'Self-paced, Normal frequency', players: '2 min · 8 ideal · 60 free max · 60 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/coco.png', plus: true },
+            { name: 'Tower Defense 2', about: 'Focus and Strategize to Survive!', difficulty: 'Complex', skills: 'Strategy & Accuracy', time: '10 min', questions: 'Self-paced, Normal frequency', players: '1 min · 6 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/defense2.png', plus: false },
+            { name: 'Monster Brawl', about: 'Become the Ultimate Monster Brawler!', difficulty: 'Normal', skills: 'Dexterity & Strategy', time: '8 min', questions: 'Self-paced, Normal frequency', players: '1 min · 6 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/brawl.png', plus: false },
+            { name: 'Deceptive Dinos', about: 'Excavate for Fossils and Catch Cheaters!', difficulty: 'Normal', skills: 'Speed & Strategy', time: '7 min', questions: 'Self-paced, High frequency', players: '1 min · 8 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/dinos.png', plus: false },
+            { name: 'Battle Royale', about: 'Intense, Competitive Showdowns!', difficulty: 'Simple', skills: 'Speed & Accuracy', time: '7 min', questions: 'Synced, Normal frequency', players: '2 min · 8 ideal · 60 free max · 60 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/royale.png', plus: false },
+            { name: 'Tower Defense', about: 'Action-Packed, Defensive Chaos!', difficulty: 'Complex', skills: 'Strategy & Accuracy', time: '8 min', questions: 'Self-paced, Normal frequency', players: '1 min · 6 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/defense.png', plus: false },
+            { name: 'Café', about: "Order Up! It's Time For Some Food!", difficulty: 'Normal', skills: 'Speed & Strategy', time: '7 min', questions: 'Self-paced, High frequency', players: '1 min · 7 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/cafe.png', plus: false },
+            { name: 'Factory', about: 'Fast-Paced, Money-Making Madness!', difficulty: 'Complex', skills: 'Strategy & Speed', time: '7 min', questions: 'Self-paced, High frequency', players: '1 min · 6 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/factory.png', plus: false },
+            { name: 'Racing', about: 'Exhilarating, Suspense-Filled Action!', difficulty: 'Simple', skills: 'Speed & Accuracy', time: '5 min', questions: 'Self-paced, High frequency', players: '1 min · 8 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/racing.png', plus: false },
+            { name: 'Blook Rush', about: 'A Fast and Strategical Scramble!', difficulty: 'Normal', skills: 'Speed & Strategy', time: '7 min', questions: 'Self-paced, Normal frequency', players: '2 min · 8 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/rush.png', plus: false },
+            { name: 'Classic', about: "Good Ol' Fashioned Blooket!", difficulty: 'Simple', skills: 'Speed & Accuracy', time: '7 min', questions: 'Synced, High frequency', players: '1 min · 8 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/classic.png', plus: false }
+        ];
+
+        function renderGamemodes() {
+            const grid = document.getElementById('gamemodes-grid');
+            if (!grid) return;
+            grid.innerHTML = gamemodes.map((g, i) => `
+                <div class="gm-card" onclick="openGmModal(${i})" role="button" tabindex="0" title="${g.name}">
+                    <img src="${g.logo}" alt="${g.name}" loading="lazy">
+                </div>
+            `).join('');
+        }
+
+        function openGmModal(index) {
+            const g = gamemodes[index];
+            if (!g) return;
+            document.getElementById('gm-modal-body').innerHTML = `
+                <img src="${g.logo}" alt="${g.name}">
+                <h2>${g.name}</h2>
+                ${g.plus ? '<div class="gm-plus" style="display:inline-block;margin-bottom:10px;">Plus Only</div>' : ''}
+                <p class="gm-about">${g.about}</p>
+                <div class="gm-details">
+                    <div><b>Difficulty:</b> ${g.difficulty}</div>
+                    <div><b>Skills:</b> ${g.skills}</div>
+                    <div><b>Ideal Time:</b> ${g.time}</div>
+                    <div><b>Questions:</b> ${g.questions}</div>
+                    <div><b>Players:</b> ${g.players}</div>
+                </div>
+            `;
+            document.getElementById('gm-modal').style.display = 'flex';
+        }
+
+
+        const marketPacks = [
+    {
+        "name": "Lunch",
+        "price": 25,
+        "blooks": [
+            {
+                "name": "Bananas",
+                "chance": 18.75,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Watermelon",
+                "chance": 18.75,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Cheese",
+                "chance": 18.75,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Doughnut",
+                "chance": 18.75,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Taco",
+                "chance": 7.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Bao",
+                "chance": 7.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Sushi",
+                "chance": 7.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Cheeseburger",
+                "chance": 3.31,
+                "rarity": "Epic"
+            },
+            {
+                "name": "Sandwich",
+                "chance": 0.65,
+                "rarity": "Legendary"
+            },
+            {
+                "name": "Half a Sandwich",
+                "chance": 0.04,
+                "rarity": "Chroma"
+            }
+        ],
+        "year": 2025,
+        "about": "Lunch food \u2014 bananas, tacos, sandwiches and more.",
+        "icon": "https://ac.blooket.com/blookassets/packs/lunch.png"
+    },
+    {
+        "name": "Bug",
+        "price": 25,
+        "blooks": [
+            {
+                "name": "Ant",
+                "chance": 19.625,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Rhino Beetle",
+                "chance": 19.625,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Ladybug",
+                "chance": 19.625,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Fly",
+                "chance": 19.625,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Worm",
+                "chance": 9.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Bee",
+                "chance": 9.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Mantis",
+                "chance": 2.97,
+                "rarity": "Epic"
+            },
+            {
+                "name": "Butterfly",
+                "chance": 0.5,
+                "rarity": "Legendary"
+            },
+            {
+                "name": "Blue Butterfly",
+                "chance": 0.03,
+                "rarity": "Chroma"
+            }
+        ],
+        "year": 2025,
+        "about": "Insects and bugs \u2014 ants, bees, butterflies and more.",
+        "icon": "https://ac.blooket.com/blookassets/packs/bug.png"
+    },
+    {
+        "name": "Pirate",
+        "price": 25,
+        "blooks": [
+            {
+                "name": "Deckhand",
+                "chance": 16.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Buccaneer",
+                "chance": 16.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Swashbuckler",
+                "chance": 16.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Treasure Map",
+                "chance": 16.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Seagull",
+                "chance": 16.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Jolly Pirate",
+                "chance": 8.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Pirate Ship",
+                "chance": 8.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Kraken",
+                "chance": 3.67,
+                "rarity": "Epic"
+            },
+            {
+                "name": "Captain Blackbeard",
+                "chance": 0.3,
+                "rarity": "Legendary"
+            },
+            {
+                "name": "Pirate Pufferfish",
+                "chance": 0.03,
+                "rarity": "Chroma"
+            }
+        ],
+        "year": 2023,
+        "about": "Pirates of the high seas \u2014 ships, treasure and the Kraken.",
+        "icon": "https://ac.blooket.com/blookassets/packs/pirate.png"
+    },
+    {
+        "name": "Outback",
+        "price": 25,
+        "blooks": [
+            {
+                "name": "Dingo",
+                "chance": 18.75,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Echidna",
+                "chance": 18.75,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Koala",
+                "chance": 18.75,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Kookaburra",
+                "chance": 18.75,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Platypus",
+                "chance": 7.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Joey",
+                "chance": 7.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Kangaroo",
+                "chance": 7.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Crocodile",
+                "chance": 3.6,
+                "rarity": "Epic"
+            },
+            {
+                "name": "Sugar Glider",
+                "chance": 0.37,
+                "rarity": "Legendary"
+            },
+            {
+                "name": "Teal Platypus",
+                "chance": 0.03,
+                "rarity": "Chroma"
+            }
+        ],
+        "year": 2023,
+        "about": "Australian outback animals \u2014 kangaroos, koalas and more.",
+        "icon": "https://ac.blooket.com/blookassets/packs/outback.png"
+    },
+    {
+        "name": "Ice Monster",
+        "price": 25,
+        "blooks": [
+            {
+                "name": "Ice Bat",
+                "chance": 19.5,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Ice Bug",
+                "chance": 19.5,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Ice Elemental",
+                "chance": 19.5,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Rock Monster",
+                "chance": 19.5,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Dink",
+                "chance": 8.5,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Donk",
+                "chance": 8.5,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Bush Monster",
+                "chance": 4.5,
+                "rarity": "Epic"
+            },
+            {
+                "name": "Yeti",
+                "chance": 0.35,
+                "rarity": "Legendary"
+            },
+            {
+                "name": "Ice Slime",
+                "chance": 0.08,
+                "rarity": "Chroma"
+            },
+            {
+                "name": "Frozen Fossil",
+                "chance": 0.05,
+                "rarity": "Chroma"
+            },
+            {
+                "name": "Ice Crab",
+                "chance": 0.02,
+                "rarity": "Chroma"
+            }
+        ],
+        "year": 2022,
+        "about": "Icy monsters and creatures from the frozen wilds.",
+        "icon": "https://ac.blooket.com/blookassets/packs/iceMonster.png"
+    },
+    {
+        "name": "Dino",
+        "price": 25,
+        "blooks": [
+            {
+                "name": "Amber",
+                "chance": 19.5,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Dino Egg",
+                "chance": 19.5,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Dino Fossil",
+                "chance": 19.5,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Stegosaurus",
+                "chance": 19.5,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Velociraptor",
+                "chance": 9.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Brontosaurus",
+                "chance": 9.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Triceratops",
+                "chance": 3.7,
+                "rarity": "Epic"
+            },
+            {
+                "name": "Tyrannosaurus Rex",
+                "chance": 0.3,
+                "rarity": "Legendary"
+            }
+        ],
+        "year": 2022,
+        "about": "Dinosaurs and prehistoric finds \u2014 eggs, fossils and T-Rex.",
+        "icon": "https://ac.blooket.com/blookassets/packs/dino.png"
+    },
+    {
+        "name": "Aquatic",
+        "price": 20,
+        "blooks": [
+            {
+                "name": "Old Boot",
+                "chance": 15.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Jellyfish",
+                "chance": 15.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Clownfish",
+                "chance": 15.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Frog",
+                "chance": 15.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Crab",
+                "chance": 15.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Pufferfish",
+                "chance": 6.1,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Blobfish",
+                "chance": 6.1,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Octopus",
+                "chance": 6.1,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Narwhal",
+                "chance": 3.0,
+                "rarity": "Epic"
+            },
+            {
+                "name": "Dolphin",
+                "chance": 3.0,
+                "rarity": "Epic"
+            },
+            {
+                "name": "Baby Shark",
+                "chance": 0.5,
+                "rarity": "Legendary"
+            },
+            {
+                "name": "Megalodon",
+                "chance": 0.2,
+                "rarity": "Legendary"
+            }
+        ],
+        "year": 2021,
+        "about": "Ocean life \u2014 fish, sharks, the Megalodon and more.",
+        "icon": "https://ac.blooket.com/blookassets/packs/aquatic.png"
+    },
+    {
+        "name": "Safari",
+        "price": 20,
+        "blooks": [
+            {
+                "name": "Panda",
+                "chance": 15.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Sloth",
+                "chance": 15.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Tenrec",
+                "chance": 15.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Flamingo",
+                "chance": 15.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Zebra",
+                "chance": 15.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Elephant",
+                "chance": 7.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Lemur",
+                "chance": 7.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Peacock",
+                "chance": 7.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Chameleon",
+                "chance": 3.48,
+                "rarity": "Epic"
+            },
+            {
+                "name": "Lion",
+                "chance": 0.5,
+                "rarity": "Legendary"
+            },
+            {
+                "name": "Rainbow Panda",
+                "chance": 0.02,
+                "rarity": "Chroma"
+            }
+        ],
+        "year": 2021,
+        "about": "Safari animals of the savanna \u2014 lions, zebras and more.",
+        "icon": "https://ac.blooket.com/blookassets/packs/safari.png"
+    },
+    {
+        "name": "Bot",
+        "price": 20,
+        "blooks": [
+            {
+                "name": "Lil Bot",
+                "chance": 19.5,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Lovely Bot",
+                "chance": 19.5,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Angry Bot",
+                "chance": 19.5,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Happy Bot",
+                "chance": 19.5,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Watson",
+                "chance": 9.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Buddy Bot",
+                "chance": 9.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Brainy Bot",
+                "chance": 3.7,
+                "rarity": "Epic"
+            },
+            {
+                "name": "Mega Bot",
+                "chance": 0.3,
+                "rarity": "Legendary"
+            }
+        ],
+        "year": 2019,
+        "about": "Robots and bots \u2014 from Lil Bot to Mega Bot.",
+        "icon": "https://ac.blooket.com/blookassets/packs/bot.png"
+    },
+    {
+        "name": "Medieval",
+        "price": 20,
+        "blooks": [
+            {
+                "name": "Elf",
+                "chance": 13.4,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Witch",
+                "chance": 13.4,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Wizard",
+                "chance": 13.4,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Fairy",
+                "chance": 13.4,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Slime Monster",
+                "chance": 13.4,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Jester",
+                "chance": 9.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Dragon",
+                "chance": 9.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Queen",
+                "chance": 9.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Unicorn",
+                "chance": 5.0,
+                "rarity": "Epic"
+            },
+            {
+                "name": "King",
+                "chance": 1.0,
+                "rarity": "Legendary"
+            }
+        ],
+        "year": 2019,
+        "about": "Medieval fantasy \u2014 wizards, dragons, kings and queens.",
+        "icon": "https://ac.blooket.com/blookassets/packs/medieval.png"
+    },
+    {
+        "name": "Wonderland",
+        "price": 20,
+        "blooks": [
+            {
+                "name": "Two of Spades",
+                "chance": 15.2,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Eat Me",
+                "chance": 15.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Drink Me",
+                "chance": 15.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Alice",
+                "chance": 15.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Queen of Hearts",
+                "chance": 15.0,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Dormouse",
+                "chance": 6.5,
+                "rarity": "Rare"
+            },
+            {
+                "name": "White Rabbit",
+                "chance": 6.5,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Cheshire Cat",
+                "chance": 6.5,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Caterpillar",
+                "chance": 2.5,
+                "rarity": "Epic"
+            },
+            {
+                "name": "Mad Hatter",
+                "chance": 2.5,
+                "rarity": "Epic"
+            },
+            {
+                "name": "King of Hearts",
+                "chance": 0.3,
+                "rarity": "Legendary"
+            }
+        ],
+        "year": 2020,
+        "about": "Alice in Wonderland \u2014 cards, tea party and the Queen of Hearts.",
+        "icon": "https://ac.blooket.com/blookassets/packs/wonderland.png"
+    },
+    {
+        "name": "Space",
+        "price": 20,
+        "blooks": [
+            {
+                "name": "Earth",
+                "chance": 18.75,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Meteor",
+                "chance": 18.75,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Stars",
+                "chance": 18.75,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Alien",
+                "chance": 18.75,
+                "rarity": "Uncommon"
+            },
+            {
+                "name": "Planet",
+                "chance": 10.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "UFO",
+                "chance": 10.0,
+                "rarity": "Rare"
+            },
+            {
+                "name": "Spaceship",
+                "chance": 4.5,
+                "rarity": "Epic"
+            },
+            {
+                "name": "Astronaut",
+                "chance": 0.45,
+                "rarity": "Legendary"
+            },
+            {
+                "name": "Colored Astronaut",
+                "chance": 0.05,
+                "rarity": "Chroma"
+            }
+        ],
+        "year": 2019,
+        "about": "Outer space \u2014 planets, aliens, astronauts and UFOs.",
+        "icon": "https://ac.blooket.com/blookassets/packs/space.png"
+    }
+];
+
+        const blookImageMap = {"Witch": "https://ac.blooket.com/marketassets/blooks/witch.svg", "Rainbow Jellyfish": "https://ac.blooket.com/marketassets/blooks/rainbowjellyfish.svg", "Two of Spades": "https://ac.blooket.com/marketassets/blooks/twoofspades.svg", "Old Boot": "https://ac.blooket.com/marketassets/blooks/oldboot.svg", "Wizard": "https://ac.blooket.com/marketassets/blooks/wizard.svg", "Bear": "https://ac.blooket.com/marketassets/blooks/bear.svg", "Dingo": "https://ac.blooket.com/marketassets/blooks/dingo.svg", "Dog": "https://ac.blooket.com/marketassets/blooks/dog.svg", "Snowy Owl": "https://ac.blooket.com/marketassets/blooks/snowyowl.svg", "Pumpkin": "https://ac.blooket.com/marketassets/blooks/pumpkin.svg", "Tiger": "https://ac.blooket.com/marketassets/blooks/tiger.svg", "Eat Me": "https://ac.blooket.com/marketassets/blooks/eatme.svg", "Jellyfish": "https://ac.blooket.com/marketassets/blooks/jellyfish.svg", "Ice Bat": "https://ac.blooket.com/marketassets/blooks/icebat.svg", "Snow Globe": "https://ac.blooket.com/marketassets/blooks/snowglobe.svg", "Lil Bot": "https://ac.blooket.com/marketassets/blooks/lilbot.svg", "Blizzard Clownfish": "https://ac.blooket.com/marketassets/blooks/blizzardclownfish.svg", "Ant": "https://ac.blooket.com/marketassets/blooks/ant.svg", "Toast": "https://ac.blooket.com/marketassets/blooks/toast.svg", "Baby Blue": "https://ac.blooket.com/marketassets/blooks/babyblue.svg", "Amber": "https://ac.blooket.com/marketassets/blooks/amber.svg", "Bananas": "https://ac.blooket.com/marketassets/blooks/bananas.svg", "Chick": "https://ac.blooket.com/marketassets/blooks/chick.svg", "Black Bear": "https://ac.blooket.com/marketassets/blooks/blackbear.svg", "Panda": "https://ac.blooket.com/marketassets/blooks/panda.svg", "Deckhand": "https://ac.blooket.com/marketassets/blooks/deckhand.svg", "Earth": "https://ac.blooket.com/marketassets/blooks/earth.svg", "Polar Bear": "https://ac.blooket.com/marketassets/blooks/polarbear.svg", "Swamp Monster": "https://ac.blooket.com/marketassets/blooks/swampmonster.svg", "Black": "https://ac.blooket.com/marketassets/blooks/black.svg", "Orangutan": "https://ac.blooket.com/marketassets/blooks/orangutan.svg", "Buccaneer": "https://ac.blooket.com/marketassets/blooks/buccaneer.svg", "Rhino Beetle": "https://ac.blooket.com/marketassets/blooks/rhinobeetle.svg", "Dino Egg": "https://ac.blooket.com/marketassets/blooks/dinoegg.svg", "Moose": "https://ac.blooket.com/marketassets/blooks/moose.svg", "Chicken": "https://ac.blooket.com/marketassets/blooks/chicken.svg", "Cereal": "https://ac.blooket.com/marketassets/blooks/cereal.svg", "Holiday Gift": "https://ac.blooket.com/marketassets/blooks/holidaygift.svg", "Meteor": "https://ac.blooket.com/marketassets/blooks/meteor.svg", "Clownfish": "https://ac.blooket.com/marketassets/blooks/clownfish.svg", "Lovely Frog": "https://ac.blooket.com/marketassets/blooks/lovelyfrog.svg", "Pumpkin Pie": "https://ac.blooket.com/marketassets/blooks/pumpkinpie.svg", "Echidna": "https://ac.blooket.com/marketassets/blooks/echidna.svg", "Watermelon": "https://ac.blooket.com/marketassets/blooks/watermelon.svg", "Cat": "https://ac.blooket.com/marketassets/blooks/cat.svg", "Elf": "https://ac.blooket.com/marketassets/blooks/elf.svg", "Lovely Bot": "https://ac.blooket.com/marketassets/blooks/lovelybot.svg", "Drink Me": "https://ac.blooket.com/marketassets/blooks/drinkme.svg", "Sloth": "https://ac.blooket.com/marketassets/blooks/sloth.svg", "Ice Bug": "https://ac.blooket.com/marketassets/blooks/icebug.svg", "Alice": "https://ac.blooket.com/marketassets/blooks/alice.svg", "Arctic Fox": "https://ac.blooket.com/marketassets/blooks/arcticfox.svg", "Swashbuckler": "https://ac.blooket.com/marketassets/blooks/swashbuckler.svg", "Tenrec": "https://ac.blooket.com/marketassets/blooks/tenrec.svg", "Ladybug": "https://ac.blooket.com/marketassets/blooks/ladybug.svg", "Lucky Frog": "https://ac.blooket.com/marketassets/blooks/luckyfrog.svg", "Rabbit": "https://ac.blooket.com/marketassets/blooks/rabbit.svg", "Cow": "https://ac.blooket.com/marketassets/blooks/cow.svg", "Yogurt": "https://ac.blooket.com/marketassets/blooks/yogurt.svg", "Cockatoo": "https://ac.blooket.com/marketassets/blooks/cockatoo.svg", "Koala": "https://ac.blooket.com/marketassets/blooks/koala.svg", "Chipmunk": "https://ac.blooket.com/marketassets/blooks/chipmunk.svg", "Fairy": "https://ac.blooket.com/marketassets/blooks/fairy.svg", "Ice Elemental": "https://ac.blooket.com/marketassets/blooks/iceelemental.svg", "Blue": "https://ac.blooket.com/marketassets/blooks/blue.svg", "Angry Bot": "https://ac.blooket.com/marketassets/blooks/angrybot.svg", "Fox": "https://ac.blooket.com/marketassets/blooks/fox.svg", "Stars": "https://ac.blooket.com/marketassets/blooks/stars.svg", "Frog": "https://ac.blooket.com/marketassets/blooks/frog.svg", "Frankenstein": "https://ac.blooket.com/marketassets/blooks/frankenstein.svg", "Hot Chocolate": "https://ac.blooket.com/marketassets/blooks/hotchocolate.svg", "Dino Fossil": "https://ac.blooket.com/marketassets/blooks/dinofossil.svg", "Cheese": "https://ac.blooket.com/marketassets/blooks/cheese.svg", "Goldfish": "https://ac.blooket.com/marketassets/blooks/goldfish.svg", "Breakfast Combo": "https://ac.blooket.com/marketassets/blooks/breakfastcombo.svg", "Vampire": "https://ac.blooket.com/marketassets/blooks/vampire.svg", "Rock Monster": "https://ac.blooket.com/marketassets/blooks/rockmonster.svg", "Slime Monster": "https://ac.blooket.com/marketassets/blooks/slimemonster.svg", "Goat": "https://ac.blooket.com/marketassets/blooks/goat.svg", "Fly": "https://ac.blooket.com/marketassets/blooks/fly.svg", "Queen of Hearts": "https://ac.blooket.com/marketassets/blooks/queenofhearts.svg", "Alien": "https://ac.blooket.com/marketassets/blooks/alien.svg", "Crab": "https://ac.blooket.com/marketassets/blooks/crab.svg", "Doughnut": "https://ac.blooket.com/marketassets/blooks/doughnut.svg", "Kookaburra": "https://ac.blooket.com/marketassets/blooks/kookaburra.svg", "Treasure Map": "https://ac.blooket.com/marketassets/blooks/treasuremap.svg", "Holiday Wreath": "https://ac.blooket.com/marketassets/blooks/holidaywreath.svg", "Stegosaurus": "https://ac.blooket.com/marketassets/blooks/stegosaurus.svg", "Spring Frog": "https://ac.blooket.com/marketassets/blooks/springfrog.svg", "Flamingo": "https://ac.blooket.com/marketassets/blooks/flamingo.svg", "Cornucopia": "https://ac.blooket.com/marketassets/blooks/cornucopia.svg", "Brown": "https://ac.blooket.com/marketassets/blooks/brown.svg", "Happy Bot": "https://ac.blooket.com/marketassets/blooks/happybot.svg", "Raccoon": "https://ac.blooket.com/marketassets/blooks/raccoon.svg", "Parrot": "https://ac.blooket.com/marketassets/blooks/parrot.svg", "Baby Penguin": "https://ac.blooket.com/marketassets/blooks/babypenguin.svg", "Dink": "https://ac.blooket.com/marketassets/blooks/dink.svg", "Dormouse": "https://ac.blooket.com/marketassets/blooks/dormouse.svg", "Burgandy": "https://ac.blooket.com/marketassets/blooks/burgandy.svg", "Squirrel": "https://ac.blooket.com/marketassets/blooks/squirrel.svg", "Anaconda": "https://ac.blooket.com/marketassets/blooks/anaconda.svg", "Autumn Cat": "https://ac.blooket.com/marketassets/blooks/autumncat.svg", "Planet": "https://ac.blooket.com/marketassets/blooks/planet.svg", "Horse": "https://ac.blooket.com/marketassets/blooks/horse.svg", "Seagull": "https://ac.blooket.com/marketassets/blooks/seagull.svg", "Worm": "https://ac.blooket.com/marketassets/blooks/worm.svg", "Pufferfish": "https://ac.blooket.com/marketassets/blooks/pufferfish.svg", "Zebra": "https://ac.blooket.com/marketassets/blooks/zebra.svg", "Penguin": "https://ac.blooket.com/marketassets/blooks/penguin.svg", "Stocking": "https://ac.blooket.com/marketassets/blooks/stocking.svg", "Jester": "https://ac.blooket.com/marketassets/blooks/jester.svg", "Platypus": "https://ac.blooket.com/marketassets/blooks/platypus.svg", "Hamster": "https://ac.blooket.com/marketassets/blooks/hamster.svg", "Watson": "https://ac.blooket.com/marketassets/blooks/watson.svg", "Orange Juice": "https://ac.blooket.com/marketassets/blooks/orangejuice.svg", "Poison Dart Frog": "https://ac.blooket.com/marketassets/blooks/poisondartfrog.svg", "Zombie": "https://ac.blooket.com/marketassets/blooks/zombie.svg", "Velociraptor": "https://ac.blooket.com/marketassets/blooks/velociraptor.svg", "Taco": "https://ac.blooket.com/marketassets/blooks/taco.svg", "Arctic Hare": "https://ac.blooket.com/marketassets/blooks/arctichare.svg", "Mummy": "https://ac.blooket.com/marketassets/blooks/mummy.svg", "Pig": "https://ac.blooket.com/marketassets/blooks/pig.svg", "Turtle": "https://ac.blooket.com/marketassets/blooks/turtle.svg", "Dull Blue": "https://ac.blooket.com/marketassets/blooks/dullblue.svg", "Jaguar": "https://ac.blooket.com/marketassets/blooks/jaguar.svg", "White Rabbit": "https://ac.blooket.com/marketassets/blooks/whiterabbit.svg", "Bee": "https://ac.blooket.com/marketassets/blooks/bee.svg", "Gingerbread Man": "https://ac.blooket.com/marketassets/blooks/gingerbreadman.svg", "Buddy Bot": "https://ac.blooket.com/marketassets/blooks/buddybot.svg", "Milk": "https://ac.blooket.com/marketassets/blooks/milk.svg", "UFO": "https://ac.blooket.com/marketassets/blooks/ufo.svg", "Blobfish": "https://ac.blooket.com/marketassets/blooks/blobfish.svg", "Lucky Hamster": "https://ac.blooket.com/marketassets/blooks/luckyhamster.svg", "Dragon": "https://ac.blooket.com/marketassets/blooks/dragon.svg", "Bao": "https://ac.blooket.com/marketassets/blooks/bao.svg", "Donk": "https://ac.blooket.com/marketassets/blooks/donk.svg", "Joey": "https://ac.blooket.com/marketassets/blooks/joey.svg", "Pumpkin Puppy": "https://ac.blooket.com/marketassets/blooks/pumpkinpuppy.svg", "Jolly Pirate": "https://ac.blooket.com/marketassets/blooks/jollypirate.svg", "Owl": "https://ac.blooket.com/marketassets/blooks/owl.svg", "Elephant": "https://ac.blooket.com/marketassets/blooks/elephant.svg", "Brontosaurus": "https://ac.blooket.com/marketassets/blooks/brontosaurus.svg", "Cheshire Cat": "https://ac.blooket.com/marketassets/blooks/cheshirecat.svg", "Spaceship": "https://ac.blooket.com/marketassets/blooks/spaceship.svg", "Kitten": "https://ac.blooket.com/marketassets/blooks/kitten.svg", "Caramel Apple": "https://ac.blooket.com/marketassets/blooks/caramelapple.svg", "Triceratops": "https://ac.blooket.com/marketassets/blooks/triceratops.svg", "Kangaroo": "https://ac.blooket.com/marketassets/blooks/kangaroo.svg", "Pirate Ship": "https://ac.blooket.com/marketassets/blooks/pirateship.svg", "Mantis": "https://ac.blooket.com/marketassets/blooks/mantis.svg", "Queen": "https://ac.blooket.com/marketassets/blooks/queen.svg", "Sushi": "https://ac.blooket.com/marketassets/blooks/sushi.svg", "Dust": "https://ac.blooket.com/marketassets/blooks/dust.svg", "Octopus": "https://ac.blooket.com/marketassets/blooks/octopus.svg", "Lucky Bee": "https://ac.blooket.com/marketassets/blooks/luckybee.svg", "Macaw": "https://ac.blooket.com/marketassets/blooks/macaw.svg", "Gingerbread House": "https://ac.blooket.com/marketassets/blooks/gingerbreadhouse.svg", "Lemur": "https://ac.blooket.com/marketassets/blooks/lemur.svg", "Seal": "https://ac.blooket.com/marketassets/blooks/seal.svg", "Sheep": "https://ac.blooket.com/marketassets/blooks/sheep.svg", "Waffle": "https://ac.blooket.com/marketassets/blooks/waffle.svg", "Hedgehog": "https://ac.blooket.com/marketassets/blooks/hedgehog.svg", "Bush Monster": "https://ac.blooket.com/marketassets/blooks/bushmonster.svg", "Brainy Bot": "https://ac.blooket.com/marketassets/blooks/brainybot.svg", "Red Squirrel": "https://ac.blooket.com/marketassets/blooks/redsquirrel.svg", "Pancakes": "https://ac.blooket.com/marketassets/blooks/pancakes.svg", "Crocodile": "https://ac.blooket.com/marketassets/blooks/crocodile.svg", "Caterpillar": "https://ac.blooket.com/marketassets/blooks/caterpillar.svg", "Cheeseburger": "https://ac.blooket.com/marketassets/blooks/cheeseburger.svg", "Walrus": "https://ac.blooket.com/marketassets/blooks/walrus.svg", "Yeti": "https://ac.blooket.com/marketassets/blooks/yeti.svg", "Gray": "https://ac.blooket.com/marketassets/blooks/gray.svg", "Peacock": "https://ac.blooket.com/marketassets/blooks/peacock.svg", "Tyrannosaurus Rex": "https://ac.blooket.com/marketassets/blooks/tyrannosaurusrex.svg", "Butterfly": "https://ac.blooket.com/marketassets/blooks/butterfly.svg", "Puppy": "https://ac.blooket.com/marketassets/blooks/puppy.svg", "Duck": "https://ac.blooket.com/marketassets/blooks/duck.svg", "Candy Corn": "https://ac.blooket.com/marketassets/blooks/candycorn.svg", "Reindeer": "https://ac.blooket.com/marketassets/blooks/reindeer.svg", "Mega Bot": "https://ac.blooket.com/marketassets/blooks/megabot.svg", "Narwhal": "https://ac.blooket.com/marketassets/blooks/narwhal.svg", "Kraken": "https://ac.blooket.com/marketassets/blooks/kraken.svg", "Autumn Crow": "https://ac.blooket.com/marketassets/blooks/autumncrow.svg", "Unicorn": "https://ac.blooket.com/marketassets/blooks/unicorn.svg", "Astronaut": "https://ac.blooket.com/marketassets/blooks/astronaut.svg", "Toucan": "https://ac.blooket.com/marketassets/blooks/toucan.svg", "Lucky Cat": "https://ac.blooket.com/marketassets/blooks/luckycat.svg", "Deer": "https://ac.blooket.com/marketassets/blooks/deer.svg", "Wolf": "https://ac.blooket.com/marketassets/blooks/wolf.svg", "Turkey": "https://ac.blooket.com/marketassets/blooks/turkey.svg", "Green": "https://ac.blooket.com/marketassets/blooks/green.svg", "Alpaca": "https://ac.blooket.com/marketassets/blooks/alpaca.svg", "Panther": "https://ac.blooket.com/marketassets/blooks/panther.svg", "Crow": "https://ac.blooket.com/marketassets/blooks/crow.svg", "French Toast": "https://ac.blooket.com/marketassets/blooks/frenchtoast.svg", "Chocolate Rabbit": "https://ac.blooket.com/marketassets/blooks/chocolaterabbit.svg", "King": "https://ac.blooket.com/marketassets/blooks/king.svg", "Mad Hatter": "https://ac.blooket.com/marketassets/blooks/madhatter.svg", "Captain Blackbeard": "https://ac.blooket.com/marketassets/blooks/captainblackbeard.svg", "Dolphin": "https://ac.blooket.com/marketassets/blooks/dolphin.svg", "Sugar Glider": "https://ac.blooket.com/marketassets/blooks/sugarglider.svg", "Chameleon": "https://ac.blooket.com/marketassets/blooks/chameleon.svg", "Sandwich": "https://ac.blooket.com/marketassets/blooks/sandwich.svg", "Beaver": "https://ac.blooket.com/marketassets/blooks/beaver.svg", "Baby Shark": "https://ac.blooket.com/marketassets/blooks/babyshark.svg", "Capuchin": "https://ac.blooket.com/marketassets/blooks/capuchin.svg", "Snowman": "https://ac.blooket.com/marketassets/blooks/snowman.svg", "Spring Rabbit": "https://ac.blooket.com/marketassets/blooks/springrabbit.svg", "Lion": "https://ac.blooket.com/marketassets/blooks/lion.svg", "Pizza": "https://ac.blooket.com/marketassets/blooks/pizza.svg", "King of Hearts": "https://ac.blooket.com/marketassets/blooks/kingofhearts.svg", "Light Blue": "https://ac.blooket.com/marketassets/blooks/lightblue.svg", "Vampire Bat": "https://ac.blooket.com/marketassets/blooks/vampirebat.svg", "Werewolf": "https://ac.blooket.com/marketassets/blooks/werewolf.svg", "Santa Claus": "https://ac.blooket.com/marketassets/blooks/santaclaus.svg", "Gorilla": "https://ac.blooket.com/marketassets/blooks/gorilla.svg", "Megalodon": "https://ac.blooket.com/marketassets/blooks/megalodon.svg", "Spring Deer": "https://ac.blooket.com/marketassets/blooks/springdeer.svg", "Lime": "https://ac.blooket.com/marketassets/blooks/lime.svg", "Maroon": "https://ac.blooket.com/marketassets/blooks/maroon.svg", "Hippo": "https://ac.blooket.com/marketassets/blooks/hippo.svg", "Ghost": "https://ac.blooket.com/marketassets/blooks/ghost.svg", "Spring Dragon": "https://ac.blooket.com/marketassets/blooks/springdragon.svg", "Lemon Crab": "https://ac.blooket.com/marketassets/blooks/lemoncrab.svg", "Rhino": "https://ac.blooket.com/marketassets/blooks/rhino.svg", "Mint": "https://ac.blooket.com/marketassets/blooks/mint.svg", "Orange": "https://ac.blooket.com/marketassets/blooks/orange.svg", "Pirate Pufferfish": "https://ac.blooket.com/marketassets/blooks/piratepufferfish.svg", "Giraffe": "https://ac.blooket.com/marketassets/blooks/giraffe.svg", "Donut Blobfish": "https://ac.blooket.com/marketassets/blooks/donutblobfish.svg", "Pink": "https://ac.blooket.com/marketassets/blooks/pink.svg", "Purple": "https://ac.blooket.com/marketassets/blooks/purple.svg", "Crimson Octopus": "https://ac.blooket.com/marketassets/blooks/crimsonoctopus.svg", "Rainbow Narwhal": "https://ac.blooket.com/marketassets/blooks/rainbownarwhal.svg", "Red": "https://ac.blooket.com/marketassets/blooks/red.svg", "Salmon": "https://ac.blooket.com/marketassets/blooks/salmon.svg", "Frost Wreath": "https://ac.blooket.com/marketassets/blooks/frostwreath.svg", "Tropical Globe": "https://ac.blooket.com/marketassets/blooks/tropicalglobe.svg", "Tan": "https://ac.blooket.com/marketassets/blooks/tan.svg", "Teal": "https://ac.blooket.com/marketassets/blooks/teal.svg", "New York Snow Globe": "https://ac.blooket.com/marketassets/blooks/newyorksnowglobe.svg", "London Snow Globe": "https://ac.blooket.com/marketassets/blooks/londonsnowglobe.svg", "Yellow": "https://ac.blooket.com/marketassets/blooks/yellow.svg", "Japan Snow Globe": "https://ac.blooket.com/marketassets/blooks/japansnowglobe.svg", "Egypt Snow Globe": "https://ac.blooket.com/marketassets/blooks/egyptsnowglobe.svg", "Paris Snow Globe": "https://ac.blooket.com/marketassets/blooks/parissnowglobe.svg", "Red Sweater Snowman": "https://ac.blooket.com/marketassets/blooks/redsweatersnowman.svg", "Blue Sweater Snowman": "https://ac.blooket.com/marketassets/blooks/bluesweatersnowman.svg", "Elf Sweater Snowman": "https://ac.blooket.com/marketassets/blooks/elfsweatersnowman.svg", "Holiday Elf": "https://ac.blooket.com/marketassets/blooks/holidayelf.svg", "Cozy Baby Penguin": "https://ac.blooket.com/marketassets/blooks/cozybabypenguin.svg", "Peppermint Bark": "https://ac.blooket.com/marketassets/blooks/peppermintbark.svg", "Chilly Chameleon": "https://ac.blooket.com/marketassets/blooks/chillychameleon.svg", "Santa Claws": "https://ac.blooket.com/marketassets/blooks/santaclaws.svg", "Cookies Combo": "https://ac.blooket.com/marketassets/blooks/cookiescombo.svg", "Chilly Flamingo": "https://ac.blooket.com/marketassets/blooks/chillyflamingo.svg", "Snowy Bush Monster": "https://ac.blooket.com/marketassets/blooks/snowybushmonster.svg", "Nutcracker Koala": "https://ac.blooket.com/marketassets/blooks/nutcrackerkoala.svg", "Half a Sandwich": "https://ac.blooket.com/marketassets/blooks/halfasandwich.svg", "Ice Slime": "https://ac.blooket.com/marketassets/blooks/iceslime.svg", "Frozen Fossil": "https://ac.blooket.com/marketassets/blooks/frozenfossil.svg", "Ice Crab": "https://ac.blooket.com/marketassets/blooks/icecrab.svg", "Rainbow Panda": "https://ac.blooket.com/marketassets/blooks/rainbowpanda.svg", "White Peacock": "https://ac.blooket.com/marketassets/blooks/whitepeacock.svg", "Tiger Zebra": "https://ac.blooket.com/marketassets/blooks/tigerzebra.svg", "Teal Platypus": "https://ac.blooket.com/marketassets/blooks/tealplatypus.svg", "Golden Pumpkin Pie": "https://ac.blooket.com/marketassets/blooks/goldenpumpkinpie.svg", "Goldfinch": "https://ac.blooket.com/marketassets/blooks/goldfinch.svg", "Blue Butterfly": "https://ac.blooket.com/marketassets/blooks/bluebutterfly.svg", "Red Astronaut": "https://ac.blooket.com/marketassets/blooks/redastronaut.svg", "Orange Astronaut": "https://ac.blooket.com/marketassets/blooks/orangeastronaut.svg", "Yellow Astronaut": "https://ac.blooket.com/marketassets/blooks/yellowastronaut.svg", "Lime Astronaut": "https://ac.blooket.com/marketassets/blooks/limeastronaut.svg", "Green Astronaut": "https://ac.blooket.com/marketassets/blooks/greenastronaut.svg", "Cyan Astronaut": "https://ac.blooket.com/marketassets/blooks/cyanastronaut.svg", "Blue Astronaut": "https://ac.blooket.com/marketassets/blooks/blueastronaut.svg", "Pink Astronaut": "https://ac.blooket.com/marketassets/blooks/pinkastronaut.svg", "Purple Astronaut": "https://ac.blooket.com/marketassets/blooks/purpleastronaut.svg", "Brown Astronaut": "https://ac.blooket.com/marketassets/blooks/brownastronaut.svg", "Black Astronaut": "https://ac.blooket.com/marketassets/blooks/blackastronaut.svg", "Lovely Planet": "https://ac.blooket.com/marketassets/blooks/lovelyplanet.svg", "Lovely Peacock": "https://ac.blooket.com/marketassets/blooks/lovelypeacock.svg", "Lovely Fox": "https://ac.blooket.com/marketassets/blooks/lovelyfox.svg", "Lovely Rabbit": "https://ac.blooket.com/marketassets/blooks/lovelyrabbit.svg", "Lovely Hedgehogs": "https://ac.blooket.com/marketassets/blooks/lovelyhedgehogs.svg", "Haunted Pumpkin": "https://ac.blooket.com/marketassets/blooks/hauntedpumpkin.svg", "Pumpkin Cookie": "https://ac.blooket.com/marketassets/blooks/pumpkincookie.svg", "Ghost Cookie": "https://ac.blooket.com/marketassets/blooks/ghostcookie.svg", "Red Gummy Bear": "https://ac.blooket.com/marketassets/blooks/redgummybear.svg", "Blue Gummy Bear": "https://ac.blooket.com/marketassets/blooks/bluegummybear.svg", "Green Gummy Bear": "https://ac.blooket.com/marketassets/blooks/greengummybear.svg", "Skeleton Fish": "https://ac.blooket.com/marketassets/blooks/skeletonfish.svg", "Super Glider": "https://ac.blooket.com/marketassets/blooks/superglider.svg", "Chick Chicken": "https://ac.blooket.com/marketassets/blooks/chickchicken.svg", "Chicken Chick": "https://ac.blooket.com/marketassets/blooks/chickenchick.svg", "Raccoon Bandit": "https://ac.blooket.com/marketassets/blooks/raccoonbandit.svg", "Owl Sheriff": "https://ac.blooket.com/marketassets/blooks/owlsheriff.svg", "Vampire Frog": "https://ac.blooket.com/marketassets/blooks/vampirefrog.svg", "Pumpkin King": "https://ac.blooket.com/marketassets/blooks/pumpkinking.svg", "Leprechaun": "https://ac.blooket.com/marketassets/blooks/leprechaun.svg", "Anaconda Wizard": "https://ac.blooket.com/marketassets/blooks/anacondawizard.svg", "Spooky Pumpkin": "https://ac.blooket.com/marketassets/blooks/spookypumpkin.svg", "Spooky Mummy": "https://ac.blooket.com/marketassets/blooks/spookymummy.svg", "Agent Owl": "https://ac.blooket.com/marketassets/blooks/agentowl.svg", "Master Elf": "https://ac.blooket.com/marketassets/blooks/masterelf.svg", "Party Pig": "https://ac.blooket.com/marketassets/blooks/partypig.svg", "Wise Owl": "https://ac.blooket.com/marketassets/blooks/wiseowl.svg", "Wise Caterpillar": "https://ac.blooket.com/marketassets/blooks/wisecaterpillar.svg", "Spooky Ghost": "https://ac.blooket.com/marketassets/blooks/spookyghost.svg", "Fuego": "https://ac.blooket.com/marketassets/blooks/fuego.svg", "Phantom King": "https://ac.blooket.com/marketassets/blooks/phantomking.svg", "Tim the Alien": "https://ac.blooket.com/marketassets/blooks/timthealien.svg", "Rainbow Astronaut": "https://ac.blooket.com/marketassets/blooks/rainbowastronaut.svg", "Hamsta Claus": "https://ac.blooket.com/marketassets/blooks/hamstaclaus.svg", "Astronaut of the Day Placeholder": "https://ac.blooket.com/marketassets/blooks/placeholder.svg"};
+
+        function getBlookImg(name) {
+            if (name === 'Dink') return 'https://ac.blooket.com/marketassets/blooks/dink.svg';
+            if (blookImageMap[name]) return blookImageMap[name];
+            const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+            return 'https://ac.blooket.com/marketassets/blooks/' + slug + '.svg';
+        }
+
+        function renderPacks() { renderMarket(); }
+        function renderMarket() {
+            const grid = document.getElementById('market-grid');
+            if (!grid) return;
+            grid.innerHTML = marketPacks.map((p, i) => `
+                <div class="pack-card" onclick="openPackModal(${i})" role="button" tabindex="0" title="${p.name}">
+                    <img src="${p.icon}" alt="${p.name}" loading="lazy">
+                </div>
+            `).join('');
+        }
+
+        function openPackModal(index) {
+            const p = marketPacks[index];
+            if (!p) return;
+            const order = {'Mystical':0,'Unique':1,'Chroma':2,'Legendary':3,'Epic':4,'Rare':5,'Uncommon':6,'Common':7};
+            const items = [...p.blooks].sort((a,b) => (order[a.rarity]??9) - (order[b.rarity]??9) || a.name.localeCompare(b.name));
+            document.getElementById('pack-modal-body').innerHTML = `
+                <img class="pack-hero" src="${p.icon}" alt="${p.name}">
+                <h2>${p.name} Pack</h2>
+                <div class="pack-info-block">
+                    <div><b>Price:</b> ${p.price} tokens</div>
+                    <div><b>Released:</b> ${p.year}</div>
+                    <div><b>Theme:</b> ${p.about}</div>
+                </div>
+                <div class="pack-blooks-title">Blooks in this pack</div>
+                <div class="pack-blooks-grid">
+                    ${items.map(b => `
+                        <div class="pack-blook" title="${b.name} · ${b.chance}% · ${b.rarity}">
+                            <img src="${getBlookImg(b.name)}" alt="${b.name}" loading="lazy">
+                            <div class="bn">${b.name}</div>
+                            <div class="br rarity-${b.rarity}">${b.rarity}</div>
+                            <div class="chance">${b.chance}%</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            document.getElementById('pack-modal').style.display = 'flex';
+        }
+
+        function closePackModal() {
+            document.getElementById('pack-modal').style.display = 'none';
+        }
+
+
+
+        function closeGmModal() {
+            document.getElementById('gm-modal').style.display = 'none';
+        }
+
         function initFromPath() {
             const seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || 'home';
-            const map = { home: 'home', countdown: 'countdown', leaks: 'leaks', videos: 'videos', about: 'about' };
+            const map = { home: 'home', countdown: 'countdown', leaks: 'leaks', videos: 'videos', gamemodes: 'gamemodes', market: 'market', about: 'about' };
             switchView(map[seg] || 'home', true);
         }
 
@@ -1624,6 +3044,7 @@
         applyPage(0);
         setInterval(updateCountdown, 1000);
         renderVideos();
+        renderGamemodes();
         initFromPath();
         setHomeTitle();
         
