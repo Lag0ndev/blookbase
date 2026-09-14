@@ -919,6 +919,25 @@
             margin-bottom: 40px;
             line-height: 1.15;
         }
+        .header-title.countdown-title-btn {
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.12s, filter 0.12s;
+            position: relative;
+        }
+        .header-title.countdown-title-btn:hover {
+            filter: brightness(1.08);
+            transform: scale(1.02);
+        }
+        .header-title.countdown-title-btn:active {
+            transform: scale(0.98);
+        }
+        .header-title.countdown-title-btn::after {
+            content: " !";
+            font-size: 0.55em;
+            opacity: 0.55;
+            vertical-align: super;
+        }
 
         /* --- COUNTDOWN --- */
         .countdown-grid {
@@ -1016,8 +1035,8 @@
         /* --- INFO BUTTON --- */
         .info-btn {
             position: fixed;
-            bottom: 25px;
-            left: 25px;
+            top: 25px;
+            right: 25px;
             width: 55px;
             height: 55px;
             border-radius: 50%;
@@ -2049,7 +2068,7 @@
 
     
     <div class="main-content" id="view-countdown" style="display: none;">
-        <h1 class="header-title" id="page-title">Blooket Season 8 Countdown</h1>
+        <h1 class="header-title countdown-title-btn" id="page-title" onclick="openInfoModal()" title="Switch countdown / info" role="button" tabindex="0">Blooket Season 8 Countdown</h1>
 
         <div class="countdown-grid" id="countdown">
             <div class="countdown-box">
@@ -2574,7 +2593,8 @@
             document.getElementById('view-updates').style.display = view === 'updates' ? 'flex' : 'none';
             document.getElementById('view-settings').style.display = view === 'settings' ? 'flex' : 'none';
             document.getElementById('view-about').style.display = view === 'about' ? 'flex' : 'none';
-            document.getElementById('info-btn').style.display = view === 'countdown' ? 'flex' : 'none';
+            const infoBtn = document.getElementById('info-btn');
+            if (infoBtn) infoBtn.style.display = 'none';
             if (view !== 'countdown') {
                 applySiteTheme();
                 toggleSnow(false);
