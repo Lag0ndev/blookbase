@@ -2221,7 +2221,11 @@
                 <button class="video-filter-btn active" data-filter="new" onclick="setVideoFilter('new')">New</button>
                 <button class="video-filter-btn" data-filter="popular" onclick="setVideoFilter('popular')">Popular</button>
                 <button class="video-filter-btn" data-filter="live" onclick="setVideoFilter('live')">Live</button>
+                <button class="video-filter-btn" type="button" onclick="refreshVideosFromYouTube(true)" title="Refresh from YouTube">
+                    <i class="fas fa-rotate"></i> Refresh
+                </button>
             </div>
+            <div id="videos-live-status" style="font-size:12px;font-weight:800;opacity:0.85;margin:-4px 0 12px;color:#fff;text-align:left;">Auto-updates from YouTube</div>
             <div class="videos-grid" id="videos-grid"></div>
             <div class="video-pagination" id="video-pagination"></div>
         </div>
@@ -2535,7 +2539,7 @@
             } else {
                 applyPage(currentPage);
             }
-            if (view === 'videos') renderVideos();
+            if (view === 'videos') { renderVideos(); refreshVideosFromYouTube(false); }
             if (view === 'gamemodes') renderGamemodes();
             if (view === 'market') renderMarket();
             if (view === 'settings') renderSettings();
@@ -2673,7 +2677,7 @@
                 label: 'Season 8',
                 icon: 'fa-calendar-days',
                 title: 'Blooket Season 8 Countdown',
-                target: new Date("2026-09-15T00:00:00"),
+                target: new Date("2026-09-14T19:00:00-05:00"), // 7:00 PM Central (CDT)
                 doneText: '🎉 Season 8 is here! 🎉',
                 lockTheme: false,
                 historyTitle: 'Past Season Releases',
@@ -3148,7 +3152,7 @@
         }
 
         /* ---------- VIDEOS ---------- */
-        const videoData = [
+        let videoData = [
             // NEW
             { id: 'sa1QVTdbXe8', title: 'I Pulled The RAREST ITEMS In Blooket', channel: 'Waymore', likes: 5000, views: '218K', cat: 'new' },
             { id: 'XgxsyizaWtw', title: 'I SPEEDRAN EVERY Blooket Gamemode', channel: 'Waymore', likes: 800, views: '22K', cat: 'new' },
@@ -3294,11 +3298,93 @@
         let currentVideoPage = 1;
         const VIDEOS_PER_PAGE = 12;
         const MAX_VIDEO_PAGES = 10;
+        const staticVideoData = videoData.slice();
+        let videosLastFetched = 0;
+        let videosFetching = false;
+
+        const liveVideoChannels = [
+            { id: 'UCpNnGxOBvNRd93FFAIw_Mhg', name: 'Waymore' },
+            { id: 'UCzg0uQS9xWghgTGPH6XaUiQ', name: 'Monkey Master' },
+            { id: 'UC5LtpDgM2J3ocHBJkoV3vYg', name: 'Blooket Ace' },
+            { id: 'UCmAdZUm90zS-23MNyrD_EuQ', name: 'Lag0n' },
+            { id: 'UC9-g3HdBWBYotVUKU2VrMng', name: 'iBlooket' },
+            { id: 'UCGFI1OlmIl0F9Yk_soAX5vA', name: 'Unblooked' },
+            { id: 'UCGH5wTCdveWrLMttlj3qAxg', name: 'FastyJay' },
+            { id: 'UC9uDCJ8tkfzILr7VNRcTy8g', name: 'Blooket' }
+        ];
 
         function formatLikes(n) {
-            if (n >= 1000000) return (n / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-            if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-            return String(n);
+            if (n == null || n === '—') return '—';
+            if (typeof n === 'string' && /[KMB]/i.test(n)) return n;
+            const num = Number(n);
+            if (!Number.isFinite(num)) return String(n);
+            if (num >= 1000000) return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+            return String(num);
+        }
+
+        function extractYtId(link) {
+            if (!link) return null;
+            const m = String(link).match(/[?&]v=([\w-]{11})/) || String(link).match(/youtu\.be\/([\w-]{11})/) || String(link).match(/yt:video:([\w-]{11})/);
+            return m ? m[1] : null;
+        }
+
+        async function fetchChannelRss(channel) {
+            const rss = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + encodeURIComponent(channel.id);
+            const url = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rss);
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('rss ' + res.status);
+            const data = await res.json();
+            if (data.status !== 'ok' || !Array.isArray(data.items)) return [];
+            return data.items.map(item => {
+                const id = extractYtId(item.link || item.guid || '');
+                if (!id) return null;
+                const published = item.pubDate ? new Date(item.pubDate).getTime() : 0;
+                return {
+                    id,
+                    title: item.title || 'Untitled',
+                    channel: channel.name,
+                    likes: 0,
+                    views: '—',
+                    cat: 'new',
+                    published,
+                    live: true
+                };
+            }).filter(Boolean);
+        }
+
+        async function refreshVideosFromYouTube(force) {
+            const now = Date.now();
+            if (!force && videosLastFetched && (now - videosLastFetched) < 10 * 60 * 1000) return;
+            if (videosFetching) return;
+            videosFetching = true;
+            const status = document.getElementById('videos-live-status');
+            if (status) status.textContent = 'Updating videos…';
+            try {
+                const results = await Promise.allSettled(liveVideoChannels.map(ch => fetchChannelRss(ch)));
+                const liveItems = [];
+                results.forEach(r => {
+                    if (r.status === 'fulfilled' && Array.isArray(r.value)) liveItems.push(...r.value);
+                });
+                const byId = new Map();
+                liveItems.forEach(v => byId.set(v.id, v));
+                staticVideoData.forEach(v => {
+                    if (!byId.has(v.id)) byId.set(v.id, Object.assign({}, v, { published: v.published || 0 }));
+                });
+                videoData = Array.from(byId.values());
+                videoData.sort((a, b) => (b.published || 0) - (a.published || 0));
+                videosLastFetched = Date.now();
+                if (status) {
+                    const n = liveItems.length;
+                    status.textContent = n ? ('Updated · ' + n + ' from YouTube') : 'Updated';
+                }
+                if (typeof currentView !== 'undefined' && currentView === 'videos') renderVideos();
+            } catch (e) {
+                if (status) status.textContent = 'Using saved list';
+                console.warn('Video refresh failed', e);
+            } finally {
+                videosFetching = false;
+            }
         }
 
         function setVideoFilter(filter) {
@@ -3308,6 +3394,7 @@
                 btn.classList.toggle('active', btn.dataset.filter === filter);
             });
             renderVideos();
+            refreshVideosFromYouTube(false);
         }
 
         function setVideoPage(page) {
@@ -3397,9 +3484,11 @@
             const pager = document.getElementById('video-pagination');
             if (!grid) return;
             const isLive = currentVideoFilter === 'live';
-            let list = videoData.filter(v => v.cat === currentVideoFilter);
+            let list = videoData.filter(v => v.cat === currentVideoFilter || (currentVideoFilter === 'new' && v.live));
             if (currentVideoFilter === 'popular') {
-                list = list.slice().sort((a, b) => b.likes - a.likes);
+                list = list.slice().sort((a, b) => (Number(b.likes) || 0) - (Number(a.likes) || 0));
+            } else if (currentVideoFilter === 'new') {
+                list = list.slice().sort((a, b) => (b.published || 0) - (a.published || 0));
             }
             const totalPages = Math.min(MAX_VIDEO_PAGES, Math.max(1, Math.ceil(list.length / VIDEOS_PER_PAGE)));
             if (currentVideoPage > totalPages) currentVideoPage = totalPages;
