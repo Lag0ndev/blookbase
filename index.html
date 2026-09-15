@@ -2560,7 +2560,7 @@
         </div>
 
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
-    <script src="api/session.js"></script>
+    <script src="/api/session.js" onerror="console.warn('[admin] failed to load /api/session.js')"></script>
     <script>
 
         /* ---------- SIDEBAR / VIEWS ---------- */
@@ -2754,7 +2754,7 @@
                 label: 'Season 8',
                 icon: 'fa-calendar-days',
                 title: 'Blooket Season 8 Countdown',
-                target: new Date("2026-09-15T05:00:00.000Z"), // 12:00 AM Central US (CDT) — same instant worldwide
+                target: new Date("2026-09-15T23:00:00.000Z"), // Sept 15, 2026 6:00 PM Central US (CDT) — same instant worldwide
                 doneText: '🎉 Season 8 is here! 🎉',
                 lockTheme: false,
                 historyTitle: 'Past Season Releases',
@@ -3124,7 +3124,12 @@
             const panel = document.getElementById('admin-panel');
             if (!input || !panel) return;
             const val = (input.value || '').trim();
-            if (typeof window.__bbVerify === 'function' && window.__bbVerify(val)) {
+            if (typeof window.__bbVerify !== 'function') {
+                if (msg) msg.textContent = 'Auth unavailable — /api/session.js failed to load';
+                console.warn('[admin] window.__bbVerify missing. Deploy api/session.js and hard-refresh');
+                return;
+            }
+            if (window.__bbVerify(val)) {
                 if (gate) gate.style.display = 'none';
                 panel.style.display = 'block';
                 if (msg) msg.textContent = '';
