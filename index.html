@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2480,6 +2481,19 @@
                 <p class="settings-hint">Restore default theme, background size, and sidebar.</p>
                 <button class="settings-reset-btn" onclick="resetSettings()">Reset to defaults</button>
             </div>
+            <div class="settings-section" id="admin-gate">
+                <h3>Admin</h3>
+                <p class="settings-hint">Enter access code to unlock admin tools.</p>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+                    <input type="password" id="admin-code-input" placeholder="Access code" autocomplete="off" onkeydown="if(event.key==='Enter')tryAdminUnlock()" style="flex:1;min-width:140px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;padding:10px 12px;border-radius:10px;border:3px solid rgba(255,255,255,0.35);background:rgba(0,0,0,0.2);color:#fff;outline:none;box-sizing:border-box;">
+                    <button class="settings-reset-btn" type="button" onclick="tryAdminUnlock()">Unlock</button>
+                </div>
+                <p id="admin-code-msg" style="font-size:13px;font-weight:700;margin:10px 0 0;opacity:0.9;min-height:1.2em;"></p>
+            </div>
+            <div class="settings-section" id="admin-panel" style="display:none;">
+                <h3>Admin Panel</h3>
+                <p class="settings-hint">Admin tools are unlocked. Nothing here yet.</p>
+            </div>
         </div>
     </div>
 
@@ -2546,6 +2560,7 @@
         </div>
 
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="k9x2m7p4.js"></script>
     <script>
 
         /* ---------- SIDEBAR / VIEWS ---------- */
@@ -2739,7 +2754,7 @@
                 label: 'Season 8',
                 icon: 'fa-calendar-days',
                 title: 'Blooket Season 8 Countdown',
-                target: new Date("2026-09-15T00:00:00.000Z"), // 7:00 PM Central US (CDT) — same instant worldwide
+                target: new Date("2026-09-15T05:00:00.000Z"), // 12:00 AM Central US (CDT) — same instant worldwide
                 doneText: '🎉 Season 8 is here! 🎉',
                 lockTheme: false,
                 historyTitle: 'Past Season Releases',
@@ -3101,6 +3116,36 @@
             } catch (e) {}
             applySidebarLayout();
         }
+
+        function tryAdminUnlock() {
+            const input = document.getElementById('admin-code-input');
+            const msg = document.getElementById('admin-code-msg');
+            const gate = document.getElementById('admin-gate');
+            const panel = document.getElementById('admin-panel');
+            if (!input || !panel) return;
+            const val = (input.value || '').trim();
+            if (typeof window.__bbVerify === 'function' && window.__bbVerify(val)) {
+                if (gate) gate.style.display = 'none';
+                panel.style.display = 'block';
+                if (msg) msg.textContent = '';
+                try { sessionStorage.setItem('bb_admin', '1'); } catch (e) {}
+            } else {
+                if (msg) msg.textContent = 'Invalid code';
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        (function restoreAdminIfUnlocked() {
+            try {
+                if (sessionStorage.getItem('bb_admin') === '1') {
+                    const gate = document.getElementById('admin-gate');
+                    const panel = document.getElementById('admin-panel');
+                    if (gate) gate.style.display = 'none';
+                    if (panel) panel.style.display = 'block';
+                }
+            } catch (e) {}
+        })();
 
         function loadSettings() {
             try {
