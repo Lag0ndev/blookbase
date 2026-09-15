@@ -1,12 +1,13 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Countdown to Blooket Season 8 and Spooktober.">
+    <meta name="description" content="Blookbase — Season 8 is live! Countdowns, leaks, gamemodes, packs, and more.">
     <title>Blookbase — Blooket Countdown</title>
     <link rel="icon" type="image/png" href="blookbase.png">
     <link rel="apple-touch-icon" href="blookbase.png">
@@ -2031,11 +2032,11 @@
         <div class="home-wrap">
             <div class="home-banner">
                 <div>
-                    <div class="home-banner-label">Season 8 Countdown</div>
-                    <h2>Season 8 is coming!</h2>
-                    <p>Keep an eye on the countdown for the latest release timing.</p>
+                    <div class="home-banner-label">Season 8</div>
+                    <h2>Season 8 is here! 🎉</h2>
+                    <p>New gamemodes, packs, achievements, and more are live. Check Leaks &amp; Gamemodes.</p>
                 </div>
-                <button class="home-banner-btn" onclick="switchView('countdown')">View Countdown →</button>
+                <button class="home-banner-btn" onclick="switchView('leaks')">View Leaks →</button>
             </div>
             <div class="home-grid">
                 <div class="home-card">
@@ -2292,6 +2293,10 @@
     <div class="main-content" id="view-gamemodes" style="display: none;">
         <h1 class="header-title">Gamemodes</h1>
         <div class="gamemodes-wrap">
+            <div class="video-filters" style="margin-bottom:22px;">
+                <button class="video-filter-btn active" data-gm-filter="host" onclick="setGmFilter('host')">Host</button>
+                <button class="video-filter-btn" data-gm-filter="solo" onclick="setGmFilter('solo')">Solo</button>
+            </div>
             <div class="gamemodes-grid" id="gamemodes-grid"></div>
         </div>
     </div>
@@ -2321,6 +2326,19 @@
     <div class="main-content" id="view-updates" style="display: none;">
         <h1 class="header-title">Updates</h1>
         <div class="updates-wrap" id="updates-list">
+            <div class="updates-section">
+                <div class="updates-header">
+                    <span class="updates-version">v2.7</span>
+                    <span class="updates-date">Sep 15, 2026</span>
+                </div>
+                <div class="updates-title">Season 8 live · Host / Solo gamemodes · Dog pack</div>
+                <ul>
+                    <li>Season 8 countdown marked as released</li>
+                    <li>Gamemodes page: Host and Solo tabs</li>
+                    <li>Solo modes: Snake Escape (Beta), Fishing Frenzy, Zorblitz, Pirate Pool, Plushie Panic, TD2, Monster Brawl, Tower Defense, Café, Factory, Crazy Kingdom, Study</li>
+                    <li>Added Dog pack with full drop rates</li>
+                </ul>
+            </div>
             <div class="updates-section">
                 <div class="updates-header">
                     <span class="updates-version">v2.6</span>
@@ -2754,7 +2772,7 @@
                 label: 'Season 8',
                 icon: 'fa-calendar-days',
                 title: 'Blooket Season 8 Countdown',
-                target: new Date("2026-09-15T23:00:00.000Z"), // Sept 15, 2026 6:00 PM Central US (CDT) — same instant worldwide
+                target: new Date("2026-09-15T12:00:00.000Z"), // Season 8 is out
                 doneText: '🎉 Season 8 is here! 🎉',
                 lockTheme: false,
                 historyTitle: 'Past Season Releases',
@@ -2765,7 +2783,8 @@
                     'Season 4 — September 13th',
                     'Season 5 — September 21st',
                     'Season 6 — November 5th',
-                    'Season 7 — September 16th'
+                    'Season 7 — September 16th',
+                    'Season 8 — September 15th'
                 ]
             },
             {
@@ -3653,7 +3672,7 @@
             }
         }
 
-        const gamemodes = [
+        const hostGamemodes = [
             { name: 'Gold Quest', about: 'Exciting Twists and Chests Full of Gold!', difficulty: 'Simple', skills: 'Luck & Speed', time: '7 min', questions: 'Self-paced, High frequency', players: '1 min · 5 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/gold.png', plus: false },
             { name: 'Fishing Frenzy', about: 'Cast, Reel, and Prepare for Surprises!', difficulty: 'Simple', skills: 'Speed & Luck', time: '7 min', questions: 'Self-paced, High frequency', players: '1 min · 6 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/fish.png', plus: false },
             { name: 'Cyber Hack', about: 'Super Secure and Chaotic Hacking Fun!', difficulty: 'Normal', skills: 'Memory & Speed', time: '7 min', questions: 'Self-paced, Normal frequency', players: '1 min · 8 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/hack2.png', plus: false },
@@ -3674,23 +3693,52 @@
             { name: 'Classic', about: "Good Ol' Fashioned Blooket!", difficulty: 'Simple', skills: 'Speed & Accuracy', time: '7 min', questions: 'Synced, High frequency', players: '1 min · 8 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/classic.png', plus: false }
         ];
 
+        const soloGamemodes = [
+            { name: 'Snake Escape', about: 'Slide, grow, and escape — works like Google Snake!', difficulty: 'Simple', skills: 'Dexterity & Speed', time: '7 min', questions: 'Normal Frequency', players: 'Solo', logo: 'https://media.blooket.com/image/upload/v1776987136/Media/logos/snake.png', plus: false, beta: true },
+            { name: 'Fishing Frenzy', about: 'Cast, Reel, and Prepare for Surprises!', difficulty: 'Simple', skills: 'Speed & Luck', time: '7 min', questions: 'High Frequency', players: 'Solo', logo: 'https://ac.blooket.com/gamemodes/logos/fish.png', plus: false },
+            { name: 'Zorblitz', about: 'Bounce aliens and break bricks in this skill challenge!', difficulty: 'Complex', skills: 'Dexterity & Accuracy', time: '7 min', questions: 'Normal Frequency', players: 'Solo', logo: 'https://ac.blooket.com/gamemodes/logos/bricks.png', plus: false },
+            { name: 'Pirate Pool', about: 'Trickshots and doubloons on the high seas!', difficulty: 'Normal', skills: 'Accuracy & Strategy', time: '10 min', questions: 'Normal Frequency', players: 'Solo', logo: 'https://ac.blooket.com/gamemodes/logos/carrom.png', plus: false },
+            { name: 'Plushie Panic', about: 'Save the plushies in this bubble-popping adventure!', difficulty: 'Normal', skills: 'Dexterity & Accuracy', time: '10 min', questions: 'Normal Frequency', players: 'Solo', logo: 'https://ac.blooket.com/gamemodes/logos/bubble.png', plus: false },
+            { name: 'Tower Defense 2', about: 'Focus and Strategize to Survive!', difficulty: 'Complex', skills: 'Strategy & Accuracy', time: '10 min', questions: 'Normal Frequency', players: 'Solo', logo: 'https://ac.blooket.com/gamemodes/logos/defense2.png', plus: false },
+            { name: 'Monster Brawl', about: 'Become the Ultimate Monster Brawler!', difficulty: 'Normal', skills: 'Dexterity & Strategy', time: '8 min', questions: 'Normal Frequency', players: 'Solo', logo: 'https://ac.blooket.com/gamemodes/logos/brawl.png', plus: false },
+            { name: 'Tower Defense', about: 'Action-Packed, Defensive Chaos!', difficulty: 'Complex', skills: 'Strategy & Accuracy', time: '8 min', questions: 'Normal Frequency', players: 'Solo', logo: 'https://ac.blooket.com/gamemodes/logos/defense.png', plus: false },
+            { name: 'Café', about: "Order Up! It's Time For Some Food!", difficulty: 'Normal', skills: 'Speed & Strategy', time: '7 min', questions: 'High Frequency', players: 'Solo', logo: 'https://ac.blooket.com/gamemodes/logos/cafe.png', plus: false },
+            { name: 'Factory', about: 'Fast-Paced, Money-Making Madness!', difficulty: 'Complex', skills: 'Strategy & Speed', time: '7 min', questions: 'High Frequency', players: 'Solo', logo: 'https://ac.blooket.com/gamemodes/logos/factory.png', plus: false },
+            { name: 'Crazy Kingdom', about: 'Rule your kingdom and keep the guests happy!', difficulty: 'Complex', skills: 'Strategy & Memory', time: '10 min', questions: 'Normal Frequency', players: 'Solo', logo: 'https://ac.blooket.com/gamemodes/logos/kingdom.png', plus: false },
+            { name: 'Study', about: 'Practice questions — no games, just pure study mode.', difficulty: 'Normal', skills: 'Accuracy & Memory', time: '5 min', questions: 'High Frequency (No games, just questions)', players: 'Solo', logo: 'https://ac.blooket.com/gamemodes/logos/study.png', plus: false }
+        ];
+
+        let currentGmFilter = 'host';
+
+        function setGmFilter(filter) {
+            currentGmFilter = filter;
+            document.querySelectorAll('[data-gm-filter]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.gmFilter === filter);
+            });
+            renderGamemodes();
+        }
+
         function renderGamemodes() {
             const grid = document.getElementById('gamemodes-grid');
             if (!grid) return;
-            grid.innerHTML = gamemodes.map((g, i) => `
+            const list = currentGmFilter === 'solo' ? soloGamemodes : hostGamemodes;
+            grid.innerHTML = list.map((g, i) => `
                 <div class="gm-card" onclick="openGmModal(${i})" role="button" tabindex="0" title="${g.name}">
                     <img src="${g.logo}" alt="${g.name}" loading="lazy">
+                    ${g.beta ? '<div class="gm-plus" style="display:block;margin-top:8px;background:rgb(11,194,207);">Beta</div>' : ''}
                 </div>
             `).join('');
         }
 
         function openGmModal(index) {
-            const g = gamemodes[index];
+            const list = currentGmFilter === 'solo' ? soloGamemodes : hostGamemodes;
+            const g = list[index];
             if (!g) return;
             document.getElementById('gm-modal-body').innerHTML = `
                 <img src="${g.logo}" alt="${g.name}">
                 <h2>${g.name}</h2>
                 ${g.plus ? '<div class="gm-plus" style="display:inline-block;margin-bottom:10px;">Plus Only</div>' : ''}
+                ${g.beta ? '<div class="gm-plus" style="display:inline-block;margin-bottom:10px;background:rgb(11,194,207);">Beta</div>' : ''}
                 <p class="gm-about">${g.about}</p>
                 <div class="gm-details">
                     <div><b>Difficulty:</b> ${g.difficulty}</div>
@@ -3705,6 +3753,26 @@
 
 
         const marketPacks = [
+    {
+        "name": "Dog",
+        "price": 25,
+        "blooks": [
+            { "name": "Jack Russell Terrier", "chance": 15.0, "rarity": "Uncommon" },
+            { "name": "Chihuahua", "chance": 15.0, "rarity": "Uncommon" },
+            { "name": "Yorkshire Terrier", "chance": 15.0, "rarity": "Uncommon" },
+            { "name": "Poodle", "chance": 15.0, "rarity": "Uncommon" },
+            { "name": "German Shepherd", "chance": 15.0, "rarity": "Uncommon" },
+            { "name": "Saint Bernard", "chance": 7.0, "rarity": "Rare" },
+            { "name": "Golden Retriever", "chance": 7.0, "rarity": "Rare" },
+            { "name": "Dalmatian", "chance": 7.0, "rarity": "Rare" },
+            { "name": "Bloodhound", "chance": 3.57, "rarity": "Epic" },
+            { "name": "Old English Sheepdog", "chance": 0.4, "rarity": "Legendary" },
+            { "name": "Robot Dog", "chance": 0.03, "rarity": "Chroma" }
+        ],
+        "year": 2025,
+        "about": "Dog breeds of all kinds — terriers, retrievers, shepherds, and a robotic companion.",
+        "icon": "https://ac.blooket.com/blookassets/packs/dog.png"
+    },
     {
         "name": "Lunch",
         "price": 25,
