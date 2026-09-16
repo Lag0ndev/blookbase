@@ -3,6 +3,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2457,6 +2458,7 @@
             margin-bottom: 14px;
         }
         .feedback-modal textarea,
+        .feedback-modal input[type="text"],
         .feedback-modal input[type="email"] {
             width: 100%;
             box-sizing: border-box;
@@ -2471,17 +2473,25 @@
             resize: vertical;
             min-height: 72px;
             outline: none;
+            transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
         }
+        .feedback-modal input[type="text"],
         .feedback-modal input[type="email"] {
             min-height: 0;
+            height: 46px;
+            padding: 0 14px 0 42px;
+            background: rgba(0,0,0,0.18) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.7)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z'/%3E%3Cpolyline points='22,6 12,13 2,6'/%3E%3C/svg%3E") 12px center / 18px 18px no-repeat;
         }
         .feedback-modal textarea:focus,
+        .feedback-modal input[type="text"]:focus,
         .feedback-modal input[type="email"]:focus {
-            border-color: rgba(255,255,255,0.5);
+            border-color: rgba(255,255,255,0.55);
+            background-color: rgba(0,0,0,0.28);
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.12);
         }
         .feedback-modal textarea::placeholder,
         .feedback-modal input::placeholder {
-            color: rgba(255,255,255,0.55);
+            color: rgba(255,255,255,0.5);
             font-weight: 600;
         }
         .fb-actions {
@@ -5716,54 +5726,64 @@
         }
 
         async function submitFeedback(e) {
-            e.preventDefault();
+            if (e) e.preventDefault();
             const form = document.getElementById('feedback-form');
             const status = document.getElementById('fb-status');
             const btn = document.getElementById('fb-submit');
-            if (!form) return;
+            if (!form) return false;
             const add = (document.getElementById('fb-add') || {}).value || '';
             const fix = (document.getElementById('fb-fix') || {}).value || '';
-            const email = (document.getElementById('fb-email') || {}).value || '';
+            const contact = (document.getElementById('fb-email') || {}).value || '';
             if (!add.trim() || !fix.trim()) {
                 if (status) { status.textContent = 'Please answer both questions.'; status.className = 'fb-status err'; }
-                return;
+                return false;
             }
             if (btn) btn.disabled = true;
             if (status) { status.textContent = 'Sending…'; status.className = 'fb-status'; }
+
+            const body = new FormData();
+            body.append('want_added', add.trim());
+            body.append('needs_fixed', fix.trim());
+            if (contact.trim()) body.append('contact', contact.trim());
+            body.append('_subject', 'Blookbase feedback');
+
             try {
                 const res = await fetch(FEEDBACK_ENDPOINT, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                    body: JSON.stringify({
-                        want_added: add.trim(),
-                        needs_fixed: fix.trim(),
-                        email: email.trim() || undefined,
-                        _subject: 'Blookbase feedback'
-                    })
+                    body: body,
+                    headers: { 'Accept': 'application/json' }
                 });
+                let data = null;
+                try { data = await res.json(); } catch (err) {}
                 if (res.ok) {
                     if (status) { status.textContent = 'Thanks! Your feedback was sent.'; status.className = 'fb-status ok'; }
-                    try { localStorage.setItem(FB_NEVER_KEY, '1'); } catch (e) {}
-                    setTimeout(closeFeedbackModal, 1400);
+                    try { localStorage.setItem(FB_NEVER_KEY, '1'); } catch (err) {}
                     form.reset();
+                    // close right away after brief success flash
+                    setTimeout(function() { closeFeedbackModal(); }, 800);
                 } else {
                     let msg = 'Something went wrong. Try again later.';
-                    try {
-                        const data = await res.json();
-                        if (data && data.errors && data.errors[0]) msg = data.errors[0].message || msg;
-                    } catch (e) {}
+                    if (data && data.error) msg = data.error;
+                    if (data && data.errors && data.errors[0]) {
+                        msg = data.errors[0].message || (data.errors[0].field ? data.errors[0].field + ' invalid' : msg);
+                    }
                     if (status) { status.textContent = msg; status.className = 'fb-status err'; }
+                    if (btn) btn.disabled = false;
                 }
             } catch (err) {
                 if (status) { status.textContent = 'Network error. Check your connection.'; status.className = 'fb-status err'; }
-            } finally {
                 if (btn) btn.disabled = false;
             }
+            return false;
         }
 
         function initFeedbackPopup() {
             const form = document.getElementById('feedback-form');
-            if (form) form.addEventListener('submit', submitFeedback);
+            if (form) {
+                form.setAttribute('action', FEEDBACK_ENDPOINT);
+                form.setAttribute('method', 'POST');
+                form.addEventListener('submit', submitFeedback);
+            }
             const overlay = document.getElementById('feedback-overlay');
             if (overlay) {
                 overlay.addEventListener('click', function(ev) {
@@ -5781,7 +5801,12 @@
         renderVideos();
         renderGamemodes();
         initFromPath();
-        initFeedbackPopup();
+        // Feedback form HTML is after this script — init when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initFeedbackPopup);
+        } else {
+            setTimeout(initFeedbackPopup, 0);
+        }
 
         /* ---------- LIVE ONLINE COUNTER (MQTT presence, works on static Vercel) ---------- */
         (function initOnlineCounter() {
@@ -5915,7 +5940,7 @@
         <div class="feedback-modal">
             <h2 id="feedback-title">We need your feedback!</h2>
             <p class="fb-intro">Help make Blookbase better. Tell us what to add and what to fix — it only takes a minute.</p>
-            <form id="feedback-form">
+            <form id="feedback-form" action="https://formspree.io/f/mdeknlwg" method="POST">
                 <div class="fb-field">
                     <label for="fb-add">What is something you want added to this site?</label>
                     <textarea id="fb-add" name="want_added" required placeholder="Feature, page, tool… e.g. more packs, achievements tracker"></textarea>
@@ -5925,8 +5950,8 @@
                     <textarea id="fb-fix" name="needs_fixed" required placeholder="Bug, design issue, confusing part…"></textarea>
                 </div>
                 <div class="fb-field">
-                    <label for="fb-email">Email <span style="font-weight:600;opacity:0.75;">(optional)</span></label>
-                    <input type="email" id="fb-email" name="email" placeholder="So we can follow up if needed">
+                    <label for="fb-email">Email or Discord <span style="font-weight:600;opacity:0.75;">(optional)</span></label>
+                    <input type="text" id="fb-email" name="contact" placeholder="email@example.com or Discord username">
                 </div>
                 <div class="fb-actions">
                     <button type="submit" class="fb-btn fb-btn-primary" id="fb-submit">Send feedback</button>
