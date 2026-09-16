@@ -5,12 +5,13 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Blookbase — Season 8 is live! Countdowns, leaks, gamemodes, packs, and more.">
+    <meta name="description" content="Blookbase — Season 8 is live! Countdowns, What's New, gamemodes, packs, and more.">
     <title>Blookbase — Blooket Countdown</title>
     <link rel="icon" type="image/png" href="blookbase.png">
     <link rel="apple-touch-icon" href="blookbase.png">
@@ -2717,9 +2718,9 @@
                     </button>
                 </li>
                 <li>
-                    <button class="sidebar-link" data-view="leaks" onclick="switchView('leaks')">
-                        <span class="sidebar-listIcon"><i class="fas fa-bolt"></i></span>
-                        <span class="sidebar-text">Leaks</span>
+                    <button class="sidebar-link" data-view="whatsnew" onclick="switchView('whatsnew')">
+                        <span class="sidebar-listIcon"><i class="fas fa-star"></i></span>
+                        <span class="sidebar-text">What's New</span>
                     </button>
                 </li>
                 <li>
@@ -2785,9 +2786,9 @@
                 <div>
                     <div class="home-banner-label">Season 8</div>
                     <h2>Season 8 is here! 🎉</h2>
-                    <p>New gamemodes, packs, achievements, and more are live. Check Leaks &amp; Gamemodes.</p>
+                    <p>New gamemodes, packs, achievements, and more are live. Check What's New &amp; Gamemodes.</p>
                 </div>
-                <button class="home-banner-btn" onclick="switchView('leaks')">View Leaks →</button>
+                <button class="home-banner-btn" onclick="switchView('whatsnew')">What's New →</button>
             </div>
             <div class="home-grid">
                 <div class="home-card">
@@ -2845,14 +2846,96 @@
     </div>
 
     
-    <div class="main-content" id="view-leaks" style="display: none;">
-        <h1 class="header-title">Leaks</h1>
+    <div class="main-content" id="view-whatsnew" style="display: none;">
+        <h1 class="header-title">What's New</h1>
         <div class="leaks-wrap">
             <div class="leaks-section">
-                <h3>No leaks right now</h3>
-                <p style="font-weight:700;margin:0;line-height:1.55;opacity:0.95;">
-                    There are no leaks currently for upcoming updates. Check back later when new Season or event info drops!
+                <h3>Season 8 is live! 🎉</h3>
+                <p style="font-weight:700;margin:0 0 14px;line-height:1.55;opacity:0.95;">
+                    Season 8 brings a brand-new Dog pack, two new solo gamemodes (including Claw Mania on host), a Map page instead of /stats, refreshed dashboard logos, and updated Locker &amp; Achievements pages.
                 </p>
+                <div style="position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;border:3px solid rgba(255,255,255,0.25);background:rgba(0,0,0,0.25);margin-bottom:4px;">
+                    <iframe src="https://www.youtube.com/embed/_m9hQCrvxg0?start=9" title="Season 8 overview" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>
+                </div>
+                <p style="font-size:12px;font-weight:700;opacity:0.85;margin:8px 0 0;">Season 8 overview video</p>
+            </div>
+
+            <div class="leaks-section">
+                <h3>New Dog Pack · 25 tokens</h3>
+                <p style="font-weight:700;margin:0 0 12px;line-height:1.55;opacity:0.95;">
+                    Dog breeds of all kinds — terriers, retrievers, shepherds, and a robotic companion.
+                </p>
+                <div class="pack-blooks-grid" style="margin-top:4px;">
+                    <div class="pack-blook"><img src="https://ac.blooket.com/marketassets/blooks/jackrussellterrier.svg" alt="Jack Russell Terrier" loading="lazy"><div class="bn">Jack Russell Terrier</div><div class="br rarity-Uncommon">Uncommon</div><div class="chance">15%</div></div>
+                    <div class="pack-blook"><img src="https://ac.blooket.com/marketassets/blooks/chihuahua.svg" alt="Chihuahua" loading="lazy"><div class="bn">Chihuahua</div><div class="br rarity-Uncommon">Uncommon</div><div class="chance">15%</div></div>
+                    <div class="pack-blook"><img src="https://ac.blooket.com/marketassets/blooks/yorkshireterrier.svg" alt="Yorkshire Terrier" loading="lazy"><div class="bn">Yorkshire Terrier</div><div class="br rarity-Uncommon">Uncommon</div><div class="chance">15%</div></div>
+                    <div class="pack-blook"><img src="https://ac.blooket.com/marketassets/blooks/poodle.svg" alt="Poodle" loading="lazy"><div class="bn">Poodle</div><div class="br rarity-Uncommon">Uncommon</div><div class="chance">15%</div></div>
+                    <div class="pack-blook"><img src="https://ac.blooket.com/marketassets/blooks/germanshepherd.svg" alt="German Shepherd" loading="lazy"><div class="bn">German Shepherd</div><div class="br rarity-Uncommon">Uncommon</div><div class="chance">15%</div></div>
+                    <div class="pack-blook"><img src="https://ac.blooket.com/marketassets/blooks/saintbernard.svg" alt="Saint Bernard" loading="lazy"><div class="bn">Saint Bernard</div><div class="br rarity-Rare">Rare</div><div class="chance">7%</div></div>
+                    <div class="pack-blook"><img src="https://ac.blooket.com/marketassets/blooks/goldenretriever.svg" alt="Golden Retriever" loading="lazy"><div class="bn">Golden Retriever</div><div class="br rarity-Rare">Rare</div><div class="chance">7%</div></div>
+                    <div class="pack-blook"><img src="https://ac.blooket.com/marketassets/blooks/dalmatian.svg" alt="Dalmatian" loading="lazy"><div class="bn">Dalmatian</div><div class="br rarity-Rare">Rare</div><div class="chance">7%</div></div>
+                    <div class="pack-blook"><img src="https://ac.blooket.com/marketassets/blooks/bloodhound.svg" alt="Bloodhound" loading="lazy"><div class="bn">Bloodhound</div><div class="br rarity-Epic">Epic</div><div class="chance">3.57%</div></div>
+                    <div class="pack-blook"><img src="https://ac.blooket.com/marketassets/blooks/oldenglishsheepdog.svg" alt="Old English Sheepdog" loading="lazy"><div class="bn">Old English Sheepdog</div><div class="br rarity-Legendary">Legendary</div><div class="chance">0.4%</div></div>
+                    <div class="pack-blook"><img src="https://ac.blooket.com/marketassets/blooks/robotdog.svg" alt="Robot Dog" loading="lazy"><div class="bn">Robot Dog</div><div class="br rarity-Chroma">Chroma</div><div class="chance">0.03%</div></div>
+                </div>
+            </div>
+
+            <div class="leaks-section">
+                <h3>New gamemodes</h3>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:8px;">
+                    <div style="background:rgba(0,0,0,0.18);border-radius:10px;padding:14px;text-align:center;">
+                        <img src="https://media.blooket.com/image/upload/v1776987136/Media/logos/snake.png" alt="Snake Escape" style="width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
+                        <div style="font-weight:900;font-size:16px;margin:8px 0 4px;">Snake Escape</div>
+                        <div style="font-size:11px;font-weight:900;text-transform:uppercase;background:rgb(11,194,207);display:inline-block;padding:3px 8px;border-radius:6px;margin-bottom:6px;">Beta · Solo</div>
+                        <p style="font-size:13px;font-weight:700;margin:0;opacity:0.95;line-height:1.4;">Slide, grow, and escape — works like Google Snake!</p>
+                    </div>
+                    <div style="background:rgba(0,0,0,0.18);border-radius:10px;padding:14px;text-align:center;">
+                        <img src="https://ac.blooket.com/gamemodes/logos/claw.png" alt="Claw Mania" style="width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
+                        <div style="font-weight:900;font-size:16px;margin:8px 0 4px;">Claw Mania</div>
+                        <div style="font-size:11px;font-weight:900;text-transform:uppercase;background:rgba(0,0,0,0.25);display:inline-block;padding:3px 8px;border-radius:6px;margin-bottom:4px;">Plus Only</div>
+                        <div style="font-size:11px;font-weight:900;text-transform:uppercase;background:rgb(11,194,207);display:inline-block;padding:3px 8px;border-radius:6px;margin-bottom:6px;">Beta · Host</div>
+                        <p style="font-size:13px;font-weight:700;margin:0;opacity:0.95;line-height:1.4;">Grab Plushies and Valuable Capsules!</p>
+                        <p style="font-size:12px;font-weight:700;margin:8px 0 0;opacity:0.9;line-height:1.45;text-align:left;">
+                            <b>Difficulty:</b> Normal<br>
+                            <b>Skills:</b> Speed &amp; Dexterity<br>
+                            <b>Ideal Time:</b> 7 min<br>
+                            <b>Questions:</b> Self-paced, Normal frequency<br>
+                            <b>Players:</b> 1 min · 6 ideal · 60 free max · 60 Plus max
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="leaks-section">
+                <h3>Map page (replaces /stats)</h3>
+                <p style="font-weight:700;margin:0 0 12px;line-height:1.55;opacity:0.95;">
+                    There is no longer a /stats page. Season 8 introduces a new <b>Map</b> page instead.
+                </p>
+                <img src="https://cdn.phototourl.com/free/2026-09-16-ffd07164-f558-4338-926a-363cf5afffe7.png" alt="Map page" style="width:100%;border-radius:10px;border:3px solid rgba(255,255,255,0.25);background:rgba(0,0,0,0.15);">
+            </div>
+
+            <div class="leaks-section">
+                <h3>New dashboard logos</h3>
+                <p style="font-weight:700;margin:0 0 12px;line-height:1.55;opacity:0.95;">
+                    Market, Locker, Achievements, Arcade, and Blooks got fresh icons.
+                </p>
+                <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;align-items:center;">
+                    <div style="text-align:center;"><img src="https://ac.blooket.com/dashboard/415a831e929477679653225a9a85450b376d5d81/_next/static/media/market.5eb30400.svg" alt="Market" style="width:56px;height:56px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.25));"><div style="font-size:12px;font-weight:800;margin-top:6px;">Market</div></div>
+                    <div style="text-align:center;"><img src="https://ac.blooket.com/dashboard/415a831e929477679653225a9a85450b376d5d81/_next/static/media/locker.758dc41e.svg" alt="Locker" style="width:56px;height:56px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.25));"><div style="font-size:12px;font-weight:800;margin-top:6px;">Locker</div></div>
+                    <div style="text-align:center;"><img src="https://ac.blooket.com/dashboard/415a831e929477679653225a9a85450b376d5d81/_next/static/media/achievements.f4cd02ef.svg" alt="Achievements" style="width:56px;height:56px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.25));"><div style="font-size:12px;font-weight:800;margin-top:6px;">Achievements</div></div>
+                    <div style="text-align:center;"><img src="https://ac.blooket.com/dashboard/415a831e929477679653225a9a85450b376d5d81/_next/static/media/arcade.6d553066.svg" alt="Arcade" style="width:56px;height:56px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.25));"><div style="font-size:12px;font-weight:800;margin-top:6px;">Arcade</div></div>
+                    <div style="text-align:center;"><img src="https://ac.blooket.com/dashboard/415a831e929477679653225a9a85450b376d5d81/_next/static/media/blooks.99b2ceb4.svg" alt="Blooks" style="width:56px;height:56px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.25));"><div style="font-size:12px;font-weight:800;margin-top:6px;">Blooks</div></div>
+                </div>
+            </div>
+
+            <div class="leaks-section">
+                <h3>New Locker page</h3>
+                <img src="https://cdn.phototourl.com/free/2026-09-16-035e2b76-8595-43ff-a40b-42d83f8a4425.png" alt="Locker page" style="width:100%;border-radius:10px;border:3px solid rgba(255,255,255,0.25);background:rgba(0,0,0,0.15);">
+            </div>
+
+            <div class="leaks-section">
+                <h3>New Achievements page</h3>
+                <img src="https://cdn.phototourl.com/free/2026-09-16-94ff7971-af3e-46c0-8288-45c8d7ebdb88.png" alt="Achievements page" style="width:100%;border-radius:10px;border:3px solid rgba(255,255,255,0.25);background:rgba(0,0,0,0.15);">
             </div>
         </div>
     </div>
@@ -2927,6 +3010,19 @@
     <div class="main-content" id="view-updates" style="display: none;">
         <h1 class="header-title">Updates</h1>
         <div class="updates-wrap" id="updates-list">
+            <div class="updates-section">
+                <div class="updates-header">
+                    <span class="updates-version">v2.9</span>
+                    <span class="updates-date">Sep 16, 2026</span>
+                </div>
+                <div class="updates-title">What's New · Claw Mania · Season 8 showcase</div>
+                <ul>
+                    <li>Replaced Leaks with What's New page for Season 8</li>
+                    <li>Season 8 video, Dog pack drop rates, Snake Escape &amp; Claw Mania</li>
+                    <li>Map page (replaces /stats), new dashboard logos, Locker &amp; Achievements screenshots</li>
+                    <li>Claw Mania added to Host gamemodes (Plus Only, Beta)</li>
+                </ul>
+            </div>
             <div class="updates-section">
                 <div class="updates-header">
                     <span class="updates-version">v2.8</span>
@@ -3066,7 +3162,7 @@
         <div class="settings-wrap">
             <div class="settings-section">
                 <h3>Site Theme</h3>
-                <p class="settings-hint">Applies to Home, Leaks, Videos, Gamemodes, Packs, Settings &amp; About — background, sidebar, and cards. Countdown pages keep their own event themes.</p>
+                <p class="settings-hint">Applies to Home, What's New, Videos, Gamemodes, Packs, Settings &amp; About — background, sidebar, and cards. Countdown pages keep their own event themes.</p>
                 <div class="theme-grid" id="theme-grid"></div>
                 <div id="custom-theme-panel" style="display:none;margin-top:16px;">
                     <p class="settings-hint" style="margin-bottom:10px;">Pick your gradient and accent colors:</p>
@@ -3153,7 +3249,7 @@
                 Use <b>Countdown</b> to switch between Season 8, Spooktober, Christmas, Valentine's, St. Patrick's, and Spring timers. Open the <b>!</b> button on that page to change events and view past release dates.
             </p>
             <p>
-                <b>Leaks</b> covers Season 8 info, gamemodes, and achievements. <b>Videos</b> features top Blooket YouTubers.
+                <b>What's New</b> covers Season 8 info, the Dog pack, new gamemodes, Map page, and UI changes. <b>Videos</b> features top Blooket YouTubers.
             </p>
         </div>
     </div>
@@ -3264,12 +3360,12 @@
             });
         }
         function switchView(view, skipUrl) {
-            const allowed = ['home', 'countdown', 'leaks', 'videos', 'gamemodes', 'market', 'packsim', 'updates', 'settings', 'about', '404'];
+            const allowed = ['home', 'countdown', 'whatsnew', 'videos', 'gamemodes', 'market', 'packsim', 'updates', 'settings', 'about', '404'];
             if (!allowed.includes(view)) view = '404';
             currentView = view;
             document.getElementById('view-home').style.display = view === 'home' ? 'flex' : 'none';
             document.getElementById('view-countdown').style.display = view === 'countdown' ? 'flex' : 'none';
-            document.getElementById('view-leaks').style.display = view === 'leaks' ? 'flex' : 'none';
+            document.getElementById('view-whatsnew').style.display = view === 'whatsnew' ? 'flex' : 'none';
             document.getElementById('view-videos').style.display = view === 'videos' ? 'flex' : 'none';
             document.getElementById('view-gamemodes').style.display = view === 'gamemodes' ? 'flex' : 'none';
             document.getElementById('view-market').style.display = view === 'market' ? 'flex' : 'none';
@@ -3323,11 +3419,11 @@
                 view: 'updates'
             },
             {
-                label: 'Latest Leaks',
-                title: 'Season 8 is cooking',
-                desc: 'New gamemode teases, Class Pass info, and achievement leaks.',
-                btn: 'Open Leaks →',
-                view: 'leaks'
+                label: "What's New",
+                title: 'Season 8 is live',
+                desc: 'Dog pack, Claw Mania, Snake Escape, Map page, and new dashboard logos.',
+                btn: "Open What's New →",
+                view: 'whatsnew'
             },
             {
                 label: 'Videos',
@@ -4685,6 +4781,7 @@
             { name: 'Star Grazer', about: 'Graze Among the Stars and Battle Planets!', difficulty: 'Simple', skills: 'Speed & Accuracy', time: '7 min', questions: 'Self-paced, Normal frequency', players: '1 min · 8 ideal · 60 free max · 60 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/planets.png', plus: true },
             { name: 'Laser Tag', about: 'Fire and Dodge Flying Lasers!', difficulty: 'Normal', skills: 'Dexterity & Speed', time: '7 min', questions: 'Self-paced, Normal frequency', players: '1 min · 8 ideal · 60 free max · 60 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/laser.png', plus: true },
             { name: 'Cocoa Cottage', about: 'Collect Ingredients and Stir Up a Smoothie!', difficulty: 'Normal', skills: 'Dexterity & Speed', time: '5 min', questions: 'Self-paced, Normal frequency', players: '2 min · 8 ideal · 60 free max · 60 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/coco.png', plus: true },
+            { name: 'Claw Mania', about: 'Grab Plushies and Valuable Capsules!', difficulty: 'Normal', skills: 'Speed & Dexterity', time: '7 min', questions: 'Self-paced, Normal frequency', players: '1 min · 6 ideal · 60 free max · 60 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/claw.png', plus: true, beta: true },
             { name: 'Tower Defense 2', about: 'Focus and Strategize to Survive!', difficulty: 'Complex', skills: 'Strategy & Accuracy', time: '10 min', questions: 'Self-paced, Normal frequency', players: '1 min · 6 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/defense2.png', plus: false },
             { name: 'Monster Brawl', about: 'Become the Ultimate Monster Brawler!', difficulty: 'Normal', skills: 'Dexterity & Strategy', time: '8 min', questions: 'Self-paced, Normal frequency', players: '1 min · 6 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/brawl.png', plus: false },
             { name: 'Deceptive Dinos', about: 'Excavate for Fossils and Catch Cheaters!', difficulty: 'Normal', skills: 'Speed & Strategy', time: '7 min', questions: 'Self-paced, High frequency', players: '1 min · 8 ideal · 60 free max · 300 Plus max', logo: 'https://ac.blooket.com/gamemodes/logos/dinos.png', plus: false },
@@ -5915,7 +6012,7 @@
 
         function initFromPath() {
             const seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || 'home';
-            const map = { home: 'home', countdown: 'countdown', leaks: 'leaks', videos: 'videos', gamemodes: 'gamemodes', market: 'market', packsim: 'packsim', updates: 'updates', settings: 'settings', about: 'about' };
+            const map = { home: 'home', countdown: 'countdown', whatsnew: 'whatsnew', leaks: 'whatsnew', videos: 'videos', gamemodes: 'gamemodes', market: 'market', packsim: 'packsim', updates: 'updates', settings: 'settings', about: 'about' };
             if (map[seg]) {
                 switchView(map[seg], true);
             } else {
