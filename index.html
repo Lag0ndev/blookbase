@@ -47,9 +47,9 @@
             left: 0;
             top: 0;
             overflow-y: auto;
-            background: linear-gradient(var(--bg-top), var(--bg-bottom));
+            background: var(--bg-gradient, linear-gradient(165deg, var(--bg-top), var(--bg-bottom)));
             z-index: -2;
-            transition: background 0.4s;
+            transition: background 0.45s ease;
         }
         .bgBlooks {
             position: fixed;
@@ -753,6 +753,7 @@
             box-shadow: 0 0 0 2px rgba(255,255,255,0.35);
         }
         .theme-swatch {
+            min-height: 52px;
             height: 52px;
             border-radius: 8px;
             margin-bottom: 8px;
@@ -2406,6 +2407,157 @@
         .err404-btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
         .err404-btn:active { transform: translateY(1px); }
 
+
+        /* ========== FEEDBACK MODAL ========== */
+        #feedback-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 20000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+        #feedback-overlay.open { display: flex; }
+        .feedback-modal {
+            width: 100%;
+            max-width: 480px;
+            background: #9a49aa;
+            color: #fff;
+            border: 6px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            box-shadow: 4px 4px rgba(0,0,0,0.25);
+            padding: 22px 22px 18px;
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+        }
+        .feedback-modal h2 {
+            font-family: 'Titan One', cursive;
+            font-weight: normal;
+            font-size: 26px;
+            margin: 0 0 8px;
+            line-height: 1.2;
+        }
+        .feedback-modal .fb-intro {
+            font-weight: 700;
+            font-size: 14px;
+            opacity: 0.95;
+            margin: 0 0 16px;
+            line-height: 1.45;
+        }
+        .feedback-modal label {
+            display: block;
+            font-weight: 800;
+            font-size: 13px;
+            margin: 0 0 6px;
+        }
+        .feedback-modal .fb-field {
+            margin-bottom: 14px;
+        }
+        .feedback-modal textarea,
+        .feedback-modal input[type="email"] {
+            width: 100%;
+            box-sizing: border-box;
+            border: 4px solid rgba(255,255,255,0.25);
+            border-radius: 10px;
+            padding: 10px 12px;
+            background: rgba(0,0,0,0.15);
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 72px;
+            outline: none;
+        }
+        .feedback-modal input[type="email"] {
+            min-height: 0;
+        }
+        .feedback-modal textarea:focus,
+        .feedback-modal input[type="email"]:focus {
+            border-color: rgba(255,255,255,0.5);
+        }
+        .feedback-modal textarea::placeholder,
+        .feedback-modal input::placeholder {
+            color: rgba(255,255,255,0.55);
+            font-weight: 600;
+        }
+        .fb-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .fb-btn {
+            border: none;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            transition: filter 0.12s, transform 0.12s;
+        }
+        .fb-btn:hover { filter: brightness(1.08); }
+        .fb-btn:active { transform: translateY(1px); }
+        .fb-btn-primary {
+            background: #4053b3;
+            color: #fff;
+            box-shadow: 0 3px 0 #2e3d8a;
+            flex: 1;
+            min-width: 120px;
+        }
+        .fb-btn-ghost {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            flex: 1;
+            min-width: 120px;
+        }
+        .fb-footer {
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 2px solid rgba(255,255,255,0.18);
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+        }
+        .fb-btn-muted {
+            background: transparent;
+            color: rgba(255,255,255,0.75);
+            font-size: 13px;
+            font-weight: 700;
+            width: 100%;
+            margin: 0;
+            padding: 8px 10px;
+            border: 2px solid rgba(255,255,255,0.22);
+            border-radius: 10px;
+            box-shadow: none;
+        }
+        .fb-btn-muted:hover {
+            background: rgba(0,0,0,0.12);
+            color: #fff;
+            filter: none;
+        }
+        .fb-note {
+            font-size: 12px;
+            font-weight: 700;
+            opacity: 0.8;
+            margin: 0;
+            line-height: 1.4;
+            text-align: center;
+        }
+        .fb-status {
+            font-weight: 800;
+            font-size: 13px;
+            margin-top: 10px;
+            min-height: 1.2em;
+        }
+        .fb-status.ok { color: #b8f5c8; }
+        .fb-status.err { color: #ffc9c9; }
+
     </style>
 </head>
 <body>
@@ -2835,6 +2987,11 @@
                 </div>
             </div>
             <div class="settings-section">
+                <h3>Feedback</h3>
+                <p class="settings-hint">Share ideas to add or things to fix. Opens the same form as the welcome popup.</p>
+                <button class="settings-reset-btn" type="button" onclick="openFeedbackModal(true)">Send feedback</button>
+            </div>
+            <div class="settings-section">
                 <h3>Reset</h3>
                 <p class="settings-hint">Restore default theme, background size, and sidebar.</p>
                 <button class="settings-reset-btn" onclick="resetSettings()">Reset to defaults</button>
@@ -3231,60 +3388,70 @@
 
         let currentPage = 0;
 
+        function themeGradient(t) {
+            if (t.gradient) return t.gradient;
+            const mid = t.bgMid || t.bgTop;
+            const angle = t.angle != null ? t.angle : 165;
+            return 'linear-gradient(' + angle + 'deg, ' + t.bgTop + ' 0%, ' + mid + ' 48%, ' + t.bgBottom + ' 100%)';
+        }
+
         function setVars(t) {
             const root = document.documentElement.style;
             root.setProperty('--bg-top', t.bgTop);
             root.setProperty('--bg-bottom', t.bgBottom);
             root.setProperty('--accent', t.accent);
             root.setProperty('--accent-dark', t.accentDark);
+            root.setProperty('--bg-gradient', themeGradient(t));
         }
 
         const siteThemes = [
             {
                 key: 'classic',
                 name: 'Classic',
-                bgTop: '#0bc2cf',
-                bgBottom: '#349aef',
+                bgTop: '#1fd6e0',
+                bgMid: '#2a9fe8',
+                bgBottom: '#3b6fd8',
+                angle: 160,
                 accent: '#9a49aa',
-                accentDark: '#7a039d'
+                accentDark: '#6e2a7c'
             },
             {
                 key: 'midnight',
                 name: 'Midnight',
-                bgTop: '#1a1a2e',
-                bgBottom: '#16213e',
-                accent: '#6c5ce7',
-                accentDark: '#4834b4'
+                bgTop: '#0b0f2a',
+                bgMid: '#1a1450',
+                bgBottom: '#3b1d6e',
+                angle: 150,
+                accent: '#8b7cf7',
+                accentDark: '#5a4bc7'
             },
             {
                 key: 'sunset',
                 name: 'Sunset',
-                bgTop: '#ff6b35',
-                bgBottom: '#c44569',
-                accent: '#f0932b',
-                accentDark: '#b45a14'
+                bgTop: '#ff9a3c',
+                bgMid: '#ff5e62',
+                bgBottom: '#9b2d6a',
+                angle: 145,
+                accent: '#ffb347',
+                accentDark: '#c46a12'
             },
             {
                 key: 'forest',
                 name: 'Forest',
-                bgTop: '#2d6a4f',
-                bgBottom: '#1b4332',
-                accent: '#40916c',
-                accentDark: '#1b5e38'
-            },
-            {
-                key: 'candy',
-                name: 'Candy',
-                bgTop: '#ff9a9e',
-                bgBottom: '#fad0c4',
-                accent: '#ff69b4',
-                accentDark: '#c83c8c'
+                bgTop: '#1b7a4a',
+                bgMid: '#145c3c',
+                bgBottom: '#0b2e24',
+                angle: 170,
+                accent: '#3dd68c',
+                accentDark: '#1e8a52'
             },
             {
                 key: 'custom',
                 name: 'Custom',
                 bgTop: '#667eea',
+                bgMid: '#6b5bce',
                 bgBottom: '#764ba2',
+                angle: 135,
                 accent: '#5b4db8',
                 accentDark: '#3d2f8c'
             }
@@ -3292,7 +3459,7 @@
 
         let currentThemeKey = 'classic';
         let currentBgBlookSize = 1200;
-        let customTheme = { bgTop: '#667eea', bgBottom: '#764ba2', accent: '#5b4db8', accentDark: '#3d2f8c' };
+        let customTheme = { bgTop: '#667eea', bgMid: '#6b5bce', bgBottom: '#764ba2', accent: '#5b4db8', accentDark: '#3d2f8c', angle: 135 };
         let sidebarPos = 'left';
         let sidebarAlways = false;
 
@@ -3390,7 +3557,9 @@
                     key: 'custom',
                     name: 'Custom',
                     bgTop: customTheme.bgTop,
+                    bgMid: customTheme.bgMid || customTheme.bgTop,
                     bgBottom: customTheme.bgBottom,
+                    angle: customTheme.angle != null ? customTheme.angle : 135,
                     accent: customTheme.accent,
                     accentDark: customTheme.accentDark
                 };
@@ -3438,11 +3607,13 @@
             const grid = document.getElementById('theme-grid');
             if (grid) {
                 grid.innerHTML = siteThemes.map(t => {
-                    const swTop = t.key === 'custom' ? customTheme.bgTop : t.bgTop;
-                    const swBot = t.key === 'custom' ? customTheme.bgBottom : t.bgBottom;
+                    const themeObj = t.key === 'custom'
+                        ? { bgTop: customTheme.bgTop, bgMid: customTheme.bgMid || customTheme.bgTop, bgBottom: customTheme.bgBottom, angle: 135, gradient: null }
+                        : t;
+                    const sw = themeGradient(themeObj);
                     return `
                     <div class="theme-card${t.key === currentThemeKey ? ' active' : ''}" onclick="setSiteTheme('${t.key}')" role="button" tabindex="0">
-                        <div class="theme-swatch" style="background: linear-gradient(${swTop}, ${swBot});"></div>
+                        <div class="theme-swatch" style="background: ${sw};"></div>
                         <div class="theme-name">${t.name}</div>
                     </div>`;
                 }).join('');
@@ -3469,7 +3640,7 @@
         }
 
         function resetSettings() {
-            customTheme = { bgTop: '#667eea', bgBottom: '#764ba2', accent: '#5b4db8', accentDark: '#3d2f8c' };
+            customTheme = { bgTop: '#667eea', bgMid: '#6b5bce', bgBottom: '#764ba2', accent: '#5b4db8', accentDark: '#3d2f8c', angle: 135 };
             try { localStorage.setItem('blookbase_custom_theme', JSON.stringify(customTheme)); } catch (e) {}
             setSiteTheme('classic');
             setBgBlookSize(1200);
@@ -3800,6 +3971,12 @@
             return String(num);
         }
 
+        function formatViews(n) {
+            if (n == null || n === '—' || n === 'LIVE') return n == null ? '—' : String(n);
+            if (typeof n === 'string' && /[KMB]/i.test(n)) return n;
+            return formatLikes(n);
+        }
+
         function extractYtId(link) {
             if (!link) return null;
             const m = String(link).match(/[?&]v=([\w-]{11})/) || String(link).match(/youtu\.be\/([\w-]{11})/) || String(link).match(/yt:video:([\w-]{11})/);
@@ -3809,7 +3986,7 @@
         // Paste your YouTube Data API v3 key here for real views/likes.
         // Create one at https://console.cloud.google.com/ → APIs → YouTube Data API v3
         // Restrict the key to youtube.googleapis.com and your domain when possible.
-        const YOUTUBE_API_KEY = ''; // e.g. 'AIzaSy...'
+        const YOUTUBE_API_KEY = 'AIzaSyAhn4feNwxejuNgvmHV20sgdp5IAHSHZKo';
 
         async function fetchChannelRss(channel) {
             const rss = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + encodeURIComponent(channel.id);
@@ -3826,11 +4003,12 @@
                     id,
                     title: item.title || 'Untitled',
                     channel: channel.name,
+                    channelId: channel.id,
                     likes: 0,
                     views: '—',
                     cat: 'new',
                     published,
-                    live: true
+                    fromRss: true
                 };
             }).filter(Boolean);
         }
@@ -3846,28 +4024,182 @@
                     encodeURIComponent(chunk.join(',')) + '&key=' + encodeURIComponent(YOUTUBE_API_KEY);
                 const res = await fetch(url);
                 if (!res.ok) {
-                    console.warn('YouTube API', res.status);
+                    console.warn('YouTube API videos', res.status);
                     break;
                 }
                 const data = await res.json();
                 (data.items || []).forEach(it => {
                     const s = it.statistics || {};
+                    const sn = it.snippet || {};
+                    const liveState = sn.liveBroadcastContent; // live | upcoming | none
                     stats.set(it.id, {
                         views: s.viewCount != null ? Number(s.viewCount) : null,
                         likes: s.likeCount != null ? Number(s.likeCount) : 0,
-                        title: (it.snippet && it.snippet.title) || null
+                        title: sn.title || null,
+                        isLive: liveState === 'live',
+                        channelTitle: sn.channelTitle || null
                     });
                 });
             }
             return items.map(v => {
                 const st = stats.get(v.id);
                 if (!st) return v;
-                return Object.assign({}, v, {
+                const out = Object.assign({}, v, {
                     views: st.views != null ? st.views : v.views,
                     likes: st.likes != null ? st.likes : v.likes,
-                    title: st.title || v.title
+                    title: st.title || v.title,
+                    isLive: !!st.isLive
                 });
+                if (st.isLive) {
+                    out.cat = 'live';
+                    out.views = 'LIVE';
+                }
+                return out;
             });
+        }
+
+        async function fetchChannelAvatars() {
+            if (!YOUTUBE_API_KEY || !liveVideoChannels.length) return;
+            const ids = liveVideoChannels.map(c => c.id).filter(Boolean);
+            for (let i = 0; i < ids.length; i += 50) {
+                const chunk = ids.slice(i, i + 50);
+                const url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet&id=' +
+                    encodeURIComponent(chunk.join(',')) + '&key=' + encodeURIComponent(YOUTUBE_API_KEY);
+                try {
+                    const res = await fetch(url);
+                    if (!res.ok) { console.warn('YouTube API channels', res.status); continue; }
+                    const data = await res.json();
+                    (data.items || []).forEach(it => {
+                        const title = (it.snippet && it.snippet.title) || '';
+                        const thumb = it.snippet && it.snippet.thumbnails &&
+                            (it.snippet.thumbnails.high || it.snippet.thumbnails.medium || it.snippet.thumbnails.default);
+                        const urlThumb = thumb && thumb.url;
+                        if (!urlThumb) return;
+                        // map by known channel name from our list
+                        const known = liveVideoChannels.find(c => c.id === it.id);
+                        const name = (known && known.name) || title;
+                        if (name) ytPfpMap[name] = urlThumb;
+                        if (title && title !== name) ytPfpMap[title] = urlThumb;
+                    });
+                } catch (e) {
+                    console.warn('Avatar fetch failed', e);
+                }
+            }
+        }
+
+        async function fetchAvatarsByChannelIds(channelIds, titleById) {
+            if (!YOUTUBE_API_KEY || !channelIds.length) return;
+            const unique = [...new Set(channelIds.filter(Boolean))];
+            for (let i = 0; i < unique.length; i += 50) {
+                const chunk = unique.slice(i, i + 50);
+                const url = 'https://www.googleapis.com/youtube/v3/channels?part=snippet&id=' +
+                    encodeURIComponent(chunk.join(',')) + '&key=' + encodeURIComponent(YOUTUBE_API_KEY);
+                try {
+                    const res = await fetch(url);
+                    if (!res.ok) continue;
+                    const data = await res.json();
+                    (data.items || []).forEach(it => {
+                        const sn = it.snippet || {};
+                        const thumb = sn.thumbnails && (sn.thumbnails.high || sn.thumbnails.medium || sn.thumbnails.default);
+                        const urlThumb = thumb && thumb.url;
+                        if (!urlThumb) return;
+                        const title = sn.title || (titleById && titleById[it.id]) || '';
+                        if (title) ytPfpMap[title] = urlThumb;
+                        // also store by channel id key for direct lookup
+                        ytPfpMap['id:' + it.id] = urlThumb;
+                    });
+                } catch (e) {}
+            }
+        }
+
+        async function fetchLiveStreams() {
+            if (!YOUTUBE_API_KEY) return [];
+            const streams = [];
+            const channelIdsNeeded = [];
+            const titleById = {};
+
+            const jobs = liveVideoChannels.map(async (ch) => {
+                const url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' +
+                    encodeURIComponent(ch.id) + '&eventType=live&type=video&maxResults=5&key=' +
+                    encodeURIComponent(YOUTUBE_API_KEY);
+                try {
+                    const res = await fetch(url);
+                    if (!res.ok) return [];
+                    const data = await res.json();
+                    return (data.items || []).map(it => {
+                        const id = it.id && it.id.videoId;
+                        if (!id) return null;
+                        const sn = it.snippet || {};
+                        const channelId = sn.channelId || ch.id;
+                        channelIdsNeeded.push(channelId);
+                        titleById[channelId] = ch.name;
+                        return {
+                            id,
+                            title: sn.title || 'Live stream',
+                            channel: ch.name,
+                            channelId,
+                            likes: 0,
+                            views: 'LIVE',
+                            cat: 'live',
+                            published: sn.publishedAt ? new Date(sn.publishedAt).getTime() : Date.now(),
+                            isLive: true
+                        };
+                    }).filter(Boolean);
+                } catch (e) {
+                    return [];
+                }
+            });
+
+            jobs.push((async () => {
+                const url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' +
+                    encodeURIComponent('Blooket') + '&eventType=live&type=video&maxResults=25&key=' +
+                    encodeURIComponent(YOUTUBE_API_KEY);
+                try {
+                    const res = await fetch(url);
+                    if (!res.ok) return [];
+                    const data = await res.json();
+                    return (data.items || []).map(it => {
+                        const id = it.id && it.id.videoId;
+                        if (!id) return null;
+                        const sn = it.snippet || {};
+                        const channelId = sn.channelId || '';
+                        if (channelId) {
+                            channelIdsNeeded.push(channelId);
+                            titleById[channelId] = sn.channelTitle || 'YouTube';
+                        }
+                        return {
+                            id,
+                            title: sn.title || 'Live stream',
+                            channel: sn.channelTitle || 'YouTube',
+                            channelId,
+                            likes: 0,
+                            views: 'LIVE',
+                            cat: 'live',
+                            published: sn.publishedAt ? new Date(sn.publishedAt).getTime() : Date.now(),
+                            isLive: true
+                        };
+                    }).filter(Boolean);
+                } catch (e) {
+                    return [];
+                }
+            })());
+
+            const results = await Promise.all(jobs);
+            results.forEach(arr => { if (Array.isArray(arr)) streams.push(...arr); });
+
+            await fetchAvatarsByChannelIds(channelIdsNeeded, titleById);
+
+            // attach avatar url onto each stream
+            streams.forEach(s => {
+                const byId = s.channelId && ytPfpMap['id:' + s.channelId];
+                const byName = ytPfpMap[s.channel];
+                s.avatar = byId || byName || '';
+                if (s.avatar && s.channel) ytPfpMap[s.channel] = s.avatar;
+            });
+
+            const byId = new Map();
+            streams.forEach(s => byId.set(s.id, s));
+            return Array.from(byId.values());
         }
 
         async function refreshVideosFromYouTube(force) {
@@ -3879,26 +4211,47 @@
             if (status) status.textContent = 'Updating videos…';
             try {
                 const results = await Promise.allSettled(liveVideoChannels.map(ch => fetchChannelRss(ch)));
-                let liveItems = [];
+                let items = [];
                 results.forEach(r => {
-                    if (r.status === 'fulfilled' && Array.isArray(r.value)) liveItems.push(...r.value);
+                    if (r.status === 'fulfilled' && Array.isArray(r.value)) items.push(...r.value);
                 });
+                let liveCount = 0;
                 if (YOUTUBE_API_KEY) {
-                    if (status) status.textContent = 'Fetching views & likes…';
-                    liveItems = await enrichVideosWithApi(liveItems);
+                    if (status) status.textContent = 'Loading channel avatars…';
+                    await fetchChannelAvatars();
+                    if (status) status.textContent = 'Fetching views, likes & live streams…';
+                    items = await enrichVideosWithApi(items);
+                    const lives = await fetchLiveStreams();
+                    liveCount = lives.length;
+                    // merge live streams (prefer live entries)
+                    const byId = new Map();
+                    items.forEach(v => byId.set(v.id, v));
+                    lives.forEach(v => byId.set(v.id, v));
+                    items = Array.from(byId.values());
                 }
                 const byId = new Map();
-                liveItems.forEach(v => byId.set(v.id, v));
+                items.forEach(v => {
+                    if (!v.avatar) {
+                        v.avatar = channelPfp(v.channel, v.channelId, null);
+                    }
+                    byId.set(v.id, v);
+                });
                 staticVideoData.forEach(v => {
-                    if (!byId.has(v.id)) byId.set(v.id, Object.assign({}, v, { published: v.published || 0 }));
+                    if (!byId.has(v.id)) {
+                        const copy = Object.assign({}, v, { published: v.published || 0 });
+                        if (!copy.avatar) copy.avatar = channelPfp(copy.channel, copy.channelId, null);
+                        byId.set(v.id, copy);
+                    }
                 });
                 videoData = Array.from(byId.values());
                 videoData.sort((a, b) => (b.published || 0) - (a.published || 0));
                 videosLastFetched = Date.now();
                 if (status) {
-                    const n = liveItems.length;
+                    const n = items.length;
                     const mode = YOUTUBE_API_KEY ? 'API' : 'RSS';
-                    status.textContent = n ? ('Updated · ' + n + ' from YouTube (' + mode + ')') : 'Updated';
+                    let msg = n ? ('Updated · ' + n + ' videos (' + mode + ')') : 'Updated';
+                    if (liveCount) msg += ' · ' + liveCount + ' live';
+                    status.textContent = msg;
                 }
                 if (typeof currentView !== 'undefined' && currentView === 'videos') renderVideos();
             } catch (e) {
@@ -3946,10 +4299,11 @@
 
         const ytPfpMap = {"Conix": "https://yt3.ggpht.com/mIVOey2emNcrDkSdv6ASwMwCSQ8JiCKcMSCv1WlBFX53QSqp1TuXFqeiQbs9IfRwk-HwnHzjbA=s800-c-k-c0x00ffffff-no-rj", "Waymore": "https://yt3.googleusercontent.com/fpVQ5VoYlN-UptRogESSqHnxEX61T-7YW1YNGObVrFX2w_1jBO-njl76kt-6vkPF_2cC9x66kQ=s800-c-k-c0x00ffffff-no-rj", "Lag0n": "https://yt3.googleusercontent.com/sGMDSWtF1ljfF1LvdvSfWvvHUaDFY7xiqhNZHawJ-Kz-pLvMcd2sf3HkX3ojPe7XIAOHxgAzkm4=s800-c-k-c0x00ffffff-no-rj", "iBlooket": "https://yt3.googleusercontent.com/OmDwNKSgt4mxydmndADjlva5mWYKLVpm2BGLrzMlU7GWIRTgE3eReMX40s147P31K4Z1k51Phg=s800-c-k-c0x00ffffff-no-rj", "Blooket": "https://yt3.googleusercontent.com/ytc/AIdro_n9MuS8YZrvKTzvVPJhLaRlgDjUouMy9flhM8rbKox6epI=s800-c-k-c0x00ffffff-no-rj", "BIL": "https://yt3.googleusercontent.com/vWuC0e00QIpkpWhkt30Vfc8ogrOL2ego-TH_B55U-EC4Xf-WmiInutIW7gLvtrLmUs6yt4eZPNg=s800-c-k-c0x00ffffff-no-rj", "Unblooked": "https://yt3.googleusercontent.com/w_Hs7-L_VL_uZGxhSfncFe7aZfhRjkP5O1BF2NjukAKYbGfSeFcLeCYTDfyfNnRH95l32Aj6DA=s800-c-k-c0x00ffffff-no-rj", "FastyJay": "https://yt3.googleusercontent.com/VuM8z5VYXi_TIw7dr0z5mg9O6fwzy8lzOGUFTR63zmciyPMVzB8ORpnSAwdcs_AUISyBHH0K=s800-c-k-c0x00ffffff-no-rj", "Monkey Master": "https://yt3.ggpht.com/vHPdt2TV8_lN5eYY6ODGprTOb2rLt9Z0PHCA8I5n0vwvcvzrFCo-0ZC3B9MR7M16hyZMcIgT4miW-w=s400-c-fcrop64=1,38000000c7ffffff-rw-nd-v1", "Blooket Ace": "https://yt3.googleusercontent.com/qfQMmUYa3shmyhWigiZwO0T-shBfKTJ09Nv1L9W3dUQWuIhlNGk6ZGGC14Yqz1uaMmLmrm25=s800-c-k-c0x00ffffff-no-rj", "Blooket Life": "https://yt3.googleusercontent.com/HxCKe0ddw-6wBwSAXONowZ6eEokbrh3qhN-J4ZvNJXGtMEMMseFp-wXALCIxPnORl86wjeJn5w=s800-c-k-c0x00ffffff-no-rj", "theblooketgamer": "https://yt3.googleusercontent.com/IbwGyfwHd4-lH4gA69Uns3iHqwO9VnyM4azJEca1sjiRn2yEzZf5vDBbs0zC4hjvEzK4en3L=s800-c-k-c0x00ffffff-no-rj", "Blooket Gods": "https://yt3.googleusercontent.com/f0PsafM-0nW8e0CGsGMZnwfpmHeBJ48AO3GQEoJRALPjI95md4n8VFiN8Q1aQ_prZHPjXY8YfQ=s800-c-k-c0x00ffffff-no-rj", "Slade2": "https://yt3.googleusercontent.com/xcACNowE58NcX9Cvp7bHHhnOwJdmPMYgm1KnWD1I4UKARwl7hQw_QJYWOHRpIkdtLNjVVaRexg=s120-c-k-c0x00ffffff-no-rj", "Mr noble wywy": "https://yt3.googleusercontent.com/dRi2fR45zyViyRwN5hek0j3KLfmk5L1kzpbLht_ey0jOAp4QsKIMfwtnkG_qxJOPPpanpJjCqQ=s800-c-k-c0x00ffffff-no-rj", "JustaPanda": "https://yt3.googleusercontent.com/kkz1dMJi7Lbnv4QbrCOEOlGGwjslE8emd3jHpNpT4JayVESMM1CMM0LvzC2L_Iw2R457266n=s900-c-k-c0x00ffffff-no-rj", "imbac": "https://yt3.googleusercontent.com/m8wXh9fT6lDwuMjW9SER4YvY-qCTzGGMjHjA3HxHjDHxDfIhmDgzr4Nlb9gGXgHKFM7Y3ac-gg=s800-c-k-c0x00ffffff-no-rj", "Blooket Insane": "https://ac.blooket.com/marketassets/blooks/timthealien.svg", "KoolKid": "https://yt3.googleusercontent.com/DbDqelZlcX3qzPbMhluKY-6rG3_K9xgnfpVyL7RpLxJ-2Oruyx9AzO51ZHvPEFPCDGcSEe92zQ=s900-c-k-c0x00ffffff-no-rj", "notRIC": "https://yt3.googleusercontent.com/qC52cG4ReXALa5C8j_pgLnFDX_cYQv9q4Ps8Ldp0kMFgbRyYPdGCGjUmn4Rx0LYt2aYOEChP=s800-c-k-c0x00ffffff-no-rj", "SRN Games": "https://yt3.googleusercontent.com/JsVykeiTKj9vJGwD1iNvzE2znEaVwdiCcbrgtNb8-HLfB4CFW24AeQwXkw87NNY8znH2lmwi=s800-c-k-c0x00ffffff-no-rj", "BlooketBam": "https://yt3.googleusercontent.com/aFNdNrcYHFMPYonDeyBJ_kiEtYcinQ4UtemafkNBwprzM4bBmDlfkWOGHLDaqcvE6yhGfnYrFQ=s900-c-k-c0x00ffffff-no-rj", "Caterpillar9": "https://yt3.googleusercontent.com/Z_gfa-nheOPveNJSeraE6o1jaIKwZr10b67_pSYudbMmihoYJ_e1yiMdTINNmxgYnz54E9tPKMw=s800-c-k-c0x00ffffff-no-rj", "Twisted Bread": "https://yt3.googleusercontent.com/RFzqZI0f0iEEDVO7eub262ajY7d_AHG0TaYHvG_AF19tecRVqelU4WVgF2DPLYHE6AGDzPkG8bY=s900-c-k-c0x00ffffff-no-rj", "Blook Master": "https://external-content.duckduckgo.com/iu/?u=https://yt3.googleusercontent.com/ytc/AIdro_l1w6Mc5WEokWWYbrNNP_5BEshKUO25cIZVOqiU6AojVw=s900-c-k-c0x00ffffff-no-rj&f=1&nofb=1&ipt=9e9827da110a3ddd46c8388025131ce04094fdaa5ea06308022c4c6612b4d6ff", "Blookbread": "https://yt3.googleusercontent.com/YBrBVXBLRqRpFFiLvJGgfnjboHu7I2rW572cTDhgdXHKLqTIh3pzVgalhAIOq8FsUOaOMMdP=s800-c-k-c0x00ffffff-no-rj", "Pig55": "https://yt3.googleusercontent.com/D8v4jgmppYAy3lseL7_c_TUXZLiKKEiTe2j_xNbQW1EW9l57wGHuNvlPoB4k6r9OukttkjGiy3I=s900-c-k-c0x00ffffff-no-rj", "Green astronaut": "https://yt3.googleusercontent.com/5HAD5jYBrkxa1xkRDbAYULmxszJQprUc-nPkjIJL1ImCQdrIuxb_2Y4MwIgwV_JDt2J2Ab2wUw=s900-c-k-c0x00ffffff-no-rj", "Blooket Elite": "https://yt3.googleusercontent.com/dK4xmnwEWzflE11UaFoy_KMR5amTBVofIz02wbU5KgiI1DVJpKnZcU2I6buwgbmLtckYi1zv9g=s900-c-k-c0x00ffffff-no-rj", "Turtelix": "https://mathuniverse.online/turtelix.png", "TheBlooketDude": "https://yt3.googleusercontent.com/3gDy-EvuADRawQGXUqjLPiBEKYqDjKpfUfWuV0s6UnTPWOME-WKbbA7Mlex0UtKU7jYkIHEX7A=s900-c-k-c0x00ffffff-no-rj", "KingTurtleYT": "https://external-content.duckduckgo.com/iu/?u=https://yt3.googleusercontent.com/ytc/AIdro_l1w6Mc5WEokWWYbrNNP_5BEshKUO25cIZVOqiU6AojVw=s900-c-k-c0x00ffffff-no-rj&f=1&nofb=1&ipt=9e9827da110a3ddd46c8388025131ce04094fdaa5ea06308022c4c6612b4d6ff", "Cereal.For.Blooket": "https://yt3.googleusercontent.com/iwc7v3Qc_OFfWVp9EFcHu6q0yIfzcqqoVHRpgjLAZlYCdjsqusUFmV8wX3JeGLOTo66Ynn3r=s3840-c-k-c0x00ffffff-no-rj", "Blooket Warrior": "https://yt3.googleusercontent.com/it5rmpwxDWxJktHp4E3KWslikkQQ9xuWFpJ-kvVAQdnEAy_aTriFrRthtJmV_LzfZ1ib_--rOg=s800-c-k-c0x00ffffff-no-rj", "Blooket Studio": "https://yt3.googleusercontent.com/cipU1kNo9hXwrbFvGUGr6SuMxfaxdL4iHLHTqbNC2KC7qzNh4IIUfo6UcxbLA4MCEcv08UG-CA=s800-c-k-c0x00ffffff-no-rj", "TOBP Blooket": "https://yt3.googleusercontent.com/DZTf5N836Mzg_Rs3xm7RC93lW1mdmAy4mdcuGeaVaaPnTDnIT8-MaBMJSqhKHYgF0GDWYacYkQ=s800-c-k-c0x00ffffff-no-rj", "YouLostMan": "https://yt3.googleusercontent.com/VUW4XPzxbAW7jvsmJwvrIxCnYZ4ZFzGYjo87k7k2SvuOmMONcNcv4dzz2RvOV40D7vEkklJmCBs=s800-c-k-c0x00ffffff-no-rj", "Matt Lett": "https://yt3.googleusercontent.com/-bZqhGl9eXQcj9b8SAGJ6a1XFH3kfcAU47gB4GAFXoLF_-4v70dd8y93lQPWT6Z45JmeYfeJ=s800-c-k-c0x00ffffff-no-rj", "Panda Blooket": "https://yt3.googleusercontent.com/c6Th0sFvyGAZNY4XR6kV0DTw3vu0r8IMO4zceBYMNQv6uIGXSu_loDtYCnecfeeVFmo3MF38=s800-c-k-c0x00ffffff-no-rj", "Peetwick": "https://yt3.googleusercontent.com/XupwnkZIgVmXhVelkGEtqKPSbwtRlQrmF3a1gqk1w4qhzJkfOllwwMQX0Egiss2cMPhfoFbMBQ=s800-c-k-c0x00ffffff-no-rj", "Blooklet": "https://yt3.googleusercontent.com/qrfdS1J5B9t4JkMwgpY9UTzxdDltBCDFdcOUHnCvYd_TYTApVxwzEqgyROeDwjyLtpE_ehVk=s800-c-k-c0x00ffffff-no-rj", "Freedo": "https://yt3.googleusercontent.com/XQJuP7Lx7GXcsmQvOSgHroXzz0pRSwhNaIpLFs3oDUKJQkZMZ04kW1dJMPiQp6VCTmP7punAOA=s900-c-k-c0x00ffffff-no-rj", "Blooket Blitz": "https://yt3.googleusercontent.com/iC2Iy2Ru5-wGjnRf949EXWhTyhb0Mzb08LrAHP9_MhPLr-CkwMDUQ3AvPkcl167FZyQGeLcMHw=s900-c-k-c0x00ffffff-no-rj"};
 
-        function channelPfp(name) {
-            if (ytPfpMap[name]) return ytPfpMap[name];
-            // fuzzy match
-            const key = Object.keys(ytPfpMap).find(k => k.toLowerCase() === String(name||'').toLowerCase());
+        function channelPfp(name, channelId, avatarUrl) {
+            if (avatarUrl) return avatarUrl;
+            if (channelId && ytPfpMap['id:' + channelId]) return ytPfpMap['id:' + channelId];
+            if (name && ytPfpMap[name]) return ytPfpMap[name];
+            const key = Object.keys(ytPfpMap).find(k => !k.startsWith('id:') && k.toLowerCase() === String(name||'').toLowerCase());
             if (key) return ytPfpMap[key];
             const colors = ['9a49aa','349aef','0bc2cf','e67e22','e74c3c','2ecc71','f1c40f'];
             let h = 0;
@@ -3969,7 +4323,7 @@
                 <img class="vm-thumb" src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg" alt="">
                 <h2>${v.title}</h2>
                 <div class="vm-channel">
-                    <img src="${channelPfp(v.channel)}" alt="${v.channel}">
+                    <img src="${channelPfp(v.channel, v.channelId, v.avatar)}" alt="${v.channel}">
                     <div>
                         <div class="vm-name">${v.channel}</div>
                         <div style="font-size:12px;opacity:0.85;font-weight:700;">${ch.handle || ''}</div>
@@ -3978,7 +4332,7 @@
                 <div class="vm-meta">
                     ${isLive
                         ? '<span style="color:#ff6b6b;"><i class="fas fa-circle" style="font-size:8px;"></i> LIVE</span>'
-                        : `<span>${v.views} views</span> · <span><i class="fas fa-thumbs-up"></i> ${formatLikes(v.likes)}</span>`}
+                        : `<span>${formatViews(v.views)} views</span> · <span><i class="fas fa-thumbs-up"></i> ${formatLikes(v.likes)}</span>`}
                 </div>
                 <div class="vm-desc">
                     <b>About the creator</b><br>${ch.about}<br><br>
@@ -4006,11 +4360,20 @@
             const pager = document.getElementById('video-pagination');
             if (!grid) return;
             const isLive = currentVideoFilter === 'live';
-            let list = videoData.filter(v => v.cat === currentVideoFilter || (currentVideoFilter === 'new' && v.live));
-            if (currentVideoFilter === 'popular') {
-                list = list.slice().sort((a, b) => (Number(b.likes) || 0) - (Number(a.likes) || 0));
-            } else if (currentVideoFilter === 'new') {
-                list = list.slice().sort((a, b) => (b.published || 0) - (a.published || 0));
+            let list;
+            if (currentVideoFilter === 'live') {
+                list = videoData.filter(v => v.cat === 'live' || v.isLive === true || v.views === 'LIVE');
+            } else if (currentVideoFilter === 'popular') {
+                list = videoData
+                    .filter(v => !(v.cat === 'live' || v.isLive === true || v.views === 'LIVE'))
+                    .slice()
+                    .sort((a, b) => (Number(b.likes) || 0) - (Number(a.likes) || 0));
+            } else {
+                // New tab: all recent uploads from YouTube + static (not currently-live streams)
+                list = videoData
+                    .filter(v => !(v.cat === 'live' || v.isLive === true || v.views === 'LIVE'))
+                    .slice()
+                    .sort((a, b) => (b.published || 0) - (a.published || 0));
             }
             const totalPages = Math.min(MAX_VIDEO_PAGES, Math.max(1, Math.ceil(list.length / VIDEOS_PER_PAGE)));
             if (currentVideoPage > totalPages) currentVideoPage = totalPages;
@@ -4040,12 +4403,12 @@
                         <div class="video-title">${v.title}</div>
                         <div class="video-meta">
                             <span style="display:inline-flex;align-items:center;gap:6px;">
-                                <img src="${channelPfp(v.channel)}" alt="" style="width:20px;height:20px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.35);">
+                                <img src="${channelPfp(v.channel, v.channelId, v.avatar)}" alt="" style="width:20px;height:20px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.35);">
                                 ${v.channel}
                             </span>
                             ${isLive
                                 ? `<span class="likes" style="color:#ff6b6b;"><i class="fas fa-circle" style="font-size:8px;"></i> LIVE</span>`
-                                : `<span>${v.views} views</span><span class="likes"><i class="fas fa-thumbs-up"></i> ${formatLikes(v.likes)}</span>`}
+                                : `<span>${formatViews(v.views)} views</span><span class="likes"><i class="fas fa-thumbs-up"></i> ${formatLikes(v.likes)}</span>`}
                         </div>
                     </div>
                 </div>
@@ -5312,12 +5675,113 @@
 
         window.addEventListener('popstate', () => initFromPath());
 
+
+        /* ---------- FEEDBACK POPUP (Formspree) ---------- */
+        const FEEDBACK_ENDPOINT = 'https://formspree.io/f/mdeknlwg';
+        const FB_DISMISS_KEY = 'blookbase_feedback_dismissed'; // session
+        const FB_NEVER_KEY = 'blookbase_feedback_never'; // permanent
+
+        function shouldShowFeedbackPopup() {
+            try {
+                if (localStorage.getItem(FB_NEVER_KEY) === '1') return false;
+                if (sessionStorage.getItem(FB_DISMISS_KEY) === '1') return false;
+            } catch (e) {}
+            return true;
+        }
+
+        function openFeedbackModal(fromSettings) {
+            const el = document.getElementById('feedback-overlay');
+            if (!el) return;
+            const status = document.getElementById('fb-status');
+            if (status) { status.textContent = ''; status.className = 'fb-status'; }
+            el.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            if (fromSettings) {
+                // ensure muted button still works
+            }
+        }
+
+        function closeFeedbackModal() {
+            const el = document.getElementById('feedback-overlay');
+            if (el) el.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function dismissFeedback(never) {
+            try {
+                if (never) localStorage.setItem(FB_NEVER_KEY, '1');
+                else sessionStorage.setItem(FB_DISMISS_KEY, '1');
+            } catch (e) {}
+            closeFeedbackModal();
+        }
+
+        async function submitFeedback(e) {
+            e.preventDefault();
+            const form = document.getElementById('feedback-form');
+            const status = document.getElementById('fb-status');
+            const btn = document.getElementById('fb-submit');
+            if (!form) return;
+            const add = (document.getElementById('fb-add') || {}).value || '';
+            const fix = (document.getElementById('fb-fix') || {}).value || '';
+            const email = (document.getElementById('fb-email') || {}).value || '';
+            if (!add.trim() || !fix.trim()) {
+                if (status) { status.textContent = 'Please answer both questions.'; status.className = 'fb-status err'; }
+                return;
+            }
+            if (btn) btn.disabled = true;
+            if (status) { status.textContent = 'Sending…'; status.className = 'fb-status'; }
+            try {
+                const res = await fetch(FEEDBACK_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        want_added: add.trim(),
+                        needs_fixed: fix.trim(),
+                        email: email.trim() || undefined,
+                        _subject: 'Blookbase feedback'
+                    })
+                });
+                if (res.ok) {
+                    if (status) { status.textContent = 'Thanks! Your feedback was sent.'; status.className = 'fb-status ok'; }
+                    try { localStorage.setItem(FB_NEVER_KEY, '1'); } catch (e) {}
+                    setTimeout(closeFeedbackModal, 1400);
+                    form.reset();
+                } else {
+                    let msg = 'Something went wrong. Try again later.';
+                    try {
+                        const data = await res.json();
+                        if (data && data.errors && data.errors[0]) msg = data.errors[0].message || msg;
+                    } catch (e) {}
+                    if (status) { status.textContent = msg; status.className = 'fb-status err'; }
+                }
+            } catch (err) {
+                if (status) { status.textContent = 'Network error. Check your connection.'; status.className = 'fb-status err'; }
+            } finally {
+                if (btn) btn.disabled = false;
+            }
+        }
+
+        function initFeedbackPopup() {
+            const form = document.getElementById('feedback-form');
+            if (form) form.addEventListener('submit', submitFeedback);
+            const overlay = document.getElementById('feedback-overlay');
+            if (overlay) {
+                overlay.addEventListener('click', function(ev) {
+                    if (ev.target === overlay) dismissFeedback(false);
+                });
+            }
+            if (shouldShowFeedbackPopup()) {
+                setTimeout(function() { openFeedbackModal(false); }, 600);
+            }
+        }
+
         loadSettings();
         applyPage(0);
         setInterval(updateCountdown, 1000);
         renderVideos();
         renderGamemodes();
         initFromPath();
+        initFeedbackPopup();
 
         /* ---------- LIVE ONLINE COUNTER (MQTT presence, works on static Vercel) ---------- */
         (function initOnlineCounter() {
@@ -5446,5 +5910,36 @@
         setHomeTitle();
         
 </script>
+
+    <div id="feedback-overlay" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
+        <div class="feedback-modal">
+            <h2 id="feedback-title">We need your feedback!</h2>
+            <p class="fb-intro">Help make Blookbase better. Tell us what to add and what to fix — it only takes a minute.</p>
+            <form id="feedback-form">
+                <div class="fb-field">
+                    <label for="fb-add">What is something you want added to this site?</label>
+                    <textarea id="fb-add" name="want_added" required placeholder="Feature, page, tool… e.g. more packs, achievements tracker"></textarea>
+                </div>
+                <div class="fb-field">
+                    <label for="fb-fix">What is something that needs to be changed or fixed?</label>
+                    <textarea id="fb-fix" name="needs_fixed" required placeholder="Bug, design issue, confusing part…"></textarea>
+                </div>
+                <div class="fb-field">
+                    <label for="fb-email">Email <span style="font-weight:600;opacity:0.75;">(optional)</span></label>
+                    <input type="email" id="fb-email" name="email" placeholder="So we can follow up if needed">
+                </div>
+                <div class="fb-actions">
+                    <button type="submit" class="fb-btn fb-btn-primary" id="fb-submit">Send feedback</button>
+                    <button type="button" class="fb-btn fb-btn-ghost" onclick="dismissFeedback(false)">Not right now</button>
+                </div>
+                <div class="fb-footer">
+                    <button type="button" class="fb-btn fb-btn-muted" onclick="dismissFeedback(true)">Don’t show again</button>
+                    <p class="fb-note">You can always send feedback later from <b>Settings</b>.</p>
+                </div>
+                <div class="fb-status" id="fb-status" aria-live="polite"></div>
+            </form>
+        </div>
+    </div>
+
 </body>
 </html>
