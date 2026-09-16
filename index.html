@@ -4,6 +4,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2568,6 +2569,118 @@
         .fb-status.ok { color: #b8f5c8; }
         .fb-status.err { color: #ffc9c9; }
 
+
+        /* ---------- USERNAME / HEADCOUNT MODAL ---------- */
+        #username-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 25000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            box-sizing: border-box;
+            backdrop-filter: blur(8px);
+        }
+        #username-overlay.open { display: flex; }
+        .username-modal {
+            width: 100%;
+            max-width: 420px;
+            background: var(--accent, #9a49aa);
+            color: #fff;
+            border: 6px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            box-shadow: 4px 4px rgba(0,0,0,0.25);
+            padding: 24px 22px 20px;
+            box-sizing: border-box;
+            font-family: 'Nunito', sans-serif;
+            text-align: left;
+        }
+        .username-modal h2 {
+            font-family: 'Titan One', cursive;
+            font-weight: normal;
+            font-size: 26px;
+            margin: 0 0 8px;
+            line-height: 1.2;
+        }
+        .username-modal .un-intro {
+            font-weight: 700;
+            font-size: 14px;
+            opacity: 0.95;
+            margin: 0 0 16px;
+            line-height: 1.45;
+        }
+        .username-modal input[type="text"] {
+            width: 100%;
+            box-sizing: border-box;
+            border: 4px solid rgba(255,255,255,0.25);
+            border-radius: 10px;
+            padding: 12px 14px;
+            background: rgba(0,0,0,0.18);
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 15px;
+            outline: none;
+            margin-bottom: 14px;
+        }
+        .username-modal input[type="text"]:focus {
+            border-color: rgba(255,255,255,0.55);
+            background-color: rgba(0,0,0,0.28);
+        }
+        .username-modal input::placeholder { color: rgba(255,255,255,0.5); font-weight: 600; }
+        .un-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+        .un-btn {
+            border: none;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            transition: filter 0.12s, transform 0.12s;
+            flex: 1;
+            min-width: 120px;
+        }
+        .un-btn:hover { filter: brightness(1.08); }
+        .un-btn:active { transform: translateY(1px); }
+        .un-btn-primary {
+            background: #4053b3;
+            color: #fff;
+            box-shadow: 0 3px 0 #2e3d8a;
+        }
+        .un-btn-ghost {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+        .un-note {
+            font-size: 12px;
+            font-weight: 700;
+            opacity: 0.8;
+            margin: 14px 0 0;
+            line-height: 1.4;
+            text-align: center;
+        }
+        #admin-visitors-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0;
+            max-height: 220px;
+            overflow-y: auto;
+        }
+        #admin-visitors-list li {
+            font-size: 13px;
+            font-weight: 700;
+            padding: 8px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        #admin-visitors-list li:last-child { border-bottom: none; }
+        #admin-visitors-list .anon { opacity: 0.75; font-style: italic; }
+
     </style>
 </head>
 <body>
@@ -3017,7 +3130,8 @@
             </div>
             <div class="settings-section" id="admin-panel" style="display:none;">
                 <h3>Admin Panel</h3>
-                <p class="settings-hint">Admin tools are unlocked. Nothing here yet.</p>
+                <p class="settings-hint">Online visitors (usernames). Anonymous if they skipped the name prompt.</p>
+                <ul id="admin-visitors-list"><li style="opacity:0.7;">Waiting for presence…</li></ul>
             </div>
         </div>
     </div>
@@ -3663,7 +3777,7 @@
             applySidebarLayout();
         }
 
-        function tryAdminUnlock() {
+        async function tryAdminUnlock() {
             const input = document.getElementById('admin-code-input');
             const msg = document.getElementById('admin-code-msg');
             const gate = document.getElementById('admin-gate');
@@ -3675,11 +3789,22 @@
                 console.warn('[admin] window.__bbVerify missing. Deploy api/session.js and hard-refresh');
                 return;
             }
-            if (window.__bbVerify(val)) {
+            if (msg) msg.textContent = 'Checking…';
+            let ok = false;
+            try {
+                const result = window.__bbVerify(val);
+                ok = (result && typeof result.then === 'function') ? await result : !!result;
+            } catch (e) {
+                ok = false;
+            }
+            if (ok) {
                 if (gate) gate.style.display = 'none';
                 panel.style.display = 'block';
                 if (msg) msg.textContent = '';
                 try { sessionStorage.setItem('bb_admin', '1'); } catch (e) {}
+                if (typeof renderAdminVisitors === 'function') {
+                    // force refresh if presence map exists
+                }
             } else {
                 if (msg) msg.textContent = 'Invalid code';
                 input.value = '';
@@ -3697,6 +3822,77 @@
                 }
             } catch (e) {}
         })();
+
+
+        /* ---------- USERNAME / HEADCOUNT ---------- */
+        const BB_USERNAME_KEY = 'blookbase_display_name';
+        let bbDisplayName = null; // null until chosen; '' = anonymous
+
+        function getDisplayName() {
+            if (bbDisplayName !== null) return bbDisplayName;
+            try {
+                const v = sessionStorage.getItem(BB_USERNAME_KEY);
+                if (v !== null) {
+                    bbDisplayName = v;
+                    return bbDisplayName;
+                }
+            } catch (e) {}
+            return null;
+        }
+
+        function submitUsername(anonymous) {
+            let name = '';
+            if (!anonymous) {
+                const input = document.getElementById('username-input');
+                name = (input && input.value || '').trim().slice(0, 24);
+            }
+            bbDisplayName = name; // empty string = anonymous
+            try { sessionStorage.setItem(BB_USERNAME_KEY, name); } catch (e) {}
+            const el = document.getElementById('username-overlay');
+            if (el) el.classList.remove('open');
+            document.body.style.overflow = '';
+            // Notify presence system if already running
+            if (typeof window.__bbPublishPresence === 'function') {
+                window.__bbPublishPresence();
+            }
+        }
+
+        function maybeShowUsernamePrompt() {
+            if (getDisplayName() !== null) return;
+            const el = document.getElementById('username-overlay');
+            if (!el) return;
+            el.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            const input = document.getElementById('username-input');
+            if (input) setTimeout(() => input.focus(), 200);
+        }
+
+        function renderAdminVisitors(map) {
+            const list = document.getElementById('admin-visitors-list');
+            if (!list) return;
+            const entries = [];
+            if (map && typeof map.forEach === 'function') {
+                map.forEach((info, id) => {
+                    const label = (info && info.name) ? info.name : 'Anonymous';
+                    const isAnon = !info || !info.name;
+                    entries.push({ id, label, isAnon, t: (info && info.t) || 0 });
+                });
+            }
+            entries.sort((a, b) => (b.t || 0) - (a.t || 0));
+            if (!entries.length) {
+                list.innerHTML = '<li style="opacity:0.7;">No one online yet</li>';
+                return;
+            }
+            list.innerHTML = entries.map(e =>
+                `<li><span class="${e.isAnon ? 'anon' : ''}">${e.isAnon ? 'Anonymous' : escapeHtml(e.label)}</span><span style="opacity:0.65;font-size:11px;">online</span></li>`
+            ).join('');
+        }
+
+        function escapeHtml(s) {
+            return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        }
+
+
 
         function loadSettings() {
             try {
@@ -3962,13 +4158,15 @@
 
         const liveVideoChannels = [
             { id: 'UCpNnGxOBvNRd93FFAIw_Mhg', name: 'Waymore' },
-            { id: 'UCzg0uQS9xWghgTGPH6XaUiQ', name: 'Monkey Master' },
-            { id: 'UC5LtpDgM2J3ocHBJkoV3vYg', name: 'Blooket Ace' },
-            { id: 'UCmAdZUm90zS-23MNyrD_EuQ', name: 'Lag0n' },
             { id: 'UC9-g3HdBWBYotVUKU2VrMng', name: 'iBlooket' },
+            { id: 'UCmAdZUm90zS-23MNyrD_EuQ', name: 'Lag0n' },
+            { id: 'UC9uDCJ8tkfzILr7VNRcTy8g', name: 'Blooket' },
             { id: 'UCGFI1OlmIl0F9Yk_soAX5vA', name: 'Unblooked' },
             { id: 'UCGH5wTCdveWrLMttlj3qAxg', name: 'FastyJay' },
-            { id: 'UC9uDCJ8tkfzILr7VNRcTy8g', name: 'Blooket' }
+            { id: 'UCzg0uQS9xWghgTGPH6XaUiQ', name: 'Monkey Master' },
+            { id: 'UC5LtpDgM2J3ocHBJkoV3vYg', name: 'Blooket Ace' }
+            // Additional creators are included via static videoData + ytPfpMap.
+            // RSS is limited to ~8 channels for rate limits; API avatars cover the rest.
         ];
 
         function formatLikes(n) {
@@ -4218,7 +4416,7 @@
             if (videosFetching) return;
             videosFetching = true;
             const status = document.getElementById('videos-live-status');
-            if (status) status.textContent = 'Updating videos…';
+            if (status) status.textContent = 'Updating…';
             try {
                 const results = await Promise.allSettled(liveVideoChannels.map(ch => fetchChannelRss(ch)));
                 let items = [];
@@ -4227,9 +4425,9 @@
                 });
                 let liveCount = 0;
                 if (YOUTUBE_API_KEY) {
-                    if (status) status.textContent = 'Loading channel avatars…';
+                    if (status) status.textContent = 'Loading…';
                     await fetchChannelAvatars();
-                    if (status) status.textContent = 'Fetching views, likes & live streams…';
+                    if (status) status.textContent = 'Fetching…';
                     items = await enrichVideosWithApi(items);
                     const lives = await fetchLiveStreams();
                     liveCount = lives.length;
@@ -4257,11 +4455,7 @@
                 videoData.sort((a, b) => (b.published || 0) - (a.published || 0));
                 videosLastFetched = Date.now();
                 if (status) {
-                    const n = items.length;
-                    const mode = YOUTUBE_API_KEY ? 'API' : 'RSS';
-                    let msg = n ? ('Updated · ' + n + ' videos (' + mode + ')') : 'Updated';
-                    if (liveCount) msg += ' · ' + liveCount + ' live';
-                    status.textContent = msg;
+                    status.textContent = 'Auto-updates from YouTube';
                 }
                 if (typeof currentView !== 'undefined' && currentView === 'videos') renderVideos();
             } catch (e) {
@@ -4374,10 +4568,27 @@
             if (currentVideoFilter === 'live') {
                 list = videoData.filter(v => v.cat === 'live' || v.isLive === true || v.views === 'LIVE');
             } else if (currentVideoFilter === 'popular') {
+                function parseCount(x) {
+                    if (x == null || x === '—' || x === 'LIVE') return 0;
+                    if (typeof x === 'number' && Number.isFinite(x)) return x;
+                    const s = String(x).trim().toUpperCase().replace(/,/g, '');
+                    const m = s.match(/^([\d.]+)\s*([KMB])?$/);
+                    if (!m) return Number(s) || 0;
+                    let n = parseFloat(m[1]) || 0;
+                    if (m[2] === 'K') n *= 1e3;
+                    else if (m[2] === 'M') n *= 1e6;
+                    else if (m[2] === 'B') n *= 1e9;
+                    return n;
+                }
                 list = videoData
                     .filter(v => !(v.cat === 'live' || v.isLive === true || v.views === 'LIVE'))
                     .slice()
-                    .sort((a, b) => (Number(b.likes) || 0) - (Number(a.likes) || 0));
+                    .sort((a, b) => {
+                        const vb = parseCount(b.views);
+                        const va = parseCount(a.views);
+                        if (vb !== va) return vb - va;
+                        return parseCount(b.likes) - parseCount(a.likes);
+                    });
             } else {
                 // New tab: all recent uploads from YouTube + static (not currently-live streams)
                 list = videoData
@@ -5808,7 +6019,7 @@
             setTimeout(initFeedbackPopup, 0);
         }
 
-        /* ---------- LIVE ONLINE COUNTER (MQTT presence, works on static Vercel) ---------- */
+        /* ---------- LIVE ONLINE COUNTER (MQTT presence + optional usernames) ---------- */
         (function initOnlineCounter() {
             const TOPIC_PREFIX = 'blookbase/v1/online/';
             const BROKERS = [
@@ -5826,19 +6037,21 @@
                 sessionId = 's' + Math.random().toString(36).slice(2) + Date.now().toString(36);
             }
 
-            const onlineMap = new Map(); // id -> lastSeen
+            // id -> { t: lastSeen, name: displayName or '' }
+            const onlineMap = new Map();
             const countEl = document.getElementById('online-count');
 
             function renderCount() {
                 const now = Date.now();
-                // drop stale (> 90s without refresh)
-                for (const [id, t] of onlineMap) {
+                for (const [id, info] of onlineMap) {
+                    const t = info && typeof info === 'object' ? info.t : info;
                     if (now - t > 90000) onlineMap.delete(id);
                 }
-                // always include self
-                onlineMap.set(sessionId, now);
+                const myName = (typeof getDisplayName === 'function' ? getDisplayName() : null);
+                onlineMap.set(sessionId, { t: now, name: myName == null ? '' : String(myName) });
                 const n = onlineMap.size;
                 if (countEl) countEl.textContent = String(n);
+                if (typeof renderAdminVisitors === 'function') renderAdminVisitors(onlineMap);
             }
 
             function onPresenceMessage(topic, payload) {
@@ -5849,7 +6062,17 @@
                 if (!text) {
                     onlineMap.delete(id);
                 } else {
-                    onlineMap.set(id, Date.now());
+                    // payload: "timestamp|username" or legacy pure timestamp
+                    let t = Date.now();
+                    let name = '';
+                    const parts = text.split('|');
+                    if (parts.length >= 2) {
+                        t = Number(parts[0]) || Date.now();
+                        name = parts.slice(1).join('|').slice(0, 24);
+                    } else {
+                        t = Number(text) || Date.now();
+                    }
+                    onlineMap.set(id, { t, name });
                 }
                 renderCount();
             }
@@ -5870,10 +6093,14 @@
 
             function publishHere() {
                 if (!client || !client.connected) return;
-                client.publish(myTopic(), String(Date.now()), { qos: 0, retain: true });
-                onlineMap.set(sessionId, Date.now());
+                const myName = (typeof getDisplayName === 'function' ? getDisplayName() : null);
+                const name = myName == null ? '' : String(myName).slice(0, 24);
+                const payload = String(Date.now()) + '|' + name;
+                client.publish(myTopic(), payload, { qos: 0, retain: true });
+                onlineMap.set(sessionId, { t: Date.now(), name });
                 renderCount();
             }
+            window.__bbPublishPresence = publishHere;
 
             function connectBroker() {
                 if (brokerIndex >= BROKERS.length) {
@@ -5907,9 +6134,7 @@
                     });
                     client.on('message', (topic, payload) => onPresenceMessage(topic, payload));
                     client.on('error', () => {});
-                    client.on('close', () => {
-                        // try next broker once if never connected well
-                    });
+                    client.on('close', () => {});
                     client.on('offline', () => {});
                 } catch (e) {
                     brokerIndex += 1;
@@ -5917,7 +6142,6 @@
                 }
             }
 
-            // visibility: republish when tab focuses
             document.addEventListener('visibilitychange', () => {
                 if (!document.hidden) publishHere();
             });
@@ -5933,10 +6157,26 @@
             connectBroker();
         })();
         setHomeTitle();
+        setTimeout(maybeShowUsernamePrompt, 400);
+
         
 </script>
 
-    <div id="feedback-overlay" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
+    
+    <div id="username-overlay" role="dialog" aria-modal="true" aria-labelledby="username-title">
+        <div class="username-modal">
+            <h2 id="username-title">Who's here?</h2>
+            <p class="un-intro">Optional username so we know who's on Blookbase (like a headcount). Admin can see names of people online — leave blank to stay anonymous.</p>
+            <input type="text" id="username-input" maxlength="24" placeholder="Username (optional)" autocomplete="nickname">
+            <div class="un-actions">
+                <button type="button" class="un-btn un-btn-primary" onclick="submitUsername(false)">Continue</button>
+                <button type="button" class="un-btn un-btn-ghost" onclick="submitUsername(true)">Stay anonymous</button>
+            </div>
+            <p class="un-note">Only used for the live online counter. Not shared publicly.</p>
+        </div>
+    </div>
+
+<div id="feedback-overlay" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
         <div class="feedback-modal">
             <h2 id="feedback-title">We need your feedback!</h2>
             <p class="fb-intro">Help make Blookbase better. Tell us what to add and what to fix — it only takes a minute.</p>
