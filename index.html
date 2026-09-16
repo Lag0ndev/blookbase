@@ -2359,6 +2359,53 @@
         .ps-buy-drops li { padding: 2px 0; }
         .ps-buy-main { display: block; }
 
+
+        #view-404 {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 60vh;
+            padding: 40px 20px;
+            gap: 12px;
+        }
+        .err404-code {
+            font-family: 'Titan One', cursive;
+            font-size: clamp(72px, 18vw, 140px);
+            line-height: 1;
+            color: #fff;
+            text-shadow: 4px 4px 0 rgba(0,0,0,0.2);
+        }
+        .err404-title {
+            font-family: 'Titan One', cursive;
+            font-size: 28px;
+            font-weight: normal;
+            color: #fff;
+            margin: 0;
+        }
+        .err404-desc {
+            font-weight: 700;
+            color: rgba(255,255,255,0.9);
+            max-width: 420px;
+            margin: 0 0 12px;
+        }
+        .err404-btn {
+            border: none;
+            border-radius: 12px;
+            padding: 12px 22px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            background: #9a49aa;
+            color: #ffffff;
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+            transition: transform 0.12s, filter 0.12s;
+        }
+        .err404-btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+        .err404-btn:active { transform: translateY(1px); }
+
     </style>
 </head>
 <body>
@@ -2448,6 +2495,14 @@
     </nav>
 
     
+
+    <div class="main-content" id="view-404" style="display: none;">
+        <div class="err404-code">404</div>
+        <h2 class="err404-title">Page not found</h2>
+        <p class="err404-desc">That URL doesn’t exist on Blookbase. Check the link or head back home.</p>
+        <button type="button" class="err404-btn" onclick="switchView('home')">Go Home</button>
+    </div>
+
     <div class="main-content" id="view-home">
         <h1 class="header-title" id="home-title">Welcome To Blookbase</h1>
         <div class="home-wrap">
@@ -2462,12 +2517,12 @@
             <div class="home-grid">
                 <div class="home-card">
                     <div class="home-card-top">
-                        <span class="home-card-label">Latest Leak</span>
+                        <span class="home-card-label">Pack Sim</span>
                         <span class="home-card-badge">New</span>
                     </div>
-                    <h3>Season 8 Highlights</h3>
-                    <p>Check out the newest discoveries, gamemode teases, and leaked details.</p>
-                    <button class="home-card-btn" onclick="switchView('leaks')">View Leaks →</button>
+                    <h3>Open packs for free</h3>
+                    <p>Simulate Market pack openings with official drop rates — no tokens required.</p>
+                    <button class="home-card-btn" onclick="switchView('packsim')">Open Pack Sim →</button>
                 </div>
                 <div class="home-card" id="home-featured-card">
                     <div class="home-card-top">
@@ -2597,6 +2652,20 @@
     <div class="main-content" id="view-updates" style="display: none;">
         <h1 class="header-title">Updates</h1>
         <div class="updates-wrap" id="updates-list">
+            <div class="updates-section">
+                <div class="updates-header">
+                    <span class="updates-version">v2.8</span>
+                    <span class="updates-date">Sep 15, 2026</span>
+                </div>
+                <div class="updates-title">Pack Sim · Purchase modal · 404 · YouTube API</div>
+                <ul>
+                    <li>New Pack Sim page with official Market-style pack cards</li>
+                    <li>Purchase modal with quantity controls, drop rates overlay, 50,000 token spend cap</li>
+                    <li>404 page for unknown URLs</li>
+                    <li>Home card promotes Pack Sim</li>
+                    <li>YouTube: optional Data API key for real views &amp; likes</li>
+                </ul>
+            </div>
             <div class="updates-section">
                 <div class="updates-header">
                     <span class="updates-version">v2.7</span>
@@ -2885,8 +2954,8 @@
             });
         }
         function switchView(view, skipUrl) {
-            const allowed = ['home', 'countdown', 'leaks', 'videos', 'gamemodes', 'market', 'packsim', 'updates', 'settings', 'about'];
-            if (!allowed.includes(view)) view = 'home';
+            const allowed = ['home', 'countdown', 'leaks', 'videos', 'gamemodes', 'market', 'packsim', 'updates', 'settings', 'about', '404'];
+            if (!allowed.includes(view)) view = '404';
             currentView = view;
             document.getElementById('view-home').style.display = view === 'home' ? 'flex' : 'none';
             document.getElementById('view-countdown').style.display = view === 'countdown' ? 'flex' : 'none';
@@ -2898,6 +2967,8 @@
             document.getElementById('view-updates').style.display = view === 'updates' ? 'flex' : 'none';
             document.getElementById('view-settings').style.display = view === 'settings' ? 'flex' : 'none';
             document.getElementById('view-about').style.display = view === 'about' ? 'flex' : 'none';
+            const v404 = document.getElementById('view-404');
+            if (v404) v404.style.display = view === '404' ? 'flex' : 'none';
             const infoBtn = document.getElementById('info-btn');
             if (infoBtn) infoBtn.style.display = 'none';
             if (view !== 'countdown') {
@@ -2916,9 +2987,11 @@
             closeSidebar();
             if (!skipUrl) {
                 try {
-                    const path = view === 'home' ? '/' : '/' + view;
-                    if (location.protocol !== 'file:' && location.pathname !== path) {
-                        history.pushState({ view }, '', path);
+                    if (view !== '404') {
+                        const path = view === 'home' ? '/' : '/' + view;
+                        if (location.protocol !== 'file:' && location.pathname !== path) {
+                            history.pushState({ view }, '', path);
+                        }
                     }
                 } catch (e) {}
             }
@@ -3733,6 +3806,11 @@
             return m ? m[1] : null;
         }
 
+        // Paste your YouTube Data API v3 key here for real views/likes.
+        // Create one at https://console.cloud.google.com/ → APIs → YouTube Data API v3
+        // Restrict the key to youtube.googleapis.com and your domain when possible.
+        const YOUTUBE_API_KEY = ''; // e.g. 'AIzaSy...'
+
         async function fetchChannelRss(channel) {
             const rss = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + encodeURIComponent(channel.id);
             const url = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rss);
@@ -3757,6 +3835,41 @@
             }).filter(Boolean);
         }
 
+        async function enrichVideosWithApi(items) {
+            if (!YOUTUBE_API_KEY || !items.length) return items;
+            const ids = [...new Set(items.map(v => v.id).filter(Boolean))];
+            const chunks = [];
+            for (let i = 0; i < ids.length; i += 50) chunks.push(ids.slice(i, i + 50));
+            const stats = new Map();
+            for (const chunk of chunks) {
+                const url = 'https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=' +
+                    encodeURIComponent(chunk.join(',')) + '&key=' + encodeURIComponent(YOUTUBE_API_KEY);
+                const res = await fetch(url);
+                if (!res.ok) {
+                    console.warn('YouTube API', res.status);
+                    break;
+                }
+                const data = await res.json();
+                (data.items || []).forEach(it => {
+                    const s = it.statistics || {};
+                    stats.set(it.id, {
+                        views: s.viewCount != null ? Number(s.viewCount) : null,
+                        likes: s.likeCount != null ? Number(s.likeCount) : 0,
+                        title: (it.snippet && it.snippet.title) || null
+                    });
+                });
+            }
+            return items.map(v => {
+                const st = stats.get(v.id);
+                if (!st) return v;
+                return Object.assign({}, v, {
+                    views: st.views != null ? st.views : v.views,
+                    likes: st.likes != null ? st.likes : v.likes,
+                    title: st.title || v.title
+                });
+            });
+        }
+
         async function refreshVideosFromYouTube(force) {
             const now = Date.now();
             if (!force && videosLastFetched && (now - videosLastFetched) < 10 * 60 * 1000) return;
@@ -3766,10 +3879,14 @@
             if (status) status.textContent = 'Updating videos…';
             try {
                 const results = await Promise.allSettled(liveVideoChannels.map(ch => fetchChannelRss(ch)));
-                const liveItems = [];
+                let liveItems = [];
                 results.forEach(r => {
                     if (r.status === 'fulfilled' && Array.isArray(r.value)) liveItems.push(...r.value);
                 });
+                if (YOUTUBE_API_KEY) {
+                    if (status) status.textContent = 'Fetching views & likes…';
+                    liveItems = await enrichVideosWithApi(liveItems);
+                }
                 const byId = new Map();
                 liveItems.forEach(v => byId.set(v.id, v));
                 staticVideoData.forEach(v => {
@@ -3780,7 +3897,8 @@
                 videosLastFetched = Date.now();
                 if (status) {
                     const n = liveItems.length;
-                    status.textContent = n ? ('Updated · ' + n + ' from YouTube') : 'Updated';
+                    const mode = YOUTUBE_API_KEY ? 'API' : 'RSS';
+                    status.textContent = n ? ('Updated · ' + n + ' from YouTube (' + mode + ')') : 'Updated';
                 }
                 if (typeof currentView !== 'undefined' && currentView === 'videos') renderVideos();
             } catch (e) {
@@ -4966,10 +5084,12 @@
         let psBuyIndex = 0;
         let psBuyQty = 1;
         let psShowDrops = false;
-        const PS_BUY_MAX = 100; // max packs you can open at once
+        const PS_TOKEN_BUDGET = 50000; // max tokens you can spend per purchase
 
         function getPsBuyMax() {
-            return PS_BUY_MAX;
+            const p = packSimCatalog[psBuyIndex];
+            if (!p || !p.price) return 1;
+            return Math.max(1, Math.floor(PS_TOKEN_BUDGET / p.price));
         }
 
         function onPackSimClick(index) {
@@ -5183,7 +5303,11 @@
         function initFromPath() {
             const seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || 'home';
             const map = { home: 'home', countdown: 'countdown', leaks: 'leaks', videos: 'videos', gamemodes: 'gamemodes', market: 'market', packsim: 'packsim', updates: 'updates', settings: 'settings', about: 'about' };
-            switchView(map[seg] || 'home', true);
+            if (map[seg]) {
+                switchView(map[seg], true);
+            } else {
+                switchView('404', true);
+            }
         }
 
         window.addEventListener('popstate', () => initFromPath());
