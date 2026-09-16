@@ -3206,6 +3206,16 @@
                 </div>
             </div>
             <div class="settings-section">
+                <h3>Username</h3>
+                <p class="settings-hint">Optional name for the live online counter. Change anytime — you won’t be asked again after the first choice.</p>
+                <p id="settings-username-status" style="font-size:13px;font-weight:800;margin:0 0 10px;opacity:0.95;">Current: —</p>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+                    <input type="text" id="settings-username-input" maxlength="24" placeholder="Username (optional)" autocomplete="nickname" style="flex:1;min-width:140px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;padding:10px 12px;border-radius:10px;border:3px solid rgba(255,255,255,0.35);background:rgba(0,0,0,0.2);color:#fff;outline:none;box-sizing:border-box;">
+                    <button class="settings-reset-btn" type="button" onclick="saveUsernameFromSettings()">Save</button>
+                    <button class="settings-reset-btn" type="button" onclick="setAnonymousFromSettings()">Anonymous</button>
+                </div>
+            </div>
+            <div class="settings-section">
                 <h3>Feedback</h3>
                 <p class="settings-hint">Share ideas to add or things to fix. Opens the same form as the welcome popup.</p>
                 <button class="settings-reset-btn" type="button" onclick="openFeedbackModal(true)">Send feedback</button>
@@ -3886,6 +3896,7 @@
             renderSidebarLayoutGrid();
             const cb = document.getElementById('sidebar-always');
             if (cb) cb.checked = !!sidebarAlways;
+            if (typeof updateSettingsUsernameUI === 'function') updateSettingsUsernameUI();
         }
 
         function resetSettings() {
@@ -3950,19 +3961,49 @@
 
 
         /* ---------- USERNAME / HEADCOUNT ---------- */
+        // Persist in localStorage so refresh / new tab never re-prompts after choice
         const BB_USERNAME_KEY = 'blookbase_display_name';
-        let bbDisplayName = null; // null until chosen; '' = anonymous
+        const BB_USERNAME_SET_KEY = 'blookbase_display_name_set'; // '1' once user confirmed
+        let bbDisplayName = null; // null until loaded; '' = anonymous
+
+        function hasChosenUsername() {
+            try {
+                if (localStorage.getItem(BB_USERNAME_SET_KEY) === '1') return true;
+                // migrate older sessionStorage choice once
+                const legacy = sessionStorage.getItem(BB_USERNAME_KEY);
+                if (legacy !== null) {
+                    localStorage.setItem(BB_USERNAME_KEY, legacy);
+                    localStorage.setItem(BB_USERNAME_SET_KEY, '1');
+                    try { sessionStorage.removeItem(BB_USERNAME_KEY); } catch (e2) {}
+                    return true;
+                }
+            } catch (e) {}
+            return false;
+        }
 
         function getDisplayName() {
             if (bbDisplayName !== null) return bbDisplayName;
             try {
-                const v = sessionStorage.getItem(BB_USERNAME_KEY);
-                if (v !== null) {
-                    bbDisplayName = v;
+                if (hasChosenUsername()) {
+                    const v = localStorage.getItem(BB_USERNAME_KEY);
+                    bbDisplayName = v === null ? '' : String(v);
                     return bbDisplayName;
                 }
             } catch (e) {}
             return null;
+        }
+
+        function saveDisplayName(name) {
+            bbDisplayName = name == null ? '' : String(name).trim().slice(0, 24);
+            try {
+                localStorage.setItem(BB_USERNAME_KEY, bbDisplayName);
+                localStorage.setItem(BB_USERNAME_SET_KEY, '1');
+            } catch (e) {}
+            if (typeof window.__bbPublishPresence === 'function') {
+                window.__bbPublishPresence();
+            }
+            updateSettingsUsernameUI();
+            return bbDisplayName;
         }
 
         function submitUsername(anonymous) {
@@ -3971,25 +4012,59 @@
                 const input = document.getElementById('username-input');
                 name = (input && input.value || '').trim().slice(0, 24);
             }
-            bbDisplayName = name; // empty string = anonymous
-            try { sessionStorage.setItem(BB_USERNAME_KEY, name); } catch (e) {}
+            saveDisplayName(name); // empty string = anonymous; always marks as chosen
             const el = document.getElementById('username-overlay');
             if (el) el.classList.remove('open');
             document.body.style.overflow = '';
-            // Notify presence system if already running
-            if (typeof window.__bbPublishPresence === 'function') {
-                window.__bbPublishPresence();
-            }
         }
 
         function maybeShowUsernamePrompt() {
-            if (getDisplayName() !== null) return;
+            // Never show again after Continue / Stay anonymous (localStorage flag)
+            if (hasChosenUsername() || getDisplayName() !== null) return;
             const el = document.getElementById('username-overlay');
             if (!el) return;
             el.classList.add('open');
             document.body.style.overflow = 'hidden';
             const input = document.getElementById('username-input');
             if (input) setTimeout(() => input.focus(), 200);
+        }
+
+        function updateSettingsUsernameUI() {
+            const input = document.getElementById('settings-username-input');
+            const status = document.getElementById('settings-username-status');
+            if (!input && !status) return;
+            const name = getDisplayName();
+            if (input) {
+                input.value = name && name.length ? name : '';
+                input.placeholder = name === '' ? 'Anonymous' : 'Username (optional)';
+            }
+            if (status) {
+                if (name === null) {
+                    status.textContent = 'Not set yet — popup will ask once.';
+                } else if (name === '') {
+                    status.textContent = 'Current: Anonymous';
+                } else {
+                    status.textContent = 'Current: ' + name;
+                }
+            }
+        }
+
+        function saveUsernameFromSettings() {
+            const input = document.getElementById('settings-username-input');
+            const name = (input && input.value || '').trim().slice(0, 24);
+            saveDisplayName(name);
+            const status = document.getElementById('settings-username-status');
+            if (status) {
+                status.textContent = name ? ('Saved: ' + name) : 'Saved: Anonymous';
+            }
+        }
+
+        function setAnonymousFromSettings() {
+            const input = document.getElementById('settings-username-input');
+            if (input) input.value = '';
+            saveDisplayName('');
+            const status = document.getElementById('settings-username-status');
+            if (status) status.textContent = 'Saved: Anonymous';
         }
 
         function renderAdminVisitors(map) {
