@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Blookbase — Season 8 is live! Countdowns, What's New, gamemodes, packs, and more.">
+    <meta name="description" content="Blookbase — Spooktober countdown, Season 9 timer, What's New, gamemodes, packs, and more.">
     <title>Blookbase — Blooket Countdown</title>
     <link rel="icon" type="image/png" href="blookbase.png">
     <link rel="apple-touch-icon" href="blookbase.png">
@@ -2071,6 +2071,26 @@
             flex-wrap: wrap;
             color: #fff;
         }
+        .home-banner-main {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            min-width: 0;
+            flex: 1;
+        }
+        .home-banner-logo {
+            width: 56px;
+            height: 56px;
+            flex-shrink: 0;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+        }
+        @media (max-width: 480px) {
+            .home-banner-logo {
+                width: 44px;
+                height: 44px;
+            }
+        }
         .home-banner-label {
             font-size: 12px;
             font-weight: 900;
@@ -3636,12 +3656,15 @@
         <h1 class="header-title" id="home-title">Welcome To Blookbase</h1>
         <div class="home-wrap">
             <div class="home-banner">
-                <div>
-                    <div class="home-banner-label">Season 8</div>
-                    <h2>Season 8 is here! 🎉</h2>
-                    <p>New gamemodes, packs, achievements, and more are live. Check What's New &amp; Gamemodes.</p>
+                <div class="home-banner-main">
+                    <img class="home-banner-logo" src="https://ac.blooket.com/marketassets/blooks/pumpkin.svg" alt="Spooktober" draggable="false" width="56" height="56">
+                    <div>
+                        <div class="home-banner-label">Spooktober</div>
+                        <h2>Spooktober is coming!</h2>
+                        <p>The Halloween event countdown is live — track days until Spooktober, plus Season 9 and more event timers.</p>
+                    </div>
                 </div>
-                <button class="home-banner-btn" onclick="switchView('whatsnew')">What's New →</button>
+                <button class="home-banner-btn" onclick="switchView('countdown')">Open Countdown →</button>
             </div>
             <div class="home-grid">
                 <div class="home-card">
@@ -3675,7 +3698,7 @@
 
     
     <div class="main-content" id="view-countdown" style="display: none;">
-        <h1 class="header-title countdown-title-btn" id="page-title" onclick="openInfoModal()" title="Switch countdown / info" role="button" tabindex="0">Blooket Season 8 Countdown</h1>
+        <h1 class="header-title countdown-title-btn" id="page-title" onclick="openInfoModal()" title="Switch countdown / info" role="button" tabindex="0">Blooket Spooktober Countdown</h1>
 
         <div class="countdown-grid" id="countdown">
             <div class="countdown-box">
@@ -4219,7 +4242,7 @@
                 <b>Blookbase</b> is a fan site for tracking upcoming Blooket seasonal updates and events.
             </p>
             <p>
-                Use <b>Countdown</b> to switch between Season 8, Spooktober, Christmas, Valentine's, St. Patrick's, and Spring timers. Open the <b>!</b> button on that page to change events and view past release dates.
+                Use <b>Countdown</b> to switch between Spooktober, Season 9, Christmas, Valentine's, St. Patrick's, and Spring timers. Open the <b>!</b> button on that page to change events and view past release dates.
             </p>
             <p>
                 <b>What's New</b> covers Season 8 info, the Dog pack, new gamemodes, Map page, and UI changes. <b>Videos</b> features top Blooket YouTubers.
@@ -4399,8 +4422,8 @@
             },
             {
                 label: "What's New",
-                title: 'Season 8 is live',
-                desc: 'Dog pack, Claw Mania, Snake Escape, Map page, and new dashboard logos.',
+                title: 'Spooktober countdown',
+                desc: 'Halloween event timer is live — also track Season 9 (Sep 14, 2027).',
                 btn: "Open What's New →",
                 view: 'whatsnew'
             },
@@ -4428,7 +4451,7 @@
             {
                 label: 'Countdown',
                 title: 'Don\'t miss the drop',
-                desc: 'Track Season 8, Spooktober, Christmas, and other event timers.',
+                desc: 'Track Spooktober, Season 9, Christmas, and other event timers.',
                 btn: 'Open Countdown →',
                 view: 'countdown'
             }
@@ -4499,26 +4522,6 @@
         /* ---------- PAGES / PAGE SWITCHER ---------- */
         const pages = [
             {
-                key: 'season8',
-                label: 'Season 8',
-                icon: 'fa-calendar-days',
-                title: 'Blooket Season 8 Countdown',
-                target: new Date("2026-09-15T12:00:00.000Z"), // Season 8 is out
-                doneText: '🎉 Season 8 is here! 🎉',
-                lockTheme: false,
-                historyTitle: 'Past Season Releases',
-                history: [
-                    'Season 1 — September 17th',
-                    'Season 2 — September 15th',
-                    'Season 3 — September 22nd',
-                    'Season 4 — September 13th',
-                    'Season 5 — September 21st',
-                    'Season 6 — November 5th',
-                    'Season 7 — September 16th',
-                    'Season 8 — September 15th'
-                ]
-            },
-            {
                 key: 'spooktober',
                 label: 'Spooktober',
                 icon: 'fa-ghost',
@@ -4536,6 +4539,28 @@
                     '2023 — October 3rd',
                     '2024 — October 11th',
                     '2025 — October 1st'
+                ]
+            },
+            {
+                key: 'season9',
+                label: 'Season 9',
+                icon: 'fa-calendar-days',
+                title: 'Blooket Season 9 Countdown',
+                // Sep 14, 2027 ~5:00 PM Central (CDT, UTC-5)
+                target: new Date("2027-09-14T17:00:00-05:00"),
+                doneText: '🎉 Season 9 is here! 🎉',
+                lockTheme: false,
+                historyTitle: 'Past Season Releases',
+                history: [
+                    'Season 1 — September 17th',
+                    'Season 2 — September 15th',
+                    'Season 3 — September 22nd',
+                    'Season 4 — September 13th',
+                    'Season 5 — September 21st',
+                    'Season 6 — November 5th',
+                    'Season 7 — September 16th',
+                    'Season 8 — September 15th',
+                    'Season 9 — September 14th, 2027 · 5:00 PM CDT'
                 ]
             },
             {
