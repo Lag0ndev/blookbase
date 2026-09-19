@@ -5476,8 +5476,45 @@
             return null;
         }
 
+        // Reserved for site owner — only usable after admin unlock in Settings
+        const RESERVED_USERNAMES = ['lag0n', 'lagon', 'lag on', 'lag-0n', 'lag_0n'];
+
+        function normalizeUsernameKey(name) {
+            return String(name || '')
+                .normalize('NFKC')
+                .replace(/[\u200B-\u200D\uFEFF]/g, '')
+                .trim()
+                .toLowerCase()
+                .replace(/0/g, '0') // keep digit zero
+                .replace(/\s+/g, '')
+                .replace(/[_\-.]/g, '');
+        }
+
+        function isReservedUsername(name) {
+            const key = normalizeUsernameKey(name);
+            if (!key) return false;
+            // lag0n and close lookalikes (o/0, extra chars stripped)
+            if (key === 'lag0n' || key === 'lagon') return true;
+            if (RESERVED_USERNAMES.some(function (r) { return normalizeUsernameKey(r) === key; })) return true;
+            // starts with lag0n (lag0n123)
+            if (key.indexOf('lag0n') === 0 || key.indexOf('lagon') === 0) return true;
+            return false;
+        }
+
+        function canUseReservedUsername() {
+            try {
+                return sessionStorage.getItem('bb_admin') === '1';
+            } catch (e) {
+                return false;
+            }
+        }
+
         function saveDisplayName(name) {
-            bbDisplayName = name == null ? '' : String(name).trim().slice(0, 24);
+            let cleaned = name == null ? '' : String(name).trim().slice(0, 24);
+            if (cleaned && isReservedUsername(cleaned) && !canUseReservedUsername()) {
+                return { ok: false, error: 'That username is reserved.' };
+            }
+            bbDisplayName = cleaned;
             try {
                 localStorage.setItem(BB_USERNAME_KEY, bbDisplayName);
                 localStorage.setItem(BB_USERNAME_SET_KEY, '1');
@@ -5486,8 +5523,20 @@
                 window.__bbPublishPresence();
             }
             updateSettingsUsernameUI();
-            return bbDisplayName;
+            return { ok: true, name: bbDisplayName };
         }
+
+        (function scrubReservedUsernameIfNeeded() {
+            try {
+                if (typeof canUseReservedUsername === 'function' && canUseReservedUsername()) return;
+                if (typeof isReservedUsername !== 'function') return;
+                const v = localStorage.getItem(BB_USERNAME_KEY);
+                if (v && isReservedUsername(v)) {
+                    localStorage.setItem(BB_USERNAME_KEY, '');
+                    bbDisplayName = '';
+                }
+            } catch (e) {}
+        })();
 
         function submitUsername(anonymous) {
             let name = '';
@@ -5495,7 +5544,11 @@
                 const input = document.getElementById('username-input');
                 name = (input && input.value || '').trim().slice(0, 24);
             }
-            saveDisplayName(name); // empty string = anonymous; always marks as chosen
+            const result = saveDisplayName(name);
+            if (result && result.ok === false) {
+                // fall back to anonymous if reserved
+                saveDisplayName('');
+            }
             const el = document.getElementById('username-overlay');
             if (el) el.classList.remove('open');
             document.body.style.overflow = '';
@@ -5535,12 +5588,15 @@
 
         function saveUsernameFromSettings() {
             const input = document.getElementById('settings-username-input');
-            const name = (input && input.value || '').trim().slice(0, 24);
-            saveDisplayName(name);
             const status = document.getElementById('settings-username-status');
-            if (status) {
-                status.textContent = name ? ('Saved: ' + name) : 'Saved: Anonymous';
+            const name = (input && input.value || '').trim().slice(0, 24);
+            const result = saveDisplayName(name);
+            if (result && result.ok === false) {
+                if (status) status.textContent = result.error || 'That username is reserved.';
+                if (input) input.value = (getDisplayName() || '');
+                return;
             }
+            updateSettingsUsernameUI();
         }
 
         function setAnonymousFromSettings() {
@@ -8589,7 +8645,12 @@ const counts = {};
         if (typeof getDisplayName === 'function') {
             const n = getDisplayName();
             if (n == null || n === '') return 'Anonymous';
-            return String(n).trim().slice(0, 24) || 'Anonymous';
+            const cleaned = String(n).trim().slice(0, 24);
+            if (typeof isReservedUsername === 'function' && isReservedUsername(cleaned)
+                && !(typeof canUseReservedUsername === 'function' && canUseReservedUsername())) {
+                return 'Anonymous';
+            }
+            return cleaned || 'Anonymous';
         }
         return 'Anonymous';
     }
@@ -8758,33 +8819,96 @@ const counts = {};
         }
     }
 
+    const CHAT_CACHE_KEY = 'blookbase_chat_cache_v1';
+
+    function saveChatCache(rows) {
+        try {
+            localStorage.setItem(CHAT_CACHE_KEY, JSON.stringify((rows || []).slice(-CHAT_LIMIT)));
+        } catch (e) {}
+    }
+
+    function loadChatCache() {
+        try {
+            const raw = localStorage.getItem(CHAT_CACHE_KEY);
+            if (!raw) return [];
+            const arr = JSON.parse(raw);
+            if (!Array.isArray(arr)) return [];
+            return arr.filter(function (m) {
+                return m && (m.text || m.img) && m.ts;
+            }).slice(-CHAT_LIMIT);
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function rowsFromSnapshot(snap) {
+        const rows = [];
+        snap.forEach(function (doc) {
+            const d = doc.data() || {};
+            rows.push({
+                id: doc.id,
+                text: d.text,
+                name: d.name,
+                ts: d.ts,
+                img: d.img,
+                pfp: d.pfp
+            });
+        });
+        rows.reverse(); // oldest first
+        return rows;
+    }
+
     window.initChatPage = function initChatPage() {
-        if (!initFirebaseChat()) return;
+        // Show cached messages immediately so refresh keeps history visible
+        const cached = loadChatCache();
+        if (cached.length) renderChatMessages(cached);
+
+        if (!initFirebaseChat()) {
+            if (!cached.length) setChatStatus('Chat offline — messages saved on this device only.', 'err');
+            return;
+        }
         setChatStatus('', null);
         if (chatUnsub) {
             try { chatUnsub(); } catch (e) {}
             chatUnsub = null;
         }
         try {
-            chatUnsub = db.collection('chat')
-                .orderBy('ts', 'desc')
-                .limit(CHAT_LIMIT)
-                .onSnapshot(function (snap) {
-                    const rows = [];
-                    snap.forEach(function (doc) {
-                        const d = doc.data() || {};
-                        rows.push({ id: doc.id, text: d.text, name: d.name, ts: d.ts, img: d.img, pfp: d.pfp });
-                    });
-                    rows.reverse();
+            // Prefer server + cache; enable offline persistence once
+            if (!window.__bbFsPersist) {
+                window.__bbFsPersist = true;
+                db.enablePersistence({ synchronizeTabs: true }).catch(function () {});
+            }
+            const q = db.collection('chat').orderBy('ts', 'desc').limit(CHAT_LIMIT);
+            // One-shot load then live updates
+            q.get({ source: 'default' }).then(function (snap) {
+                const rows = rowsFromSnapshot(snap);
+                if (rows.length) {
+                    saveChatCache(rows);
                     renderChatMessages(rows);
-                    setChatStatus('', null);
-                }, function (err) {
-                    console.warn(err);
-                    setChatStatus('Cannot read chat. Deploy Firestore rules.', 'err');
-                });
+                } else if (cached.length) {
+                    renderChatMessages(cached);
+                } else {
+                    renderChatMessages([]);
+                }
+            }).catch(function (err) {
+                console.warn(err);
+                if (cached.length) renderChatMessages(cached);
+                else setChatStatus('Cannot load chat. Check Firestore rules.', 'err');
+            });
+            chatUnsub = q.onSnapshot(function (snap) {
+                const rows = rowsFromSnapshot(snap);
+                saveChatCache(rows);
+                renderChatMessages(rows);
+                setChatStatus('', null);
+            }, function (err) {
+                console.warn(err);
+                if (cached.length) renderChatMessages(cached);
+                else setChatStatus('Cannot read chat. Deploy Firestore rules.', 'err');
+            });
         } catch (e) {
             console.warn(e);
-            setChatStatus('Chat query failed.', 'err');
+            if (cached.length) renderChatMessages(cached);
+            else setChatStatus('Chat query failed.', 'err');
         }
         const input = document.getElementById('chat-input');
         if (input && !input._bbBound) {
@@ -8816,9 +8940,39 @@ const counts = {};
             setChatStatus('Slow down a second…', 'err');
             return false;
         }
-        if (!initFirebaseChat()) return false;
-        await db.collection('chat').add(payload);
+        if (!initFirebaseChat()) {
+            // Offline: still keep on this device
+            const local = loadChatCache();
+            local.push({
+                id: 'local_' + now,
+                text: payload.text,
+                name: payload.name,
+                ts: payload.ts || now,
+                img: payload.img,
+                pfp: payload.pfp
+            });
+            saveChatCache(local);
+            renderChatMessages(local);
+            lastSendAt = Date.now();
+            setChatStatus('Saved on this device (offline).', 'err');
+            return true;
+        }
+        const ref = await db.collection('chat').add(payload);
         lastSendAt = Date.now();
+        // Optimistic local cache so refresh keeps the message even before snapshot
+        try {
+            const local = loadChatCache();
+            local.push({
+                id: ref.id,
+                text: payload.text,
+                name: payload.name,
+                ts: payload.ts || now,
+                img: payload.img,
+                pfp: payload.pfp
+            });
+            local.sort(function (a, b) { return (a.ts || 0) - (b.ts || 0); });
+            saveChatCache(local.slice(-CHAT_LIMIT));
+        } catch (e) {}
         setChatStatus('', null);
         return true;
     }
