@@ -422,63 +422,56 @@
         }
         .banners-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 14px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 18px;
         }
         .banner-card {
             background-color: var(--accent);
             border: 6px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
+            border-radius: 14px;
             box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
             color: #fff;
             cursor: pointer;
-            padding: 10px;
+            padding: 18px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 0;
             transition: transform 0.15s, filter 0.15s;
             text-align: center;
-            min-height: 160px;
+            min-height: 200px;
             box-sizing: border-box;
+            overflow: hidden;
         }
         .banner-card:hover {
             transform: translateY(-3px);
             filter: brightness(1.08);
         }
         .banner-card img {
-            width: 100%;
-            height: 90px;
-            object-fit: cover;
+            width: 94%;
+            max-width: 320px;
+            height: 130px;
+            object-fit: contain;
+            object-position: center;
             border-radius: 8px;
-            background: rgba(0,0,0,0.15);
-            border: 2px solid rgba(255,255,255,0.15);
-        }
-        .banner-card .banner-name {
-            font-weight: 900;
-            font-size: 14px;
-            line-height: 1.2;
-        }
-        .banner-card .banner-meta {
-            font-size: 11px;
-            font-weight: 800;
-            opacity: 0.9;
+            background: transparent;
+            border: none;
+            display: block;
         }
         @media (max-width: 640px) {
             .banners-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                gap: 10px;
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 12px;
             }
             .banner-card {
-                min-height: 120px;
-                padding: 8px;
+                min-height: 150px;
+                padding: 12px;
             }
             .banner-card img {
-                height: 64px;
-            }
-            .banner-card .banner-name {
-                font-size: 12px;
+                width: 94%;
+                height: 90px;
+                max-width: 220px;
             }
         }
 
@@ -4177,7 +4170,7 @@
             </div>
             <div class="settings-section">
                 <h3>Username</h3>
-                <p class="settings-hint">Optional name for the live online counter. Change anytime — you won’t be asked again after the first choice.</p>
+                <p class="settings-hint">Optional name for the live online counter. Change anytime here in Settings.</p>
                 <p id="settings-username-status" style="font-size:13px;font-weight:800;margin:0 0 10px;opacity:0.95;">Current: —</p>
                 <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
                     <input type="text" id="settings-username-input" maxlength="24" placeholder="Username (optional)" autocomplete="nickname" style="flex:1;min-width:140px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;padding:10px 12px;border-radius:10px;border:3px solid rgba(255,255,255,0.35);background:rgba(0,0,0,0.2);color:#fff;outline:none;box-sizing:border-box;">
@@ -4187,7 +4180,7 @@
             </div>
             <div class="settings-section">
                 <h3>Feedback</h3>
-                <p class="settings-hint">Share ideas to add or things to fix. Opens the same form as the welcome popup.</p>
+                <p class="settings-hint">Share ideas to add or things to fix.</p>
                 <button class="settings-reset-btn" type="button" onclick="openFeedbackModal(true)">Send feedback</button>
             </div>
             <div class="settings-section">
@@ -5022,7 +5015,7 @@
             }
             if (status) {
                 if (name === null) {
-                    status.textContent = 'Not set yet — popup will ask once.';
+                    status.textContent = 'Not set yet — choose a name or stay anonymous below.';
                 } else if (name === '') {
                     status.textContent = 'Current: Anonymous';
                 } else {
@@ -5370,7 +5363,7 @@
             for (let i = 0; i < ids.length; i += 50) chunks.push(ids.slice(i, i + 50));
             const stats = new Map();
             for (const chunk of chunks) {
-                const url = 'https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=' +
+                const url = 'https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet,liveStreamingDetails&id=' +
                     encodeURIComponent(chunk.join(',')) + '&key=' + encodeURIComponent(YOUTUBE_API_KEY);
                 const res = await fetch(url);
                 if (!res.ok) {
@@ -5382,12 +5375,19 @@
                     const s = it.statistics || {};
                     const sn = it.snippet || {};
                     const liveState = sn.liveBroadcastContent; // live | upcoming | none
+                    const live = it.liveStreamingDetails || {};
+                    let concurrent = null;
+                    if (live.concurrentViewers != null && live.concurrentViewers !== '') {
+                        concurrent = Number(live.concurrentViewers);
+                        if (!Number.isFinite(concurrent)) concurrent = null;
+                    }
                     stats.set(it.id, {
                         views: s.viewCount != null ? Number(s.viewCount) : null,
                         likes: s.likeCount != null ? Number(s.likeCount) : 0,
                         title: sn.title || null,
                         isLive: liveState === 'live',
-                        channelTitle: sn.channelTitle || null
+                        channelTitle: sn.channelTitle || null,
+                        concurrentViewers: concurrent
                     });
                 });
             }
@@ -5400,6 +5400,7 @@
                     title: st.title || v.title,
                     isLive: !!st.isLive
                 });
+                if (st.concurrentViewers != null) out.concurrentViewers = st.concurrentViewers;
                 if (st.isLive) {
                     out.cat = 'live';
                     out.views = 'LIVE';
@@ -5549,7 +5550,48 @@
 
             const byId = new Map();
             streams.forEach(s => byId.set(s.id, s));
-            return Array.from(byId.values());
+            let unique = Array.from(byId.values());
+            unique = await enrichLiveViewerCounts(unique);
+            return unique;
+        }
+
+        async function enrichLiveViewerCounts(streams) {
+            if (!YOUTUBE_API_KEY || !streams || !streams.length) return streams || [];
+            const ids = [...new Set(streams.map(s => s.id).filter(Boolean))];
+            const viewers = new Map();
+            for (let i = 0; i < ids.length; i += 50) {
+                const chunk = ids.slice(i, i + 50);
+                const url = 'https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails,statistics&id=' +
+                    encodeURIComponent(chunk.join(',')) + '&key=' + encodeURIComponent(YOUTUBE_API_KEY);
+                try {
+                    const res = await fetch(url);
+                    if (!res.ok) {
+                        console.warn('YouTube live details', res.status);
+                        break;
+                    }
+                    const data = await res.json();
+                    (data.items || []).forEach(it => {
+                        const live = it.liveStreamingDetails || {};
+                        const stats = it.statistics || {};
+                        let n = null;
+                        if (live.concurrentViewers != null && live.concurrentViewers !== '') {
+                            n = Number(live.concurrentViewers);
+                        } else if (stats.viewCount != null) {
+                            // fallback: not concurrent, skip
+                            n = null;
+                        }
+                        if (Number.isFinite(n)) viewers.set(it.id, n);
+                    });
+                } catch (e) {
+                    console.warn('enrichLiveViewerCounts', e);
+                    break;
+                }
+            }
+            return streams.map(s => {
+                const n = viewers.get(s.id);
+                if (n == null) return s;
+                return Object.assign({}, s, { concurrentViewers: n, isLive: true, cat: 'live', views: 'LIVE' });
+            });
         }
 
         async function refreshVideosFromYouTube(force) {
@@ -5677,7 +5719,10 @@
                 </div>
                 <div class="vm-meta">
                     ${isLive
-                        ? '<span style="color:#ff6b6b;"><i class="fas fa-circle" style="font-size:8px;"></i> LIVE</span>'
+                        ? '<span style="color:#ff6b6b;"><i class="fas fa-circle" style="font-size:8px;"></i> LIVE</span>' +
+                          ((v.concurrentViewers != null && Number.isFinite(Number(v.concurrentViewers)))
+                            ? (' · <span><i class="fas fa-eye"></i> ' + formatLikes(v.concurrentViewers) + ' watching</span>')
+                            : '')
                         : `<span>${formatViews(v.views)} views</span> · <span><i class="fas fa-thumbs-up"></i> ${formatLikes(v.likes)}</span>`}
                 </div>
                 <div class="vm-desc">
@@ -5770,7 +5815,11 @@
                                 ${escapeHtml(v.channel)}
                             </span>
                             ${isLive
-                                ? `<span class="likes" style="color:#ff6b6b;"><i class="fas fa-circle" style="font-size:8px;"></i> LIVE</span>`
+                                ? `<span class="likes" style="color:#ff6b6b;"><i class="fas fa-circle" style="font-size:8px;"></i> LIVE</span>${
+                                    (v.concurrentViewers != null && Number.isFinite(Number(v.concurrentViewers)))
+                                      ? `<span class="likes"><i class="fas fa-eye"></i> ${formatLikes(v.concurrentViewers)} watching</span>`
+                                      : ''
+                                  }`
                                 : `<span>${formatViews(v.views)} views</span><span class="likes"><i class="fas fa-thumbs-up"></i> ${formatLikes(v.likes)}</span>`}
                         </div>
                     </div>
@@ -5852,7 +5901,7 @@
             const list = currentGmFilter === 'solo' ? soloGamemodes : hostGamemodes;
             const g = list[index];
             if (!g) return;
-            const letter = (g.name || 'G').charAt(0).toUpperCase();
+            const letter = 'B';
             document.getElementById('gm-modal-body').innerHTML = `
                 <div class="bb-shop-row">
                     <div class="bb-shop-card">
@@ -5966,15 +6015,10 @@
             const grid = document.getElementById('banners-grid');
             if (!grid) return;
             grid.innerHTML = bannersCatalog.map((b, i) => {
-                const priceLabel = b.price == null
-                    ? (b.rarity === 'Retired' ? 'Retired' : (b.rarity || '—'))
-                    : b.price + ' tokens';
                 return `
                 <div class="banner-card" onclick="openBannerModal(${i})" role="button" tabindex="0" title="${b.name}"
                      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openBannerModal(${i})}">
                     <img src="${bannerImgUrl(b.slug)}" alt="${b.name}" loading="lazy">
-                    <div class="banner-name">${b.name}</div>
-                    <div class="banner-meta">${priceLabel}</div>
                 </div>`;
             }).join('');
         }
@@ -5982,18 +6026,35 @@
         function openBannerModal(index) {
             const b = bannersCatalog[index];
             if (!b) return;
-            const letter = (b.name || 'B').charAt(0).toUpperCase();
+            const letter = 'B';
             const img = bannerImgUrl(b.slug);
+            const rarity = b.rarity || 'Uncommon';
             const priceHtml = b.price == null
-                ? `<span class="bb-shop-tag">${b.rarity || '—'}</span>`
+                ? ''
                 : `<span class="bb-shop-tag"><img class="token-ic" alt="Token" src="${TOKEN_ICON_BANNER}" draggable="false">${b.price}</span>`;
+            const rarityGradients = {
+                Common: 'radial-gradient(rgb(160,160,160) 40%, rgb(90,90,95))',
+                Uncommon: 'radial-gradient(rgb(125,255,179) 40%, rgb(45,140,70))',
+                Rare: 'radial-gradient(rgb(108,182,255) 40%, rgb(10,20,180))',
+                Epic: 'radial-gradient(rgb(199,125,255) 40%, rgb(120,30,180))',
+                Legendary: 'radial-gradient(rgb(255,179,71) 40%, rgb(200,100,20))',
+                Chroma: 'radial-gradient(rgb(94,234,212) 40%, rgb(0,140,130))',
+                Retired: 'radial-gradient(rgb(140,140,150) 40%, rgb(60,60,70))',
+                Starter: 'radial-gradient(rgb(11,194,207) 40%, rgb(52,154,239))',
+                Seasonal: 'radial-gradient(rgb(255,179,71) 40%, rgb(200,100,20))'
+            };
+            const bg = rarityGradients[rarity] || rarityGradients.Uncommon;
+            // rarityTagHtml is defined later — safe at click time
+            const rarityHtml = (typeof rarityTagHtml === 'function')
+                ? rarityTagHtml(rarity)
+                : `<span class="bb-shop-tag rarity-${rarity}">${rarity}</span>`;
             document.getElementById('banner-modal-body').innerHTML = `
                 <div class="bb-shop-row">
-                    <div class="bb-shop-card" style="background:radial-gradient(circle at 50% 40%, rgb(11,194,207) 0%, rgb(52,154,239) 100%);">
+                    <div class="bb-shop-card" style="background:${bg};">
                         <div class="bb-shop-shadow-letter">${letter}</div>
-                        <div class="bb-shop-img-wrap" style="display:flex;align-items:center;justify-content:center;padding:12px;box-sizing:border-box;">
+                        <div class="bb-shop-img-wrap" style="display:flex;align-items:center;justify-content:center;padding:14px;box-sizing:border-box;">
                             <img class="bb-shop-hero" src="${img}" alt="${b.name}" draggable="false"
-                                 style="position:relative!important;top:auto!important;left:auto!important;transform:none!important;width:100%!important;height:auto!important;max-width:100%!important;max-height:200px!important;object-fit:contain!important;">
+                                 style="position:relative!important;top:auto!important;left:auto!important;transform:none!important;width:100%!important;height:auto!important;max-width:100%!important;max-height:160px!important;object-fit:contain!important;width:90%!important;">
                         </div>
                         <div class="bb-shop-overlay"></div>
                     </div>
@@ -6001,7 +6062,7 @@
                         <div>
                             <h2 class="bb-shop-title">${b.name}</h2>
                             <div class="bb-shop-tags">
-                                <span class="bb-shop-tag">${b.rarity || '—'}</span>
+                                ${rarityHtml}
                                 ${priceHtml}
                             </div>
                             <p class="bb-shop-about">Locker banner — equip it from the Blooket Locker.</p>
@@ -6915,7 +6976,7 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
 
             const order = {'Mystical':0,'Unique':1,'Chroma':2,'Legendary':3,'Epic':4,'Rare':5,'Uncommon':6,'Common':7};
             const items = [...p.blooks].sort((a,b) => (order[a.rarity]??9) - (order[b.rarity]??9) || a.name.localeCompare(b.name));
-            const letter = (p.name || 'P').charAt(0).toUpperCase();
+            const letter = 'B';
             document.getElementById('pack-modal-body').innerHTML = `
                 <div class="bb-shop-row">
                     <div class="bb-shop-card">
@@ -6963,7 +7024,7 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
         function openBlookDetail(name, rarity, chance, packName) {
             const img = getBlookImg(name);
             const chanceText = (chance == null || chance === 'null') ? 'Event / Exclusive' : (Number(chance) + '%');
-            const letter = (name || 'B').charAt(0).toUpperCase();
+            const letter = 'B';
             const rarityGradients = {
                 Common: 'radial-gradient(rgb(160,160,160) 40%, rgb(90,90,95))',
                 Uncommon: 'radial-gradient(rgb(125,255,179) 40%, rgb(45,140,70))',
@@ -7768,9 +7829,10 @@ const counts = {};
                     if (ev.target === overlay) dismissFeedback(false);
                 });
             }
-            if (shouldShowFeedbackPopup()) {
-                setTimeout(function() { openFeedbackModal(false); }, 600);
-            }
+            // Auto popup disabled — feedback is only from Settings
+            // if (shouldShowFeedbackPopup()) {
+            //     setTimeout(function() { openFeedbackModal(false); }, 600);
+            // }
         }
 
         loadSettings();
@@ -7925,7 +7987,8 @@ const counts = {};
             connectBroker();
         })();
         setHomeTitle();
-        setTimeout(maybeShowUsernamePrompt, 400);
+        // Username prompt disabled on load — set name in Settings only
+        // setTimeout(maybeShowUsernamePrompt, 400);
 
         
 </script>
