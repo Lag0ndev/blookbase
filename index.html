@@ -1,4 +1,6 @@
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -368,7 +370,7 @@
             box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
             color: #fff;
             cursor: pointer;
-            padding: 14px;
+            padding: 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -387,12 +389,14 @@
             filter: brightness(1.08);
         }
         .gm-card img {
-            width: 200px;
-            height: 200px;
+            width: 220px;
+            height: 220px;
             flex-shrink: 0;
             object-fit: contain;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
         }
+
+
         .gm-card .gm-name {
             font-weight: 900;
             font-size: 17px;
@@ -420,69 +424,37 @@
             padding: 16px;
         }
         .gm-modal-box {
-            background-color: var(--accent);
+            background-color: #9a49aa;
             border: 6px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
             color: #fff;
             width: 100%;
-            max-width: 420px;
-            padding: 24px 22px 22px;
-            text-align: center;
+            max-width: 640px;
+            padding: 20px;
+            text-align: left;
             position: relative;
             animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .gm-modal-box img {
-            width: 160px;
-            height: 160px;
-            object-fit: contain;
-            margin-bottom: 12px;
-            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
-        }
-        .gm-modal-box h2 {
-            font-family: 'Titan One', sans-serif;
-            font-weight: normal;
-            font-size: 28px;
-            margin: 0 0 8px;
-            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
-        }
-        .gm-modal-box .gm-about {
-            font-weight: 800;
-            font-size: 15px;
-            margin: 0 0 14px;
-            opacity: 0.95;
-        }
-        .gm-modal-box .gm-details {
-            font-weight: 700;
-            font-size: 13.5px;
-            line-height: 1.55;
-            opacity: 0.95;
-            background: rgba(0,0,0,0.18);
-            border-radius: 8px;
-            padding: 14px 16px;
-            text-align: left;
-        }
-        .gm-modal-box .gm-details div {
-            margin: 5px 0;
-        }
-        .gm-modal-box .gm-details b {
-            font-weight: 900;
-            opacity: 0.85;
+            box-sizing: border-box;
         }
         .gm-modal-close {
             position: absolute;
             top: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.25);
+            right: 12px;
+            background: transparent;
             border: none;
-            color: white;
-            width: 34px;
-            height: 34px;
-            border-radius: 8px;
-            font-size: 16px;
+            color: rgba(255, 255, 255, 0.2);
+            width: auto;
+            height: auto;
+            padding: 8px;
+            border-radius: 0;
+            font-size: 22px;
             cursor: pointer;
+            z-index: 2;
+            transition: color 0.2s;
+            line-height: 1;
         }
-        .gm-modal-close:hover { background: rgba(0,0,0,0.4); }
+        .gm-modal-close:hover { color: #fff; background: transparent; }
 
         /* --- MARKET / PACKS --- */
         
@@ -541,70 +513,26 @@
             padding: 16px;
         }
         .pack-modal-box {
-            background-color: var(--accent);
+            background-color: #9a49aa;
             border: 6px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            box-shadow: 4px 4px rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
             color: #fff;
             width: 100%;
-            max-width: 560px;
-            max-height: min(88vh, 720px);
+            max-width: 640px;
+            max-height: min(90vh, 820px);
             overflow-y: auto;
-            padding: 22px 20px 20px;
-            text-align: center;
+            padding: 20px;
+            text-align: left;
             position: relative;
             animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .pack-modal-box > img.pack-hero {
-            width: 150px;
-            height: 150px;
-            object-fit: contain;
-            margin-bottom: 8px;
-            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
-        }
-        .pack-modal-box h2 {
-            font-family: 'Titan One', sans-serif;
-            font-weight: normal;
-            font-size: 26px;
-            margin: 0 0 6px;
-            text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
-        }
-        .pack-modal-box .pack-about {
-            font-weight: 800;
-            font-size: 14px;
-            margin: 0 0 12px;
-            opacity: 0.95;
-        }
-        .pack-info-block {
-            font-weight: 700;
-            font-size: 13px;
-            line-height: 1.5;
-            text-align: left;
-            background: rgba(0,0,0,0.18);
-            border-radius: 8px;
-            padding: 12px 14px;
-            margin-bottom: 14px;
-        }
-        .pack-info-block div { margin: 4px 0; }
-        .pack-info-block b { font-weight: 900; opacity: 0.85; }
-        .pack-rates {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 8px;
-        }
-        .pack-rate-pill {
-            font-size: 11px;
-            font-weight: 900;
-            padding: 4px 8px;
-            border-radius: 6px;
-            background: rgba(0,0,0,0.25);
+            box-sizing: border-box;
         }
         .pack-blooks-title {
             font-weight: 900;
             font-size: 14px;
             text-align: left;
-            margin: 0 0 10px;
+            margin: 16px 0 10px;
             opacity: 0.95;
         }
         .pack-blooks-grid {
@@ -620,6 +548,13 @@
             flex-direction: column;
             align-items: center;
             gap: 4px;
+            cursor: pointer;
+            transition: transform 0.12s, filter 0.12s, background 0.12s;
+        }
+        .pack-blook:hover {
+            background: rgba(0,0,0,0.28);
+            transform: translateY(-2px);
+            filter: brightness(1.08);
         }
         .pack-blook img {
             width: 48px;
@@ -650,18 +585,240 @@
         .pack-modal-close {
             position: absolute;
             top: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.25);
+            right: 12px;
+            background: transparent;
             border: none;
-            color: white;
-            width: 34px;
-            height: 34px;
-            border-radius: 8px;
-            font-size: 16px;
+            color: rgba(255, 255, 255, 0.2);
+            width: auto;
+            height: auto;
+            padding: 8px;
+            border-radius: 0;
+            font-size: 22px;
             cursor: pointer;
             z-index: 2;
+            transition: color 0.2s;
+            line-height: 1;
         }
-        .pack-modal-close:hover { background: rgba(0,0,0,0.4); }
+        .pack-modal-close:hover { color: #fff; background: transparent; }
+
+        /* --- BLOOK DETAIL MODAL --- */
+        #blook-detail-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            z-index: 10050;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+            padding: 16px;
+        }
+        .blook-detail-box {
+            background-color: #9a49aa;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
+            color: #fff;
+            width: 100%;
+            max-width: 640px;
+            padding: 20px;
+            text-align: left;
+            position: relative;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-sizing: border-box;
+        }
+        .blook-detail-close {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.2);
+            width: auto;
+            height: auto;
+            padding: 8px;
+            border-radius: 0;
+            font-size: 22px;
+            cursor: pointer;
+            z-index: 2;
+            transition: color 0.2s;
+            line-height: 1;
+        }
+        .blook-detail-close:hover { color: #fff; background: transparent; }
+
+        /* --- Official shop-style modal shared layout --- */
+        .bb-shop-row {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            gap: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        @media (max-width: 640px) {
+            .bb-shop-row { flex-direction: column; align-items: center; }
+        }
+        .bb-shop-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
+            background: radial-gradient(circle at 50% 40%, rgb(11, 194, 207) 0%, rgb(11, 194, 207) 42%, rgb(52, 154, 239) 100%);
+            flex-shrink: 0;
+            width: 285px;
+            max-width: 100%;
+            user-select: none;
+            box-sizing: border-box;
+        }
+        .bb-shop-img-wrap {
+            position: relative;
+            width: 100%;
+            height: 230px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+        }
+        .bb-shop-img-wrap img.bb-shop-hero {
+            position: relative;
+            z-index: 1;
+            max-width: 200px;
+            max-height: 180px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(2px 2px rgba(0,0,0,0.2));
+        }
+        .bb-shop-shadow-letter {
+            position: absolute;
+            top: 81%;
+            left: 86%;
+            transform: translate(-50%, -50%) rotate(10deg);
+            opacity: 0.35;
+            color: #fff;
+            font-size: 138px;
+            font-family: 'Titan One', cursive;
+            line-height: 1;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .bb-shop-overlay {
+            position: absolute;
+            inset: 0;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            pointer-events: none;
+            box-sizing: border-box;
+            z-index: 5;
+        }
+        .bb-shop-form {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+            min-height: 230px;
+            padding-top: 10px;
+            text-align: left;
+            gap: 10px;
+            box-sizing: border-box;
+            flex: 1;
+            min-width: 0;
+        }
+        .bb-shop-title {
+            font-family: 'Titan One', cursive;
+            font-weight: normal;
+            font-size: 32px;
+            margin: 0 0 5px;
+            line-height: 1.15;
+            color: #fff;
+        }
+        .bb-shop-tags {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin: 0;
+        }
+        .bb-shop-tag {
+            display: inline-flex;
+            align-items: center;
+            margin: 6px 0;
+            border-radius: 10px;
+            padding: 3px 8px;
+            background-color: rgba(0, 0, 0, 0.2);
+            height: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            user-select: none;
+            color: #fff;
+            gap: 4px;
+            box-sizing: border-box;
+        }
+        .bb-shop-tag img {
+            width: 18px;
+            height: 20px;
+            object-fit: contain;
+            margin: 0 2px 0 -2px;
+            flex-shrink: 0;
+        }
+        .bb-shop-tag img.token-ic {
+            width: 18px;
+            height: 19px;
+            margin: 0 4px 0 0;
+        }
+        .bb-shop-about {
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 1.45;
+            opacity: 0.95;
+            margin: 4px 0 0;
+        }
+        .bb-shop-details {
+            font-weight: 700;
+            font-size: 13px;
+            line-height: 1.5;
+            background: rgba(0,0,0,0.18);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-top: 4px;
+        }
+        .bb-shop-details div { margin: 3px 0; }
+        .bb-shop-details b { font-weight: 900; opacity: 0.85; }
+        .bb-shop-btn {
+            width: 100%;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            padding: 0;
+            user-select: none;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 16px;
+            color: #fff;
+            margin-top: auto;
+        }
+        .bb-shop-btn-inner {
+            background: #4053b3;
+            border-radius: 8px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            box-shadow: 0 4px 0 #2e3d8a;
+            transition: filter 0.12s, transform 0.12s;
+        }
+        .bb-shop-btn:hover .bb-shop-btn-inner { filter: brightness(1.08); }
+        .bb-shop-btn:active .bb-shop-btn-inner {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #2e3d8a;
+        }
+        .bb-shop-btn-inner img {
+            width: 22px;
+            height: 23px;
+            margin: 0;
+        }
+
         .about-box a {
             color: #fff3b0;
         }
@@ -732,6 +889,31 @@
             border-color: #fff;
             box-shadow: 0 0 0 2px rgba(255,255,255,0.35);
         }
+        .theme-card.locked {
+            cursor: not-allowed;
+            opacity: 0.75;
+            position: relative;
+        }
+        .theme-card.locked:hover {
+            background: rgba(0,0,0,0.18);
+            transform: none;
+        }
+        .theme-card.locked .theme-swatch {
+            filter: grayscale(0.35);
+            opacity: 0.7;
+        }
+        .theme-locked-label {
+            font-size: 11px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-top: 4px;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.25);
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
         .theme-swatch {
             min-height: 52px;
             height: 52px;
@@ -743,6 +925,7 @@
             font-weight: 900;
             font-size: 13px;
         }
+
         .bg-size-row {
             display: flex;
             align-items: center;
@@ -2347,23 +2530,27 @@
             display: none;
             flex-wrap: wrap;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            inset: 0;
+            width: 100%;
+            height: 100%;
             align-content: flex-start;
+            align-items: flex-start;
             overflow: hidden;
             background-color: rgb(29, 4, 34);
             z-index: 1000;
             transition: background-color 0.4s;
+            box-sizing: border-box;
         }
         .OpeningAnim_squaresWrapper__c76VA.active { display: flex; }
         .OpeningAnim_square__R9ztW {
             width: var(--sq-size, 173.4px);
             height: var(--sq-size, 173.4px);
+            flex: 0 0 var(--sq-size, 173.4px);
             transform: scale(0.833);
             border-radius: 10%;
+            box-sizing: border-box;
         }
+
         .OpeningAnim_squareInner__enpEy {
             position: relative;
             width: 100%;
@@ -3443,7 +3630,15 @@
         </div>
     </div>
 
+    <div id="blook-detail-modal" onclick="if(event.target===this)closeBlookDetail()">
+        <div class="blook-detail-box">
+            <button class="blook-detail-close" onclick="closeBlookDetail()" aria-label="Close"><i class="fas fa-times"></i></button>
+            <div id="blook-detail-body"></div>
+        </div>
+    </div>
+
     <div class="main-content" id="view-packsim" style="display: none;">
+
         <h1 class="header-title">Pack Sim</h1>
         <div class="ps-official-wrap">
             <div class="ps-official-grid" id="packsim-grid"></div>
@@ -3505,6 +3700,22 @@
         <div class="updates-wrap" id="updates-list">
             <div class="updates-section">
                 <div class="updates-header">
+                    <span class="updates-version">v3.1</span>
+                    <span class="updates-date">Sep 18, 2026</span>
+                </div>
+                <div class="updates-title">Blook detail · Gamemode logos · Themes restored</div>
+                <ul>
+                    <li>Click any blook inside a Packs modal to open a detail view (image, name, rarity, drop rate, pack)</li>
+                    <li>Purple detail modal with rarity-colored text and clean layout</li>
+                    <li>Gamemodes page: larger logo images that fill the purple cards better (220px)</li>
+                    <li>Site themes restored: Classic, Midnight, Sunset, Forest, and Custom color pickers</li>
+                </ul>
+
+
+
+            </div>
+            <div class="updates-section">
+                <div class="updates-header">
                     <span class="updates-version">v3.0</span>
                     <span class="updates-date">Sep 17, 2026</span>
                 </div>
@@ -3517,6 +3728,7 @@
                     <li>Pack counter, home button, and a Pack Results summary with Collect</li>
                 </ul>
             </div>
+
             <div class="updates-section">
                 <div class="updates-header">
                     <span class="updates-version">v2.9</span>
@@ -3693,6 +3905,8 @@
                     </div>
                 </div>
             </div>
+
+
             <div class="settings-section">
                 <h3>Blook Checkers Size</h3>
                 <p class="settings-hint">Resize the background pattern (Blooket checker tiles).</p>
@@ -4232,6 +4446,8 @@
         let sidebarPos = 'left';
         let sidebarAlways = false;
 
+
+
         const sidebarLayouts = [
             { key: 'left', name: 'Left' },
             { key: 'right', name: 'Right' },
@@ -4361,6 +4577,8 @@
             renderSettings();
         }
 
+
+
         function setBgBlookSize(px) {
             const n = Math.max(400, Math.min(2400, Number(px) || 1200));
             currentBgBlookSize = n;
@@ -4404,10 +4622,12 @@
             if (slider) slider.value = String(currentBgBlookSize);
             if (label) label.textContent = currentBgBlookSize + 'px';
             renderSidebarLayoutGrid();
-            const cb = document.getElementById('sidebar-always');
-            if (cb) cb.checked = !!sidebarAlways;
+            const alwaysCb = document.getElementById('sidebar-always');
+            if (alwaysCb) alwaysCb.checked = !!sidebarAlways;
             if (typeof updateSettingsUsernameUI === 'function') updateSettingsUsernameUI();
         }
+
+
 
         function resetSettings() {
             customTheme = { bgTop: '#667eea', bgMid: '#6b5bce', bgBottom: '#764ba2', accent: '#5b4db8', accentDark: '#3d2f8c', angle: 135 };
@@ -4633,6 +4853,8 @@
             if (currentView !== 'countdown') applySiteTheme();
             applySidebarLayout();
         }
+
+
 
         function applyPage(index) {
             currentPage = index;
@@ -5378,18 +5600,36 @@
             const list = currentGmFilter === 'solo' ? soloGamemodes : hostGamemodes;
             const g = list[index];
             if (!g) return;
+            const letter = (g.name || 'G').charAt(0).toUpperCase();
             document.getElementById('gm-modal-body').innerHTML = `
-                <img src="${g.logo}" alt="${g.name}">
-                <h2>${g.name}</h2>
-                ${g.plus ? '<div class="gm-plus" style="display:inline-block;margin-bottom:10px;">Plus Only</div>' : ''}
-                ${g.beta ? '<div class="gm-plus" style="display:inline-block;margin-bottom:10px;background:rgb(11,194,207);">Beta</div>' : ''}
-                <p class="gm-about">${g.about}</p>
-                <div class="gm-details">
-                    <div><b>Difficulty:</b> ${g.difficulty}</div>
-                    <div><b>Skills:</b> ${g.skills}</div>
-                    <div><b>Ideal Time:</b> ${g.time}</div>
-                    <div><b>Questions:</b> ${g.questions}</div>
-                    <div><b>Players:</b> ${g.players}</div>
+                <div class="bb-shop-row">
+                    <div class="bb-shop-card">
+                        <div class="bb-shop-img-wrap">
+                            <div class="bb-shop-shadow-letter">${letter}</div>
+                            <img class="bb-shop-hero" src="${g.logo}" alt="${g.name}" draggable="false">
+                        </div>
+                        <div class="bb-shop-overlay"></div>
+                    </div>
+                    <div class="bb-shop-form">
+                        <div>
+                            <h2 class="bb-shop-title">${g.name}</h2>
+                            <div class="bb-shop-tags">
+                                ${g.plus ? '<span class="bb-shop-tag">Plus Only</span>' : ''}
+                                ${g.beta ? '<span class="bb-shop-tag" style="background:rgba(11,194,207,0.45);">Beta</span>' : ''}
+                                <span class="bb-shop-tag">${g.difficulty || '—'}</span>
+                            </div>
+                            <p class="bb-shop-about">${g.about || ''}</p>
+                            <div class="bb-shop-details">
+                                <div><b>Skills:</b> ${g.skills || '—'}</div>
+                                <div><b>Ideal Time:</b> ${g.time || '—'}</div>
+                                <div><b>Questions:</b> ${g.questions || '—'}</div>
+                                <div><b>Players:</b> ${g.players || '—'}</div>
+                            </div>
+                        </div>
+                        <button type="button" class="bb-shop-btn" onclick="closeGmModal()">
+                            <div class="bb-shop-btn-inner">Close</div>
+                        </button>
+                    </div>
                 </div>
             `;
             document.getElementById('gm-modal').style.display = 'flex';
@@ -6256,23 +6496,72 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
             `).join('');
         }
 
+        const RARITY_ICON = {
+            Common: 'https://ac.blooket.com/dashboard/44dd4f06a6c235efdabcb69d5280e2306552f58f/_next/static/media/common.38546a9e.svg',
+            Uncommon: 'https://ac.blooket.com/dashboard/44dd4f06a6c235efdabcb69d5280e2306552f58f/_next/static/media/uncommon.2b8463be.svg',
+            Rare: 'https://ac.blooket.com/dashboard/44dd4f06a6c235efdabcb69d5280e2306552f58f/_next/static/media/rare.efca39f2.svg',
+            Epic: 'https://ac.blooket.com/dashboard/44dd4f06a6c235efdabcb69d5280e2306552f58f/_next/static/media/epic.7f15d3ac.svg',
+            Legendary: 'https://ac.blooket.com/dashboard/44dd4f06a6c235efdabcb69d5280e2306552f58f/_next/static/media/legendary.864a3830.svg',
+            Chroma: 'https://ac.blooket.com/dashboard/44dd4f06a6c235efdabcb69d5280e2306552f58f/_next/static/media/chroma.2f1bc592.svg',
+            Mystical: 'https://ac.blooket.com/dashboard/44dd4f06a6c235efdabcb69d5280e2306552f58f/_next/static/media/chroma.2f1bc592.svg',
+            Unique: 'https://ac.blooket.com/dashboard/44dd4f06a6c235efdabcb69d5280e2306552f58f/_next/static/media/chroma.2f1bc592.svg'
+        };
+        const TOKEN_ICON_SHOP = 'https://ac.blooket.com/dashboard/44dd4f06a6c235efdabcb69d5280e2306552f58f/_next/static/media/token.8de4e1b8.svg';
+
+        function rarityTagHtml(rarity) {
+            const src = RARITY_ICON[rarity];
+            if (src) {
+                return `<span class="bb-shop-tag"><img src="${src}" alt="${rarity}" draggable="false">${rarity}</span>`;
+            }
+            return `<span class="bb-shop-tag">${rarity || '—'}</span>`;
+        }
+
         function openPackModal(index) {
             const p = marketPacks[index];
             if (!p) return;
+            // Ensure other overlays aren't mixed in
+            const gmEl = document.getElementById('gm-modal');
+            if (gmEl) gmEl.style.display = 'none';
+            const bdEl = document.getElementById('blook-detail-modal');
+            if (bdEl) bdEl.style.display = 'none';
+            // If gamemodes page is visible by mistake, return to Packs
+            const gmView = document.getElementById('view-gamemodes');
+            if (gmView && gmView.style.display !== 'none' && typeof switchView === 'function') {
+                switchView('market', true);
+            }
+
             const order = {'Mystical':0,'Unique':1,'Chroma':2,'Legendary':3,'Epic':4,'Rare':5,'Uncommon':6,'Common':7};
             const items = [...p.blooks].sort((a,b) => (order[a.rarity]??9) - (order[b.rarity]??9) || a.name.localeCompare(b.name));
+            const letter = (p.name || 'P').charAt(0).toUpperCase();
             document.getElementById('pack-modal-body').innerHTML = `
-                <img class="pack-hero" src="${p.icon}" alt="${p.name}">
-                <h2>${p.name} Pack</h2>
-                <div class="pack-info-block">
-                    <div><b>Price:</b> ${p.price} tokens</div>
-                    <div><b>Released:</b> ${p.year}</div>
-                    <div><b>Theme:</b> ${p.about}</div>
+                <div class="bb-shop-row">
+                    <div class="bb-shop-card">
+                        <div class="bb-shop-img-wrap">
+                            <div class="bb-shop-shadow-letter">${letter}</div>
+                            <img class="bb-shop-hero" src="${p.icon}" alt="${p.name}" draggable="false">
+                        </div>
+                        <div class="bb-shop-overlay"></div>
+                    </div>
+                    <div class="bb-shop-form" style="justify-content:flex-start;">
+                        <div>
+                            <h2 class="bb-shop-title">${p.name} Pack</h2>
+                            <div class="bb-shop-tags">
+                                <span class="bb-shop-tag">
+                                    <img class="token-ic" src="${TOKEN_ICON_SHOP}" alt="Token" draggable="false">
+                                    ${p.price}
+                                </span>
+                                <span class="bb-shop-tag">${p.year}</span>
+                            </div>
+                            <p class="bb-shop-about">${p.about || ''}</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="pack-blooks-title">Blooks in this pack</div>
                 <div class="pack-blooks-grid">
                     ${items.map(b => `
-                        <div class="pack-blook" title="${b.name} · ${b.chance == null ? "Event" : b.chance + "%"} · ${b.rarity}">
+                        <div class="pack-blook" role="button" tabindex="0" title="${b.name} · ${b.chance == null ? "Event" : b.chance + "%"} · ${b.rarity}"
+                             onclick="openBlookDetail('${b.name.replace(/'/g, "\\'")}', '${b.rarity}', ${b.chance == null ? 'null' : b.chance}, '${p.name.replace(/'/g, "\\'")}')"
+                             onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openBlookDetail('${b.name.replace(/'/g, "\\'")}', '${b.rarity}', ${b.chance == null ? 'null' : b.chance}, '${p.name.replace(/'/g, "\\'")}')}">
                             <img src="${getBlookImg(b.name)}" alt="${b.name}" loading="lazy">
                             <div class="bn">${b.name}</div>
                             <div class="br rarity-${b.rarity}">${b.rarity}</div>
@@ -6287,6 +6576,53 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
         function closePackModal() {
             document.getElementById('pack-modal').style.display = 'none';
         }
+
+        function openBlookDetail(name, rarity, chance, packName) {
+            const img = getBlookImg(name);
+            const chanceText = (chance == null || chance === 'null') ? 'Event / Exclusive' : (Number(chance) + '%');
+            const letter = (name || 'B').charAt(0).toUpperCase();
+            const rarityGradients = {
+                Common: 'radial-gradient(rgb(160,160,160) 40%, rgb(90,90,95))',
+                Uncommon: 'radial-gradient(rgb(125,255,179) 40%, rgb(45,140,70))',
+                Rare: 'radial-gradient(rgb(108,182,255) 40%, rgb(10,20,180))',
+                Epic: 'radial-gradient(rgb(199,125,255) 40%, rgb(120,30,180))',
+                Legendary: 'radial-gradient(rgb(255,179,71) 40%, rgb(200,100,20))',
+                Chroma: 'radial-gradient(rgb(94,234,212) 40%, rgb(0,140,130))',
+                Mystical: 'radial-gradient(rgb(232,121,249) 40%, rgb(120,30,160))',
+                Unique: 'radial-gradient(rgb(45,212,191) 40%, rgb(0,120,110))'
+            };
+            const bg = rarityGradients[rarity] || rarityGradients.Uncommon;
+            document.getElementById('blook-detail-body').innerHTML = `
+                <div class="bb-shop-row">
+                    <div class="bb-shop-card" style="background:${bg};">
+                        <div class="bb-shop-img-wrap">
+                            <div class="bb-shop-shadow-letter">${letter}</div>
+                            <img class="bb-shop-hero" src="${img}" alt="${name}" draggable="false">
+                        </div>
+                        <div class="bb-shop-overlay"></div>
+                    </div>
+                    <div class="bb-shop-form">
+                        <div>
+                            <h2 class="bb-shop-title">${name}</h2>
+                            <div class="bb-shop-tags">
+                                ${rarityTagHtml(rarity)}
+                                <span class="bb-shop-tag">${chanceText}</span>
+                                ${packName ? `<span class="bb-shop-tag">${packName}</span>` : ''}
+                            </div>
+                        </div>
+                        <button type="button" class="bb-shop-btn" onclick="closeBlookDetail()">
+                            <div class="bb-shop-btn-inner">Close</div>
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('blook-detail-modal').style.display = 'flex';
+        }
+
+        function closeBlookDetail() {
+            document.getElementById('blook-detail-modal').style.display = 'none';
+        }
+
 
         /* ---------- PACK SIM (official-style market packs + opening animation) ---------- */
 
@@ -6618,10 +6954,13 @@ function buildSquares(slug) {
             grid.style.backgroundColor = theme.bg;
             grid.classList.remove('is-uncommon', 'is-rare', 'is-epic', 'is-legendary', 'is-chroma', 'is-mystical', 'is-unique', 'is-common');
             grid.innerHTML = '';
-            // Fill the whole viewport, whatever its size, with ~173px tiles
+            // Fill the whole viewport — overfill so scaled tiles never leave a gap on the right/bottom
             const size = 173.4;
-            psGridCols = Math.max(7, Math.ceil(window.innerWidth / size));
-            psGridRows = Math.max(7, Math.ceil(window.innerHeight / size));
+            const w = Math.max(window.innerWidth, document.documentElement.clientWidth || 0);
+            const h = Math.max(window.innerHeight, document.documentElement.clientHeight || 0);
+            // +2 cols / +1 row accounts for scale(0.833) visual inset and any rounding
+            psGridCols = Math.max(8, Math.ceil(w / size) + 2);
+            psGridRows = Math.max(8, Math.ceil(h / size) + 1);
             grid.style.setProperty('--sq-size', size + 'px');
             const count = psGridCols * psGridRows;
             for (let i = 0; i < count; i++) {
@@ -6635,6 +6974,7 @@ function buildSquares(slug) {
                 grid.appendChild(square);
             }
         }
+
 
         function resetSquares() {
             document.querySelectorAll('.OpeningAnim_squareInner__enpEy').forEach(el => {
