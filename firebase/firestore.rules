@@ -1,0 +1,34 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Public chat: anyone can read; anyone can CREATE a valid message; no edits/deletes from clients
+    match /chat/{messageId} {
+      allow read: if true;
+
+      allow create: if
+        request.resource.data.keys().hasOnly(['text', 'name', 'ts', 'sid'])
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0
+        && request.resource.data.text.size() <= 300
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 24
+        && request.resource.data.ts is int
+        // reject far-future / ancient timestamps (skew window ~2 hours)
+        && request.resource.data.ts > request.time.toMillis() - 7200000
+        && request.resource.data.ts < request.time.toMillis() + 300000
+        && request.resource.data.sid is string
+        && request.resource.data.sid.size() > 0
+        && request.resource.data.sid.size() <= 64;
+
+      // Clients cannot edit or delete messages (admin console only)
+      allow update, delete: if false;
+    }
+
+    // Deny everything else by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
