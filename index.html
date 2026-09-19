@@ -1,6 +1,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -412,7 +413,77 @@
             border-radius: 6px;
             width: fit-content;
         }
-        #gm-modal {
+
+        /* --- BANNERS (reuse gm grid look, wider art) --- */
+        .banners-wrap {
+            width: 100%;
+            max-width: 1100px;
+            padding-bottom: 40px;
+        }
+        .banners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+        }
+        .banner-card {
+            background-color: var(--accent);
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
+            color: #fff;
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.15s, filter 0.15s;
+            text-align: center;
+            min-height: 160px;
+            box-sizing: border-box;
+        }
+        .banner-card:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.08);
+        }
+        .banner-card img {
+            width: 100%;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.15);
+            border: 2px solid rgba(255,255,255,0.15);
+        }
+        .banner-card .banner-name {
+            font-weight: 900;
+            font-size: 14px;
+            line-height: 1.2;
+        }
+        .banner-card .banner-meta {
+            font-size: 11px;
+            font-weight: 800;
+            opacity: 0.9;
+        }
+        @media (max-width: 640px) {
+            .banners-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 10px;
+            }
+            .banner-card {
+                min-height: 120px;
+                padding: 8px;
+            }
+            .banner-card img {
+                height: 64px;
+            }
+            .banner-card .banner-name {
+                font-size: 12px;
+            }
+        }
+
+        #gm-modal,
+        #banner-modal {
             display: none;
             position: fixed;
             inset: 0;
@@ -655,9 +726,6 @@
             width: 100%;
             box-sizing: border-box;
         }
-        @media (max-width: 640px) {
-            .bb-shop-row { flex-direction: column; align-items: center; }
-        }
         .bb-shop-card {
             position: relative;
             border-radius: 20px;
@@ -669,38 +737,57 @@
             max-width: 100%;
             user-select: none;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            min-height: 240px;
         }
         .bb-shop-img-wrap {
             position: relative;
             width: 100%;
-            height: 230px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            flex: 1 1 auto;
+            min-height: 240px;
+            height: auto;
             background: transparent;
+            overflow: hidden;
+            box-sizing: border-box;
         }
         .bb-shop-img-wrap img.bb-shop-hero {
-            position: relative;
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            right: auto !important;
+            bottom: auto !important;
+            transform: translate(-50%, -50%) !important;
             z-index: 1;
-            max-width: 200px;
-            max-height: 180px;
-            width: auto;
-            height: auto;
-            object-fit: contain;
+            width: 200px !important;
+            height: 200px !important;
+            max-width: 200px !important;
+            max-height: 200px !important;
+            object-fit: contain !important;
+            object-position: center center !important;
+            display: block !important;
+            margin: 0 !important;
+            padding: 0 !important;
             filter: drop-shadow(2px 2px rgba(0,0,0,0.2));
         }
-        .bb-shop-shadow-letter {
+        .bb-shop-card > .bb-shop-shadow-letter,
+        .bb-shop-img-wrap > .bb-shop-shadow-letter {
             position: absolute;
-            top: 81%;
-            left: 86%;
-            transform: translate(-50%, -50%) rotate(10deg);
-            opacity: 0.35;
+            bottom: 2px;
+            right: 6px;
+            top: auto !important;
+            left: auto !important;
+            transform: rotate(10deg);
+            opacity: 0.4;
             color: #fff;
-            font-size: 138px;
+            font-size: 110px;
             font-family: 'Titan One', cursive;
-            line-height: 1;
+            line-height: 0.85;
             pointer-events: none;
             z-index: 0;
+            user-select: none;
+            margin: 0;
+            padding: 0;
         }
         .bb-shop-overlay {
             position: absolute;
@@ -716,7 +803,7 @@
             flex-direction: column;
             justify-content: space-between;
             width: 100%;
-            min-height: 230px;
+            min-height: 240px;
             padding-top: 10px;
             text-align: left;
             gap: 10px;
@@ -731,6 +818,134 @@
             margin: 0 0 5px;
             line-height: 1.15;
             color: #fff;
+        }
+
+        /* --- Mobile improvements --- */
+        @media (max-width: 640px) {
+            .bb-shop-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 14px;
+            }
+            .bb-shop-card {
+                width: 100%;
+                max-width: 280px;
+            }
+            .bb-shop-img-wrap {
+                height: 220px;
+                min-height: 220px;
+                flex: none;
+            }
+            .bb-shop-img-wrap img.bb-shop-hero {
+                width: 180px !important;
+                height: 180px !important;
+                max-width: 180px !important;
+                max-height: 180px !important;
+            }
+            .bb-shop-form {
+                min-height: 0;
+                width: 100%;
+                padding-top: 0;
+            }
+            .bb-shop-title {
+                font-size: 26px;
+                text-align: center;
+            }
+            .bb-shop-tags {
+                justify-content: center;
+            }
+            .bb-shop-about {
+                text-align: center;
+            }
+            .gm-modal-box,
+            .pack-modal-box,
+            .blook-detail-box {
+                max-width: 96vw;
+                padding: 16px 14px;
+                max-height: 92vh;
+            }
+            .header-title {
+                font-size: 36px;
+                margin-bottom: 24px;
+            }
+            .main-content {
+                padding: 48px 12px 24px 12px;
+            }
+            .gamemodes-grid,
+            .market-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 10px;
+            }
+            .gm-card,
+            .pack-card {
+                min-height: 150px;
+                padding: 8px;
+            }
+            .gm-card img {
+                width: 120px;
+                height: 120px;
+            }
+            .pack-card img {
+                width: 110px;
+                height: 110px;
+            }
+            .countdown-box {
+                min-width: 72px;
+                padding: 14px 10px;
+            }
+            .countdown-number {
+                font-size: 32px;
+            }
+            .home-banner h2 {
+                font-size: 22px;
+            }
+            .home-card h3 {
+                font-size: 20px;
+            }
+            .watermark {
+                font-size: 40px;
+                right: 10px;
+                bottom: 8px;
+            }
+            .online-counter {
+                left: 10px;
+                bottom: 10px;
+                font-size: 12px;
+            }
+            .menu-btn {
+                top: 12px;
+                left: 12px;
+                width: 44px;
+                height: 44px;
+            }
+            .pack-blooks-grid {
+                grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+                gap: 8px;
+            }
+        }
+        @media (max-width: 400px) {
+            .header-title {
+                font-size: 28px;
+            }
+            .bb-shop-title {
+                font-size: 22px;
+            }
+            .bb-shop-img-wrap img.bb-shop-hero {
+                width: 160px !important;
+                height: 160px !important;
+                max-width: 160px !important;
+                max-height: 160px !important;
+            }
+            .countdown-grid {
+                gap: 10px;
+            }
+            .countdown-box {
+                min-width: 64px;
+                padding: 12px 8px;
+            }
+            .countdown-number {
+                font-size: 26px;
+            }
         }
         .bb-shop-tags {
             display: flex;
@@ -3375,6 +3590,12 @@
                     </button>
                 </li>
                 <li>
+                    <button class="sidebar-link" data-view="banners" onclick="switchView('banners')">
+                        <span class="sidebar-listIcon"><i class="fas fa-image"></i></span>
+                        <span class="sidebar-text">Banners</span>
+                    </button>
+                </li>
+                <li>
                     <button class="sidebar-link" data-view="market" onclick="switchView('market')">
                         <span class="sidebar-listIcon"><i class="fas fa-store"></i></span>
                         <span class="sidebar-text">Packs</span>
@@ -3616,6 +3837,21 @@
         </div>
     </div>
 
+
+    <div class="main-content" id="view-banners" style="display: none;">
+        <h1 class="header-title">Banners</h1>
+        <div class="banners-wrap">
+            <div class="banners-grid" id="banners-grid"></div>
+        </div>
+    </div>
+
+    <div id="banner-modal" onclick="if(event.target===this)closeBannerModal()">
+        <div class="gm-modal-box" id="banner-modal-box">
+            <button class="gm-modal-close" onclick="closeBannerModal()" aria-label="Close"><i class="fas fa-times"></i></button>
+            <div id="banner-modal-body"></div>
+        </div>
+    </div>
+
     <div class="main-content" id="view-market" style="display: none;">
         <h1 class="header-title">Packs</h1>
         <div class="market-wrap">
@@ -3700,6 +3936,22 @@
         <div class="updates-wrap" id="updates-list">
             <div class="updates-section">
                 <div class="updates-header">
+                    <span class="updates-version">v3.2</span>
+                    <span class="updates-date">Sep 19, 2026</span>
+                </div>
+                <div class="updates-title">Banners page · Modal centering · Desktop logo fix</div>
+                <ul>
+                    <li>New <b>Banners</b> page in the sidebar with all 61 locker banners</li>
+                    <li>Banner grid cards show preview, name, price/rarity — click for a centered popup</li>
+                    <li>Popup shows banner art, rarity, token price, and short description (no asset URLs)</li>
+                    <li>Prices from shop data: Uncommon 100, Rare ~350, Epic 750, plus Retired / Starter tags</li>
+                    <li>Route: <b>/banners</b> — works with browser back/forward like other pages</li>
+                    <li>Gamemode &amp; pack detail modals: logo now stays centered on desktop when the card stretches with the text column</li>
+                    <li>Mobile banner cards scale down cleanly under 640px</li>
+                </ul>
+            </div>
+            <div class="updates-section">
+                <div class="updates-header">
                     <span class="updates-version">v3.1</span>
                     <span class="updates-date">Sep 18, 2026</span>
                 </div>
@@ -3710,9 +3962,6 @@
                     <li>Gamemodes page: larger logo images that fill the purple cards better (220px)</li>
                     <li>Site themes restored: Classic, Midnight, Sunset, Forest, and Custom color pickers</li>
                 </ul>
-
-
-
             </div>
             <div class="updates-section">
                 <div class="updates-header">
@@ -4091,7 +4340,7 @@
             });
         }
         function switchView(view, skipUrl) {
-            const allowed = ['home', 'countdown', 'whatsnew', 'videos', 'gamemodes', 'market', 'packsim', 'updates', 'settings', 'about', '404'];
+            const allowed = ['home', 'countdown', 'whatsnew', 'videos', 'gamemodes', 'banners', 'market', 'packsim', 'updates', 'settings', 'about', '404'];
             if (!allowed.includes(view)) view = '404';
             if (typeof exitOpening === 'function' && typeof phase !== 'undefined' && phase !== 'idle') {
                 exitOpening();
@@ -4102,6 +4351,8 @@
             document.getElementById('view-whatsnew').style.display = view === 'whatsnew' ? 'flex' : 'none';
             document.getElementById('view-videos').style.display = view === 'videos' ? 'flex' : 'none';
             document.getElementById('view-gamemodes').style.display = view === 'gamemodes' ? 'flex' : 'none';
+            const vb = document.getElementById('view-banners');
+            if (vb) vb.style.display = view === 'banners' ? 'flex' : 'none';
             document.getElementById('view-market').style.display = view === 'market' ? 'flex' : 'none';
             document.getElementById('view-packsim').style.display = view === 'packsim' ? 'flex' : 'none';
             document.getElementById('view-updates').style.display = view === 'updates' ? 'flex' : 'none';
@@ -4119,6 +4370,7 @@
             }
             if (view === 'videos') { renderVideos(); refreshVideosFromYouTube(false); }
             if (view === 'gamemodes') renderGamemodes();
+            if (view === 'banners') renderBanners();
             if (view === 'market') renderMarket();
             if (view === 'packsim') renderPackSim();
             if (view === 'settings') renderSettings();
@@ -5604,9 +5856,10 @@
             document.getElementById('gm-modal-body').innerHTML = `
                 <div class="bb-shop-row">
                     <div class="bb-shop-card">
+                        <div class="bb-shop-shadow-letter">${letter}</div>
                         <div class="bb-shop-img-wrap">
-                            <div class="bb-shop-shadow-letter">${letter}</div>
-                            <img class="bb-shop-hero" src="${g.logo}" alt="${g.name}" draggable="false">
+                            <img class="bb-shop-hero" src="${g.logo}" alt="${g.name}" draggable="false"
+                                 style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:200px;height:200px;object-fit:contain;margin:0;padding:0;display:block;">
                         </div>
                         <div class="bb-shop-overlay"></div>
                     </div>
@@ -5638,6 +5891,136 @@
         function closeGmModal() {
             document.getElementById('gm-modal').style.display = 'none';
         }
+
+        /* ---------- BANNERS ---------- */
+        const bannersCatalog = [
+            { name: 'Art Class', slug: 'artClass', price: 100, rarity: 'Uncommon' },
+            { name: 'Baguette', slug: 'baguette', price: 100, rarity: 'Uncommon' },
+            { name: 'Bakery', slug: 'bakery', price: 100, rarity: 'Uncommon' },
+            { name: 'Baseball', slug: 'baseball', price: 100, rarity: 'Uncommon' },
+            { name: 'Basketball Court', slug: 'basketballCourt', price: 100, rarity: 'Uncommon' },
+            { name: 'Bookshelf', slug: 'bookshelf', price: 100, rarity: 'Uncommon' },
+            { name: 'Carrot', slug: 'carrot', price: 100, rarity: 'Uncommon' },
+            { name: 'Chalkboard', slug: 'chalkboard', price: 100, rarity: 'Uncommon' },
+            { name: 'Chocolate', slug: 'chocolate', price: 100, rarity: 'Uncommon' },
+            { name: 'Christmas Tree', slug: 'christmasTree', price: null, rarity: 'Retired' },
+            { name: 'Clockwork', slug: 'clockwork', price: 750, rarity: 'Epic' },
+            { name: 'Comic', slug: 'comic', price: 100, rarity: 'Uncommon' },
+            { name: 'Easter Field', slug: 'easterField', price: 100, rarity: 'Uncommon' },
+            { name: 'Easter Pattern', slug: 'easterPattern', price: null, rarity: 'Retired' },
+            { name: 'End of the Rainbow', slug: 'endRainbow', price: 100, rarity: 'Uncommon' },
+            { name: 'Fall Picnic', slug: 'fallPicnic', price: 100, rarity: 'Uncommon' },
+            { name: 'Falling Blocks', slug: 'fallingBlocks', price: 100, rarity: 'Uncommon' },
+            { name: 'Farm', slug: 'farm', price: 100, rarity: 'Uncommon' },
+            { name: 'Fire', slug: 'fire', price: 350, rarity: 'Rare' },
+            { name: 'Fish Tank', slug: 'fishTank', price: 100, rarity: 'Uncommon' },
+            { name: 'Flying Kite', slug: 'flyingKite', price: 100, rarity: 'Uncommon' },
+            { name: 'Football Field', slug: 'footballField', price: 100, rarity: 'Uncommon' },
+            { name: 'Gift Tag', slug: 'giftTag', price: 100, rarity: 'Uncommon' },
+            { name: 'Gingerbread House', slug: 'gingerbreadHouse', price: 100, rarity: 'Uncommon' },
+            { name: 'Gummy Worm', slug: 'gummyWorm', price: 100, rarity: 'Uncommon' },
+            { name: 'Harvest', slug: 'harvest', price: null, rarity: 'Seasonal' },
+            { name: 'Hockey Rink', slug: 'hockeyRink', price: 100, rarity: 'Uncommon' },
+            { name: 'Hot Dog', slug: 'hotDog', price: 100, rarity: 'Uncommon' },
+            { name: 'Ice Cream Sandwich', slug: 'iceCreamSandwich', price: 100, rarity: 'Uncommon' },
+            { name: 'Ice Cream Truck', slug: 'iceCreamTruck', price: 100, rarity: 'Uncommon' },
+            { name: 'Japanese Garden', slug: 'japaneseGarden', price: 100, rarity: 'Uncommon' },
+            { name: 'Leaves', slug: 'leaves', price: 100, rarity: 'Uncommon' },
+            { name: 'Love Letter', slug: 'loveLetter', price: 100, rarity: 'Uncommon' },
+            { name: 'Marker', slug: 'marker', price: 100, rarity: 'Uncommon' },
+            { name: 'Music Class', slug: 'musicClass', price: 100, rarity: 'Uncommon' },
+            { name: 'No Ghosts Allowed', slug: 'noGhostsAllowed', price: 100, rarity: 'Uncommon' },
+            { name: 'Orange Ice Pop', slug: 'orangeIcePop', price: 100, rarity: 'Uncommon' },
+            { name: 'Outer Space', slug: 'outerSpace', price: 100, rarity: 'Uncommon' },
+            { name: 'Paint Brush', slug: 'paintBrush', price: 100, rarity: 'Uncommon' },
+            { name: 'Pizza', slug: 'pizza', price: 100, rarity: 'Uncommon' },
+            { name: 'Pumpkins', slug: 'pumpkins', price: 100, rarity: 'Uncommon' },
+            { name: 'Road Sign', slug: 'roadSign', price: 100, rarity: 'Uncommon' },
+            { name: 'Rollerblades', slug: 'rollerblades', price: 100, rarity: 'Uncommon' },
+            { name: 'Sandwich', slug: 'sandwich', price: 100, rarity: 'Uncommon' },
+            { name: 'Science Class', slug: 'scienceClass', price: 100, rarity: 'Uncommon' },
+            { name: 'Shamrocks', slug: 'shamrocks', price: 100, rarity: 'Uncommon' },
+            { name: 'Skateboard', slug: 'skateboard', price: 100, rarity: 'Uncommon' },
+            { name: 'Slime', slug: 'slime', price: 350, rarity: 'Rare' },
+            { name: 'Soccer Field', slug: 'soccerField', price: 100, rarity: 'Uncommon' },
+            { name: 'Spooky', slug: 'spooky', price: null, rarity: 'Retired' },
+            { name: 'Spooky Bush', slug: 'spookyBush', price: 100, rarity: 'Uncommon' },
+            { name: 'Starter', slug: 'starter', price: null, rarity: 'Starter' },
+            { name: 'Sunset', slug: 'sunset', price: 350, rarity: 'Rare' },
+            { name: 'Sushi', slug: 'sushi', price: 100, rarity: 'Uncommon' },
+            { name: 'Tech Chip', slug: 'techChip', price: 100, rarity: 'Uncommon' },
+            { name: 'Theater', slug: 'theater', price: 100, rarity: 'Uncommon' },
+            { name: 'Tiger', slug: 'tiger', price: 100, rarity: 'Uncommon' },
+            { name: 'Toaster Pastry', slug: 'toasterPastry', price: 100, rarity: 'Uncommon' },
+            { name: 'Winter Drive', slug: 'winterDrive', price: 100, rarity: 'Uncommon' },
+            { name: 'Winter Landscape', slug: 'winterLandscape', price: 100, rarity: 'Uncommon' },
+            { name: 'Workbench', slug: 'workbench', price: 100, rarity: 'Uncommon' }
+        ];
+        const TOKEN_ICON_BANNER = 'https://ac.blooket.com/dashboard/415a831e929477679653225a9a85450b376d5d81/_next/static/media/token.8de4e1b8.svg';
+
+        function bannerImgUrl(slug) {
+            return 'https://ac.blooket.com/blookassets/banners/' + slug + '.svg';
+        }
+
+        function renderBanners() {
+            const grid = document.getElementById('banners-grid');
+            if (!grid) return;
+            grid.innerHTML = bannersCatalog.map((b, i) => {
+                const priceLabel = b.price == null
+                    ? (b.rarity === 'Retired' ? 'Retired' : (b.rarity || '—'))
+                    : b.price + ' tokens';
+                return `
+                <div class="banner-card" onclick="openBannerModal(${i})" role="button" tabindex="0" title="${b.name}"
+                     onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openBannerModal(${i})}">
+                    <img src="${bannerImgUrl(b.slug)}" alt="${b.name}" loading="lazy">
+                    <div class="banner-name">${b.name}</div>
+                    <div class="banner-meta">${priceLabel}</div>
+                </div>`;
+            }).join('');
+        }
+
+        function openBannerModal(index) {
+            const b = bannersCatalog[index];
+            if (!b) return;
+            const letter = (b.name || 'B').charAt(0).toUpperCase();
+            const img = bannerImgUrl(b.slug);
+            const priceHtml = b.price == null
+                ? `<span class="bb-shop-tag">${b.rarity || '—'}</span>`
+                : `<span class="bb-shop-tag"><img class="token-ic" alt="Token" src="${TOKEN_ICON_BANNER}" draggable="false">${b.price}</span>`;
+            document.getElementById('banner-modal-body').innerHTML = `
+                <div class="bb-shop-row">
+                    <div class="bb-shop-card" style="background:radial-gradient(circle at 50% 40%, rgb(11,194,207) 0%, rgb(52,154,239) 100%);">
+                        <div class="bb-shop-shadow-letter">${letter}</div>
+                        <div class="bb-shop-img-wrap" style="display:flex;align-items:center;justify-content:center;padding:12px;box-sizing:border-box;">
+                            <img class="bb-shop-hero" src="${img}" alt="${b.name}" draggable="false"
+                                 style="position:relative!important;top:auto!important;left:auto!important;transform:none!important;width:100%!important;height:auto!important;max-width:100%!important;max-height:200px!important;object-fit:contain!important;">
+                        </div>
+                        <div class="bb-shop-overlay"></div>
+                    </div>
+                    <div class="bb-shop-form">
+                        <div>
+                            <h2 class="bb-shop-title">${b.name}</h2>
+                            <div class="bb-shop-tags">
+                                <span class="bb-shop-tag">${b.rarity || '—'}</span>
+                                ${priceHtml}
+                            </div>
+                            <p class="bb-shop-about">Locker banner — equip it from the Blooket Locker.</p>
+                        </div>
+                        <button type="button" class="bb-shop-btn" onclick="closeBannerModal()">
+                            <div class="bb-shop-btn-inner">Close</div>
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('banner-modal').style.display = 'flex';
+        }
+
+        function closeBannerModal() {
+            const el = document.getElementById('banner-modal');
+            if (el) el.style.display = 'none';
+        }
+
+
 
 const marketPacks = [
     {
@@ -6536,8 +6919,8 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
             document.getElementById('pack-modal-body').innerHTML = `
                 <div class="bb-shop-row">
                     <div class="bb-shop-card">
+                        <div class="bb-shop-shadow-letter">${letter}</div>
                         <div class="bb-shop-img-wrap">
-                            <div class="bb-shop-shadow-letter">${letter}</div>
                             <img class="bb-shop-hero" src="${p.icon}" alt="${p.name}" draggable="false">
                         </div>
                         <div class="bb-shop-overlay"></div>
@@ -6595,8 +6978,8 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
             document.getElementById('blook-detail-body').innerHTML = `
                 <div class="bb-shop-row">
                     <div class="bb-shop-card" style="background:${bg};">
+                        <div class="bb-shop-shadow-letter">${letter}</div>
                         <div class="bb-shop-img-wrap">
-                            <div class="bb-shop-shadow-letter">${letter}</div>
                             <img class="bb-shop-hero" src="${img}" alt="${name}" draggable="false">
                         </div>
                         <div class="bb-shop-overlay"></div>
@@ -7270,7 +7653,7 @@ const counts = {};
 
         function initFromPath() {
             const seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || 'home';
-            const map = { home: 'home', countdown: 'countdown', whatsnew: 'whatsnew', leaks: 'whatsnew', videos: 'videos', gamemodes: 'gamemodes', market: 'market', packsim: 'packsim', updates: 'updates', settings: 'settings', about: 'about' };
+            const map = { home: 'home', countdown: 'countdown', whatsnew: 'whatsnew', leaks: 'whatsnew', videos: 'videos', gamemodes: 'gamemodes', banners: 'banners', market: 'market', packsim: 'packsim', updates: 'updates', settings: 'settings', about: 'about' };
             if (map[seg]) {
                 switchView(map[seg], true);
             } else {
