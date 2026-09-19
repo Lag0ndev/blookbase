@@ -4578,7 +4578,7 @@
             </div>
             <div class="settings-section">
                 <h3>Username</h3>
-                <p class="settings-hint">Optional name for chat and the live online counter. Change anytime here.</p>
+                <p class="settings-hint">Optional name for chat and the live online counter. “Lag0n” is reserved for the owner (Admin only).</p>
                 <p id="settings-username-status" style="font-size:13px;font-weight:800;margin:0 0 10px;opacity:0.95;">Current: —</p>
                 <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
                     <input type="text" id="settings-username-input" maxlength="24" placeholder="Username (optional)" autocomplete="nickname" style="flex:1;min-width:140px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;padding:10px 12px;border-radius:10px;border:3px solid rgba(255,255,255,0.35);background:rgba(0,0,0,0.2);color:#fff;outline:none;box-sizing:border-box;">
@@ -4619,6 +4619,12 @@
             </div>
             <div class="settings-section" id="admin-panel" style="display:none;">
                 <h3>Admin Panel</h3>
+                <p class="settings-hint">Owner username (Lag0n). Only available here after unlock.</p>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px;">
+                    <input type="text" id="admin-owner-name" maxlength="24" placeholder="Lag0n" value="Lag0n" style="flex:1;min-width:140px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;padding:10px 12px;border-radius:10px;border:3px solid rgba(255,255,255,0.35);background:rgba(0,0,0,0.2);color:#fff;outline:none;box-sizing:border-box;">
+                    <button class="settings-reset-btn" type="button" onclick="saveOwnerUsernameFromAdmin()">Set as my name</button>
+                </div>
+                <p id="admin-owner-msg" style="font-size:13px;font-weight:700;margin:0 0 14px;opacity:0.9;min-height:1.2em;"></p>
                 <p class="settings-hint">Online visitors (usernames). Anonymous if they skipped the name prompt.</p>
                 <ul id="admin-visitors-list"><li style="opacity:0.7;">Waiting for presence…</li></ul>
             </div>
@@ -4786,7 +4792,7 @@
             if (view === 'videos') { renderVideos(); refreshVideosFromYouTube(false); }
             if (view === 'gamemodes') renderGamemodes();
             if (view === 'banners') renderBanners();
-            if (view === 'chat') initChatPage();
+            if (view === 'chat' && typeof window.initChatPage === 'function') window.initChatPage();
             if (view === 'market') renderMarket();
             if (view === 'packsim') renderPackSim();
             if (view === 'settings') renderSettings();
@@ -5348,6 +5354,34 @@
             }
         }
 
+
+        function saveOwnerUsernameFromAdmin() {
+            const msg = document.getElementById('admin-owner-msg');
+            if (typeof canUseReservedUsername !== 'function' || !canUseReservedUsername()) {
+                if (msg) msg.textContent = 'Unlock Admin first.';
+                return;
+            }
+            const input = document.getElementById('admin-owner-name');
+            let name = (input && input.value || 'Lag0n').trim().slice(0, 24) || 'Lag0n';
+            if (typeof isReservedUsername === 'function' && !isReservedUsername(name)) {
+                if (msg) msg.textContent = 'Admin name setter is for Lag0n only.';
+                return;
+            }
+            if (typeof normalizeUsernameKey === 'function') {
+                const key = normalizeUsernameKey(name);
+                if (key === 'lag0n' || key === 'lagon') name = 'Lag0n';
+            } else {
+                name = 'Lag0n';
+            }
+            const result = saveDisplayName(name, { allowReserved: true });
+            if (result && result.ok === false) {
+                if (msg) msg.textContent = result.error || 'Could not set name.';
+                return;
+            }
+            if (msg) msg.textContent = 'Signed in as Lag0n.';
+            if (typeof updateSettingsUsernameUI === 'function') updateSettingsUsernameUI();
+        }
+
         (function restoreAdminIfUnlocked() {
             try {
                 if (sessionStorage.getItem('bb_admin') === '1') {
@@ -5509,10 +5543,15 @@
             }
         }
 
-        function saveDisplayName(name) {
+        function saveDisplayName(name, opts) {
+            opts = opts || {};
             let cleaned = name == null ? '' : String(name).trim().slice(0, 24);
-            if (cleaned && isReservedUsername(cleaned) && !canUseReservedUsername()) {
-                return { ok: false, error: 'That username is reserved.' };
+            // Reserved names (Lag0n) only via Admin panel — not normal Settings
+            if (cleaned && isReservedUsername(cleaned) && !opts.allowReserved) {
+                return { ok: false, error: 'That username is reserved. Owner only (Admin panel).' };
+            }
+            if (cleaned && isReservedUsername(cleaned) && opts.allowReserved && !canUseReservedUsername()) {
+                return { ok: false, error: 'Unlock Admin first.' };
             }
             bbDisplayName = cleaned;
             try {
@@ -8603,6 +8642,29 @@ const counts = {};
     </div>
 
 
+
+<script>
+// Chat API stubs (replaced when Firebase chat module loads)
+window.initChatPage = window.initChatPage || function () {
+    var log = document.getElementById('chat-log');
+    if (log && !log.dataset.bbWait) {
+        log.dataset.bbWait = '1';
+        log.innerHTML = '<div class="chat-empty">Loading chat…</div>';
+    }
+    setTimeout(function () {
+        if (window.__bbChatReady && typeof window.__bbInitChatPage === 'function') {
+            window.__bbInitChatPage();
+        } else if (log) {
+            log.innerHTML = '<div class="chat-empty">Chat is still loading — try again in a second.</div>';
+        }
+    }, 400);
+};
+window.sendChatMessage = window.sendChatMessage || function () {};
+window.toggleChatStickers = window.toggleChatStickers || function () {};
+window.clearChatDraftSticker = window.clearChatDraftSticker || function () {};
+window.attachChatDraftSticker = window.attachChatDraftSticker || function () {};
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script>
@@ -8621,11 +8683,13 @@ const counts = {};
     let db = null;
     let chatUnsub = null;
     let chatReady = false;
+    let chatListening = false;
+    let lastRows = null; // in-memory latest messages for instant paint
     let lastSendAt = 0;
     let stickerCat = 'blooks';
     let draftSticker = null; // { url, name } attached to next send
     const CHAT_COOLDOWN_MS = 1200;
-    const CHAT_LIMIT = 80;
+    const CHAT_LIMIT = 50;
     const DEFAULT_PFP = 'https://ac.blooket.com/marketassets/blooks/chick.svg';
 
     function chatSessionId() {
@@ -8689,7 +8753,18 @@ const counts = {};
     }
 
     function isAllowedUrl(url) {
-        return !!(url && typeof url === 'string' && url.length <= 300 && /^https:\/\/(ac|media)\.blooket\.com\//i.test(url));
+        if (!url || typeof url !== 'string' || url.length > 300) return false;
+        // Strict: https only, Blooket CDN hosts only, no embedded credentials
+        try {
+            var u = new URL(url);
+            if (u.protocol !== 'https:') return false;
+            if (u.hostname !== 'ac.blooket.com' && u.hostname !== 'media.blooket.com') return false;
+            if (u.username || u.password) return false;
+            // Block javascript/data etc already by protocol
+            return true;
+        } catch (e) {
+            return false;
+        }
     }
 
     function renderChatMessages(docs) {
@@ -8701,15 +8776,27 @@ const counts = {};
         }
         log.innerHTML = docs.map(function (d) {
             const name = escapeChat(d.name || 'Anonymous');
-            const text = (d.text || '').trim();
+            let text = (d.text || '').trim();
             const time = formatChatTime(d.ts);
             const pfp = isAllowedUrl(d.pfp) ? d.pfp : DEFAULT_PFP;
+            // Only Blooket CDN stickers — never external gifs/images
+            const hasSticker = d.img && isAllowedUrl(d.img);
+            // If message is sticker-only, hide placeholder text (space / sticker label leftovers)
+            if (hasSticker && (text === '' || text === '.' || text === '-' || text === '\u00a0')) {
+                text = '';
+            }
+            // Strip any external image/gif URLs people paste into text (do not render as img)
+            text = text.replace(/https?:\/\/\S+/gi, function (url) {
+                if (isAllowedUrl(url)) return url; // allow blooket links as plain text only
+                return '';
+            }).replace(/\s{2,}/g, ' ').trim();
             let body = '';
             if (text) body += '<div class="chat-msg-text">' + escapeChat(text) + '</div>';
-            if (d.img && isAllowedUrl(d.img)) {
+            if (hasSticker) {
                 const wide = /\/banners\//i.test(d.img);
-                body += '<img class="chat-msg-img' + (wide ? ' wide' : '') + '" src="' + escapeChat(d.img) + '" alt="" loading="lazy">';
+                body += '<img class="chat-msg-img' + (wide ? ' wide' : '') + '" src="' + escapeChat(d.img) + '" alt="" loading="lazy" referrerpolicy="no-referrer">';
             }
+            // Never turn pasted markdown/html into images
             if (!body) body = '<div class="chat-msg-text"></div>';
             return '<div class="chat-msg"><img class="chat-msg-pfp" src="' + escapeChat(pfp) + '" alt=""><div class="chat-msg-body"><div class="chat-msg-head"><span class="chat-msg-name">' + name + '</span><span class="chat-msg-time">' + time + '</span></div>' + body + '</div></div>';
         }).join('');
@@ -8823,19 +8910,24 @@ const counts = {};
 
     function saveChatCache(rows) {
         try {
-            localStorage.setItem(CHAT_CACHE_KEY, JSON.stringify((rows || []).slice(-CHAT_LIMIT)));
-        } catch (e) {}
+            lastRows = rows || [];
+            localStorage.setItem(CHAT_CACHE_KEY, JSON.stringify(lastRows.slice(-CHAT_LIMIT)));
+        } catch (e) {
+            lastRows = rows || lastRows;
+        }
     }
 
     function loadChatCache() {
+        if (lastRows && lastRows.length) return lastRows;
         try {
             const raw = localStorage.getItem(CHAT_CACHE_KEY);
             if (!raw) return [];
             const arr = JSON.parse(raw);
             if (!Array.isArray(arr)) return [];
-            return arr.filter(function (m) {
+            lastRows = arr.filter(function (m) {
                 return m && (m.text || m.img) && m.ts;
             }).slice(-CHAT_LIMIT);
+            return lastRows;
         } catch (e) {
             return [];
         }
@@ -8858,58 +8950,69 @@ const counts = {};
         return rows;
     }
 
-    window.initChatPage = function initChatPage() {
-        // Show cached messages immediately so refresh keeps history visible
+    function applyChatRows(rows) {
+        saveChatCache(rows);
+        const log = document.getElementById('chat-log');
+        if (log) renderChatMessages(rows);
+    }
+
+    function startChatListener() {
+        if (chatListening || !db) return;
+        try {
+            if (!window.__bbFsPersist) {
+                window.__bbFsPersist = true;
+                // Faster subsequent loads from IndexedDB cache
+                db.enablePersistence({ synchronizeTabs: true }).catch(function () {});
+            }
+            const q = db.collection('chat').orderBy('ts', 'desc').limit(CHAT_LIMIT);
+            chatListening = true;
+            // Single live listener — first event often comes from local cache (fast)
+            chatUnsub = q.onSnapshot({ includeMetadataChanges: false }, function (snap) {
+                const rows = rowsFromSnapshot(snap);
+                applyChatRows(rows);
+                setChatStatus('', null);
+            }, function (err) {
+                console.warn(err);
+                chatListening = false;
+                const cached = loadChatCache();
+                if (cached.length) applyChatRows(cached);
+                else setChatStatus('Cannot read chat. Deploy Firestore rules.', 'err');
+            });
+        } catch (e) {
+            console.warn(e);
+            chatListening = false;
+        }
+    }
+
+    // Warm Firebase + listener in the background so Chat opens faster
+    function prewarmChat() {
+        if (!initFirebaseChat()) return;
+        startChatListener();
+    }
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(prewarmChat, 100);
+        });
+    } else {
+        setTimeout(prewarmChat, 100);
+    }
+
+    function initChatPageImpl() {
+        // Instant paint from memory / localStorage (no network wait)
         const cached = loadChatCache();
-        if (cached.length) renderChatMessages(cached);
+        if (cached.length) {
+            renderChatMessages(cached);
+        }
 
         if (!initFirebaseChat()) {
             if (!cached.length) setChatStatus('Chat offline — messages saved on this device only.', 'err');
             return;
         }
         setChatStatus('', null);
-        if (chatUnsub) {
-            try { chatUnsub(); } catch (e) {}
-            chatUnsub = null;
-        }
-        try {
-            // Prefer server + cache; enable offline persistence once
-            if (!window.__bbFsPersist) {
-                window.__bbFsPersist = true;
-                db.enablePersistence({ synchronizeTabs: true }).catch(function () {});
-            }
-            const q = db.collection('chat').orderBy('ts', 'desc').limit(CHAT_LIMIT);
-            // One-shot load then live updates
-            q.get({ source: 'default' }).then(function (snap) {
-                const rows = rowsFromSnapshot(snap);
-                if (rows.length) {
-                    saveChatCache(rows);
-                    renderChatMessages(rows);
-                } else if (cached.length) {
-                    renderChatMessages(cached);
-                } else {
-                    renderChatMessages([]);
-                }
-            }).catch(function (err) {
-                console.warn(err);
-                if (cached.length) renderChatMessages(cached);
-                else setChatStatus('Cannot load chat. Check Firestore rules.', 'err');
-            });
-            chatUnsub = q.onSnapshot(function (snap) {
-                const rows = rowsFromSnapshot(snap);
-                saveChatCache(rows);
-                renderChatMessages(rows);
-                setChatStatus('', null);
-            }, function (err) {
-                console.warn(err);
-                if (cached.length) renderChatMessages(cached);
-                else setChatStatus('Cannot read chat. Deploy Firestore rules.', 'err');
-            });
-        } catch (e) {
-            console.warn(e);
-            if (cached.length) renderChatMessages(cached);
-            else setChatStatus('Chat query failed.', 'err');
-        }
+        // Do NOT tear down existing listener — reuse it for speed
+        startChatListener();
+        // If we already have rows in memory, show them again (instant)
+        if (lastRows && lastRows.length) renderChatMessages(lastRows);
         const input = document.getElementById('chat-input');
         if (input && !input._bbBound) {
             input._bbBound = true;
@@ -8920,7 +9023,11 @@ const counts = {};
                 }
             });
         }
-    };
+    }
+
+    window.__bbInitChatPage = initChatPageImpl;
+    window.initChatPage = initChatPageImpl;
+    window.__bbChatReady = true;
 
     function basePayload(extra) {
         const payload = {
@@ -8990,14 +9097,19 @@ const counts = {};
         }
         if (btn) btn.disabled = true;
         try {
+            // Image only for stickers — no sticker name in the message
             const payload = basePayload({
-                text: text ? text.slice(0, 300) : (sticker && sticker.name ? String(sticker.name).slice(0, 80) : '')
+                text: text ? text.slice(0, 300) : ''
             });
             if (sticker && isAllowedUrl(sticker.url)) {
                 payload.img = sticker.url.slice(0, 300);
             }
-            // rules require text or img; ensure text not empty if only sticker
-            if (!payload.text && payload.img) payload.text = (sticker && sticker.name) ? String(sticker.name).slice(0, 80) : ' ';
+            // Rules need text OR img; use a single space as invisible placeholder for sticker-only
+            if (!payload.text && payload.img) payload.text = ' ';
+            if (!payload.text && !payload.img) {
+                if (btn) btn.disabled = false;
+                return;
+            }
             const ok = await pushChatMessage(payload);
             if (ok) {
                 input.value = '';
