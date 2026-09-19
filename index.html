@@ -475,6 +475,354 @@
             }
         }
 
+
+        /* --- CHAT --- */
+        .chat-wrap {
+            width: 100%;
+            max-width: 780px;
+            text-align: left;
+            padding-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+        }
+        .chat-status {
+            font-size: 13px;
+            font-weight: 800;
+            color: #fff;
+            opacity: 0.9;
+            background: rgba(0,0,0,0.18);
+            border-radius: 8px;
+            padding: 8px 12px;
+        }
+        .chat-status.err { background: rgba(180,40,40,0.45); }
+        .chat-log {
+            background-color: var(--accent);
+            border: 6px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            box-shadow: 4px 4px rgba(0,0,0,0.2);
+            height: min(58vh, 520px);
+            overflow-y: auto;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            color: #fff;
+        }
+        .chat-msg {
+            background: rgba(0,0,0,0.18);
+            border-radius: 10px;
+            padding: 10px 12px;
+            max-width: 100%;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .chat-msg-pfp {
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
+            object-fit: contain;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.15);
+            padding: 2px;
+        }
+        .chat-msg-body { flex: 1; min-width: 0; }
+        .chat-msg-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+        .chat-msg-name { font-weight: 900; font-size: 13px; }
+        .chat-msg-time {
+            font-size: 11px;
+            font-weight: 700;
+            opacity: 0.75;
+            flex-shrink: 0;
+        }
+        .chat-msg-text {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.4;
+            word-break: break-word;
+            white-space: pre-wrap;
+        }
+        .chat-empty {
+            opacity: 0.8;
+            font-weight: 800;
+            text-align: center;
+            padding: 24px 12px;
+        }
+        .chat-compose {
+            background-color: var(--accent);
+            border: 6px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            box-shadow: 4px 4px rgba(0,0,0,0.2);
+            padding: 12px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+            position: relative;
+        }
+        .chat-compose-main {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .chat-compose textarea {
+            width: 100%;
+            min-width: 0;
+            min-height: 44px;
+            max-height: 120px;
+            resize: vertical;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 3px solid rgba(255,255,255,0.35);
+            background: rgba(0,0,0,0.2);
+            color: #fff;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .chat-compose textarea::placeholder { color: rgba(255,255,255,0.55); }
+        .chat-draft-sticker {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0,0,0,0.22);
+            border: 2px solid rgba(255,255,255,0.25);
+            border-radius: 10px;
+            padding: 6px 8px;
+            color: #fff;
+        }
+        .chat-draft-sticker img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        .chat-draft-sticker span {
+            font-weight: 800;
+            font-size: 12px;
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .chat-draft-sticker-x {
+            background: rgba(0,0,0,0.3);
+            border: none;
+            color: #fff;
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        .chat-draft-sticker-x:hover { background: rgba(0,0,0,0.45); }
+        .chat-send {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 14px;
+            padding: 12px 18px;
+            border-radius: 10px;
+            border: none;
+            background: #4053b3;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #2e3d8a;
+            transition: 0.12s;
+            flex-shrink: 0;
+        }
+        .chat-send:hover { filter: brightness(1.08); }
+        .chat-send:active { transform: translateY(3px); box-shadow: 0 1px 0 #2e3d8a; }
+        .chat-send:disabled { opacity: 0.5; cursor: default; transform: none; }
+        .chat-sticker-btn {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 18px;
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            border: 3px solid rgba(255,255,255,0.35);
+            background: rgba(0,0,0,0.2);
+            color: #fff;
+            cursor: pointer;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.12s;
+        }
+        .chat-sticker-btn:hover, .chat-sticker-btn.active {
+            background: rgba(255,255,255,0.25);
+        }
+        /* Right-side floating sticker popup */
+        .chat-sticker-panel {
+            display: none;
+            position: absolute;
+            right: 0;
+            bottom: 72px;
+            width: min(300px, 92vw);
+            max-height: min(340px, 50vh);
+            z-index: 40;
+            background-color: var(--accent);
+            border: 6px solid rgba(255,255,255,0.25);
+            border-radius: 14px;
+            box-shadow: 6px 6px rgba(0,0,0,0.28);
+            padding: 10px;
+            color: #fff;
+            flex-direction: column;
+            gap: 8px;
+            box-sizing: border-box;
+            animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .chat-sticker-panel.open {
+            display: flex;
+        }
+        .chat-sticker-panel-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .chat-sticker-panel-head span {
+            font-weight: 900;
+            font-size: 13px;
+        }
+        .chat-sticker-close {
+            background: rgba(0,0,0,0.25);
+            border: none;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .chat-sticker-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .chat-sticker-tab {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 11px;
+            padding: 5px 9px;
+            border-radius: 7px;
+            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(0,0,0,0.18);
+            color: #fff;
+            cursor: pointer;
+        }
+        .chat-sticker-tab.active {
+            background: rgba(255,255,255,0.28);
+            border-color: rgba(255,255,255,0.55);
+        }
+        .chat-sticker-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            overflow-y: auto;
+            max-height: 220px;
+            padding: 2px;
+        }
+        .chat-sticker-item {
+            background: rgba(0,0,0,0.18);
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.15);
+            padding: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1;
+            transition: 0.12s;
+        }
+        .chat-sticker-item:hover {
+            background: rgba(0,0,0,0.3);
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+        }
+        .chat-sticker-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+        }
+        .chat-msg-img {
+            display: block;
+            max-width: 120px;
+            max-height: 120px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            margin-top: 6px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+        }
+        .chat-msg-img.wide {
+            max-width: 200px;
+            max-height: 80px;
+        }
+        /* Settings PFP */
+        .pfp-preview-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .pfp-preview-row img {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            padding: 4px;
+            border: 2px solid rgba(255,255,255,0.25);
+        }
+        .pfp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+            gap: 8px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding: 4px 2px;
+        }
+        .pfp-item {
+            background: rgba(0,0,0,0.18);
+            border: 2px solid rgba(255,255,255,0.15);
+            border-radius: 8px;
+            padding: 4px;
+            cursor: pointer;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.12s;
+        }
+        .pfp-item:hover { background: rgba(0,0,0,0.28); }
+        .pfp-item.active {
+            border-color: #fff;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.35);
+        }
+        .pfp-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
         #gm-modal,
         #banner-modal {
             display: none;
@@ -3609,6 +3957,12 @@
                     </button>
                 </li>
                 <li>
+                    <button class="sidebar-link" data-view="chat" onclick="switchView('chat')">
+                        <span class="sidebar-listIcon"><i class="fas fa-comments"></i></span>
+                        <span class="sidebar-text">Chat</span>
+                    </button>
+                </li>
+                <li>
                     <button class="sidebar-link" data-view="market" onclick="switchView('market')">
                         <span class="sidebar-listIcon"><i class="fas fa-store"></i></span>
                         <span class="sidebar-text">Packs</span>
@@ -3865,6 +4219,37 @@
         <div class="gm-modal-box" id="banner-modal-box">
             <button class="gm-modal-close" onclick="closeBannerModal()" aria-label="Close"><i class="fas fa-times"></i></button>
             <div id="banner-modal-body"></div>
+        </div>
+    </div>
+
+
+    <div class="main-content" id="view-chat" style="display: none;">
+        <h1 class="header-title">Chat</h1>
+        <div class="chat-wrap">
+            <div class="chat-status" id="chat-status" style="display:none;"></div>
+            <div class="chat-log" id="chat-log" aria-live="polite"></div>
+            <div class="chat-compose">
+                <div class="chat-sticker-panel" id="chat-sticker-panel">
+                    <div class="chat-sticker-panel-head">
+                        <span>Stickers</span>
+                        <button type="button" class="chat-sticker-close" onclick="toggleChatStickers(false)" aria-label="Close">&times;</button>
+                    </div>
+                    <div class="chat-sticker-tabs" id="chat-sticker-tabs"></div>
+                    <div class="chat-sticker-grid" id="chat-sticker-grid"></div>
+                </div>
+                <button type="button" class="chat-sticker-btn" id="chat-sticker-toggle" onclick="toggleChatStickers()" title="Stickers" aria-label="Stickers">
+                    <i class="fas fa-images"></i>
+                </button>
+                <div class="chat-compose-main">
+                    <div class="chat-draft-sticker" id="chat-draft-sticker" style="display:none;">
+                        <img id="chat-draft-sticker-img" src="" alt="">
+                        <span id="chat-draft-sticker-name"></span>
+                        <button type="button" class="chat-draft-sticker-x" onclick="clearChatDraftSticker()" aria-label="Remove sticker">&times;</button>
+                    </div>
+                    <textarea id="chat-input" maxlength="300" rows="2" placeholder="Say something…"></textarea>
+                </div>
+                <button type="button" class="chat-send" id="chat-send" onclick="sendChatMessage()">Send</button>
+            </div>
         </div>
     </div>
 
@@ -4193,13 +4578,25 @@
             </div>
             <div class="settings-section">
                 <h3>Username</h3>
-                <p class="settings-hint">Optional name for the live online counter. Change anytime here in Settings.</p>
+                <p class="settings-hint">Optional name for chat and the live online counter. Change anytime here.</p>
                 <p id="settings-username-status" style="font-size:13px;font-weight:800;margin:0 0 10px;opacity:0.95;">Current: —</p>
                 <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
                     <input type="text" id="settings-username-input" maxlength="24" placeholder="Username (optional)" autocomplete="nickname" style="flex:1;min-width:140px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;padding:10px 12px;border-radius:10px;border:3px solid rgba(255,255,255,0.35);background:rgba(0,0,0,0.2);color:#fff;outline:none;box-sizing:border-box;">
                     <button class="settings-reset-btn" type="button" onclick="saveUsernameFromSettings()">Save</button>
                     <button class="settings-reset-btn" type="button" onclick="setAnonymousFromSettings()">Anonymous</button>
                 </div>
+            </div>
+            <div class="settings-section">
+                <h3>Chat profile picture</h3>
+                <p class="settings-hint">Pick a blook to use as your avatar in chat.</p>
+                <div class="pfp-preview-row">
+                    <img id="settings-pfp-preview" src="https://ac.blooket.com/marketassets/blooks/chick.svg" alt="PFP">
+                    <div>
+                        <div id="settings-pfp-name" style="font-weight:900;font-size:14px;">Chick</div>
+                        <button class="settings-reset-btn" type="button" style="margin-top:6px;" onclick="clearChatPfp()">Reset</button>
+                    </div>
+                </div>
+                <div class="pfp-grid" id="settings-pfp-grid"></div>
             </div>
             <div class="settings-section">
                 <h3>Feedback</h3>
@@ -4356,7 +4753,7 @@
             });
         }
         function switchView(view, skipUrl) {
-            const allowed = ['home', 'countdown', 'whatsnew', 'videos', 'gamemodes', 'banners', 'market', 'packsim', 'updates', 'settings', 'about', '404'];
+            const allowed = ['home', 'countdown', 'whatsnew', 'videos', 'gamemodes', 'banners', 'chat', 'market', 'packsim', 'updates', 'settings', 'about', '404'];
             if (!allowed.includes(view)) view = '404';
             if (typeof exitOpening === 'function' && typeof phase !== 'undefined' && phase !== 'idle') {
                 exitOpening();
@@ -4369,6 +4766,8 @@
             document.getElementById('view-gamemodes').style.display = view === 'gamemodes' ? 'flex' : 'none';
             const vb = document.getElementById('view-banners');
             if (vb) vb.style.display = view === 'banners' ? 'flex' : 'none';
+            const vchat = document.getElementById('view-chat');
+            if (vchat) vchat.style.display = view === 'chat' ? 'flex' : 'none';
             document.getElementById('view-market').style.display = view === 'market' ? 'flex' : 'none';
             document.getElementById('view-packsim').style.display = view === 'packsim' ? 'flex' : 'none';
             document.getElementById('view-updates').style.display = view === 'updates' ? 'flex' : 'none';
@@ -4387,6 +4786,7 @@
             if (view === 'videos') { renderVideos(); refreshVideosFromYouTube(false); }
             if (view === 'gamemodes') renderGamemodes();
             if (view === 'banners') renderBanners();
+            if (view === 'chat') initChatPage();
             if (view === 'market') renderMarket();
             if (view === 'packsim') renderPackSim();
             if (view === 'settings') renderSettings();
@@ -4964,6 +5364,89 @@
         // Persist in localStorage so refresh / new tab never re-prompts after choice
         const BB_USERNAME_KEY = 'blookbase_display_name';
         const BB_USERNAME_SET_KEY = 'blookbase_display_name_set'; // '1' once user confirmed
+
+        const BB_PFP_KEY = 'blookbase_chat_pfp';
+        const BB_PFP_NAME_KEY = 'blookbase_chat_pfp_name';
+        const DEFAULT_CHAT_PFP = 'https://ac.blooket.com/marketassets/blooks/chick.svg';
+        const DEFAULT_CHAT_PFP_NAME = 'Chick';
+
+        function getChatPfp() {
+            try {
+                const u = localStorage.getItem(BB_PFP_KEY);
+                if (u && /^https:\/\/(ac|media)\.blooket\.com\//i.test(u)) return u;
+            } catch (e) {}
+            return DEFAULT_CHAT_PFP;
+        }
+        function getChatPfpName() {
+            try {
+                const n = localStorage.getItem(BB_PFP_NAME_KEY);
+                if (n) return String(n).slice(0, 40);
+            } catch (e) {}
+            return DEFAULT_CHAT_PFP_NAME;
+        }
+        function setChatPfp(url, name) {
+            if (!url || !/^https:\/\/(ac|media)\.blooket\.com\//i.test(url)) return;
+            try {
+                localStorage.setItem(BB_PFP_KEY, url.slice(0, 300));
+                localStorage.setItem(BB_PFP_NAME_KEY, String(name || 'Blook').slice(0, 40));
+            } catch (e) {}
+            updateSettingsPfpUI();
+        }
+        function clearChatPfp() {
+            try {
+                localStorage.removeItem(BB_PFP_KEY);
+                localStorage.removeItem(BB_PFP_NAME_KEY);
+            } catch (e) {}
+            updateSettingsPfpUI();
+        }
+        function collectBlookPfpList() {
+            const list = [];
+            const seen = new Set();
+            function add(name, url) {
+                if (!name || !url || seen.has(url)) return;
+                seen.add(url);
+                list.push({ name: name, url: url });
+            }
+            if (typeof marketPacks !== 'undefined' && Array.isArray(marketPacks)) {
+                marketPacks.forEach(function (p) {
+                    (p.blooks || []).forEach(function (b) {
+                        var url = (typeof getBlookImg === 'function')
+                            ? getBlookImg(b.name)
+                            : ('https://ac.blooket.com/marketassets/blooks/' + String(b.name).toLowerCase().replace(/[^a-z0-9]/g, '') + '.svg');
+                        add(b.name, url);
+                    });
+                });
+            }
+            list.sort(function (a, b) { return a.name.localeCompare(b.name); });
+            return list;
+        }
+        function updateSettingsPfpUI() {
+            const prev = document.getElementById('settings-pfp-preview');
+            const label = document.getElementById('settings-pfp-name');
+            const grid = document.getElementById('settings-pfp-grid');
+            const cur = getChatPfp();
+            const curName = getChatPfpName();
+            if (prev) prev.src = cur;
+            if (label) label.textContent = curName;
+            if (!grid) return;
+            const list = collectBlookPfpList();
+            if (!list.length) {
+                grid.innerHTML = '<div style="opacity:0.85;font-weight:800;font-size:13px;">Open Packs page once so blooks load, then return here.</div>';
+                return;
+            }
+            grid.innerHTML = list.map(function (b, i) {
+                const active = b.url === cur ? ' active' : '';
+                return '<button type="button" class="pfp-item' + active + '" title="' + b.name.replace(/"/g, '') + '" data-i="' + i + '"><img src="' + b.url + '" alt=""></button>';
+            }).join('');
+            grid.querySelectorAll('.pfp-item').forEach(function (btn) {
+                btn.onclick = function () {
+                    const item = list[Number(btn.getAttribute('data-i'))];
+                    if (item) setChatPfp(item.url, item.name);
+                };
+            });
+        }
+
+
         let bbDisplayName = null; // null until loaded; '' = anonymous
 
         function hasChosenUsername() {
@@ -5030,6 +5513,7 @@
         }
 
         function updateSettingsUsernameUI() {
+            if (typeof updateSettingsPfpUI === 'function') updateSettingsPfpUI();
             const input = document.getElementById('settings-username-input');
             const status = document.getElementById('settings-username-status');
             if (!input && !status) return;
@@ -7739,7 +8223,7 @@ const counts = {};
 
         function initFromPath() {
             const seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || 'home';
-            const map = { home: 'home', countdown: 'countdown', whatsnew: 'whatsnew', leaks: 'whatsnew', videos: 'videos', gamemodes: 'gamemodes', banners: 'banners', market: 'market', packsim: 'packsim', updates: 'updates', settings: 'settings', about: 'about' };
+            const map = { home: 'home', countdown: 'countdown', whatsnew: 'whatsnew', leaks: 'whatsnew', videos: 'videos', gamemodes: 'gamemodes', banners: 'banners', chat: 'chat', market: 'market', packsim: 'packsim', updates: 'updates', settings: 'settings', about: 'about' };
             if (map[seg]) {
                 switchView(map[seg], true);
             } else {
@@ -8061,6 +8545,355 @@ const counts = {};
             </form>
         </div>
     </div>
+
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script>
+/* ---------- FIREBASE CHAT ---------- */
+(function () {
+    const firebaseConfig = {
+        apiKey: "AIzaSyAimRTdJhSyaHUE7RVZIowhTBAJchtHqN4",
+        authDomain: "blookbase.firebaseapp.com",
+        projectId: "blookbase",
+        storageBucket: "blookbase.firebasestorage.app",
+        messagingSenderId: "868693819468",
+        appId: "1:868693819468:web:4c991519a3844c1d6e34e9",
+        measurementId: "G-TV5W6RBYKP"
+    };
+
+    let db = null;
+    let chatUnsub = null;
+    let chatReady = false;
+    let lastSendAt = 0;
+    let stickerCat = 'blooks';
+    let draftSticker = null; // { url, name } attached to next send
+    const CHAT_COOLDOWN_MS = 1200;
+    const CHAT_LIMIT = 80;
+    const DEFAULT_PFP = 'https://ac.blooket.com/marketassets/blooks/chick.svg';
+
+    function chatSessionId() {
+        try {
+            let id = sessionStorage.getItem('blookbase_sid');
+            if (!id) {
+                id = 's' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+                sessionStorage.setItem('blookbase_sid', id);
+            }
+            return String(id).slice(0, 64);
+        } catch (e) {
+            return 's' + Math.random().toString(36).slice(2);
+        }
+    }
+
+    function chatDisplayName() {
+        if (typeof getDisplayName === 'function') {
+            const n = getDisplayName();
+            if (n == null || n === '') return 'Anonymous';
+            return String(n).trim().slice(0, 24) || 'Anonymous';
+        }
+        return 'Anonymous';
+    }
+
+    function chatPfpUrl() {
+        if (typeof getChatPfp === 'function') return getChatPfp();
+        return DEFAULT_PFP;
+    }
+
+    function setChatStatus(msg, kind) {
+        const el = document.getElementById('chat-status');
+        if (!el) return;
+        if (kind === 'err' && msg) {
+            el.style.display = '';
+            el.textContent = msg;
+            el.className = 'chat-status err';
+        } else {
+            el.style.display = 'none';
+            el.textContent = '';
+            el.className = 'chat-status';
+        }
+    }
+
+    function formatChatTime(ts) {
+        try {
+            return new Date(ts).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        } catch (e) { return ''; }
+    }
+
+    function escapeChat(s) {
+        return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function isAllowedUrl(url) {
+        return !!(url && typeof url === 'string' && url.length <= 300 && /^https:\/\/(ac|media)\.blooket\.com\//i.test(url));
+    }
+
+    function renderChatMessages(docs) {
+        const log = document.getElementById('chat-log');
+        if (!log) return;
+        if (!docs.length) {
+            log.innerHTML = '<div class="chat-empty">No messages yet — say hi!</div>';
+            return;
+        }
+        log.innerHTML = docs.map(function (d) {
+            const name = escapeChat(d.name || 'Anonymous');
+            const text = (d.text || '').trim();
+            const time = formatChatTime(d.ts);
+            const pfp = isAllowedUrl(d.pfp) ? d.pfp : DEFAULT_PFP;
+            let body = '';
+            if (text) body += '<div class="chat-msg-text">' + escapeChat(text) + '</div>';
+            if (d.img && isAllowedUrl(d.img)) {
+                const wide = /\/banners\//i.test(d.img);
+                body += '<img class="chat-msg-img' + (wide ? ' wide' : '') + '" src="' + escapeChat(d.img) + '" alt="" loading="lazy">';
+            }
+            if (!body) body = '<div class="chat-msg-text"></div>';
+            return '<div class="chat-msg"><img class="chat-msg-pfp" src="' + escapeChat(pfp) + '" alt=""><div class="chat-msg-body"><div class="chat-msg-head"><span class="chat-msg-name">' + name + '</span><span class="chat-msg-time">' + time + '</span></div>' + body + '</div></div>';
+        }).join('');
+        log.scrollTop = log.scrollHeight;
+    }
+
+    function collectStickers() {
+        const out = { blooks: [], gamemodes: [], banners: [], packs: [] };
+        const seen = { blooks: new Set(), gamemodes: new Set(), banners: new Set(), packs: new Set() };
+        function add(cat, name, url) {
+            if (!url || !name || seen[cat].has(url)) return;
+            seen[cat].add(url);
+            out[cat].push({ name: name, url: url });
+        }
+        if (typeof marketPacks !== 'undefined' && Array.isArray(marketPacks)) {
+            marketPacks.forEach(function (p) {
+                if (p.icon) add('packs', p.name + ' Pack', p.icon);
+                (p.blooks || []).forEach(function (b) {
+                    var url = (typeof getBlookImg === 'function') ? getBlookImg(b.name) : ('https://ac.blooket.com/marketassets/blooks/' + String(b.name).toLowerCase().replace(/[^a-z0-9]/g, '') + '.svg');
+                    add('blooks', b.name, url);
+                });
+            });
+        }
+        if (typeof hostGamemodes !== 'undefined') hostGamemodes.forEach(function (g) { if (g.logo) add('gamemodes', g.name, g.logo); });
+        if (typeof soloGamemodes !== 'undefined') soloGamemodes.forEach(function (g) { if (g.logo) add('gamemodes', g.name, g.logo); });
+        if (typeof bannersCatalog !== 'undefined') {
+            bannersCatalog.forEach(function (b) {
+                var url = (typeof bannerImgUrl === 'function') ? bannerImgUrl(b.slug) : ('https://ac.blooket.com/blookassets/banners/' + b.slug + '.svg');
+                add('banners', b.name, url);
+            });
+        }
+        Object.keys(out).forEach(function (k) {
+            out[k].sort(function (a, b) { return a.name.localeCompare(b.name); });
+        });
+        return out;
+    }
+
+    function renderStickerTabs() {
+        const tabs = document.getElementById('chat-sticker-tabs');
+        if (!tabs) return;
+        const cats = [
+            { id: 'blooks', label: 'Blooks' },
+            { id: 'gamemodes', label: 'Modes' },
+            { id: 'banners', label: 'Banners' },
+            { id: 'packs', label: 'Packs' }
+        ];
+        tabs.innerHTML = cats.map(function (c) {
+            return '<button type="button" class="chat-sticker-tab' + (stickerCat === c.id ? ' active' : '') + '" data-cat="' + c.id + '">' + c.label + '</button>';
+        }).join('');
+        tabs.querySelectorAll('.chat-sticker-tab').forEach(function (btn) {
+            btn.onclick = function () {
+                stickerCat = btn.getAttribute('data-cat');
+                renderStickerTabs();
+                renderStickerGrid();
+            };
+        });
+    }
+
+    function renderStickerGrid() {
+        const grid = document.getElementById('chat-sticker-grid');
+        if (!grid) return;
+        const data = collectStickers();
+        const list = data[stickerCat] || [];
+        if (!list.length) {
+            grid.innerHTML = '<div class="chat-empty" style="grid-column:1/-1;padding:10px;font-size:12px;">Nothing here yet</div>';
+            return;
+        }
+        grid.innerHTML = list.map(function (item, i) {
+            return '<button type="button" class="chat-sticker-item" title="' + escapeChat(item.name) + '" data-idx="' + i + '"><img src="' + escapeChat(item.url) + '" alt="" loading="lazy"></button>';
+        }).join('');
+        grid.querySelectorAll('.chat-sticker-item').forEach(function (btn) {
+            btn.onclick = function () {
+                const item = list[Number(btn.getAttribute('data-idx'))];
+                if (item) attachChatDraftSticker(item.url, item.name);
+            };
+        });
+    }
+
+    window.toggleChatStickers = function toggleChatStickers(force) {
+        const panel = document.getElementById('chat-sticker-panel');
+        const btn = document.getElementById('chat-sticker-toggle');
+        if (!panel) return;
+        const willOpen = force === true ? true : force === false ? false : !panel.classList.contains('open');
+        panel.classList.toggle('open', willOpen);
+        if (btn) btn.classList.toggle('active', willOpen);
+        if (willOpen) {
+            renderStickerTabs();
+            renderStickerGrid();
+        }
+    };
+
+    function initFirebaseChat() {
+        if (chatReady) return true;
+        if (typeof firebase === 'undefined') {
+            setChatStatus('Firebase SDK failed to load.', 'err');
+            return false;
+        }
+        try {
+            if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            chatReady = true;
+            return true;
+        } catch (e) {
+            console.warn(e);
+            setChatStatus('Could not start Firebase.', 'err');
+            return false;
+        }
+    }
+
+    window.initChatPage = function initChatPage() {
+        if (!initFirebaseChat()) return;
+        setChatStatus('', null);
+        if (chatUnsub) {
+            try { chatUnsub(); } catch (e) {}
+            chatUnsub = null;
+        }
+        try {
+            chatUnsub = db.collection('chat')
+                .orderBy('ts', 'desc')
+                .limit(CHAT_LIMIT)
+                .onSnapshot(function (snap) {
+                    const rows = [];
+                    snap.forEach(function (doc) {
+                        const d = doc.data() || {};
+                        rows.push({ id: doc.id, text: d.text, name: d.name, ts: d.ts, img: d.img, pfp: d.pfp });
+                    });
+                    rows.reverse();
+                    renderChatMessages(rows);
+                    setChatStatus('', null);
+                }, function (err) {
+                    console.warn(err);
+                    setChatStatus('Cannot read chat. Deploy Firestore rules.', 'err');
+                });
+        } catch (e) {
+            console.warn(e);
+            setChatStatus('Chat query failed.', 'err');
+        }
+        const input = document.getElementById('chat-input');
+        if (input && !input._bbBound) {
+            input._bbBound = true;
+            input.addEventListener('keydown', function (ev) {
+                if (ev.key === 'Enter' && !ev.shiftKey) {
+                    ev.preventDefault();
+                    sendChatMessage();
+                }
+            });
+        }
+    };
+
+    function basePayload(extra) {
+        const payload = {
+            text: '',
+            name: chatDisplayName(),
+            ts: Date.now(),
+            sid: chatSessionId(),
+            pfp: chatPfpUrl().slice(0, 300)
+        };
+        if (extra) Object.assign(payload, extra);
+        return payload;
+    }
+
+    async function pushChatMessage(payload) {
+        const now = Date.now();
+        if (now - lastSendAt < CHAT_COOLDOWN_MS) {
+            setChatStatus('Slow down a second…', 'err');
+            return false;
+        }
+        if (!initFirebaseChat()) return false;
+        await db.collection('chat').add(payload);
+        lastSendAt = Date.now();
+        setChatStatus('', null);
+        return true;
+    }
+
+    window.sendChatMessage = async function sendChatMessage() {
+        const input = document.getElementById('chat-input');
+        const btn = document.getElementById('chat-send');
+        if (!input) return;
+        const text = (input.value || '').trim();
+        const sticker = draftSticker;
+        if (!text && !sticker) return;
+        if (text.length > 300) {
+            setChatStatus('Message too long (max 300).', 'err');
+            return;
+        }
+        if (btn) btn.disabled = true;
+        try {
+            const payload = basePayload({
+                text: text ? text.slice(0, 300) : (sticker && sticker.name ? String(sticker.name).slice(0, 80) : '')
+            });
+            if (sticker && isAllowedUrl(sticker.url)) {
+                payload.img = sticker.url.slice(0, 300);
+            }
+            // rules require text or img; ensure text not empty if only sticker
+            if (!payload.text && payload.img) payload.text = (sticker && sticker.name) ? String(sticker.name).slice(0, 80) : ' ';
+            const ok = await pushChatMessage(payload);
+            if (ok) {
+                input.value = '';
+                draftSticker = null;
+                updateDraftStickerUI();
+            }
+        } catch (e) {
+            console.warn(e);
+            setChatStatus('Send blocked. Redeploy firestore.rules.', 'err');
+        } finally {
+            if (btn) btn.disabled = false;
+        }
+    };
+
+    function updateDraftStickerUI() {
+        const wrap = document.getElementById('chat-draft-sticker');
+        const img = document.getElementById('chat-draft-sticker-img');
+        const nameEl = document.getElementById('chat-draft-sticker-name');
+        if (!wrap) return;
+        if (!draftSticker) {
+            wrap.style.display = 'none';
+            if (img) img.src = '';
+            if (nameEl) nameEl.textContent = '';
+            return;
+        }
+        wrap.style.display = 'flex';
+        if (img) img.src = draftSticker.url;
+        if (nameEl) nameEl.textContent = draftSticker.name || 'Sticker';
+    }
+
+    window.attachChatDraftSticker = function attachChatDraftSticker(url, label) {
+        if (!isAllowedUrl(url)) return;
+        draftSticker = { url: url.slice(0, 300), name: String(label || 'Sticker').slice(0, 80) };
+        updateDraftStickerUI();
+        toggleChatStickers(false);
+        const input = document.getElementById('chat-input');
+        if (input) input.focus();
+    };
+
+    window.clearChatDraftSticker = function clearChatDraftSticker() {
+        draftSticker = null;
+        updateDraftStickerUI();
+    };
+
+    window.sendChatSticker = function sendChatSticker(url, label) {
+        // legacy: attach instead of instant send
+        attachChatDraftSticker(url, label);
+    };
+})();
+</script>
 
 </body>
 </html>
