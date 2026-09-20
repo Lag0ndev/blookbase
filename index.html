@@ -4,6 +4,8 @@
 
 
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2377,6 +2379,36 @@
             box-sizing: border-box;
             overflow: hidden;
         }
+
+        .ps-pack-letter {
+            position: absolute;
+            top: 90%;
+            left: 90%;
+            transform: translate(-50%, -50%) rotate(10deg);
+            font-family: 'Titan One', cursive;
+            font-size: 72px;
+            line-height: 1;
+            color: #fff;
+            opacity: 0.45;
+            pointer-events: none;
+            user-select: none;
+            z-index: 0;
+        }
+        .ps-buy-pack-letter {
+            position: absolute;
+            top: 85%;
+            left: 85%;
+            transform: translate(-50%, -50%) rotate(10deg);
+            font-family: 'Titan One', cursive;
+            font-size: 90px;
+            line-height: 1;
+            color: #fff;
+            opacity: 0.45;
+            pointer-events: none;
+            user-select: none;
+            z-index: 0;
+        }
+
         .ps-pack-shadow {
             position: absolute;
             top: 90%;
@@ -3100,7 +3132,7 @@
 
         .rarity-Uncommon { color: #7dffb3; }
         .rarity-Rare { color: #6cb6ff; }
-        .rarity-Epic { color: #c77dff; }
+        .rarity-Epic { color: #e21e1e; }
         .rarity-Legendary { color: #ffb347; }
         .rarity-Chroma { color: #5eead4; }
         .rarity-Mystical { color: #e879f9; }
@@ -3192,7 +3224,7 @@
         }
         .summary-qty.r-Uncommon { background-color: #2ecc71; }
         .summary-qty.r-Rare { background-color: #0a14fa; }
-        .summary-qty.r-Epic { background-color: #9b59b6; }
+        .summary-qty.r-Epic { background-color: #e21e1e; }
         .summary-qty.r-Legendary { background-color: #f39c12; }
         .summary-qty.r-Chroma { background-color: #1abc9c; }
         .summary-qty.r-Mystical { background-color: #e056fd; }
@@ -3451,7 +3483,121 @@
         #admin-visitors-list li:last-child { border-bottom: none; }
         #admin-visitors-list .anon { opacity: 0.75; font-style: italic; }
 
-    </style>
+    
+        /* --- PAGE EDITOR (admin visual edit mode) --- */
+        body.bb-page-editing {
+            cursor: default;
+        }
+        body.bb-page-editing .main-content [data-bb-editable],
+        body.bb-page-editing .main-content h1,
+        body.bb-page-editing .main-content h2,
+        body.bb-page-editing .main-content h3,
+        body.bb-page-editing .main-content h4,
+        body.bb-page-editing .main-content p,
+        body.bb-page-editing .main-content li,
+        body.bb-page-editing .main-content span:not(.fa):not(.fas):not(.far):not(.fab),
+        body.bb-page-editing .main-content label,
+        body.bb-page-editing .main-content button,
+        body.bb-page-editing .main-content a,
+        body.bb-page-editing .main-content .header-title,
+        body.bb-page-editing .main-content .home-card,
+        body.bb-page-editing .main-content .leaks-section,
+        body.bb-page-editing .main-content .about-box,
+        body.bb-page-editing .main-content .updates-section,
+        body.bb-page-editing .main-content .settings-section {
+            outline: 2px dashed rgba(255, 255, 255, 0.35);
+            outline-offset: 2px;
+        }
+        body.bb-page-editing .main-content img {
+            outline: 2px dashed rgba(255, 220, 80, 0.7);
+            outline-offset: 2px;
+            cursor: pointer !important;
+        }
+        body.bb-page-editing .main-content [contenteditable="true"] {
+            outline: 2px solid #fff !important;
+            outline-offset: 2px;
+            background: rgba(255,255,255,0.08);
+            cursor: text !important;
+        }
+        #bb-edit-bar {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 20000;
+            background: linear-gradient(90deg, #5b21b6, #9a49aa 40%, #c026d3);
+            color: #fff;
+            padding: 10px 14px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 14px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        body.bb-page-editing #bb-edit-bar { display: flex; }
+        body.bb-page-editing {
+            padding-top: 52px !important;
+        }
+        #bb-edit-bar .bb-edit-status {
+            font-family: 'Titan One', sans-serif;
+            font-weight: normal;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+        }
+        #bb-edit-bar .bb-edit-hint {
+            opacity: 0.92;
+            font-size: 13px;
+            font-weight: 700;
+            flex: 1;
+            min-width: 180px;
+        }
+        #bb-edit-bar .bb-edit-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        #bb-edit-bar button {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 13px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: 2px solid rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            cursor: pointer;
+        }
+        #bb-edit-bar button:hover { background: rgba(255,255,255,0.35); }
+        #bb-edit-bar button.primary {
+            background: #fff;
+            color: #7c3aed;
+            border-color: #fff;
+        }
+        #bb-edit-toast {
+            display: none;
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20001;
+            background: rgba(20,10,30,0.92);
+            color: #fff;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 14px;
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 3px solid rgba(255,255,255,0.25);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+            pointer-events: none;
+        }
+        #bb-edit-toast.show { display: block; animation: popIn 0.25s ease; }
+
+</style>
 </head>
 <body>
 
@@ -4123,6 +4269,45 @@
                 <p id="admin-owner-msg" style="font-size:13px;font-weight:700;margin:0 0 14px;opacity:0.9;min-height:1.2em;"></p>
                 <p class="settings-hint">Online visitors (usernames). Anonymous if they skipped the name prompt.</p>
                 <ul id="admin-visitors-list"><li style="opacity:0.7;">Waiting for presence…</li></ul>
+
+                <hr style="border:none;border-top:2px solid rgba(255,255,255,0.2);margin:18px 0;">
+                <h3 style="font-family:'Titan One',sans-serif;font-weight:normal;font-size:20px;margin:0 0 6px;">Content Editor</h3>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;">
+                    <button class="settings-reset-btn" type="button" onclick="bbPageEditorEnter()">✏️ Start page editor</button>
+                </div>
+                <p class="settings-hint" style="margin-bottom:14px;">Page editor: edit text &amp; images on any page. Use the sidebar to move around while editing. A purple bar shows <b>Editing now</b>.</p>
+                <p class="settings-hint">Edit packs &amp; blooks (name, rarity, %, image). Changes apply to Packs page and Pack Sim. Saved in this browser only.</p>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
+                    <select id="admin-pack-select" onchange="adminLoadSelectedPack()" style="flex:1;min-width:160px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;padding:10px 12px;border-radius:10px;border:3px solid rgba(255,255,255,0.35);background:rgba(0,0,0,0.25);color:#fff;outline:none;"></select>
+                    <button class="settings-reset-btn" type="button" onclick="adminSaveMarketPacks()">Save all</button>
+                    <button class="settings-reset-btn" type="button" onclick="adminResetMarketPacks()">Reset data</button>
+                </div>
+                <p id="admin-content-msg" style="font-size:13px;font-weight:700;margin:0 0 12px;opacity:0.9;min-height:1.2em;"></p>
+                <div id="admin-pack-fields" style="display:none;margin-bottom:14px;">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+                        <label style="display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:800;">Pack name
+                            <input type="text" id="admin-pack-name" style="font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;padding:8px 10px;border-radius:8px;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.2);color:#fff;">
+                        </label>
+                        <label style="display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:800;">Price
+                            <input type="number" id="admin-pack-price" min="0" style="font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;padding:8px 10px;border-radius:8px;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.2);color:#fff;">
+                        </label>
+                        <label style="display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:800;">Year
+                            <input type="number" id="admin-pack-year" style="font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;padding:8px 10px;border-radius:8px;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.2);color:#fff;">
+                        </label>
+                        <label style="display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:800;">Icon URL
+                            <input type="text" id="admin-pack-icon" style="font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;padding:8px 10px;border-radius:8px;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.2);color:#fff;">
+                        </label>
+                    </div>
+                    <label style="display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:800;margin-bottom:12px;">About
+                        <textarea id="admin-pack-about" rows="2" style="font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;padding:8px 10px;border-radius:8px;border:2px solid rgba(255,255,255,0.3);background:rgba(0,0,0,0.2);color:#fff;resize:vertical;"></textarea>
+                    </label>
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+                        <span style="font-weight:900;font-size:13px;">Blooks in pack</span>
+                        <button class="settings-reset-btn" type="button" onclick="adminAddBlookRow()" style="padding:6px 12px;font-size:12px;">+ Add blook</button>
+                    </div>
+                    <div id="admin-blook-rows" style="display:flex;flex-direction:column;gap:8px;max-height:420px;overflow:auto;"></div>
+                    <button class="settings-reset-btn" type="button" onclick="adminApplyPackEdits()" style="margin-top:12px;width:100%;">Apply pack edits</button>
+                </div>
             </div>
         </div>
     </div>
@@ -4253,6 +4438,257 @@
                 btn.classList.toggle('active', btn.dataset.view === currentView);
             });
         }
+
+        /* ========== VISUAL PAGE EDITOR (admin) ========== */
+        const BB_PAGE_EDITS_KEY = 'blookbase_page_edits_v1';
+        let bbPageEditing = false;
+        let bbPageEditView = null;
+
+        function bbGetPageEdits() {
+            try {
+                const raw = localStorage.getItem(BB_PAGE_EDITS_KEY);
+                if (!raw) return {};
+                const o = JSON.parse(raw);
+                return (o && typeof o === 'object') ? o : {};
+            } catch (e) { return {}; }
+        }
+        function bbSetPageEdits(map) {
+            try {
+                localStorage.setItem(BB_PAGE_EDITS_KEY, JSON.stringify(map));
+                return true;
+            } catch (e) { return false; }
+        }
+
+        function bbEditToast(msg) {
+            const t = document.getElementById('bb-edit-toast');
+            if (!t) return;
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(bbEditToast._tm);
+            bbEditToast._tm = setTimeout(function () { t.classList.remove('show'); }, 2200);
+        }
+
+        function bbCurrentViewEl() {
+            const v = (typeof currentView !== 'undefined' && currentView) ? currentView : 'home';
+            return document.getElementById('view-' + v);
+        }
+
+        function bbEnsureEditKeys(root) {
+            if (!root) return;
+            const nodes = root.querySelectorAll('h1,h2,h3,h4,p,li,span,label,button,a,.header-title,img');
+            let n = 0;
+            nodes.forEach(function (el) {
+                if (el.closest('#bb-edit-bar,#sidebar,#admin-panel,#admin-gate')) return;
+                if (el.classList && (el.classList.contains('fa') || el.classList.contains('fas') || el.classList.contains('far') || el.classList.contains('fab'))) return;
+                if (!el.getAttribute('data-bb-key')) {
+                    el.setAttribute('data-bb-key', 'e' + (Date.now().toString(36)) + '-' + (n++));
+                }
+            });
+        }
+
+        function bbEnableEditingOnView(root) {
+            if (!root) return;
+            bbEnsureEditKeys(root);
+            root.querySelectorAll('h1,h2,h3,h4,p,li,span,label,button,a,.header-title').forEach(function (el) {
+                if (el.closest('#bb-edit-bar,#sidebar,#admin-panel,#admin-gate,.menu-btn')) return;
+                if (el.classList && (el.classList.contains('fa') || el.classList.contains('fas'))) return;
+                if (el.tagName === 'SCRIPT') return;
+                // skip pure icon buttons without text
+                el.setAttribute('contenteditable', 'true');
+                el.setAttribute('data-bb-editable', '1');
+                el.addEventListener('keydown', bbEditStopProp);
+                el.addEventListener('click', bbEditStopProp);
+            });
+            root.querySelectorAll('img').forEach(function (img) {
+                if (img.closest('#bb-edit-bar,#sidebar')) return;
+                img.setAttribute('data-bb-editable-img', '1');
+                img.addEventListener('click', bbEditImageClick);
+            });
+        }
+
+        function bbDisableEditingOnView(root) {
+            if (!root) return;
+            root.querySelectorAll('[contenteditable="true"]').forEach(function (el) {
+                el.removeAttribute('contenteditable');
+                el.removeAttribute('data-bb-editable');
+                el.removeEventListener('keydown', bbEditStopProp);
+                el.removeEventListener('click', bbEditStopProp);
+            });
+            root.querySelectorAll('[data-bb-editable-img]').forEach(function (img) {
+                img.removeAttribute('data-bb-editable-img');
+                img.removeEventListener('click', bbEditImageClick);
+            });
+        }
+
+        function bbEditStopProp(e) {
+            e.stopPropagation();
+        }
+
+        function bbEditImageClick(e) {
+            if (!bbPageEditing) return;
+            e.preventDefault();
+            e.stopPropagation();
+            const img = e.currentTarget;
+            const cur = img.getAttribute('src') || '';
+            const next = prompt('Image URL (leave blank to cancel):', cur);
+            if (next == null || next.trim() === '') return;
+            img.setAttribute('src', next.trim());
+            bbEditToast('Image updated — click Save page to keep it');
+        }
+
+        function bbCollectViewEdits(root) {
+            if (!root) return { texts: {}, images: {} };
+            bbEnsureEditKeys(root);
+            const texts = {};
+            const images = {};
+            root.querySelectorAll('[data-bb-key]').forEach(function (el) {
+                const key = el.getAttribute('data-bb-key');
+                if (!key) return;
+                if (el.tagName === 'IMG') {
+                    images[key] = el.getAttribute('src') || '';
+                } else {
+                    texts[key] = el.innerHTML;
+                }
+            });
+            // also store by stable path for elements without prior keys that are structural titles
+            return { texts: texts, images: images, html: root.innerHTML };
+        }
+
+        function bbApplyViewEdits(view, root) {
+            if (!root) return;
+            const map = bbGetPageEdits();
+            const data = map[view];
+            if (!data) return;
+            // Prefer key-based apply if keys exist in saved data and in DOM
+            if (data.texts || data.images) {
+                bbEnsureEditKeys(root);
+                // If we saved full html and keys don't match after re-render, fall back to html for static views
+                let applied = 0;
+                Object.keys(data.texts || {}).forEach(function (k) {
+                    const el = root.querySelector('[data-bb-key="' + k + '"]');
+                    if (el && el.tagName !== 'IMG') {
+                        el.innerHTML = data.texts[k];
+                        applied++;
+                    }
+                });
+                Object.keys(data.images || {}).forEach(function (k) {
+                    const el = root.querySelector('[data-bb-key="' + k + '"]');
+                    if (el && el.tagName === 'IMG') {
+                        el.setAttribute('src', data.images[k]);
+                        applied++;
+                    }
+                });
+                // Static pages: if almost nothing applied, use full HTML snapshot
+                const staticViews = { home:1, about:1, updates:1, whatsnew:1, settings:1, 404:1 };
+                if (applied < 2 && data.html && staticViews[view]) {
+                    root.innerHTML = data.html;
+                }
+            } else if (data.html) {
+                root.innerHTML = data.html;
+            }
+        }
+
+        function bbPageEditorSave() {
+            const view = (typeof currentView !== 'undefined') ? currentView : 'home';
+            const root = document.getElementById('view-' + view);
+            if (!root) return;
+            const map = bbGetPageEdits();
+            map[view] = bbCollectViewEdits(root);
+            const ok = bbSetPageEdits(map);
+            bbEditToast(ok ? ('Saved edits for “' + view + '”') : 'Save failed');
+        }
+
+        function bbPageEditorSaveAll() {
+            // save current first
+            bbPageEditorSave();
+            bbEditToast('Current page saved. Open other pages while editing to edit them, then Save page on each.');
+        }
+
+        function bbPageEditorResetCurrent() {
+            const view = (typeof currentView !== 'undefined') ? currentView : 'home';
+            if (!confirm('Clear saved edits for “' + view + '” and reload this page content?')) return;
+            const map = bbGetPageEdits();
+            delete map[view];
+            bbSetPageEdits(map);
+            bbEditToast('Cleared saved edits for “' + view + '”. Refresh if needed.');
+            // re-trigger view render
+            if (typeof switchView === 'function') switchView(view, true);
+            if (bbPageEditing) {
+                setTimeout(function () {
+                    const root = document.getElementById('view-' + view);
+                    bbEnableEditingOnView(root);
+                }, 50);
+            }
+        }
+
+        function bbPageEditorEnter() {
+            if (typeof isAdminUnlocked === 'function' && !isAdminUnlocked()) {
+                alert('Unlock Admin first.');
+                return;
+            }
+            bbPageEditing = true;
+            document.body.classList.add('bb-page-editing');
+            const view = (typeof currentView !== 'undefined') ? currentView : 'home';
+            bbPageEditView = view;
+            const root = document.getElementById('view-' + view);
+            bbEnableEditingOnView(root);
+            bbEditToast('Editing now — use the sidebar to change pages');
+            // leave settings so user can browse
+            if (view === 'settings' && typeof switchView === 'function') {
+                // stay on settings or go home? stay
+            }
+        }
+
+        function bbPageEditorExit() {
+            if (bbPageEditing) {
+                // auto-save current
+                try { bbPageEditorSave(); } catch (e) {}
+            }
+            bbPageEditing = false;
+            document.body.classList.remove('bb-page-editing');
+            document.querySelectorAll('.main-content').forEach(function (root) {
+                bbDisableEditingOnView(root);
+            });
+            bbEditToast('Exited editor (last page auto-saved)');
+        }
+
+        function bbPageEditorOnSwitchView(view) {
+            if (!bbPageEditing) {
+                // still apply saved edits when browsing
+                setTimeout(function () {
+                    const root = document.getElementById('view-' + view);
+                    bbApplyViewEdits(view, root);
+                }, 30);
+                return;
+            }
+            // save previous view
+            if (bbPageEditView) {
+                const prev = document.getElementById('view-' + bbPageEditView);
+                if (prev) {
+                    const map = bbGetPageEdits();
+                    map[bbPageEditView] = bbCollectViewEdits(prev);
+                    bbSetPageEdits(map);
+                }
+                bbDisableEditingOnView(prev);
+            }
+            bbPageEditView = view;
+            setTimeout(function () {
+                const root = document.getElementById('view-' + view);
+                bbApplyViewEdits(view, root);
+                bbEnableEditingOnView(root);
+                bbEditToast('Now editing: ' + view);
+            }, 40);
+        }
+
+        // Apply stored page edits on load for initial view
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                const v = (typeof currentView !== 'undefined') ? currentView : 'home';
+                bbApplyViewEdits(v, document.getElementById('view-' + v));
+            }, 100);
+        });
+
+
         function switchView(view, skipUrl) {
             const allowed = ['home', 'countdown', 'whatsnew', 'videos', 'gamemodes', 'banners', 'market', 'packsim', 'updates', 'settings', 'about', '404'];
             if (!allowed.includes(view)) view = '404';
@@ -4289,6 +4725,7 @@
             if (view === 'packsim') renderPackSim();
             if (view === 'settings') renderSettings();
             if (view === 'home') setHomeTitle();
+            if (typeof bbPageEditorOnSwitchView === 'function') bbPageEditorOnSwitchView(view);
             updateSidebarActive();
             closeSidebar();
             if (!skipUrl) {
@@ -4836,6 +5273,7 @@
                 panel.style.display = 'block';
                 if (msg) msg.textContent = '';
                 try { sessionStorage.setItem('bb_admin', '1'); } catch (e) {}
+                if (typeof adminInitContentEditor === 'function') adminInitContentEditor();
                 if (typeof renderAdminVisitors === 'function') {
                     // force refresh if presence map exists
                 }
@@ -4881,6 +5319,9 @@
                     const panel = document.getElementById('admin-panel');
                     if (gate) gate.style.display = 'none';
                     if (panel) panel.style.display = 'block';
+                    setTimeout(function () {
+                        if (typeof adminInitContentEditor === 'function') adminInitContentEditor();
+                    }, 0);
                 }
             } catch (e) {}
         })();
@@ -6132,7 +6573,7 @@
                 Common: 'radial-gradient(rgb(160,160,160) 40%, rgb(90,90,95))',
                 Uncommon: 'radial-gradient(rgb(125,255,179) 40%, rgb(45,140,70))',
                 Rare: 'radial-gradient(rgb(108,182,255) 40%, rgb(10,20,180))',
-                Epic: 'radial-gradient(rgb(199,125,255) 40%, rgb(120,30,180))',
+                Epic: 'radial-gradient(rgb(255,100,100) 40%, rgb(180,20,20))',
                 Legendary: 'radial-gradient(rgb(255,179,71) 40%, rgb(200,100,20))',
                 Chroma: 'radial-gradient(rgb(94,234,212) 40%, rgb(0,140,130))',
                 Retired: 'radial-gradient(rgb(140,140,150) 40%, rgb(60,60,70))',
@@ -6941,20 +7382,20 @@ const marketPacks = [
     { "name": "Skeleton Fish", "chance": 0.04, "rarity": "Chroma" },
     { "name": "Super Glider", "chance": 0.02, "rarity": "Chroma" },
     { "name": "Haunted Pumpkin", "chance": 0.05, "rarity": "Chroma" },
-    { "name": "Pumpkin Cookie", "chance": null, "rarity": "Unique" },
-    { "name": "Ghost Cookie", "chance": null, "rarity": "Unique" },
+    { "name": "Pumpkin Cookie", "chance": null, "rarity": "Chroma" },
+    { "name": "Ghost Cookie", "chance": null, "rarity": "Chroma" },
     { "name": "Red Gummy Bear", "chance": 0.02, "rarity": "Chroma" },
     { "name": "Blue Gummy Bear", "chance": 0.02, "rarity": "Chroma" },
     { "name": "Green Gummy Bear", "chance": 0.02, "rarity": "Chroma" },
-    { "name": "Chick Chicken", "chance": null, "rarity": "Unique" },
-    { "name": "Chicken Chick", "chance": null, "rarity": "Unique" },
-    { "name": "Raccoon Bandit", "chance": null, "rarity": "Unique" },
-    { "name": "Owl Sheriff", "chance": null, "rarity": "Unique" },
-    { "name": "Vampire Frog", "chance": null, "rarity": "Unique" },
-    { "name": "Pumpkin King", "chance": null, "rarity": "Unique" },
-    { "name": "Anaconda Wizard", "chance": null, "rarity": "Mystical" },
-    { "name": "Spooky Pumpkin", "chance": null, "rarity": "Unique" },
-    { "name": "Spooky Mummy", "chance": null, "rarity": "Unique" },
+    { "name": "Chick Chicken", "chance": null, "rarity": "Chroma" },
+    { "name": "Chicken Chick", "chance": null, "rarity": "Chroma" },
+    { "name": "Raccoon Bandit", "chance": null, "rarity": "Chroma" },
+    { "name": "Owl Sheriff", "chance": null, "rarity": "Chroma" },
+    { "name": "Vampire Frog", "chance": null, "rarity": "Chroma" },
+    { "name": "Pumpkin King", "chance": null, "rarity": "Chroma" },
+    { "name": "Anaconda Wizard", "chance": null, "rarity": "Chroma" },
+    { "name": "Spooky Pumpkin", "chance": null, "rarity": "Chroma" },
+    { "name": "Spooky Mummy", "chance": null, "rarity": "Chroma" },
     { "name": "Spooky Ghost", "chance": null, "rarity": "Mystical" }
 ],
 "year": 2021,
@@ -6998,34 +7439,284 @@ const marketPacks = [
     { "name": "Santa Claus", "chance": 1.0, "rarity": "Legendary" },
     { "name": "Peppermint Bark", "chance": 0.03, "rarity": "Chroma" },
     { "name": "Chilly Chameleon", "chance": 0.02, "rarity": "Chroma" },
-    { "name": "Santa Claws", "chance": null, "rarity": "Unique" },
-    { "name": "Cookies Combo", "chance": null, "rarity": "Unique" },
-    { "name": "Chilly Flamingo", "chance": null, "rarity": "Unique" },
-    { "name": "Snowy Bush Monster", "chance": null, "rarity": "Unique" },
-    { "name": "Nutcracker Koala", "chance": null, "rarity": "Unique" },
+    { "name": "Santa Claws", "chance": null, "rarity": "Chroma" },
+    { "name": "Cookies Combo", "chance": null, "rarity": "Chroma" },
+    { "name": "Chilly Flamingo", "chance": null, "rarity": "Chroma" },
+    { "name": "Snowy Bush Monster", "chance": null, "rarity": "Chroma" },
+    { "name": "Nutcracker Koala", "chance": null, "rarity": "Chroma" },
     { "name": "Hamsta Claus", "chance": null, "rarity": "Mystical" },
-    { "name": "Frost Wreath", "chance": null, "rarity": "Chroma" },
-    { "name": "Tropical Globe", "chance": null, "rarity": "Chroma" },
-    { "name": "London Snow Globe", "chance": null, "rarity": "Chroma" },
-    { "name": "Japan Snow Globe", "chance": null, "rarity": "Chroma" },
-    { "name": "Egypt Snow Globe", "chance": null, "rarity": "Chroma" },
-    { "name": "Paris Snow Globe", "chance": null, "rarity": "Chroma" },
-    { "name": "New York Snow Globe", "chance": null, "rarity": "Chroma" },
-    { "name": "Blue Sweater Snowman", "chance": null, "rarity": "Chroma" },
-    { "name": "Red Sweater Snowman", "chance": null, "rarity": "Chroma" },
-    { "name": "Elf Sweater Snowman", "chance": null, "rarity": "Chroma" },
-    { "name": "Holiday Elf", "chance": null, "rarity": "Chroma" },
-    { "name": "Cozy Baby Penguin", "chance": null, "rarity": "Chroma" }
+    { "name": "Frost Wreath", "chance": 0.05, "rarity": "Chroma" },
+    { "name": "Tropical Globe", "chance": 0.05, "rarity": "Chroma" },
+    { "name": "London Snow Globe", "chance": 0.05, "rarity": "Chroma" },
+    { "name": "Japan Snow Globe", "chance": 0.05, "rarity": "Chroma" },
+    { "name": "Egypt Snow Globe", "chance": 0.05, "rarity": "Chroma" },
+    { "name": "Paris Snow Globe", "chance": 0.05, "rarity": "Chroma" },
+    { "name": "New York Snow Globe", "chance": 0.05, "rarity": "Chroma" },
+    { "name": "Blue Sweater Snowman", "chance": 0.02, "rarity": "Chroma" },
+    { "name": "Red Sweater Snowman", "chance": 0.02, "rarity": "Chroma" },
+    { "name": "Elf Sweater Snowman", "chance": 0.01, "rarity": "Chroma" },
+    { "name": "Holiday Elf", "chance": 0.04, "rarity": "Chroma" },
+    { "name": "Cozy Baby Penguin", "chance": 0.02, "rarity": "Chroma" }
 ],
 "year": 2021,
 "about": "Christmas Blizzard pack — holiday classics, Santa Claus legendary, chromas, contest awards, and retired chromas.",
 "icon": "https://ac.blooket.com/blookassets/packs/blizzard.png"
+    },
+    {
+"name": "Lovely",
+"price": null,
+"blooks": [
+    { "name": "Lovely Frog", "chance": null, "rarity": "Chroma", "marketPrice": 1500 },
+    { "name": "Lovely Planet", "chance": null, "rarity": "Chroma", "marketPrice": 1250 },
+    { "name": "Lovely Peacock", "chance": null, "rarity": "Chroma", "marketPrice": 1000 },
+    { "name": "Lovely Fox", "chance": null, "rarity": "Chroma", "marketPrice": 750 },
+    { "name": "Lovely Rabbit", "chance": null, "rarity": "Chroma", "marketPrice": 750 },
+    { "name": "Lovely Hedgehogs", "chance": null, "rarity": "Chroma", "marketPrice": 500 }
+],
+"year": 2022,
+"about": "Valentine's Day market pack — all Chromas, buy any blook directly (500–1500 tokens depending on release year).",
+"icon": "https://ac.blooket.com/blookassets/packs/lovely.png"
+    },
+    {
+"name": "Lucky",
+"price": null,
+"blooks": [
+    { "name": "Lucky Frog", "chance": null, "rarity": "Chroma", "marketPrice": 1500 },
+    { "name": "Lucky Hamster", "chance": null, "rarity": "Chroma", "marketPrice": 1250 },
+    { "name": "Leprechaun", "chance": null, "rarity": "Chroma", "marketPrice": 1000 },
+    { "name": "Lucky Bee", "chance": null, "rarity": "Chroma", "marketPrice": 750 },
+    { "name": "Lucky Cat", "chance": null, "rarity": "Chroma", "marketPrice": 500 }
+],
+"year": 2022,
+"about": "St. Patrick's Day market pack — all Chromas sold in the Market (current prices 500–1500 tokens).",
+"icon": "https://ac.blooket.com/blookassets/packs/lucky.png"
+    },
+    {
+"name": "Spring",
+"price": null,
+"blooks": [
+    { "name": "Spring Frog", "chance": null, "rarity": "Chroma", "marketPrice": 1500 },
+    { "name": "Chocolate Rabbit", "chance": null, "rarity": "Chroma", "marketPrice": 1250 },
+    { "name": "Spring Rabbit", "chance": null, "rarity": "Chroma", "marketPrice": 1000 },
+    { "name": "Spring Deer", "chance": null, "rarity": "Chroma", "marketPrice": 750 },
+    { "name": "Spring Dragon", "chance": null, "rarity": "Chroma", "marketPrice": 500 }
+],
+"year": 2022,
+"about": "Spring / Easter market pack — seasonal Chromas (prices rise each season; current 500–1500 tokens).",
+"icon": "https://ac.blooket.com/blookassets/packs/spring.png"
+    },
+    {
+"name": "?",
+"price": 25,
+"blooks": [],
+"year": 2026,
+"about": "Mystery pack — contents coming soon.",
+"icon": "https://cdn.phototourl.com/free/2026-09-20-1f5d99e6-ab1f-4c64-896b-92d929367d28.png"
     }
 ];
 
 const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/blooks/santassleigh.svg", "Witch": "https://ac.blooket.com/marketassets/blooks/witch.svg", "Rainbow Jellyfish": "https://ac.blooket.com/marketassets/blooks/rainbowjellyfish.svg", "Two of Spades": "https://ac.blooket.com/marketassets/blooks/twoofspades.svg", "Old Boot": "https://ac.blooket.com/marketassets/blooks/oldboot.svg", "Wizard": "https://ac.blooket.com/marketassets/blooks/wizard.svg", "Bear": "https://ac.blooket.com/marketassets/blooks/bear.svg", "Dingo": "https://ac.blooket.com/marketassets/blooks/dingo.svg", "Dog": "https://ac.blooket.com/marketassets/blooks/dog.svg", "Snowy Owl": "https://ac.blooket.com/marketassets/blooks/snowyowl.svg", "Pumpkin": "https://ac.blooket.com/marketassets/blooks/pumpkin.svg", "Tiger": "https://ac.blooket.com/marketassets/blooks/tiger.svg", "Eat Me": "https://ac.blooket.com/marketassets/blooks/eatme.svg", "Jellyfish": "https://ac.blooket.com/marketassets/blooks/jellyfish.svg", "Ice Bat": "https://ac.blooket.com/marketassets/blooks/icebat.svg", "Snow Globe": "https://ac.blooket.com/marketassets/blooks/snowglobe.svg", "Lil Bot": "https://ac.blooket.com/marketassets/blooks/lilbot.svg", "Blizzard Clownfish": "https://ac.blooket.com/marketassets/blooks/blizzardclownfish.svg", "Ant": "https://ac.blooket.com/marketassets/blooks/ant.svg", "Toast": "https://ac.blooket.com/marketassets/blooks/toast.svg", "Baby Blue": "https://ac.blooket.com/marketassets/blooks/babyblue.svg", "Amber": "https://ac.blooket.com/marketassets/blooks/amber.svg", "Bananas": "https://ac.blooket.com/marketassets/blooks/bananas.svg", "Chick": "https://ac.blooket.com/marketassets/blooks/chick.svg", "Black Bear": "https://ac.blooket.com/marketassets/blooks/blackbear.svg", "Panda": "https://ac.blooket.com/marketassets/blooks/panda.svg", "Deckhand": "https://ac.blooket.com/marketassets/blooks/deckhand.svg", "Earth": "https://ac.blooket.com/marketassets/blooks/earth.svg", "Polar Bear": "https://ac.blooket.com/marketassets/blooks/polarbear.svg", "Swamp Monster": "https://ac.blooket.com/marketassets/blooks/swampmonster.svg", "Black": "https://ac.blooket.com/marketassets/blooks/black.svg", "Orangutan": "https://ac.blooket.com/marketassets/blooks/orangutan.svg", "Buccaneer": "https://ac.blooket.com/marketassets/blooks/buccaneer.svg", "Rhino Beetle": "https://ac.blooket.com/marketassets/blooks/rhinobeetle.svg", "Dino Egg": "https://ac.blooket.com/marketassets/blooks/dinoegg.svg", "Moose": "https://ac.blooket.com/marketassets/blooks/moose.svg", "Chicken": "https://ac.blooket.com/marketassets/blooks/chicken.svg", "Cereal": "https://ac.blooket.com/marketassets/blooks/cereal.svg", "Holiday Gift": "https://ac.blooket.com/marketassets/blooks/holidaygift.svg", "Meteor": "https://ac.blooket.com/marketassets/blooks/meteor.svg", "Clownfish": "https://ac.blooket.com/marketassets/blooks/clownfish.svg", "Lovely Frog": "https://ac.blooket.com/marketassets/blooks/lovelyfrog.svg", "Pumpkin Pie": "https://ac.blooket.com/marketassets/blooks/pumpkinpie.svg", "Echidna": "https://ac.blooket.com/marketassets/blooks/echidna.svg", "Watermelon": "https://ac.blooket.com/marketassets/blooks/watermelon.svg", "Cat": "https://ac.blooket.com/marketassets/blooks/cat.svg", "Elf": "https://ac.blooket.com/marketassets/blooks/elf.svg", "Lovely Bot": "https://ac.blooket.com/marketassets/blooks/lovelybot.svg", "Drink Me": "https://ac.blooket.com/marketassets/blooks/drinkme.svg", "Sloth": "https://ac.blooket.com/marketassets/blooks/sloth.svg", "Ice Bug": "https://ac.blooket.com/marketassets/blooks/icebug.svg", "Alice": "https://ac.blooket.com/marketassets/blooks/alice.svg", "Arctic Fox": "https://ac.blooket.com/marketassets/blooks/arcticfox.svg", "Swashbuckler": "https://ac.blooket.com/marketassets/blooks/swashbuckler.svg", "Tenrec": "https://ac.blooket.com/marketassets/blooks/tenrec.svg", "Ladybug": "https://ac.blooket.com/marketassets/blooks/ladybug.svg", "Lucky Frog": "https://ac.blooket.com/marketassets/blooks/luckyfrog.svg", "Rabbit": "https://ac.blooket.com/marketassets/blooks/rabbit.svg", "Cow": "https://ac.blooket.com/marketassets/blooks/cow.svg", "Yogurt": "https://ac.blooket.com/marketassets/blooks/yogurt.svg", "Cockatoo": "https://ac.blooket.com/marketassets/blooks/cockatoo.svg", "Koala": "https://ac.blooket.com/marketassets/blooks/koala.svg", "Chipmunk": "https://ac.blooket.com/marketassets/blooks/chipmunk.svg", "Fairy": "https://ac.blooket.com/marketassets/blooks/fairy.svg", "Ice Elemental": "https://ac.blooket.com/marketassets/blooks/iceelemental.svg", "Blue": "https://ac.blooket.com/marketassets/blooks/blue.svg", "Angry Bot": "https://ac.blooket.com/marketassets/blooks/angrybot.svg", "Fox": "https://ac.blooket.com/marketassets/blooks/fox.svg", "Stars": "https://ac.blooket.com/marketassets/blooks/stars.svg", "Frog": "https://ac.blooket.com/marketassets/blooks/frog.svg", "Frankenstein": "https://ac.blooket.com/marketassets/blooks/frankenstein.svg", "Hot Chocolate": "https://ac.blooket.com/marketassets/blooks/hotchocolate.svg", "Dino Fossil": "https://ac.blooket.com/marketassets/blooks/dinofossil.svg", "Cheese": "https://ac.blooket.com/marketassets/blooks/cheese.svg", "Goldfish": "https://ac.blooket.com/marketassets/blooks/goldfish.svg", "Breakfast Combo": "https://ac.blooket.com/marketassets/blooks/breakfastcombo.svg", "Vampire": "https://ac.blooket.com/marketassets/blooks/vampire.svg", "Rock Monster": "https://ac.blooket.com/marketassets/blooks/rockmonster.svg", "Slime Monster": "https://ac.blooket.com/marketassets/blooks/slimemonster.svg", "Goat": "https://ac.blooket.com/marketassets/blooks/goat.svg", "Fly": "https://ac.blooket.com/marketassets/blooks/fly.svg", "Queen of Hearts": "https://ac.blooket.com/marketassets/blooks/queenofhearts.svg", "Alien": "https://ac.blooket.com/marketassets/blooks/alien.svg", "Crab": "https://ac.blooket.com/marketassets/blooks/crab.svg", "Doughnut": "https://ac.blooket.com/marketassets/blooks/doughnut.svg", "Kookaburra": "https://ac.blooket.com/marketassets/blooks/kookaburra.svg", "Treasure Map": "https://ac.blooket.com/marketassets/blooks/treasuremap.svg", "Holiday Wreath": "https://ac.blooket.com/marketassets/blooks/holidaywreath.svg", "Stegosaurus": "https://ac.blooket.com/marketassets/blooks/stegosaurus.svg", "Spring Frog": "https://ac.blooket.com/marketassets/blooks/springfrog.svg", "Flamingo": "https://ac.blooket.com/marketassets/blooks/flamingo.svg", "Cornucopia": "https://ac.blooket.com/marketassets/blooks/cornucopia.svg", "Brown": "https://ac.blooket.com/marketassets/blooks/brown.svg", "Happy Bot": "https://ac.blooket.com/marketassets/blooks/happybot.svg", "Raccoon": "https://ac.blooket.com/marketassets/blooks/raccoon.svg", "Parrot": "https://ac.blooket.com/marketassets/blooks/parrot.svg", "Baby Penguin": "https://ac.blooket.com/marketassets/blooks/babypenguin.svg", "Dink": "https://ac.blooket.com/marketassets/blooks/dink.svg", "Dormouse": "https://ac.blooket.com/marketassets/blooks/dormouse.svg", "Burgandy": "https://ac.blooket.com/marketassets/blooks/burgandy.svg", "Squirrel": "https://ac.blooket.com/marketassets/blooks/squirrel.svg", "Anaconda": "https://ac.blooket.com/marketassets/blooks/anaconda.svg", "Autumn Cat": "https://ac.blooket.com/marketassets/blooks/autumncat.svg", "Planet": "https://ac.blooket.com/marketassets/blooks/planet.svg", "Horse": "https://ac.blooket.com/marketassets/blooks/horse.svg", "Seagull": "https://ac.blooket.com/marketassets/blooks/seagull.svg", "Worm": "https://ac.blooket.com/marketassets/blooks/worm.svg", "Pufferfish": "https://ac.blooket.com/marketassets/blooks/pufferfish.svg", "Zebra": "https://ac.blooket.com/marketassets/blooks/zebra.svg", "Penguin": "https://ac.blooket.com/marketassets/blooks/penguin.svg", "Stocking": "https://ac.blooket.com/marketassets/blooks/stocking.svg", "Jester": "https://ac.blooket.com/marketassets/blooks/jester.svg", "Platypus": "https://ac.blooket.com/marketassets/blooks/platypus.svg", "Hamster": "https://ac.blooket.com/marketassets/blooks/hamster.svg", "Watson": "https://ac.blooket.com/marketassets/blooks/watson.svg", "Orange Juice": "https://ac.blooket.com/marketassets/blooks/orangejuice.svg", "Poison Dart Frog": "https://ac.blooket.com/marketassets/blooks/poisondartfrog.svg", "Zombie": "https://ac.blooket.com/marketassets/blooks/zombie.svg", "Velociraptor": "https://ac.blooket.com/marketassets/blooks/velociraptor.svg", "Taco": "https://ac.blooket.com/marketassets/blooks/taco.svg", "Arctic Hare": "https://ac.blooket.com/marketassets/blooks/arctichare.svg", "Mummy": "https://ac.blooket.com/marketassets/blooks/mummy.svg", "Pig": "https://ac.blooket.com/marketassets/blooks/pig.svg", "Turtle": "https://ac.blooket.com/marketassets/blooks/turtle.svg", "Dull Blue": "https://ac.blooket.com/marketassets/blooks/dullblue.svg", "Jaguar": "https://ac.blooket.com/marketassets/blooks/jaguar.svg", "White Rabbit": "https://ac.blooket.com/marketassets/blooks/whiterabbit.svg", "Bee": "https://ac.blooket.com/marketassets/blooks/bee.svg", "Gingerbread Man": "https://ac.blooket.com/marketassets/blooks/gingerbreadman.svg", "Buddy Bot": "https://ac.blooket.com/marketassets/blooks/buddybot.svg", "Milk": "https://ac.blooket.com/marketassets/blooks/milk.svg", "UFO": "https://ac.blooket.com/marketassets/blooks/ufo.svg", "Blobfish": "https://ac.blooket.com/marketassets/blooks/blobfish.svg", "Lucky Hamster": "https://ac.blooket.com/marketassets/blooks/luckyhamster.svg", "Dragon": "https://ac.blooket.com/marketassets/blooks/dragon.svg", "Bao": "https://ac.blooket.com/marketassets/blooks/bao.svg", "Donk": "https://ac.blooket.com/marketassets/blooks/donk.svg", "Joey": "https://ac.blooket.com/marketassets/blooks/joey.svg", "Pumpkin Puppy": "https://ac.blooket.com/marketassets/blooks/pumpkinpuppy.svg", "Jolly Pirate": "https://ac.blooket.com/marketassets/blooks/jollypirate.svg", "Owl": "https://ac.blooket.com/marketassets/blooks/owl.svg", "Elephant": "https://ac.blooket.com/marketassets/blooks/elephant.svg", "Brontosaurus": "https://ac.blooket.com/marketassets/blooks/brontosaurus.svg", "Cheshire Cat": "https://ac.blooket.com/marketassets/blooks/cheshirecat.svg", "Spaceship": "https://ac.blooket.com/marketassets/blooks/spaceship.svg", "Kitten": "https://ac.blooket.com/marketassets/blooks/kitten.svg", "Caramel Apple": "https://ac.blooket.com/marketassets/blooks/caramelapple.svg", "Triceratops": "https://ac.blooket.com/marketassets/blooks/triceratops.svg", "Kangaroo": "https://ac.blooket.com/marketassets/blooks/kangaroo.svg", "Pirate Ship": "https://ac.blooket.com/marketassets/blooks/pirateship.svg", "Mantis": "https://ac.blooket.com/marketassets/blooks/mantis.svg", "Queen": "https://ac.blooket.com/marketassets/blooks/queen.svg", "Sushi": "https://ac.blooket.com/marketassets/blooks/sushi.svg", "Dust": "https://ac.blooket.com/marketassets/blooks/dust.svg", "Octopus": "https://ac.blooket.com/marketassets/blooks/octopus.svg", "Lucky Bee": "https://ac.blooket.com/marketassets/blooks/luckybee.svg", "Macaw": "https://ac.blooket.com/marketassets/blooks/macaw.svg", "Gingerbread House": "https://ac.blooket.com/marketassets/blooks/gingerbreadhouse.svg", "Lemur": "https://ac.blooket.com/marketassets/blooks/lemur.svg", "Seal": "https://ac.blooket.com/marketassets/blooks/seal.svg", "Sheep": "https://ac.blooket.com/marketassets/blooks/sheep.svg", "Waffle": "https://ac.blooket.com/marketassets/blooks/waffle.svg", "Hedgehog": "https://ac.blooket.com/marketassets/blooks/hedgehog.svg", "Bush Monster": "https://ac.blooket.com/marketassets/blooks/bushmonster.svg", "Brainy Bot": "https://ac.blooket.com/marketassets/blooks/brainybot.svg", "Red Squirrel": "https://ac.blooket.com/marketassets/blooks/redsquirrel.svg", "Pancakes": "https://ac.blooket.com/marketassets/blooks/pancakes.svg", "Crocodile": "https://ac.blooket.com/marketassets/blooks/crocodile.svg", "Caterpillar": "https://ac.blooket.com/marketassets/blooks/caterpillar.svg", "Cheeseburger": "https://ac.blooket.com/marketassets/blooks/cheeseburger.svg", "Walrus": "https://ac.blooket.com/marketassets/blooks/walrus.svg", "Yeti": "https://ac.blooket.com/marketassets/blooks/yeti.svg", "Gray": "https://ac.blooket.com/marketassets/blooks/gray.svg", "Peacock": "https://ac.blooket.com/marketassets/blooks/peacock.svg", "Tyrannosaurus Rex": "https://ac.blooket.com/marketassets/blooks/tyrannosaurusrex.svg", "Butterfly": "https://ac.blooket.com/marketassets/blooks/butterfly.svg", "Puppy": "https://ac.blooket.com/marketassets/blooks/puppy.svg", "Duck": "https://ac.blooket.com/marketassets/blooks/duck.svg", "Candy Corn": "https://ac.blooket.com/marketassets/blooks/candycorn.svg", "Reindeer": "https://ac.blooket.com/marketassets/blooks/reindeer.svg", "Mega Bot": "https://ac.blooket.com/marketassets/blooks/megabot.svg", "Narwhal": "https://ac.blooket.com/marketassets/blooks/narwhal.svg", "Kraken": "https://ac.blooket.com/marketassets/blooks/kraken.svg", "Autumn Crow": "https://ac.blooket.com/marketassets/blooks/autumncrow.svg", "Unicorn": "https://ac.blooket.com/marketassets/blooks/unicorn.svg", "Astronaut": "https://ac.blooket.com/marketassets/blooks/astronaut.svg", "Toucan": "https://ac.blooket.com/marketassets/blooks/toucan.svg", "Lucky Cat": "https://ac.blooket.com/marketassets/blooks/luckycat.svg", "Deer": "https://ac.blooket.com/marketassets/blooks/deer.svg", "Wolf": "https://ac.blooket.com/marketassets/blooks/wolf.svg", "Turkey": "https://ac.blooket.com/marketassets/blooks/turkey.svg", "Green": "https://ac.blooket.com/marketassets/blooks/green.svg", "Alpaca": "https://ac.blooket.com/marketassets/blooks/alpaca.svg", "Panther": "https://ac.blooket.com/marketassets/blooks/panther.svg", "Crow": "https://ac.blooket.com/marketassets/blooks/crow.svg", "French Toast": "https://ac.blooket.com/marketassets/blooks/frenchtoast.svg", "Chocolate Rabbit": "https://ac.blooket.com/marketassets/blooks/chocolaterabbit.svg", "King": "https://ac.blooket.com/marketassets/blooks/king.svg", "Mad Hatter": "https://ac.blooket.com/marketassets/blooks/madhatter.svg", "Captain Blackbeard": "https://ac.blooket.com/marketassets/blooks/captainblackbeard.svg", "Dolphin": "https://ac.blooket.com/marketassets/blooks/dolphin.svg", "Sugar Glider": "https://ac.blooket.com/marketassets/blooks/sugarglider.svg", "Chameleon": "https://ac.blooket.com/marketassets/blooks/chameleon.svg", "Sandwich": "https://ac.blooket.com/marketassets/blooks/sandwich.svg", "Beaver": "https://ac.blooket.com/marketassets/blooks/beaver.svg", "Baby Shark": "https://ac.blooket.com/marketassets/blooks/babyshark.svg", "Capuchin": "https://ac.blooket.com/marketassets/blooks/capuchin.svg", "Snowman": "https://ac.blooket.com/marketassets/blooks/snowman.svg", "Spring Rabbit": "https://ac.blooket.com/marketassets/blooks/springrabbit.svg", "Lion": "https://ac.blooket.com/marketassets/blooks/lion.svg", "Pizza": "https://ac.blooket.com/marketassets/blooks/pizza.svg", "King of Hearts": "https://ac.blooket.com/marketassets/blooks/kingofhearts.svg", "Light Blue": "https://ac.blooket.com/marketassets/blooks/lightblue.svg", "Vampire Bat": "https://ac.blooket.com/marketassets/blooks/vampirebat.svg", "Werewolf": "https://ac.blooket.com/marketassets/blooks/werewolf.svg", "Santa Claus": "https://ac.blooket.com/marketassets/blooks/santaclaus.svg", "Gorilla": "https://ac.blooket.com/marketassets/blooks/gorilla.svg", "Megalodon": "https://ac.blooket.com/marketassets/blooks/megalodon.svg", "Spring Deer": "https://ac.blooket.com/marketassets/blooks/springdeer.svg", "Lime": "https://ac.blooket.com/marketassets/blooks/lime.svg", "Maroon": "https://ac.blooket.com/marketassets/blooks/maroon.svg", "Hippo": "https://ac.blooket.com/marketassets/blooks/hippo.svg", "Ghost": "https://ac.blooket.com/marketassets/blooks/ghost.svg", "Spring Dragon": "https://ac.blooket.com/marketassets/blooks/springdragon.svg", "Lemon Crab": "https://ac.blooket.com/marketassets/blooks/lemoncrab.svg", "Rhino": "https://ac.blooket.com/marketassets/blooks/rhino.svg", "Mint": "https://ac.blooket.com/marketassets/blooks/mint.svg", "Orange": "https://ac.blooket.com/marketassets/blooks/orange.svg", "Pirate Pufferfish": "https://ac.blooket.com/marketassets/blooks/piratepufferfish.svg", "Giraffe": "https://ac.blooket.com/marketassets/blooks/giraffe.svg", "Donut Blobfish": "https://ac.blooket.com/marketassets/blooks/donutblobfish.svg", "Pink": "https://ac.blooket.com/marketassets/blooks/pink.svg", "Purple": "https://ac.blooket.com/marketassets/blooks/purple.svg", "Crimson Octopus": "https://ac.blooket.com/marketassets/blooks/crimsonoctopus.svg", "Rainbow Narwhal": "https://ac.blooket.com/marketassets/blooks/rainbownarwhal.svg", "Red": "https://ac.blooket.com/marketassets/blooks/red.svg", "Salmon": "https://ac.blooket.com/marketassets/blooks/salmon.svg", "Frost Wreath": "https://ac.blooket.com/marketassets/blooks/frostwreath.svg", "Tropical Globe": "https://ac.blooket.com/marketassets/blooks/tropicalglobe.svg", "Tan": "https://ac.blooket.com/marketassets/blooks/tan.svg", "Teal": "https://ac.blooket.com/marketassets/blooks/teal.svg", "New York Snow Globe": "https://ac.blooket.com/marketassets/blooks/newyorksnowglobe.svg", "London Snow Globe": "https://ac.blooket.com/marketassets/blooks/londonsnowglobe.svg", "Yellow": "https://ac.blooket.com/marketassets/blooks/yellow.svg", "Japan Snow Globe": "https://ac.blooket.com/marketassets/blooks/japansnowglobe.svg", "Egypt Snow Globe": "https://ac.blooket.com/marketassets/blooks/egyptsnowglobe.svg", "Paris Snow Globe": "https://ac.blooket.com/marketassets/blooks/parissnowglobe.svg", "Red Sweater Snowman": "https://ac.blooket.com/marketassets/blooks/redsweatersnowman.svg", "Blue Sweater Snowman": "https://ac.blooket.com/marketassets/blooks/bluesweatersnowman.svg", "Elf Sweater Snowman": "https://ac.blooket.com/marketassets/blooks/elfsweatersnowman.svg", "Holiday Elf": "https://ac.blooket.com/marketassets/blooks/holidayelf.svg", "Cozy Baby Penguin": "https://ac.blooket.com/marketassets/blooks/cozybabypenguin.svg", "Peppermint Bark": "https://ac.blooket.com/marketassets/blooks/peppermintbark.svg", "Chilly Chameleon": "https://ac.blooket.com/marketassets/blooks/chillychameleon.svg", "Santa Claws": "https://ac.blooket.com/marketassets/blooks/santaclaws.svg", "Cookies Combo": "https://ac.blooket.com/marketassets/blooks/cookiescombo.svg", "Chilly Flamingo": "https://ac.blooket.com/marketassets/blooks/chillyflamingo.svg", "Snowy Bush Monster": "https://ac.blooket.com/marketassets/blooks/snowybushmonster.svg", "Nutcracker Koala": "https://ac.blooket.com/marketassets/blooks/nutcrackerkoala.svg", "Half a Sandwich": "https://ac.blooket.com/marketassets/blooks/halfasandwich.svg", "Ice Slime": "https://ac.blooket.com/marketassets/blooks/iceslime.svg", "Frozen Fossil": "https://ac.blooket.com/marketassets/blooks/frozenfossil.svg", "Ice Crab": "https://ac.blooket.com/marketassets/blooks/icecrab.svg", "Rainbow Panda": "https://ac.blooket.com/marketassets/blooks/rainbowpanda.svg", "White Peacock": "https://ac.blooket.com/marketassets/blooks/whitepeacock.svg", "Tiger Zebra": "https://ac.blooket.com/marketassets/blooks/tigerzebra.svg", "Teal Platypus": "https://ac.blooket.com/marketassets/blooks/tealplatypus.svg", "Golden Pumpkin Pie": "https://ac.blooket.com/marketassets/blooks/goldenpumpkinpie.svg", "Goldfinch": "https://ac.blooket.com/marketassets/blooks/goldfinch.svg", "Blue Butterfly": "https://ac.blooket.com/marketassets/blooks/bluebutterfly.svg", "Red Astronaut": "https://ac.blooket.com/marketassets/blooks/redastronaut.svg", "Orange Astronaut": "https://ac.blooket.com/marketassets/blooks/orangeastronaut.svg", "Yellow Astronaut": "https://ac.blooket.com/marketassets/blooks/yellowastronaut.svg", "Lime Astronaut": "https://ac.blooket.com/marketassets/blooks/limeastronaut.svg", "Green Astronaut": "https://ac.blooket.com/marketassets/blooks/greenastronaut.svg", "Cyan Astronaut": "https://ac.blooket.com/marketassets/blooks/cyanastronaut.svg", "Blue Astronaut": "https://ac.blooket.com/marketassets/blooks/blueastronaut.svg", "Pink Astronaut": "https://ac.blooket.com/marketassets/blooks/pinkastronaut.svg", "Purple Astronaut": "https://ac.blooket.com/marketassets/blooks/purpleastronaut.svg", "Brown Astronaut": "https://ac.blooket.com/marketassets/blooks/brownastronaut.svg", "Black Astronaut": "https://ac.blooket.com/marketassets/blooks/blackastronaut.svg", "Lovely Planet": "https://ac.blooket.com/marketassets/blooks/lovelyplanet.svg", "Lovely Peacock": "https://ac.blooket.com/marketassets/blooks/lovelypeacock.svg", "Lovely Fox": "https://ac.blooket.com/marketassets/blooks/lovelyfox.svg", "Lovely Rabbit": "https://ac.blooket.com/marketassets/blooks/lovelyrabbit.svg", "Lovely Hedgehogs": "https://ac.blooket.com/marketassets/blooks/lovelyhedgehogs.svg", "Haunted Pumpkin": "https://ac.blooket.com/marketassets/blooks/hauntedpumpkin.svg", "Pumpkin Cookie": "https://ac.blooket.com/marketassets/blooks/pumpkincookie.svg", "Ghost Cookie": "https://ac.blooket.com/marketassets/blooks/ghostcookie.svg", "Red Gummy Bear": "https://ac.blooket.com/marketassets/blooks/redgummybear.svg", "Blue Gummy Bear": "https://ac.blooket.com/marketassets/blooks/bluegummybear.svg", "Green Gummy Bear": "https://ac.blooket.com/marketassets/blooks/greengummybear.svg", "Skeleton Fish": "https://ac.blooket.com/marketassets/blooks/skeletonfish.svg", "Super Glider": "https://ac.blooket.com/marketassets/blooks/superglider.svg", "Chick Chicken": "https://ac.blooket.com/marketassets/blooks/chickchicken.svg", "Chicken Chick": "https://ac.blooket.com/marketassets/blooks/chickenchick.svg", "Raccoon Bandit": "https://ac.blooket.com/marketassets/blooks/raccoonbandit.svg", "Owl Sheriff": "https://ac.blooket.com/marketassets/blooks/owlsheriff.svg", "Vampire Frog": "https://ac.blooket.com/marketassets/blooks/vampirefrog.svg", "Pumpkin King": "https://ac.blooket.com/marketassets/blooks/pumpkinking.svg", "Leprechaun": "https://ac.blooket.com/marketassets/blooks/leprechaun.svg", "Anaconda Wizard": "https://ac.blooket.com/marketassets/blooks/anacondawizard.svg", "Spooky Pumpkin": "https://ac.blooket.com/marketassets/blooks/spookypumpkin.svg", "Spooky Mummy": "https://ac.blooket.com/marketassets/blooks/spookymummy.svg", "Agent Owl": "https://ac.blooket.com/marketassets/blooks/agentowl.svg", "Master Elf": "https://ac.blooket.com/marketassets/blooks/masterelf.svg", "Party Pig": "https://ac.blooket.com/marketassets/blooks/partypig.svg", "Wise Owl": "https://ac.blooket.com/marketassets/blooks/wiseowl.svg", "Wise Caterpillar": "https://ac.blooket.com/marketassets/blooks/wisecaterpillar.svg", "Spooky Ghost": "https://ac.blooket.com/marketassets/blooks/spookyghost.svg", "Fuego": "https://ac.blooket.com/marketassets/blooks/fuego.svg", "Phantom King": "https://ac.blooket.com/marketassets/blooks/phantomking.svg", "Tim the Alien": "https://ac.blooket.com/marketassets/blooks/timthealien.svg", "Rainbow Astronaut": "https://ac.blooket.com/marketassets/blooks/rainbowastronaut.svg", "Hamsta Claus": "https://ac.blooket.com/marketassets/blooks/hamstaclaus.svg", "Astronaut of the Day Placeholder": "https://ac.blooket.com/marketassets/blooks/placeholder.svg"};
 
-        function renderPacks() { renderMarket(); }
+        
+/* ---- Market data defaults + local overrides (admin editor) ---- */
+const DEFAULT_MARKET_PACKS = JSON.parse(JSON.stringify(marketPacks));
+const BB_MARKET_KEY = 'blookbase_market_packs_v1';
+const BB_BLOOK_IMG_KEY = 'blookbase_blook_images_v1';
+
+function applyStoredMarketPacks() {
+    try {
+        const raw = localStorage.getItem(BB_MARKET_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (!Array.isArray(data) || !data.length) return;
+        marketPacks.length = 0;
+        data.forEach(function (p) { marketPacks.push(p); });
+    } catch (e) {}
+    try {
+        const imgRaw = localStorage.getItem(BB_BLOOK_IMG_KEY);
+        if (imgRaw) {
+            const imgs = JSON.parse(imgRaw);
+            if (imgs && typeof imgs === 'object') {
+                Object.keys(imgs).forEach(function (k) {
+                    if (imgs[k]) blookImageMap[k] = imgs[k];
+                });
+            }
+        }
+    } catch (e) {}
+}
+function persistMarketPacks() {
+    try {
+        localStorage.setItem(BB_MARKET_KEY, JSON.stringify(marketPacks));
+        localStorage.setItem(BB_BLOOK_IMG_KEY, JSON.stringify(blookImageMap));
+        return true;
+    } catch (e) { return false; }
+}
+applyStoredMarketPacks();
+
+function isAdminUnlocked() {
+    try { return sessionStorage.getItem('bb_admin') === '1'; } catch (e) { return false; }
+}
+
+function adminRefreshPackSelect() {
+    const sel = document.getElementById('admin-pack-select');
+    if (!sel) return;
+    const prev = sel.value;
+    sel.innerHTML = marketPacks.map(function (p, i) {
+        return '<option value="' + i + '">' + p.name + '</option>';
+    }).join('');
+    if (prev !== '' && Number(prev) < marketPacks.length) sel.value = prev;
+    else if (marketPacks.length) sel.value = '0';
+}
+
+function adminLoadSelectedPack() {
+    const sel = document.getElementById('admin-pack-select');
+    const fields = document.getElementById('admin-pack-fields');
+    if (!sel || !fields) return;
+    const i = Number(sel.value);
+    const p = marketPacks[i];
+    if (!p) { fields.style.display = 'none'; return; }
+    fields.style.display = 'block';
+    document.getElementById('admin-pack-name').value = p.name || '';
+    document.getElementById('admin-pack-price').value = p.price != null ? p.price : '';
+    document.getElementById('admin-pack-year').value = p.year != null ? p.year : '';
+    document.getElementById('admin-pack-icon').value = p.icon || '';
+    document.getElementById('admin-pack-about').value = p.about || '';
+    adminRenderBlookRows(p.blooks || []);
+}
+
+function adminRenderBlookRows(blooks) {
+    const wrap = document.getElementById('admin-blook-rows');
+    if (!wrap) return;
+    const rarities = ['Common','Uncommon','Rare','Epic','Legendary','Chroma','Mystical','Unique'];
+    wrap.innerHTML = (blooks || []).map(function (b, idx) {
+        const img = (typeof getBlookImg === 'function') ? getBlookImg(b.name) : '';
+        const chanceVal = (b.chance == null || b.chance === '') ? '' : b.chance;
+        return '<div class="admin-blook-row" data-idx="' + idx + '" style="background:rgba(0,0,0,0.18);border-radius:10px;padding:10px;display:grid;grid-template-columns:40px 1fr;gap:8px;align-items:start;">' +
+            '<img src="' + img + '" alt="" style="width:40px;height:40px;object-fit:contain;" onerror="this.style.opacity=0.3">' +
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">' +
+            '<label style="font-size:11px;font-weight:800;grid-column:1/-1;">Name<input data-f="name" type="text" value="' + String(b.name || '').replace(/"/g, '&quot;') + '" style="width:100%;margin-top:2px;font-family:Nunito,sans-serif;font-weight:800;font-size:13px;padding:6px 8px;border-radius:6px;border:2px solid rgba(255,255,255,0.25);background:rgba(0,0,0,0.2);color:#fff;box-sizing:border-box;"></label>' +
+            '<label style="font-size:11px;font-weight:800;">Rarity<select data-f="rarity" style="width:100%;margin-top:2px;font-family:Nunito,sans-serif;font-weight:800;font-size:13px;padding:6px 8px;border-radius:6px;border:2px solid rgba(255,255,255,0.25);background:rgba(0,0,0,0.2);color:#fff;">' +
+            rarities.map(function (r) { return '<option value="' + r + '"' + (b.rarity === r ? ' selected' : '') + '>' + r + '</option>'; }).join('') +
+            '</select></label>' +
+            '<label style="font-size:11px;font-weight:800;">Chance % <span style="opacity:0.7;font-weight:600;">(blank = Event)</span><input data-f="chance" type="text" inputmode="decimal" value="' + chanceVal + '" placeholder="Event" style="width:100%;margin-top:2px;font-family:Nunito,sans-serif;font-weight:800;font-size:13px;padding:6px 8px;border-radius:6px;border:2px solid rgba(255,255,255,0.25);background:rgba(0,0,0,0.2);color:#fff;box-sizing:border-box;"></label>' +
+            '<label style="font-size:11px;font-weight:800;grid-column:1/-1;">Image URL<input data-f="img" type="text" value="' + String(img || '').replace(/"/g, '&quot;') + '" style="width:100%;margin-top:2px;font-family:Nunito,sans-serif;font-weight:700;font-size:12px;padding:6px 8px;border-radius:6px;border:2px solid rgba(255,255,255,0.25);background:rgba(0,0,0,0.2);color:#fff;box-sizing:border-box;"></label>' +
+            '<button type="button" onclick="adminRemoveBlookRow(' + idx + ')" style="grid-column:1/-1;font-family:Nunito,sans-serif;font-weight:900;font-size:12px;padding:6px;border-radius:6px;border:2px solid rgba(255,255,255,0.25);background:rgba(180,40,40,0.35);color:#fff;cursor:pointer;">Remove</button>' +
+            '</div></div>';
+    }).join('') || '<p style="opacity:0.75;font-weight:700;font-size:13px;">No blooks yet.</p>';
+}
+
+function adminCollectBlookRows() {
+    const wrap = document.getElementById('admin-blook-rows');
+    if (!wrap) return [];
+    const rows = [];
+    wrap.querySelectorAll('.admin-blook-row').forEach(function (row) {
+        const name = (row.querySelector('[data-f="name"]') || {}).value || '';
+        const rarity = (row.querySelector('[data-f="rarity"]') || {}).value || 'Uncommon';
+        let chanceRaw = (row.querySelector('[data-f="chance"]') || {}).value;
+        chanceRaw = (chanceRaw == null ? '' : String(chanceRaw)).trim();
+        let chance = null;
+        if (chanceRaw !== '') {
+            const n = Number(chanceRaw);
+            chance = isNaN(n) ? null : n;
+        }
+        const img = ((row.querySelector('[data-f="img"]') || {}).value || '').trim();
+        if (name.trim()) {
+            rows.push({ name: name.trim(), rarity: rarity, chance: chance, _img: img });
+        }
+    });
+    return rows;
+}
+
+function adminAddBlookRow() {
+    const rows = adminCollectBlookRows();
+    rows.push({ name: 'New Blook', rarity: 'Uncommon', chance: null });
+    adminRenderBlookRows(rows);
+}
+
+function adminRemoveBlookRow(idx) {
+    const rows = adminCollectBlookRows();
+    rows.splice(idx, 1);
+    adminRenderBlookRows(rows);
+}
+
+function adminApplyPackEdits() {
+    if (!isAdminUnlocked()) return;
+    const sel = document.getElementById('admin-pack-select');
+    const msg = document.getElementById('admin-content-msg');
+    if (!sel) return;
+    const i = Number(sel.value);
+    if (!marketPacks[i]) return;
+    const name = (document.getElementById('admin-pack-name').value || '').trim() || marketPacks[i].name;
+    const price = Number(document.getElementById('admin-pack-price').value);
+    const year = Number(document.getElementById('admin-pack-year').value);
+    const icon = (document.getElementById('admin-pack-icon').value || '').trim();
+    const about = (document.getElementById('admin-pack-about').value || '').trim();
+    const blooks = adminCollectBlookRows();
+    blooks.forEach(function (b) {
+        if (b._img) blookImageMap[b.name] = b._img;
+        delete b._img;
+    });
+    marketPacks[i] = {
+        name: name,
+        price: isNaN(price) ? marketPacks[i].price : price,
+        year: isNaN(year) ? marketPacks[i].year : year,
+        icon: icon || marketPacks[i].icon,
+        about: about,
+        blooks: blooks
+    };
+    // keep packSimCatalog name alignment for matching packs
+    if (typeof packSimCatalog !== 'undefined') {
+        const sim = packSimCatalog.find(function (x) { return x.slug && marketPacks[i].name && x.name === DEFAULT_MARKET_PACKS[i] && DEFAULT_MARKET_PACKS[i].name; });
+        // also try match by original index name in defaults
+    }
+    try {
+        if (typeof packSimCatalog !== 'undefined' && DEFAULT_MARKET_PACKS[i]) {
+            const oldName = DEFAULT_MARKET_PACKS[i].name;
+            packSimCatalog.forEach(function (c) {
+                if (c.name === oldName) c.name = name;
+            });
+        }
+    } catch (e) {}
+    if (msg) msg.textContent = 'Pack updated (not saved to storage yet — click Save all).';
+    adminRefreshPackSelect();
+    sel.value = String(i);
+    if (typeof renderMarket === 'function') renderMarket();
+    if (typeof renderPackSim === 'function') renderPackSim();
+}
+
+function adminSaveMarketPacks() {
+    if (!isAdminUnlocked()) return;
+    const msg = document.getElementById('admin-content-msg');
+    // apply current form first if open
+    try { adminApplyPackEdits(); } catch (e) {}
+    const ok = persistMarketPacks();
+    if (msg) msg.textContent = ok ? 'Saved. Packs page & Pack Sim will use this data on reload.' : 'Save failed (storage blocked).';
+    if (typeof renderMarket === 'function') renderMarket();
+    if (typeof renderPackSim === 'function') renderPackSim();
+}
+
+function adminResetMarketPacks() {
+    if (!isAdminUnlocked()) return;
+    if (!confirm('Reset all pack/blook data to the built-in defaults?')) return;
+    marketPacks.length = 0;
+    DEFAULT_MARKET_PACKS.forEach(function (p) { marketPacks.push(JSON.parse(JSON.stringify(p))); });
+    try {
+        localStorage.removeItem(BB_MARKET_KEY);
+    } catch (e) {}
+    const msg = document.getElementById('admin-content-msg');
+    if (msg) msg.textContent = 'Reset to defaults.';
+    adminRefreshPackSelect();
+    adminLoadSelectedPack();
+    if (typeof renderMarket === 'function') renderMarket();
+    if (typeof renderPackSim === 'function') renderPackSim();
+}
+
+function adminInitContentEditor() {
+    adminRefreshPackSelect();
+    adminLoadSelectedPack();
+}
+
+function renderPacks() { renderMarket(); }
         function renderMarket() {
             const grid = document.getElementById('market-grid');
             if (!grid) return;
@@ -7071,11 +7762,23 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
             }
 
             const order = {'Mystical':0,'Unique':1,'Chroma':2,'Legendary':3,'Epic':4,'Rare':5,'Uncommon':6,'Common':7};
-            const items = [...p.blooks].sort((a,b) => (order[a.rarity]??9) - (order[b.rarity]??9) || a.name.localeCompare(b.name));
-            const letter = 'B';
+            const items = [...p.blooks].sort((a,b) => {
+                const ra = order[a.rarity] ?? 9, rb = order[b.rarity] ?? 9;
+                if (ra !== rb) return ra - rb;
+                // within rarity: lowest % first; event (null) after rates, then A–Z
+                const ca = (a.chance == null || a.chance === '') ? Number.POSITIVE_INFINITY : Number(a.chance);
+                const cb = (b.chance == null || b.chance === '') ? Number.POSITIVE_INFINITY : Number(b.chance);
+                if (ca !== cb) return ca - cb;
+                return String(a.name).localeCompare(String(b.name));
+            });
+            const letter = (p.name === '?' || p.name === 'Mystery') ? '?' : (String(p.name).charAt(0).toUpperCase() || 'B');
+            const bgUrl = (typeof packBackgroundUrl === 'function') ? packBackgroundUrl(p.name) : '';
+            const packCardBg = bgUrl
+                ? ("background-image:url('" + bgUrl + "');background-size:cover;background-position:center;background-color:transparent;")
+                : '';
             document.getElementById('pack-modal-body').innerHTML = `
                 <div class="bb-shop-row">
-                    <div class="bb-shop-card">
+                    <div class="bb-shop-card" style="${packCardBg}">
                         <div class="bb-shop-shadow-letter">${letter}</div>
                         <div class="bb-shop-img-wrap">
                             <img class="bb-shop-hero" src="${p.icon}" alt="${p.name}" draggable="false">
@@ -7088,7 +7791,7 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
                             <div class="bb-shop-tags">
                                 <span class="bb-shop-tag">
                                     <img class="token-ic" src="${TOKEN_ICON_SHOP}" alt="Token" draggable="false">
-                                    ${p.price}
+                                    ${p.price == null ? 'Market' : p.price}
                                 </span>
                                 <span class="bb-shop-tag">${p.year}</span>
                             </div>
@@ -7105,7 +7808,7 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
                             <img src="${getBlookImg(b.name)}" alt="${b.name}" loading="lazy">
                             <div class="bn">${b.name}</div>
                             <div class="br rarity-${b.rarity}">${b.rarity}</div>
-                            <div class="chance">${b.chance == null ? "Event" : b.chance + "%"}</div>
+                            <div class="chance">${b.chance != null ? (b.chance + "%") : (b.marketPrice != null ? (b.marketPrice + " tokens") : "Event")}</div>
                         </div>
                     `).join('')}
                 </div>
@@ -7125,7 +7828,7 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
                 Common: 'radial-gradient(rgb(160,160,160) 40%, rgb(90,90,95))',
                 Uncommon: 'radial-gradient(rgb(125,255,179) 40%, rgb(45,140,70))',
                 Rare: 'radial-gradient(rgb(108,182,255) 40%, rgb(10,20,180))',
-                Epic: 'radial-gradient(rgb(199,125,255) 40%, rgb(120,30,180))',
+                Epic: 'radial-gradient(rgb(255,100,100) 40%, rgb(180,20,20))',
                 Legendary: 'radial-gradient(rgb(255,179,71) 40%, rgb(200,100,20))',
                 Chroma: 'radial-gradient(rgb(94,234,212) 40%, rgb(0,140,130))',
                 Mystical: 'radial-gradient(rgb(232,121,249) 40%, rgb(120,30,160))',
@@ -7231,7 +7934,10 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
             space: { bg: 'rgb(8, 5, 30)', front: 'rgb(15, 10, 50)' },
             medieval: { bg: 'rgb(40, 40, 45)', front: 'rgb(60, 60, 65)' },
             wonderland: { bg: 'rgb(30, 10, 45)', front: 'rgb(50, 20, 70)' },
-            breakfast: { bg: 'rgb(70, 35, 15)', front: 'rgb(100, 55, 25)' }
+            breakfast: { bg: 'rgb(70, 35, 15)', front: 'rgb(100, 55, 25)' },
+            spooky: { bg: 'rgb(45, 10, 55)', front: 'rgb(70, 20, 85)' },
+            autumn: { bg: 'rgb(55, 25, 8)', front: 'rgb(90, 45, 15)' },
+            blizzard: { bg: 'rgb(8, 30, 55)', front: 'rgb(15, 50, 85)' }
         };
 
         const SEALED_PACK = {
@@ -7252,7 +7958,11 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
             { name: 'Space', price: 20, slug: 'space', gradient: 'radial-gradient(circle, rgb(28, 37, 156) 0%, rgb(7, 0, 40) 100%)' },
             { name: 'Medieval', price: 20, slug: 'medieval', gradient: 'radial-gradient(circle, rgb(200, 200, 200) 0%, rgb(110, 110, 110) 100%)' },
             { name: 'Wonderland', price: 20, slug: 'wonderland', gradient: 'radial-gradient(circle, rgb(0, 170, 255) 0%, rgb(97, 32, 87) 100%)' },
-            { name: 'Breakfast', price: 20, slug: 'breakfast', gradient: 'radial-gradient(circle, rgb(255, 166, 95) 0%, rgb(193, 85, 35) 100%)' }
+            { name: 'Breakfast', price: 20, slug: 'breakfast', gradient: 'radial-gradient(circle, rgb(255, 166, 95) 0%, rgb(193, 85, 35) 100%)' },
+            { name: 'Spooky', price: 25, slug: 'spooky', gradient: 'radial-gradient(circle, rgb(255, 140, 60) 0%, rgb(90, 20, 120) 100%)' },
+            { name: 'Autumn', price: 25, slug: 'autumn', gradient: 'radial-gradient(circle, rgb(255, 170, 70) 0%, rgb(140, 60, 20) 100%)' },
+            { name: 'Blizzard', price: 25, slug: 'blizzard', gradient: 'radial-gradient(circle, rgb(180, 230, 255) 0%, rgb(40, 90, 160) 100%)' },
+            { name: '?', price: 25, slug: 'mystery', gradient: 'radial-gradient(circle, rgb(200, 200, 220) 0%, rgb(60, 60, 90) 100%)', img: 'https://cdn.phototourl.com/free/2026-09-20-1f5d99e6-ab1f-4c64-896b-92d929367d28.png', icon: 'https://cdn.phototourl.com/free/2026-09-20-1f5d99e6-ab1f-4c64-896b-92d929367d28.png' }
         ];
 
         function getBlookImg(name) {
@@ -7261,8 +7971,33 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
             const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '');
             return 'https://ac.blooket.com/marketassets/blooks/' + slug + '.svg';
         }
+
+        function packSlugFromName(name) {
+            if (!name) return '';
+            const map = {
+                'Dog': 'dog', 'Lunch': 'lunch', 'Bug': 'bug', 'Pirate': 'pirate',
+                'Outback': 'outback', 'Ice Monster': 'iceMonster', 'Dino': 'dino',
+                'Aquatic': 'aquatic', 'Safari': 'safari', 'Bot': 'bot', 'Space': 'space',
+                'Medieval': 'medieval', 'Wonderland': 'wonderland', 'Breakfast': 'breakfast',
+                'Spooky': 'spooky', 'Autumn': 'autumn', 'Blizzard': 'blizzard',
+                '?': 'mystery', 'Mystery': 'mystery',
+                'Lovely': 'lovely', 'Lucky': 'lucky', 'Spring': 'spring'
+            };
+            if (map[name]) return map[name];
+            return String(name).toLowerCase().replace(/[^a-z0-9]+/g, '');
+        }
+        function packBackgroundUrl(nameOrSlug) {
+            const slug = packSlugFromName(nameOrSlug) || String(nameOrSlug || '').replace(/[^a-zA-Z0-9]/g, '');
+            if (!slug) return '';
+            return 'https://ac.blooket.com/blookassets/packs/backgrounds/' + slug + '.svg';
+        }
+
         function sealedPackUrl(slug) {
             // Full pack art (includes printed top — we clip it in CSS)
+            try {
+                const hit = (typeof packSimCatalog !== 'undefined') && packSimCatalog.find(function(x){ return x.slug === slug; });
+                if (hit && hit.img) return hit.img;
+            } catch (e) {}
             return 'https://ac.blooket.com/blookassets/packs/' + slug + '.png';
         }
         function rollPackBlook(pack) {
@@ -7293,12 +8028,18 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
             const grid = document.getElementById('packsim-grid');
             if (!grid) return;
             grid.innerHTML = packSimCatalog.map((p, i) => {
-                const icon = 'https://ac.blooket.com/blookassets/packs/icons/' + p.slug + '.svg';
-                const img = 'https://ac.blooket.com/blookassets/packs/' + p.slug + '.png';
+                const icon = p.icon || ('https://ac.blooket.com/blookassets/packs/icons/' + p.slug + '.svg');
+                const img = p.img || ('https://ac.blooket.com/blookassets/packs/' + p.slug + '.png');
+                const isMystery = (p.name === '?' || p.slug === 'mystery');
+                const packBgUrl = 'https://ac.blooket.com/blookassets/packs/backgrounds/' + p.slug + '.svg';
+                const wrapBg = "background-image:url('" + packBgUrl + "'), " + (p.gradient || 'radial-gradient(circle, #0bc2cf, #349aef)') + ";background-size:cover;background-position:center;";
+                const cornerHtml = isMystery
+                    ? '<div class="ps-pack-letter">?</div>'
+                    : ('<img alt="' + String(p.name).replace(/"/g, '') + '" class="ps-pack-shadow" src="' + icon + '" width="80" height="80" draggable="false" loading="lazy">');
                 return `
                 <div class="ps-pack" tabindex="0" role="button" title="${p.name}" onclick="onPackSimClick(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();onPackSimClick(${i})}">
-                    <div class="ps-pack-img-wrap" style="background:${p.gradient};">
-                        <img alt="${p.name}" class="ps-pack-shadow" src="${icon}" width="80" height="80" draggable="false" loading="lazy">
+                    <div class="ps-pack-img-wrap" style="${wrapBg}">
+                        ${cornerHtml}
                         <img src="${img}" alt="${p.name}" class="ps-pack-img" width="150" height="165" draggable="false" loading="lazy">
                     </div>
                     <div class="ps-pack-bottom">
@@ -7383,13 +8124,19 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
             if (!body) return;
             const max = getPsBuyMax();
             if (psBuyQty > max) psBuyQty = max;
-            const icon = 'https://ac.blooket.com/blookassets/packs/icons/' + p.slug + '.svg';
-            const img = 'https://ac.blooket.com/blookassets/packs/' + p.slug + '.png';
+            const icon = p.icon || ('https://ac.blooket.com/blookassets/packs/icons/' + p.slug + '.svg');
+            const img = p.img || ('https://ac.blooket.com/blookassets/packs/' + p.slug + '.png');
             const drops = getPsDropList(p.name);
             const total = psBuyQty * p.price;
+            const isMystery = (p.name === '?' || p.slug === 'mystery');
+            const buyBgUrl = 'https://ac.blooket.com/blookassets/packs/backgrounds/' + p.slug + '.svg';
+            const buyWrapBg = "background-image:url('" + buyBgUrl + "'), " + (p.gradient || 'radial-gradient(circle, #0bc2cf, #349aef)') + ";background-size:cover;background-position:center;";
+            const buyCorner = isMystery
+                ? '<div class="ps-buy-pack-letter">?</div>'
+                : ('<img class="ps-buy-pack-shadow" src="' + icon + '" alt="' + String(p.name).replace(/"/g,'') + '" width="100" height="100" draggable="false">');
             body.innerHTML = `
                 <div class="ps-buy-pack-card">
-                    <div class="ps-buy-pack-img-wrap" style="background:${p.gradient};">
+                    <div class="ps-buy-pack-img-wrap" style="${buyWrapBg}">
                         <div class="ps-buy-drop-overlay${psShowDrops ? ' show' : ''}" id="ps-buy-drop-overlay">
                             <div class="ps-buy-drop-content">
                                 <h3>Drop Rates</h3>
@@ -7398,7 +8145,7 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
                                 </ul>
                             </div>
                         </div>
-                        <img class="ps-buy-pack-shadow" src="${icon}" alt="${p.name}" width="100" height="100" draggable="false">
+                        ${buyCorner}
                         <img class="ps-buy-pack-img" src="${img}" alt="${p.name}" width="170" height="187" draggable="false">
                     </div>
                     <div class="ps-buy-pack-overlay"></div>
@@ -7475,6 +8222,10 @@ const blookImageMap = {"Santa's Sleigh": "https://ac.blooket.com/marketassets/bl
             }
             currentIndex = 0;
             closePsBuyModal();
+            if (!results.length) {
+                alert('This pack has no openable blooks yet.');
+                return;
+            }
             enterOpening();
         }
 
@@ -7681,7 +8432,7 @@ function openCurrentPack() {
             const rarityColors = {
                 Uncommon: 'rgb(75, 194, 46)',
                 Rare: 'rgb(10, 20, 250)',
-                Epic: 'rgb(190, 80, 255)',
+                Epic: 'rgb(226, 30, 30)',
                 Legendary: 'rgb(255, 160, 40)',
                 Chroma: 'rgb(0, 200, 190)',
                 Mystical: 'rgb(232, 121, 249)',
@@ -8120,6 +8871,19 @@ const counts = {};
     </div>
 
 
+
+
+<div id="bb-edit-bar" role="status" aria-live="polite">
+    <div class="bb-edit-status">✏️ Editing now</div>
+    <div class="bb-edit-hint">Click text to edit · Click images to change URL · Use the sidebar to switch pages and keep editing</div>
+    <div class="bb-edit-actions">
+        <button type="button" class="primary" onclick="bbPageEditorSave()">Save page</button>
+        <button type="button" onclick="bbPageEditorSaveAll()">Save all pages</button>
+        <button type="button" onclick="bbPageEditorResetCurrent()">Reset this page</button>
+        <button type="button" onclick="bbPageEditorExit()">Exit editor</button>
+    </div>
+</div>
+<div id="bb-edit-toast"></div>
 
 </body>
 </html>
