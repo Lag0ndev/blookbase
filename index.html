@@ -667,6 +667,49 @@
             z-index: 0;
             user-select: none;
         }
+        .pack-card-mystery-face {
+            width: 150px;
+            height: 170px;
+            background: #ffffff;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.28);
+            flex-shrink: 0;
+        }
+        .pack-card-mystery-face span {
+            font-family: 'Titan One', cursive;
+            font-size: 110px;
+            color: #000000;
+            transform: rotate(-14deg);
+            line-height: 1;
+            user-select: none;
+            pointer-events: none;
+        }
+        .bb-shop-mystery-face {
+            width: 160px;
+            height: 180px;
+            background: #ffffff;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.28);
+            margin: 0 auto;
+        }
+        .bb-shop-mystery-face span {
+            font-family: 'Titan One', cursive;
+            font-size: 120px;
+            color: #000000;
+            transform: rotate(-14deg);
+            line-height: 1;
+            user-select: none;
+        }
         .pack-card .pack-name, .pack-card .pack-meta, .pack-card .pack-tag { display: none; }
         #pack-modal {
             display: none;
@@ -8718,13 +8761,20 @@ function renderPacks() { renderMarket(); }
                 const bg = (typeof packCardBackgroundStyle === 'function') ? packCardBackgroundStyle(p.name) : '';
                 const isMystery = (p.name === '?' || p.name === 'Mystery');
                 const styleAttr = bg ? (' style="' + bg.replace(/"/g, '&quot;') + '"') : '';
+                const slug = (typeof packSlugFromName === 'function') ? packSlugFromName(p.name) : '';
+                const logoSrc = (slug && slug !== 'mystery')
+                    ? ('https://ac.blooket.com/blookassets/packs/icons/' + slug + '.svg')
+                    : '';
                 const corner = isMystery
                     ? '<div class="pack-card-letter">?</div>'
-                    : ('<img class="pack-card-logo" src="' + (p.icon || '') + '" alt="" draggable="false" loading="lazy">');
+                    : ('<img class="pack-card-logo" src="' + logoSrc + '" alt="" draggable="false" loading="lazy">');
+                const hero = isMystery
+                    ? '<div class="pack-card-mystery-face" aria-label="Mystery pack"><span>?</span></div>'
+                    : ('<img src="' + (p.icon || '') + '" alt="' + p.name + '" loading="lazy">');
                 return `
                 <div class="pack-card" onclick="openPackModal(${i})" role="button" tabindex="0" title="${p.name}"${styleAttr}>
                     ${corner}
-                    <img src="${p.icon}" alt="${p.name}" loading="lazy">
+                    ${hero}
                 </div>`;
             }).join('');
         }
@@ -8777,15 +8827,22 @@ function renderPacks() { renderMarket(); }
             const packCardBg = (typeof packCardBackgroundStyle === 'function')
                 ? packCardBackgroundStyle(p.name)
                 : '';
+            const mSlug = (typeof packSlugFromName === 'function') ? packSlugFromName(p.name) : '';
+            const mLogo = mSlug && mSlug !== 'mystery'
+                ? ('https://ac.blooket.com/blookassets/packs/icons/' + mSlug + '.svg')
+                : '';
             const cornerHtml = isMystery
                 ? '<div class="bb-shop-shadow-letter">?</div>'
-                : ('<img class="bb-shop-shadow-logo" src="' + (p.icon || '') + '" alt="" draggable="false">');
+                : ('<img class="bb-shop-shadow-logo" src="' + mLogo + '" alt="" draggable="false">');
+            const heroHtml = isMystery
+                ? '<div class="bb-shop-mystery-face" aria-label="Mystery pack"><span>?</span></div>'
+                : ('<img class="bb-shop-hero" src="' + (p.icon || '') + '" alt="' + p.name + '" draggable="false">');
             document.getElementById('pack-modal-body').innerHTML = `
                 <div class="bb-shop-row">
                     <div class="bb-shop-card" style="${packCardBg}">
                         ${cornerHtml}
                         <div class="bb-shop-img-wrap">
-                            <img class="bb-shop-hero" src="${p.icon}" alt="${p.name}" draggable="false">
+                            ${heroHtml}
                         </div>
                         <div class="bb-shop-overlay"></div>
                     </div>
@@ -8966,7 +9023,7 @@ function renderPacks() { renderMarket(); }
             { name: 'Spooky', price: 25, slug: 'spooky', gradient: 'radial-gradient(circle, rgb(255, 140, 60) 0%, rgb(90, 20, 120) 100%)' },
             { name: 'Autumn', price: 25, slug: 'autumn', gradient: 'radial-gradient(circle, rgb(255, 170, 70) 0%, rgb(140, 60, 20) 100%)' },
             { name: 'Blizzard', price: 25, slug: 'blizzard', gradient: 'radial-gradient(circle, rgb(180, 230, 255) 0%, rgb(40, 90, 160) 100%)' },
-            { name: '?', price: 25, slug: 'mystery', gradient: 'radial-gradient(circle, rgb(200, 200, 220) 0%, rgb(60, 60, 90) 100%)', img: 'https://cdn.phototourl.com/free/2026-09-20-1f5d99e6-ab1f-4c64-896b-92d929367d28.png', icon: 'https://cdn.phototourl.com/free/2026-09-20-1f5d99e6-ab1f-4c64-896b-92d929367d28.png' }
+            { name: '?', price: 25, slug: 'mystery', gradient: 'radial-gradient(circle, rgb(200, 200, 220) 0%, rgb(60, 60, 90) 100%)' }
         ];
 
         function getBlookImg(name) {
@@ -9119,12 +9176,15 @@ function renderPacks() { renderMarket(); }
                 const corner = isMystery
                     ? '<div class="calc-pack-letter">?</div>'
                     : ('<img alt="" class="calc-pack-shadow" src="' + icon + '" width="80" height="80" draggable="false" loading="lazy">');
+                const hero = isMystery
+                    ? '<div class="pack-card-mystery-face" style="width:130px;height:145px;margin:18px auto 0;"><span style="font-size:96px;">?</span></div>'
+                    : ('<img src="' + img + '" alt="' + p.name + '" class="calc-pack-img" width="150" height="165" draggable="false" loading="lazy">');
                 return '<div class="calc-pack-card" role="button" tabindex="0" title="' + p.name + '"' +
                     ' onclick="selectCalcPack(\'' + safe + '\')"' +
                     ' onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();selectCalcPack(\'' + safe + '\')}">' +
                     '<div class="calc-pack-img-wrap" style="' + wrapBg.replace(/"/g, '&quot;') + '">' +
                     corner +
-                    '<img src="' + img + '" alt="' + p.name + '" class="calc-pack-img" width="150" height="165" draggable="false" loading="lazy">' +
+                    hero +
                     '</div>' +
                     '<div class="calc-pack-bottom">' +
                     '<img alt="Token" src="https://ac.blooket.com/dashboard/415a831e929477679653225a9a85450b376d5d81/_next/static/media/token.8de4e1b8.svg" width="23" height="23" draggable="false" loading="lazy">' +
