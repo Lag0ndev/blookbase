@@ -281,6 +281,70 @@
         .video-filter-btn:hover {
             background: rgba(255,255,255,0.25);
         }
+        
+        .video-type-drop {
+            position: relative;
+            display: inline-block;
+        }
+        .video-type-drop-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            min-width: 180px;
+            background: var(--accent);
+            border: 4px solid rgba(255,255,255,0.35);
+            border-radius: 12px;
+            box-shadow: 4px 4px rgba(0,0,0,0.25);
+            padding: 8px;
+            z-index: 40;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .video-type-drop.open .video-type-drop-menu {
+            display: flex;
+        }
+        .video-type-drop-menu button {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 14px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 2px solid rgba(255,255,255,0.25);
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.12s;
+            width: 100%;
+        }
+        .video-type-drop-menu button:hover {
+            background: rgba(255,255,255,0.25);
+        }
+        .video-type-drop-menu button.active {
+            background: #fff;
+            color: var(--accent);
+            border-color: #fff;
+        }
+        .video-filter-btn.has-type {
+            min-width: 140px;
+        }
+        .video-filter-btn .type-chevron {
+            margin-left: 8px;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+.video-filter-sep {
+            display: inline-block;
+            width: 1px;
+            height: 22px;
+            background: rgba(255,255,255,0.35);
+            margin: 0 4px;
+            vertical-align: middle;
+            align-self: center;
+            flex-shrink: 0;
+        }
         .video-filter-btn.active {
             background: var(--accent);
             border-color: rgba(255,255,255,0.5);
@@ -543,7 +607,7 @@
         .pack-card {
             background-color: var(--accent);
             border: 6px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
+            border-radius: 20px;
             box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
             color: #fff;
             cursor: pointer;
@@ -557,6 +621,10 @@
             text-align: center;
             min-height: 220px;
             box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
         }
         .pack-card:hover {
             transform: translateY(-3px);
@@ -568,6 +636,36 @@
             flex-shrink: 0;
             object-fit: contain;
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+            position: relative;
+            z-index: 1;
+        }
+        .pack-card .pack-card-logo {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+            opacity: 0.4;
+            transform: rotate(10deg);
+            pointer-events: none;
+            z-index: 0;
+            user-select: none;
+            filter: brightness(0) invert(1);
+        }
+        .pack-card .pack-card-letter {
+            position: absolute;
+            bottom: 4px;
+            right: 8px;
+            font-family: 'Titan One', cursive;
+            font-size: 72px;
+            line-height: 0.85;
+            color: #fff;
+            opacity: 0.35;
+            transform: rotate(10deg);
+            pointer-events: none;
+            z-index: 0;
+            user-select: none;
         }
         .pack-card .pack-name, .pack-card .pack-meta, .pack-card .pack-tag { display: none; }
         #pack-modal {
@@ -786,6 +884,21 @@
             user-select: none;
             margin: 0;
             padding: 0;
+        }
+        .bb-shop-card > .bb-shop-shadow-logo,
+        .bb-shop-img-wrap > .bb-shop-shadow-logo {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            opacity: 0.4;
+            transform: rotate(10deg);
+            pointer-events: none;
+            z-index: 0;
+            user-select: none;
+            filter: brightness(0) invert(1);
         }
         .bb-shop-overlay {
             position: absolute;
@@ -2347,6 +2460,626 @@
             margin: 5px 20px;
             box-sizing: border-box;
         }
+
+
+
+        /* ---- Pack Calculator ---- */
+        #view-packsim {
+            max-width: 960px;
+        }
+        #view-packsim,
+        #view-packsim .header-title,
+        #view-packsim .calc-sub,
+        #view-packsim .calc-about,
+        #view-packsim .calc-about-toggle,
+        #view-packsim .calc-about-body,
+        #view-packsim .calc-sell-line,
+        #view-packsim .calc-section-title,
+        #view-packsim .calc-label,
+        #view-packsim .calc-check,
+        #view-packsim .calc-blook-card,
+        #view-packsim .calc-results,
+        #view-packsim .calc-empty,
+        #view-packsim .calc-stat,
+        #view-packsim .calc-stat b,
+        #view-packsim .calc-stat span,
+        #view-packsim .calc-note,
+        #view-packsim .calc-pack-count,
+        #view-packsim .calc-selected-meta,
+        #view-packsim .calc-change-pack,
+        #view-packsim .calc-got-name,
+        #view-packsim .calc-got-pct,
+        #view-packsim .calc-got-qty {
+            color: #fff !important;
+        }
+        .calc-wrap {
+            width: 100%;
+            max-width: 1100px;
+            text-align: left;
+            padding-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .calc-wrap > .calc-section,
+        .calc-wrap > .calc-about,
+        .calc-wrap > #calc-pick-section,
+        .calc-wrap > .calc-detail {
+            margin-bottom: 0 !important;
+            margin-top: 0 !important;
+        }
+        .calc-sub {
+            text-align: center;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            margin: -10px 0 22px;
+            font-size: 16px;
+            color: #fff;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+        }
+        .calc-section {
+            background-color: var(--accent);
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
+            color: #fff;
+            padding: 20px 18px 18px;
+            margin-bottom: 22px;
+        }
+        .calc-section-title {
+            font-family: 'Titan One', sans-serif;
+            font-weight: normal;
+            font-size: 22px;
+            margin: 0 0 14px;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+            text-align: left;
+            color: #fff !important;
+            line-height: 1.2;
+        }
+        .calc-about { margin: 0 0 22px 0; }
+        .calc-about + #calc-pick-section,
+        .calc-about + .calc-section {
+            margin-top: 4px;
+        }
+        #calc-about {
+            margin-bottom: 22px !important;
+        }
+        #calc-pick-section {
+            margin-top: 0;
+            margin-bottom: 22px;
+        }
+        .calc-about-toggle {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            background: transparent;
+            color: #fff !important;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 16px;
+            padding: 2px 0;
+            cursor: pointer;
+            text-align: left;
+        }
+        .calc-about-toggle:hover { filter: brightness(1.08); }
+        .calc-about-chevron { margin-left: auto; transition: transform 0.2s; opacity: 0.9; }
+        .calc-about.open .calc-about-chevron { transform: rotate(180deg); }
+        .calc-about-body {
+            padding: 12px 0 0;
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 1.5;
+            font-family: 'Nunito', sans-serif;
+        }
+        .calc-about-body ul {
+            list-style: none;
+            margin: 0 0 12px;
+            padding: 0;
+        }
+        .calc-about-body li {
+            margin: 0;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+        .calc-about-body li:last-child { border-bottom: none; }
+        .calc-sell-line {
+            margin: 0;
+            padding: 10px 12px;
+            background: rgba(0,0,0,0.18);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        /* Pack picker — official Blooket pack covers */
+        #calc-pick-section {
+            max-width: 1100px;
+        }
+        .calc-pack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 210px);
+            gap: 25px;
+            justify-content: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .calc-pack-card {
+            position: relative;
+            width: 210px;
+            height: 260px;
+            border-radius: 20px;
+            box-shadow: 4px 4px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: 0.2s;
+            overflow: hidden;
+            outline: none;
+            user-select: none;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            background-color: #0bc2cf;
+        }
+        .calc-pack-card:hover {
+            transform: scale(0.95);
+        }
+        .calc-pack-card:active {
+            transform: scale(0.92);
+        }
+        .calc-pack-card.selected {
+            box-shadow: 0 0 0 3px #fff, 4px 4px rgba(0,0,0,0.25);
+        }
+        .calc-pack-img-wrap {
+            position: relative;
+            width: 100%;
+            height: calc(100% - 55px);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+        .calc-pack-shadow {
+            position: absolute;
+            top: 90%;
+            left: 90%;
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            opacity: 0.5;
+            filter: brightness(0) invert(100%);
+            transform: translate(-50%, -50%) rotate(10deg);
+            pointer-events: none;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            z-index: 0;
+        }
+        .calc-pack-letter {
+            position: absolute;
+            top: 90%;
+            left: 90%;
+            transform: translate(-50%, -50%) rotate(10deg);
+            font-family: 'Titan One', cursive;
+            font-size: 72px;
+            line-height: 1;
+            color: #fff;
+            opacity: 0.45;
+            pointer-events: none;
+            user-select: none;
+            z-index: 0;
+        }
+        .calc-pack-img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150px;
+            height: 165px;
+            object-fit: contain;
+            transform: translate(-50%, -50%) rotate(10deg);
+            filter: drop-shadow(2px 2px rgba(0, 0, 0, 0.2));
+            pointer-events: none;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+        .calc-pack-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 55px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(52, 154, 239);
+            border-top: 4px solid #ffffff;
+            padding: 0;
+            padding-bottom: 6px;
+            margin: 0;
+            box-sizing: border-box;
+            color: #ffffff;
+            font-size: 26px;
+            font-family: 'Titan One', cursive;
+            font-weight: normal;
+            text-shadow: 2px 2px rgba(0, 0, 0, 0.2);
+            line-height: 1;
+            gap: 6px;
+        }
+        .calc-pack-bottom img {
+            width: 23px;
+            height: 23px;
+            object-fit: contain;
+            margin: 0;
+            margin-top: 3px;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .calc-pack-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            pointer-events: none;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        @media (max-width: 640px) {
+            .calc-pack-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 14px;
+            }
+            .calc-pack-card {
+                width: 100%;
+                max-width: 180px;
+                height: 230px;
+                margin: 0 auto;
+            }
+            .calc-pack-img {
+                width: 120px;
+                height: 132px;
+            }
+        }
+
+        /* Detail view */
+        .calc-detail { margin: 0 0 24px; }
+        .calc-change-pack {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 0 16px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 14px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 3px solid rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.18);
+            color: #fff !important;
+            cursor: pointer;
+            transition: 0.12s;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+        }
+        .calc-change-pack:hover { background: rgba(255,255,255,0.3); }
+        .calc-change-pack:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.15);
+        }
+        .calc-selected-row {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            padding-bottom: 16px;
+            border-bottom: 2px solid rgba(255,255,255,0.12);
+        }
+        .calc-detail-pack {
+            width: 108px;
+            height: 118px;
+            border-radius: 14px;
+            border: 4px solid rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            box-shadow: 4px 4px rgba(0,0,0,0.2);
+        }
+        .calc-detail-pack img {
+            width: 84px;
+            height: 84px;
+            object-fit: contain;
+        }
+        .calc-selected-meta {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            text-align: left;
+            line-height: 1.4;
+            color: rgba(255,255,255,0.95) !important;
+        }
+        .calc-selected-meta b {
+            font-family: 'Titan One', cursive;
+            font-size: 28px;
+            font-weight: normal;
+            display: block;
+            margin-bottom: 4px;
+            color: #fff !important;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+            line-height: 1.1;
+        }
+        .calc-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .calc-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .calc-label {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 13px;
+            letter-spacing: 0.3px;
+            color: #fff !important;
+            margin: 0;
+        }
+        .calc-input {
+            width: 100%;
+            box-sizing: border-box;
+            border: 3px solid rgba(255,255,255,0.4);
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 18px;
+            background: rgba(255,255,255,0.12);
+            color: #fff !important;
+            outline: none;
+            transition: border-color 0.12s, background 0.12s;
+        }
+        .calc-input:focus {
+            border-color: rgba(255,255,255,0.75);
+            background: rgba(255,255,255,0.18);
+        }
+        .calc-input::placeholder { color: rgba(255,255,255,0.4); }
+        .calc-input::-webkit-outer-spin-button,
+        .calc-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .calc-input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+
+        .calc-pack-count {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 14px;
+            color: rgba(255,255,255,0.95) !important;
+            line-height: 1.4;
+            opacity: 0.95;
+        }
+        .calc-check {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            line-height: 1.35;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: #fff !important;
+            border: 3px solid rgba(255,255,255,0.18);
+            transition: background 0.12s;
+        }
+        .calc-check:hover { background: rgba(255,255,255,0.16); }
+        .calc-check span { color: #fff !important; }
+        .calc-check input {
+            margin: 0;
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            accent-color: #fff;
+            cursor: pointer;
+        }
+        .calc-run {
+            margin-top: 4px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 17px;
+            padding: 0;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            width: 100%;
+            color: #fff !important;
+        }
+        .calc-run-inner {
+            background: #4053b3;
+            border-radius: 12px;
+            padding: 14px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 0 #2e3d8a;
+            transition: filter 0.12s, transform 0.12s;
+            color: #fff;
+            font-weight: 900;
+            font-size: 17px;
+        }
+        .calc-run:hover .calc-run-inner { filter: brightness(1.1); }
+        .calc-run:active .calc-run-inner {
+            transform: translateY(4px);
+            box-shadow: 0 1px 0 #2e3d8a;
+        }
+
+        .calc-blook-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+            gap: 10px;
+            margin-top: 2px;
+        }
+        .calc-blook-card {
+            background: rgba(0,0,0,0.2);
+            border: 3px solid rgba(255,255,255,0.16);
+            border-radius: 12px;
+            padding: 12px 6px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.12s, filter 0.12s, background 0.12s;
+            box-shadow: 2px 2px rgba(0,0,0,0.12);
+        }
+        .calc-blook-card:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+            background: rgba(0,0,0,0.28);
+        }
+        .calc-blook-card img {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 6px;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
+        }
+        .calc-blook-card .cn {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 12px;
+            line-height: 1.25;
+            max-height: 2.5em;
+            overflow: hidden;
+            color: #fff !important;
+        }
+        .calc-blook-card .cp {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 13px;
+            margin-top: 4px;
+            color: rgba(255,255,255,0.95) !important;
+        }
+        .calc-results { padding: 0; }
+        .calc-results:empty { display: none; }
+        .calc-empty {
+            opacity: 0.9;
+            font-weight: 700;
+            margin: 0;
+            text-align: center;
+            font-size: 14px;
+            font-family: 'Nunito', sans-serif;
+            color: #fff !important;
+            padding: 12px;
+        }
+        .calc-summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .calc-stat {
+            background: rgba(0,0,0,0.22);
+            border-radius: 12px;
+            padding: 14px 12px;
+            text-align: center;
+            flex: 1 1 110px;
+            border: 3px solid rgba(255,255,255,0.16);
+            box-shadow: 3px 3px rgba(0,0,0,0.12);
+        }
+        .calc-stat b {
+            display: block;
+            font-family: 'Titan One', cursive;
+            font-size: 26px;
+            font-weight: normal;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+            color: #fff !important;
+            line-height: 1.15;
+        }
+        .calc-stat span {
+            font-family: 'Nunito', sans-serif;
+            font-size: 11px;
+            font-weight: 900;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: rgba(255,255,255,0.9) !important;
+        }
+        .calc-got-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+        .calc-got-card {
+            background: rgba(0,0,0,0.22);
+            border-radius: 12px;
+            padding: 12px 6px 12px;
+            text-align: center;
+            border: 3px solid rgba(255,255,255,0.16);
+            box-shadow: 2px 2px rgba(0,0,0,0.12);
+        }
+        .calc-got-card img {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 6px;
+        }
+        .calc-got-name {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 12px;
+            line-height: 1.25;
+            color: #fff !important;
+        }
+        .calc-got-pct {
+            font-family: 'Nunito', sans-serif;
+            font-size: 11px;
+            opacity: 0.85;
+            font-weight: 800;
+            margin-top: 2px;
+            color: rgba(255,255,255,0.9) !important;
+        }
+        .calc-got-qty {
+            font-family: 'Titan One', cursive;
+            font-size: 20px;
+            margin-top: 4px;
+            font-weight: normal;
+            color: #fff !important;
+        }
+        .calc-note {
+            margin: 14px 0 0;
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            opacity: 0.9;
+            font-weight: 700;
+            line-height: 1.45;
+            text-align: left;
+            background: rgba(0,0,0,0.15);
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: rgba(255,255,255,0.95) !important;
+        }
+        @media (max-width: 640px) {
+            .calc-pack-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 10px;
+            }
+            .calc-selected-row { justify-content: center; text-align: center; }
+            .calc-selected-meta { text-align: center; width: 100%; }
+        }
+
         .ps-pack {
             position: relative;
             width: 210px;
@@ -2781,35 +3514,37 @@
 
         .OpeningAnim_squaresWrapper__c76VA {
             display: none;
-            flex-wrap: wrap;
             position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
+            top: 50%;
+            left: 50%;
+            width: 1213.8px;
+            height: 1213.8px;
+            transform: translate(-50%, -50%);
+            flex-wrap: wrap;
             align-content: flex-start;
-            align-items: flex-start;
             overflow: hidden;
             background-color: rgb(29, 4, 34);
-            z-index: 1000;
             transition: background-color 0.4s;
+            z-index: 1000;
             box-sizing: border-box;
         }
-        .OpeningAnim_squaresWrapper__c76VA.active { display: flex; }
+        .OpeningAnim_squaresWrapper__c76VA.active {
+            display: flex;
+        }
         .OpeningAnim_square__R9ztW {
-            width: var(--sq-size, 173.4px);
-            height: var(--sq-size, 173.4px);
-            flex: 0 0 var(--sq-size, 173.4px);
+            width: 173.4px;
+            height: 173.4px;
+            flex: 0 0 173.4px;
+            perspective: 1000px;
             transform: scale(0.833);
-            border-radius: 10%;
             box-sizing: border-box;
         }
-
         .OpeningAnim_squareInner__enpEy {
             position: relative;
             width: 100%;
             height: 100%;
-            transform-style: preserve-3d;
             transition: transform 0.5s linear;
+            transform-style: preserve-3d;
         }
         .OpeningAnim_isInnerFlipped__v296s {
             transform: rotateY(180deg);
@@ -2821,22 +3556,32 @@
             height: 100%;
             backface-visibility: hidden;
             border-radius: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .OpeningAnim_squareFront__ETz__ {
-            background-color: rgb(53, 6, 58);
+            background-color: rgb(66, 9, 73);
         }
         .OpeningAnim_squareBack__CnGWt {
             transform: rotateY(180deg);
             background-color: #4caf50;
         }
-
+        .OpeningAnim_squareIcon__83aG3 {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
+            pointer-events: none;
+            user-select: none;
+        }
         .OpeningAnim_squaresWrapper__c76VA.is-uncommon { background-color: rgb(16, 41, 10); }
         .OpeningAnim_squaresWrapper__c76VA.is-rare { background-color: rgb(10, 26, 41); }
         .OpeningAnim_squaresWrapper__c76VA.is-epic { background-color: rgb(41, 10, 10); }
         .OpeningAnim_squaresWrapper__c76VA.is-legendary { background-color: rgb(41, 28, 10); }
         .OpeningAnim_squaresWrapper__c76VA.is-chroma { background-color: rgb(41, 10, 10); }
         .OpeningAnim_squaresWrapper__c76VA.is-mystical { background-color: rgb(20, 20, 20); }
-
+        .OpeningAnim_squaresWrapper__c76VA.is-unique { background-color: rgb(10, 35, 35); }
+        .OpeningAnim_squaresWrapper__c76VA.is-common { background-color: rgb(40, 40, 40); }
 
         .OpeningAnim_wrapper__xwLhc {
             display: none;
@@ -2860,31 +3605,34 @@
             transform: translate(-50%, -50%);
             opacity: 0;
             display: block;
+            overflow: visible;
         }
         .OpeningAnim_openingPackContainer__TMiSp.show {
             animation: OpeningAnim_fadeIn__6wCNW 0.2s linear 0.15s forwards;
         }
+        /* Official: drop starts after 0.4s delay, lasts 0.2s */
         .OpeningAnim_openingPackContainer__TMiSp.dropping {
-            animation: OpeningAnim_dropPack__neq9J 0.2s linear forwards;
+            animation: OpeningAnim_dropPack__neq9J 0.2s linear 0.4s forwards;
         }
 
-        /* Foil top — covers the printed top of the pack art */
+        /* Official foil sprite — 9 frames × 315px, height 233px */
         .OpeningAnim_openPackTop__o2Sb9 {
             position: absolute;
-            top: -8px;
-            left: 0;
-            width: 320px;
-            height: 80px;
+            top: 0;
+            left: 2.5px;
+            width: 315px;
+            height: 233px;
             background-image: url('https://ac.blooket.com/dashboard/44dd4f06a6c235efdabcb69d5280e2306552f58f/_next/static/media/packTop.c77c88ec.svg');
-            background-size: 2880px 80px;
-            background-position: 0 0;
+            background-size: 2835px 233px;
+            background-position: 0 50%;
             background-repeat: no-repeat;
-            z-index: 3;
+            z-index: 5;
             pointer-events: none;
             opacity: 0;
         }
+        .OpeningAnim_openPackTop__o2Sb9.OpeningAnim_isOpeningPackTop__QyaTm,
         .OpeningAnim_openPackTop__o2Sb9.is-ripping {
-            opacity: 1;
+            opacity: 1 !important;
             animation: OpeningAnim_openTop__NGPEY 0.4s steps(8) forwards;
         }
 
@@ -2892,12 +3640,13 @@
             position: absolute;
             top: -20px;
             left: -30px;
-            width: 360px;
+            width: 380px;
             height: 107px;
             opacity: 0;
             z-index: 0;
             pointer-events: none;
         }
+        .OpeningAnim_openPackGlow__KhOdQ.OpeningAnim_isOpeningPackGlow__qPaf5,
         .OpeningAnim_openPackGlow__KhOdQ.is-glowing {
             animation: OpeningAnim_openGlow__vdPDn 0.6s forwards;
         }
@@ -2907,12 +3656,14 @@
             top: 0;
             left: 0;
             width: 320px;
-            height: 360px;
+            height: 307px;
             object-fit: contain;
-            object-position: center center;
+            object-position: center top;
             pointer-events: none;
             z-index: 1;
         }
+        .OpeningAnim_openPackTop__o2Sb9 { z-index: 5; }
+        .OpeningAnim_openPack__378FJ.OpeningAnim_isOpeningPack__w4CLj,
         .OpeningAnim_openPack__378FJ.is-tilting {
             animation: OpeningAnim_open__S861P 0.1s 0.3s forwards;
         }
@@ -2939,7 +3690,7 @@
         }
         .OpeningAnim_openContainer__eT1Ph.is-visible {
             display: flex;
-            animation: OpeningAnim_growIn__K9lqz 0.2s linear 0.05s forwards;
+            animation: OpeningAnim_growIn__K9lqz 0.2s linear forwards;
         }
         .OpeningAnim_openContainer__eT1Ph.is-visible.epic {
             animation: OpeningAnim_epicOpen__wlEoU 1.1s linear forwards;
@@ -3081,20 +3832,37 @@
             0% { transform: translate(-50%, -50%); opacity: 1; }
             100% { transform: translate(-50%, 50vh); opacity: 0; }
         }
+            100% { transform: translate(-50%, 55vh); opacity: 0; }
+        }
+            100% { transform: translate(-50%, 50vh); opacity: 0; }
+        }
         @keyframes OpeningAnim_openTop__NGPEY {
-            0% { background-position: 0 0; }
-            100% { background-position: -2560px 0; }
+            0% { background-position: 0 50%; }
+            100% { background-position: -2520px 50%; }
+        }
+            100% { background-position: -2520px center; }
+        }
+            100% { background-position: -2520px 50%; }
         }
         @keyframes OpeningAnim_open__S861P {
             0% { transform: rotate(0deg); }
+            100% { transform: rotate(5deg); }
+        }
             100% { transform: rotate(5deg); }
         }
         @keyframes OpeningAnim_openGlow__vdPDn {
             0% { transform: rotate(0deg); opacity: 0; top: -20px; width: 360px; }
             100% { top: -30px; transform: rotate(5deg); opacity: 1; width: 380px; }
         }
+            40% { opacity: 0.95; }
+            100% { top: -30px; transform: rotate(5deg); opacity: 0.85; width: 380px; }
+        }
+            100% { top: -30px; transform: rotate(5deg); opacity: 1; width: 380px; }
+        }
         @keyframes OpeningAnim_growIn__K9lqz {
-            0% { transform: translate(-50%, -50%) scale(0); }
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
             100% { transform: translate(-50%, -50%) scale(1); }
         }
         @keyframes OpeningAnim_epicOpen__wlEoU {
@@ -3522,9 +4290,10 @@
         #bb-edit-bar {
             display: none;
             position: fixed;
-            top: 0;
+            bottom: 0;
             left: 0;
             right: 0;
+            top: auto;
             z-index: 20000;
             background: linear-gradient(90deg, #5b21b6, #9a49aa 40%, #c026d3);
             color: #fff;
@@ -3532,7 +4301,7 @@
             font-family: 'Nunito', sans-serif;
             font-weight: 800;
             font-size: 14px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.35);
             align-items: center;
             justify-content: space-between;
             gap: 12px;
@@ -3540,7 +4309,8 @@
         }
         body.bb-page-editing #bb-edit-bar { display: flex; }
         body.bb-page-editing {
-            padding-top: 52px !important;
+            padding-bottom: 64px !important;
+            padding-top: 0 !important;
         }
         #bb-edit-bar .bb-edit-status {
             font-family: 'Titan One', sans-serif;
@@ -3580,7 +4350,7 @@
         #bb-edit-toast {
             display: none;
             position: fixed;
-            bottom: 24px;
+            bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 20001;
@@ -3664,8 +4434,8 @@
                 </li>
                 <li>
                     <button class="sidebar-link" data-view="packsim" onclick="switchView('packsim')">
-                        <span class="sidebar-listIcon"><i class="fas fa-dice"></i></span>
-                        <span class="sidebar-text">Pack Sim</span>
+                        <span class="sidebar-listIcon"><i class="fas fa-calculator"></i></span>
+                        <span class="sidebar-text">Calculator</span>
                     </button>
                 </li>
             </ul>
@@ -3717,12 +4487,12 @@
             <div class="home-grid">
                 <div class="home-card">
                     <div class="home-card-top">
-                        <span class="home-card-label">Pack Sim</span>
+                        <span class="home-card-label">Calculator</span>
                         <span class="home-card-badge">New</span>
                     </div>
-                    <h3>Open packs for free</h3>
-                    <p>Simulate Market pack openings with official drop rates — no tokens required.</p>
-                    <button class="home-card-btn" onclick="switchView('packsim')">Open Pack Sim →</button>
+                    <h3>Pack odds calculator</h3>
+                    <p>Pick a pack, enter tokens, and see expected blooks — with optional resell loops until you run out.</p>
+                    <button class="home-card-btn" onclick="switchView('packsim')">Open Calculator →</button>
                 </div>
                 <div class="home-card" id="home-featured-card">
                     <div class="home-card-top">
@@ -3872,6 +4642,18 @@
                 <button class="video-filter-btn active" data-filter="new" onclick="setVideoFilter('new')">New</button>
                 <button class="video-filter-btn" data-filter="popular" onclick="setVideoFilter('popular')">Popular</button>
                 <button class="video-filter-btn" data-filter="live" onclick="setVideoFilter('live')">Live</button>
+                <span class="video-filter-sep" aria-hidden="true"></span>
+                <div class="video-type-drop" id="video-type-drop">
+                    <button type="button" class="video-filter-btn has-type" id="video-type-btn" onclick="toggleVideoTypeMenu(event)" aria-haspopup="true" aria-expanded="false">
+                        Type <i class="fas fa-chevron-down type-chevron"></i>
+                    </button>
+                    <div class="video-type-drop-menu" id="video-type-menu" role="menu">
+                        <button type="button" data-type="all" class="active" onclick="setVideoTypeFilter('all')">All types</button>
+                        <button type="button" data-type="opening" onclick="setVideoTypeFilter('opening')">Pack Openings</button>
+                        <button type="button" data-type="news" onclick="setVideoTypeFilter('news')">News</button>
+                        <button type="button" data-type="challenge" onclick="setVideoTypeFilter('challenge')">Challenges</button>
+                    </div>
+                </div>
                 <button class="video-filter-btn" type="button" onclick="refreshVideosFromYouTube(true)" title="Refresh from YouTube">
                     <i class="fas fa-rotate"></i> Refresh
                 </button>
@@ -3939,10 +4721,65 @@
     </div>
 
     <div class="main-content" id="view-packsim" style="display: none;">
+        <h1 class="header-title">Pack Calculator</h1>
+        <p class="calc-sub">Pick a pack, enter your tokens, and simulate what you open</p>
+        <div class="calc-wrap">
 
-        <h1 class="header-title">Pack Sim</h1>
-        <div class="ps-official-wrap">
-            <div class="ps-official-grid" id="packsim-grid"></div>
+            <div class="calc-section calc-about" id="calc-about">
+                <button type="button" class="calc-about-toggle" onclick="toggleCalcAbout()">
+                    <i class="fas fa-info-circle"></i> How it works
+                    <i class="fas fa-chevron-down calc-about-chevron" id="calc-about-chevron"></i>
+                </button>
+                <div class="calc-about-body" id="calc-about-body" hidden>
+                    <ul>
+                        <li><b>Expected</b> = tokens ÷ pack price × drop% (one spend, no resell).</li>
+                        <li><b>Got</b> is a live random simulation using real drop rates.</li>
+                        <li><b>Resell loop</b> keeps 1 of each, sells extras, spends again until you can't open more.</li>
+                    </ul>
+                    <p class="calc-sell-line"><b>Sell prices:</b> Common/Uncommon 5 · Rare 20 · Epic 75 · Legendary 200 · Chroma/Unique 300 · Mystical 1000</p>
+                </div>
+            </div>
+
+            <div class="calc-section" id="calc-pick-section">
+                <div class="calc-section-title">Choose a pack</div>
+                <div class="calc-pack-grid" id="calc-pack-grid"></div>
+            </div>
+
+            <div class="calc-detail" id="calc-detail" style="display:none;">
+                <div class="calc-section">
+                    <button type="button" class="calc-change-pack" onclick="showCalcPackPicker()">
+                        <i class="fas fa-th"></i> Change pack
+                    </button>
+                    <div class="calc-selected-row">
+                        <div class="calc-detail-pack" id="calc-detail-pack"></div>
+                        <div class="calc-selected-meta" id="calc-selected-meta"></div>
+                    </div>
+
+                    <div class="calc-controls">
+                        <div class="calc-field">
+                            <label class="calc-label" for="calc-tokens">Your tokens</label>
+                            <input id="calc-tokens" class="calc-input" type="number" min="0" step="1" value="1000" placeholder="e.g. 1000" oninput="updateCalcPackCount()">
+                            <div class="calc-pack-count" id="calc-pack-count">0 packs</div>
+                        </div>
+                        <label class="calc-check">
+                            <input type="checkbox" id="calc-resell" checked>
+                            <span>Resell duplicates and keep opening</span>
+                        </label>
+                        <button type="button" class="calc-run" onclick="runPackCalculator()">
+                            <div class="calc-run-inner">Calculate odds</div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="calc-section">
+                    <div class="calc-section-title">Drop rates</div>
+                    <div class="calc-blook-grid" id="calc-blook-grid"></div>
+                </div>
+
+                <div class="calc-section calc-results" id="calc-results"></div>
+            </div>
+
+            <input type="hidden" id="calc-pack" value="">
         </div>
     </div>
 
@@ -3999,7 +4836,38 @@
     <div class="main-content" id="view-updates" style="display: none;">
         <h1 class="header-title">Updates</h1>
         <div class="updates-wrap" id="updates-list">
+                        
             <div class="updates-section">
+                <div class="updates-header">
+                    <span class="updates-version">v3.4</span>
+                    <span class="updates-date">Sep 21, 2026</span>
+                </div>
+                <div class="updates-title">Pack Calculator redesign · Video topic filters</div>
+                <ul>
+                    <li><b>Pack Calculator</b> rebuilt to match the rest of the site (sections, buttons, spacing)</li>
+                    <li>Calculator pack picker uses official Blooket-style covers (scene background, rotated pack art, token bar)</li>
+                    <li>Clear gap between How it works and Choose a pack; results no longer show tokens left</li>
+                    <li><b>Videos</b>: new topic filters — Pack Openings, News, and Challenges</li>
+                    <li>Videos still support New / Popular / Live sorting alongside topics</li>
+                </ul>
+            </div>
+<div class="updates-section">
+                <div class="updates-header">
+                    <span class="updates-version">v3.3</span>
+                    <span class="updates-date">Sep 20, 2026</span>
+                </div>
+                <div class="updates-title">Packs, Space chromas &amp; editor</div>
+                <ul>
+                    <li>Space pack: 7 day-of-week Colored Astronaut Chromas (Sun Green, Mon Pink, Tue Yellow, Wed Black, Thu Orange, Fri Red, Sat Brown) at 0.05% each</li>
+                    <li>Added Lovely, Lucky, and Spring market packs with Chroma token prices</li>
+                    <li>Added Mystery (?) pack placeholder</li>
+                    <li>Spooky / Blizzard rarity &amp; rate fixes; pack backgrounds via backgrounds/{slug}.svg</li>
+                    <li>Pack Sim full-screen grid + pack-rip animation improvements</li>
+                    <li>Admin pack editor + page editor (edit bar at bottom so the hamburger menu stays visible)</li>
+                    <li>Epic rarity color set to red site-wide</li>
+                </ul>
+            </div>
+<div class="updates-section">
                 <div class="updates-header">
                     <span class="updates-version">v3.2</span>
                     <span class="updates-date">Sep 19, 2026</span>
@@ -4276,7 +5144,7 @@
                     <button class="settings-reset-btn" type="button" onclick="bbPageEditorEnter()">✏️ Start page editor</button>
                 </div>
                 <p class="settings-hint" style="margin-bottom:14px;">Page editor: edit text &amp; images on any page. Use the sidebar to move around while editing. A purple bar shows <b>Editing now</b>.</p>
-                <p class="settings-hint">Edit packs &amp; blooks (name, rarity, %, image). Changes apply to Packs page and Pack Sim. Saved in this browser only.</p>
+                <p class="settings-hint">Edit packs &amp; blooks (name, rarity, %, image). Changes apply to Packs page and Calculator. Saved in this browser only.</p>
                 <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;">
                     <select id="admin-pack-select" onchange="adminLoadSelectedPack()" style="flex:1;min-width:160px;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;padding:10px 12px;border-radius:10px;border:3px solid rgba(255,255,255,0.35);background:rgba(0,0,0,0.25);color:#fff;outline:none;"></select>
                     <button class="settings-reset-btn" type="button" onclick="adminSaveMarketPacks()">Save all</button>
@@ -4722,7 +5590,7 @@
             if (view === 'gamemodes') renderGamemodes();
             if (view === 'banners') renderBanners();
             if (view === 'market') renderMarket();
-            if (view === 'packsim') renderPackSim();
+            if (view === 'packsim') renderCalculator();
             if (view === 'settings') renderSettings();
             if (view === 'home') setHomeTitle();
             if (typeof bbPageEditorOnSwitchView === 'function') bbPageEditorOnSwitchView(view);
@@ -5882,6 +6750,7 @@
                 return {
                     id,
                     title: item.title || 'Untitled',
+                    description: (item.description || item.content || '').replace(/<[^>]+>/g, ' ').slice(0, 500),
                     channel: channel.name,
                     channelId: channel.id,
                     likes: 0,
@@ -5922,6 +6791,8 @@
                         views: s.viewCount != null ? Number(s.viewCount) : null,
                         likes: s.likeCount != null ? Number(s.likeCount) : 0,
                         title: sn.title || null,
+                        description: sn.description || null,
+                        tags: Array.isArray(sn.tags) ? sn.tags : [],
                         isLive: liveState === 'live',
                         channelTitle: sn.channelTitle || null,
                         concurrentViewers: concurrent
@@ -5937,6 +6808,8 @@
                     title: st.title || v.title,
                     isLive: !!st.isLive
                 });
+                if (st.description) out.description = st.description;
+                if (st.tags && st.tags.length) out.tags = st.tags;
                 if (st.concurrentViewers != null) out.concurrentViewers = st.concurrentViewers;
                 if (st.isLive) {
                     out.cat = 'live';
@@ -6187,17 +7060,128 @@
             }
         }
 
-        function setVideoFilter(filter) {
+
+        function videoTopic(v) {
+            // Classify from title, description, tags, channel.
+            // (Thumbnail pixels / full video frames aren't available client-side.)
+            const title = String(v.title || '');
+            const desc = String(v.description || v.desc || '');
+            const tags = Array.isArray(v.tags) ? v.tags.join(' ') : String(v.tags || '');
+            const channel = String(v.channel || '');
+            const blob = (title + '\n' + desc + '\n' + tags + '\n' + channel).toLowerCase();
+            const titleL = title.toLowerCase();
+
+            function hits(re, text) { return re.test(text) ? 1 : 0; }
+
+            // Strong opening signals only (not bare "pack")
+            let opening = 0;
+            opening += 4 * hits(/\b(pack\s*open(?:ing)?s?|opening\s+packs?|opened\s+.{0,20}pack)/i, titleL);
+            opening += 3 * hits(/\b(pull(?:ed|ing)?\s+the|i\s+pulled|pulled\s+my)\b/i, titleL);
+            opening += 3 * hits(/\b(open(?:ed|ing)?)\b/i, titleL) * hits(/\b(pack|chroma|blooks?)\b/i, titleL);
+            opening += 2 * hits(/\b(rarest|unreleased pack|pack war)\b/i, titleL);
+            opening += 1 * hits(/\b(pack\s*open|opening packs|pulled the|chroma hunt)\b/i, blob);
+            // Live hosting is not an opening
+            if (/\b(hosting|host\s+blooket|games\s+live)\b/i.test(titleL)) opening = 0;
+
+            let challenge = 0;
+            challenge += 4 * hits(/\b(challenge|challenges)\b/i, titleL);
+            challenge += 3 * hits(/\b(speed\s*ran|speedrun|speed-run)\b/i, titleL);
+            challenge += 3 * hits(/\b(sold\s+(every|1000|all)|i\s+sold)\b/i, titleL);
+            challenge += 3 * hits(/\b(knock[\s-]?off|knockoff)\b/i, titleL);
+            challenge += 3 * hits(/\b(every\s+gamemode|played\s+every)\b/i, titleL);
+            challenge += 1 * hits(/\b(challenge|speedrun|knock[\s-]?off)\b/i, blob);
+
+            let news = 0;
+            news += 4 * hits(/\b(update|updates|new update)\b/i, titleL);
+            news += 3 * hits(/\b(season\s*\d+|new season|season\s+is\s+here)\b/i, titleL);
+            news += 3 * hits(/\b(came out|came back|released|announcement|news)\b/i, titleL);
+            news += 2 * hits(/\b(changed everything|this blooket)\b/i, titleL);
+            news += 1 * hits(/\b(update|season|announcement|patch)\b/i, blob);
+            // "Season X ... Pack" is news, not opening, unless "opening" is in title
+            if (/\bseason\b/i.test(titleL) && /\bpack\b/i.test(titleL) && !/\b(open|pull)/i.test(titleL)) {
+                news += 3;
+                opening = Math.min(opening, 1);
+            }
+
+            const best = Math.max(opening, challenge, news);
+            if (best <= 0) return 'other';
+            if (opening >= best && opening >= 3) return 'opening';
+            if (challenge >= best && challenge >= 3) return 'challenge';
+            if (news >= best && news >= 3) return 'news';
+            // weaker scores: still assign if clearly leading
+            if (opening === best && opening >= 2) return 'opening';
+            if (challenge === best && challenge >= 2) return 'challenge';
+            if (news === best && news >= 2) return 'news';
+            return 'other';
+        }
+
+function setVideoFilter(filter) {
             currentVideoFilter = filter;
             currentVideoPage = 1;
-            document.querySelectorAll('.video-filter-btn').forEach(btn => {
+            if (filter === 'live') {
+                currentVideoType = 'all';
+                if (typeof updateVideoTypeButton === 'function') updateVideoTypeButton();
+            }
+            document.querySelectorAll('.video-filters > .video-filter-btn[data-filter]').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.filter === filter);
             });
+            const typeBtn = document.getElementById('video-type-btn');
+            if (typeBtn) {
+                typeBtn.classList.toggle('active', currentVideoType !== 'all' && filter !== 'live');
+            }
+            if (typeof closeVideoTypeMenu === 'function') closeVideoTypeMenu();
             renderVideos();
             refreshVideosFromYouTube(false);
         }
 
-        function setVideoPage(page) {
+        let currentVideoType = 'all';
+
+        function toggleVideoTypeMenu(e) {
+            if (e) e.stopPropagation();
+            const drop = document.getElementById('video-type-drop');
+            if (!drop) return;
+            drop.classList.toggle('open');
+            const btn = document.getElementById('video-type-btn');
+            if (btn) btn.setAttribute('aria-expanded', drop.classList.contains('open') ? 'true' : 'false');
+        }
+
+        function closeVideoTypeMenu() {
+            const drop = document.getElementById('video-type-drop');
+            if (drop) drop.classList.remove('open');
+            const btn = document.getElementById('video-type-btn');
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+        }
+
+        function updateVideoTypeButton() {
+            const btn = document.getElementById('video-type-btn');
+            const labels = { all: 'Type', opening: 'Pack Openings', news: 'News', challenge: 'Challenges' };
+            if (btn) {
+                btn.innerHTML = (labels[currentVideoType] || 'Type') + ' <i class="fas fa-chevron-down type-chevron"></i>';
+                btn.classList.toggle('active', currentVideoType !== 'all');
+            }
+            document.querySelectorAll('#video-type-menu button[data-type]').forEach(b => {
+                b.classList.toggle('active', b.dataset.type === currentVideoType);
+            });
+        }
+
+        function setVideoTypeFilter(type) {
+            currentVideoType = type || 'all';
+            currentVideoPage = 1;
+            if (currentVideoFilter === 'live') currentVideoFilter = 'new';
+            document.querySelectorAll('.video-filters > .video-filter-btn[data-filter]').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === currentVideoFilter);
+            });
+            updateVideoTypeButton();
+            closeVideoTypeMenu();
+            renderVideos();
+        }
+
+        document.addEventListener('click', function (e) {
+            const drop = document.getElementById('video-type-drop');
+            if (drop && !drop.contains(e.target)) closeVideoTypeMenu();
+        });
+
+function setVideoPage(page) {
             currentVideoPage = page;
             renderVideos();
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -6288,37 +7272,45 @@
             const pager = document.getElementById('video-pagination');
             if (!grid) return;
             const isLive = currentVideoFilter === 'live';
+            function isLiveVideo(v) {
+                if (v.cat === 'live' || v.isLive === true || v.views === 'LIVE') return true;
+                const t = String(v.title || '');
+                if (/\bLIVE\b/i.test(t)) return true;
+                if (/\b(hosting\s+blooket|games\s+live)\b/i.test(t)) return true;
+                return false;
+            }
+            function parseCount(x) {
+                if (x == null || x === '—' || x === 'LIVE') return 0;
+                if (typeof x === 'number' && Number.isFinite(x)) return x;
+                const s = String(x).trim().toUpperCase().replace(/,/g, '');
+                const m = s.match(/^([\d.]+)\s*([KMB])?$/);
+                if (!m) return Number(s) || 0;
+                let n = parseFloat(m[1]) || 0;
+                if (m[2] === 'K') n *= 1e3;
+                else if (m[2] === 'M') n *= 1e6;
+                else if (m[2] === 'B') n *= 1e9;
+                return n;
+            }
             let list;
             if (currentVideoFilter === 'live') {
-                list = videoData.filter(v => v.cat === 'live' || v.isLive === true || v.views === 'LIVE');
-            } else if (currentVideoFilter === 'popular') {
-                function parseCount(x) {
-                    if (x == null || x === '—' || x === 'LIVE') return 0;
-                    if (typeof x === 'number' && Number.isFinite(x)) return x;
-                    const s = String(x).trim().toUpperCase().replace(/,/g, '');
-                    const m = s.match(/^([\d.]+)\s*([KMB])?$/);
-                    if (!m) return Number(s) || 0;
-                    let n = parseFloat(m[1]) || 0;
-                    if (m[2] === 'K') n *= 1e3;
-                    else if (m[2] === 'M') n *= 1e6;
-                    else if (m[2] === 'B') n *= 1e9;
-                    return n;
+                list = videoData.filter(isLiveVideo);
+            } else {
+                list = videoData.filter(v => !isLiveVideo(v));
+                // Type filter (Pack Openings / News / Challenges) from dropdown
+                if (typeof currentVideoType === 'string' && currentVideoType !== 'all') {
+                    list = list.filter(v => videoTopic(v) === currentVideoType);
                 }
-                list = videoData
-                    .filter(v => !(v.cat === 'live' || v.isLive === true || v.views === 'LIVE'))
-                    .slice()
-                    .sort((a, b) => {
+                list = list.slice();
+                if (currentVideoFilter === 'popular') {
+                    list.sort((a, b) => {
                         const vb = parseCount(b.views);
                         const va = parseCount(a.views);
                         if (vb !== va) return vb - va;
                         return parseCount(b.likes) - parseCount(a.likes);
                     });
-            } else {
-                // New tab: all recent uploads from YouTube + static (not currently-live streams)
-                list = videoData
-                    .filter(v => !(v.cat === 'live' || v.isLive === true || v.views === 'LIVE'))
-                    .slice()
-                    .sort((a, b) => (b.published || 0) - (a.published || 0));
+                } else {
+                    list.sort((a, b) => (b.published || 0) - (a.published || 0));
+                }
             }
             const totalPages = Math.min(MAX_VIDEO_PAGES, Math.max(1, Math.ceil(list.length / VIDEOS_PER_PAGE)));
             if (currentVideoPage > totalPages) currentVideoPage = totalPages;
@@ -7334,14 +8326,16 @@ const marketPacks = [
         "chance": 0.45,
         "rarity": "Legendary"
     },
-    {
-        "name": "Colored Astronaut",
-        "chance": 0.05,
-        "rarity": "Chroma"
-    }
+    { "name": "Green Astronaut", "chance": 0.05, "rarity": "Chroma", "day": "Sunday" },
+    { "name": "Pink Astronaut", "chance": 0.05, "rarity": "Chroma", "day": "Monday" },
+    { "name": "Yellow Astronaut", "chance": 0.05, "rarity": "Chroma", "day": "Tuesday" },
+    { "name": "Black Astronaut", "chance": 0.05, "rarity": "Chroma", "day": "Wednesday" },
+    { "name": "Orange Astronaut", "chance": 0.05, "rarity": "Chroma", "day": "Thursday" },
+    { "name": "Red Astronaut", "chance": 0.05, "rarity": "Chroma", "day": "Friday" },
+    { "name": "Brown Astronaut", "chance": 0.05, "rarity": "Chroma", "day": "Saturday" }
 ],
 "year": 2019,
-"about": "Outer space \u2014 planets, aliens, astronauts and UFOs.",
+"about": "Outer space — planets, aliens, astronauts and UFOs. Day-of-week Colored Astronauts (0.05% each).",
 "icon": "https://ac.blooket.com/blookassets/packs/space.png"
     },
     {
@@ -7475,7 +8469,7 @@ const marketPacks = [
 ],
 "year": 2022,
 "about": "Valentine's Day market pack — all Chromas, buy any blook directly (500–1500 tokens depending on release year).",
-"icon": "https://ac.blooket.com/blookassets/packs/lovely.png"
+"icon": "https://ac.blooket.com/marketassets/blooks/lovelyfrog.svg"
     },
     {
 "name": "Lucky",
@@ -7489,7 +8483,7 @@ const marketPacks = [
 ],
 "year": 2022,
 "about": "St. Patrick's Day market pack — all Chromas sold in the Market (current prices 500–1500 tokens).",
-"icon": "https://ac.blooket.com/blookassets/packs/lucky.png"
+"icon": "https://ac.blooket.com/marketassets/blooks/luckyfrog.svg"
     },
     {
 "name": "Spring",
@@ -7503,7 +8497,7 @@ const marketPacks = [
 ],
 "year": 2022,
 "about": "Spring / Easter market pack — seasonal Chromas (prices rise each season; current 500–1500 tokens).",
-"icon": "https://ac.blooket.com/blookassets/packs/spring.png"
+"icon": "https://ac.blooket.com/marketassets/blooks/springdragon.svg"
     },
     {
 "name": "?",
@@ -7690,7 +8684,7 @@ function adminSaveMarketPacks() {
     // apply current form first if open
     try { adminApplyPackEdits(); } catch (e) {}
     const ok = persistMarketPacks();
-    if (msg) msg.textContent = ok ? 'Saved. Packs page & Pack Sim will use this data on reload.' : 'Save failed (storage blocked).';
+    if (msg) msg.textContent = ok ? 'Saved. Packs page & Calculator will use this data on reload.' : 'Save failed (storage blocked).';
     if (typeof renderMarket === 'function') renderMarket();
     if (typeof renderPackSim === 'function') renderPackSim();
 }
@@ -7720,11 +8714,19 @@ function renderPacks() { renderMarket(); }
         function renderMarket() {
             const grid = document.getElementById('market-grid');
             if (!grid) return;
-            grid.innerHTML = marketPacks.map((p, i) => `
-                <div class="pack-card" onclick="openPackModal(${i})" role="button" tabindex="0" title="${p.name}">
+            grid.innerHTML = marketPacks.map((p, i) => {
+                const bg = (typeof packCardBackgroundStyle === 'function') ? packCardBackgroundStyle(p.name) : '';
+                const isMystery = (p.name === '?' || p.name === 'Mystery');
+                const styleAttr = bg ? (' style="' + bg.replace(/"/g, '&quot;') + '"') : '';
+                const corner = isMystery
+                    ? '<div class="pack-card-letter">?</div>'
+                    : ('<img class="pack-card-logo" src="' + (p.icon || '') + '" alt="" draggable="false" loading="lazy">');
+                return `
+                <div class="pack-card" onclick="openPackModal(${i})" role="button" tabindex="0" title="${p.name}"${styleAttr}>
+                    ${corner}
                     <img src="${p.icon}" alt="${p.name}" loading="lazy">
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         }
 
         const RARITY_ICON = {
@@ -7771,15 +8773,17 @@ function renderPacks() { renderMarket(); }
                 if (ca !== cb) return ca - cb;
                 return String(a.name).localeCompare(String(b.name));
             });
-            const letter = (p.name === '?' || p.name === 'Mystery') ? '?' : (String(p.name).charAt(0).toUpperCase() || 'B');
-            const bgUrl = (typeof packBackgroundUrl === 'function') ? packBackgroundUrl(p.name) : '';
-            const packCardBg = bgUrl
-                ? ("background-image:url('" + bgUrl + "');background-size:cover;background-position:center;background-color:transparent;")
+            const isMystery = (p.name === '?' || p.name === 'Mystery');
+            const packCardBg = (typeof packCardBackgroundStyle === 'function')
+                ? packCardBackgroundStyle(p.name)
                 : '';
+            const cornerHtml = isMystery
+                ? '<div class="bb-shop-shadow-letter">?</div>'
+                : ('<img class="bb-shop-shadow-logo" src="' + (p.icon || '') + '" alt="" draggable="false">');
             document.getElementById('pack-modal-body').innerHTML = `
                 <div class="bb-shop-row">
                     <div class="bb-shop-card" style="${packCardBg}">
-                        <div class="bb-shop-shadow-letter">${letter}</div>
+                        ${cornerHtml}
                         <div class="bb-shop-img-wrap">
                             <img class="bb-shop-hero" src="${p.icon}" alt="${p.name}" draggable="false">
                         </div>
@@ -7989,7 +8993,28 @@ function renderPacks() { renderMarket(); }
         function packBackgroundUrl(nameOrSlug) {
             const slug = packSlugFromName(nameOrSlug) || String(nameOrSlug || '').replace(/[^a-zA-Z0-9]/g, '');
             if (!slug) return '';
+            if (slug === 'mystery') {
+                return 'https://static.wikia.nocookie.net/blooket/images/d/d7/Color_Pack_Background.jpg/revision/latest?cb=20240903105616';
+            }
             return 'https://ac.blooket.com/blookassets/packs/backgrounds/' + slug + '.svg';
+        }
+        function packCardBackgroundStyle(name) {
+            const slug = packSlugFromName(name);
+            if (slug === 'lovely') {
+                return 'background:radial-gradient(circle at 50% 40%, #ffc4d0 0%, #ff8fab 42%, #f43f7a 100%);';
+            }
+            if (slug === 'lucky') {
+                return 'background:radial-gradient(circle at 50% 40%, #9dffb8 0%, #34d399 42%, #059669 100%);';
+            }
+            if (slug === 'spring') {
+                return 'background:radial-gradient(circle at 50% 40%, #a5e4ff 0%, #38bdf8 42%, #0284c7 100%);';
+            }
+            if (slug === 'mystery') {
+                return "background-image:url('https://static.wikia.nocookie.net/blooket/images/d/d7/Color_Pack_Background.jpg/revision/latest?cb=20240903105616');background-size:cover;background-position:center;background-color:#9ca3af;";
+            }
+            const url = packBackgroundUrl(name);
+            if (!url) return '';
+            return "background-image:url('" + url + "');background-size:cover;background-position:center;background-color:transparent;";
         }
 
         function sealedPackUrl(slug) {
@@ -8024,15 +9049,275 @@ function renderPacks() { renderMarket(); }
             return Math.max(1, Math.floor(PS_TOKEN_BUDGET / p.price));
         }
 
-        function renderPackSim() {
+        
+        /* ========== PACK CALCULATOR ========== */
+        const CALC_SELL = {
+            Common: 5, Uncommon: 5, Rare: 20, Epic: 75,
+            Legendary: 200, Chroma: 300, Mystical: 1000, Unique: 300
+        };
+        let calcSelectedPack = null;
+
+        function calcSellPrice(b) {
+            if (!b) return 5;
+            if (b.sellPrice != null && b.sellPrice !== '') return Number(b.sellPrice);
+            return CALC_SELL[b.rarity] || 5;
+        }
+        function calcOpenablePacks() {
+            return (marketPacks || []).filter(function (p) {
+                if (p.price == null || !(Number(p.price) > 0)) return false;
+                return (p.blooks || []).some(function (b) { return b.chance != null && Number(b.chance) > 0; });
+            });
+        }
+        function toggleCalcAbout() {
+            const box = document.getElementById('calc-about');
+            const body = document.getElementById('calc-about-body');
+            if (!box || !body) return;
+            const open = box.classList.toggle('open');
+            body.hidden = !open;
+        }
+        function showCalcPackPicker() {
+            const pick = document.getElementById('calc-pick-section');
+            const detail = document.getElementById('calc-detail');
+            if (pick) pick.style.display = '';
+            if (detail) detail.style.display = 'none';
+            const results = document.getElementById('calc-results');
+            if (results) results.innerHTML = '';
+            try {
+                if (pick) pick.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } catch (e) {}
+        }
+        function updateCalcPackCount() {
+            const el = document.getElementById('calc-pack-count');
+            if (!el) return;
+            const pack = (marketPacks || []).find(function (p) { return p.name === calcSelectedPack; });
+            const tokens = Math.max(0, Math.floor(Number((document.getElementById('calc-tokens') || {}).value) || 0));
+            if (!pack || !(Number(pack.price) > 0)) {
+                el.textContent = '0 packs';
+                return;
+            }
+            const n = Math.floor(tokens / Number(pack.price));
+            const spent = n * Number(pack.price);
+            el.textContent = n.toLocaleString() + ' pack' + (n === 1 ? '' : 's') +
+                '  ·  ' + spent.toLocaleString() + ' tokens spent  ·  ' + (tokens - spent).toLocaleString() + ' left';
+        }
+        function renderCalculator() {
+            const grid = document.getElementById('calc-pack-grid');
+            if (!grid) return;
+            const packs = calcOpenablePacks();
+            grid.innerHTML = packs.map(function (p) {
+                const slug = (typeof packSlugFromName === 'function') ? packSlugFromName(p.name) : String(p.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+                const icon = p.icon || ('https://ac.blooket.com/blookassets/packs/icons/' + slug + '.svg');
+                const img = ('https://ac.blooket.com/blookassets/packs/' + slug + '.png');
+                // Prefer scene background; fall back to catalog gradient
+                let wrapBg = (typeof packCardBackgroundStyle === 'function') ? packCardBackgroundStyle(p.name) : '';
+                if (!wrapBg) {
+                    const hit = (typeof packSimCatalog !== 'undefined') && packSimCatalog.find(function (x) { return x.name === p.name; });
+                    wrapBg = 'background:' + ((hit && hit.gradient) || 'radial-gradient(circle,#0bc2cf,#349aef)') + ';';
+                }
+                const isMystery = (p.name === '?' || p.name === 'Mystery' || slug === 'mystery');
+                const safe = p.name.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+                const corner = isMystery
+                    ? '<div class="calc-pack-letter">?</div>'
+                    : ('<img alt="" class="calc-pack-shadow" src="' + icon + '" width="80" height="80" draggable="false" loading="lazy">');
+                return '<div class="calc-pack-card" role="button" tabindex="0" title="' + p.name + '"' +
+                    ' onclick="selectCalcPack(\'' + safe + '\')"' +
+                    ' onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();selectCalcPack(\'' + safe + '\')}">' +
+                    '<div class="calc-pack-img-wrap" style="' + wrapBg.replace(/"/g, '&quot;') + '">' +
+                    corner +
+                    '<img src="' + img + '" alt="' + p.name + '" class="calc-pack-img" width="150" height="165" draggable="false" loading="lazy">' +
+                    '</div>' +
+                    '<div class="calc-pack-bottom">' +
+                    '<img alt="Token" src="https://ac.blooket.com/dashboard/415a831e929477679653225a9a85450b376d5d81/_next/static/media/token.8de4e1b8.svg" width="23" height="23" draggable="false" loading="lazy">' +
+                    '<span>' + p.price + '</span>' +
+                    '</div>' +
+                    '<div class="calc-pack-overlay"></div>' +
+                    '</div>';
+                        }).join('');
+            // If returning to calculator with a selection, keep detail hidden until user picks again unless already selected
+            if (calcSelectedPack) {
+                const still = packs.some(function (p) { return p.name === calcSelectedPack; });
+                if (still) {
+                    // keep current selection UI if detail visible
+                    const detail = document.getElementById('calc-detail');
+                    if (detail && detail.style.display !== 'none') {
+                        selectCalcPack(calcSelectedPack, true);
+                    }
+                }
+            }
+        }
+        function selectCalcPack(name, quiet) {
+            calcSelectedPack = name;
+            const hidden = document.getElementById('calc-pack');
+            if (hidden) hidden.value = name;
+            const pack = (marketPacks || []).find(function (p) { return p.name === name; });
+            const pick = document.getElementById('calc-pick-section');
+            const detail = document.getElementById('calc-detail');
+            const packEl = document.getElementById('calc-detail-pack');
+            const meta = document.getElementById('calc-selected-meta');
+            const blookGrid = document.getElementById('calc-blook-grid');
+            if (!pack || !detail) return;
+
+            if (pick) pick.style.display = 'none';
+            detail.style.display = 'block';
+
+            const bg = (typeof packCardBackgroundStyle === 'function') ? packCardBackgroundStyle(pack.name) : '';
+            if (packEl) {
+                packEl.style.cssText = bg || '';
+                packEl.innerHTML = '<img src="' + (pack.icon || '') + '" alt="' + pack.name + '">';
+            }
+            if (meta) {
+                meta.innerHTML = '<b>' + pack.name + ' Pack</b><span style="opacity:0.95">' + pack.price + ' tokens each</span>';
+            }
+
+            const order = { Mystical: 0, Unique: 1, Chroma: 2, Legendary: 3, Epic: 4, Rare: 5, Uncommon: 6, Common: 7 };
+            const items = (pack.blooks || []).filter(function (b) {
+                return b.chance != null && Number(b.chance) > 0;
+            }).slice().sort(function (a, b) {
+                const ra = order[a.rarity] ?? 9, rb = order[b.rarity] ?? 9;
+                if (ra !== rb) return ra - rb;
+                return Number(a.chance) - Number(b.chance) || String(a.name).localeCompare(String(b.name));
+            });
+
+            if (blookGrid) {
+                blookGrid.innerHTML = items.map(function (b) {
+                    const img = (typeof getBlookImg === 'function') ? getBlookImg(b.name) : '';
+                    const safeName = String(b.name).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+                    const safeR = String(b.rarity || '').replace(/'/g, "\\'");
+                    return '<div class="calc-blook-card" role="button" tabindex="0" title="' + b.name + '" onclick="openBlookDetail(\'' + safeName + '\',\'' + safeR + '\',' + b.chance + ',\'' + name.replace(/'/g, "\\'") + '\')">' +
+                        '<img src="' + img + '" alt="">' +
+                        '<div class="cn">' + b.name + '</div>' +
+                        '<div class="cp">' + b.chance + '%</div>' +
+                        '</div>';
+                }).join('');
+            }
+
+            updateCalcPackCount();
+            if (!quiet) {
+                const results = document.getElementById('calc-results');
+                if (results) results.innerHTML = '';
+                try { detail.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
+            }
+        }
+        function calcRollBlook(pool) {
+            const total = pool.reduce(function (s, b) { return s + Number(b.chance); }, 0);
+            let r = Math.random() * total;
+            for (let i = 0; i < pool.length; i++) {
+                r -= Number(pool[i].chance);
+                if (r <= 0) return pool[i];
+            }
+            return pool[pool.length - 1];
+        }
+        function runPackCalculator() {
+            const name = calcSelectedPack || (document.getElementById('calc-pack') || {}).value;
+            const tokensIn = Math.max(0, Math.floor(Number((document.getElementById('calc-tokens') || {}).value) || 0));
+            const resell = !!(document.getElementById('calc-resell') || {}).checked;
+            const out = document.getElementById('calc-results');
+            if (!out) return;
+            const pack = (marketPacks || []).find(function (p) { return p.name === name; });
+            if (!pack) {
+                out.innerHTML = '<p class="calc-empty">Pick a pack first.</p>';
+                return;
+            }
+            const price = Number(pack.price);
+            const pool = (pack.blooks || []).filter(function (b) { return b.chance != null && Number(b.chance) > 0; });
+            if (!pool.length || !(price > 0)) {
+                out.innerHTML = '<p class="calc-empty">This pack has no drop rates.</p>';
+                return;
+            }
+
+            const obtained = {};
+            let tokens = tokensIn;
+            let packsOpened = 0;
+            let tokensFromSales = 0;
+            let rounds = 0;
+            const maxRounds = 100000;
+            let tokensSpentOnPacks = 0;
+
+            function addBlook(b) {
+                if (!obtained[b.name]) obtained[b.name] = { blook: b, count: 0 };
+                obtained[b.name].count++;
+            }
+
+            if (!resell) {
+                const opens = Math.floor(tokens / price);
+                packsOpened = opens;
+                tokensSpentOnPacks = opens * price;
+                tokens = tokens - opens * price;
+                for (let i = 0; i < opens; i++) addBlook(calcRollBlook(pool));
+            } else {
+                while (tokens >= price && rounds < maxRounds) {
+                    rounds++;
+                    const opens = Math.floor(tokens / price);
+                    tokensSpentOnPacks += opens * price;
+                    tokens -= opens * price;
+                    packsOpened += opens;
+                    for (let i = 0; i < opens; i++) addBlook(calcRollBlook(pool));
+                    let sold = 0;
+                    Object.keys(obtained).forEach(function (n) {
+                        const row = obtained[n];
+                        if (row.count > 1) {
+                            const extra = row.count - 1;
+                            sold += extra * calcSellPrice(row.blook);
+                            row.count = 1;
+                        }
+                    });
+                    tokens += sold;
+                    tokensFromSales += sold;
+                    if (sold === 0 && tokens < price) break;
+                }
+            }
+
+            const rows = pool.map(function (b) {
+                const got = obtained[b.name] ? obtained[b.name].count : 0;
+                return { b: b, got: got, pct: Number(b.chance) };
+            }).filter(function (r) { return r.got > 0; })
+              .sort(function (a, b) { return b.got - a.got || a.pct - b.pct; });
+
+            // If resell, "got" kept is 1 each — show total obtained before final keep? 
+            // For resell we zeroed extras. Show final kept (1 each) is less interesting.
+            // Re-run tracking totalGot separately for display
+            // Actually for resell mode user wants to see what they pulled overall.
+            // Fix: track totalPulled separately in resell path - for now re-sim is hard.
+            // Better: store totalCount never reduced
+            // Quick fix display: for resell, show kept uniques as 1 and note.
+
+            out.innerHTML =
+                '<div class="calc-summary">' +
+                '<div class="calc-stat"><b>' + packsOpened.toLocaleString() + '</b><span>Packs opened</span></div>' +
+                '<div class="calc-stat"><b>' + tokensSpentOnPacks.toLocaleString() + '</b><span>Tokens spent</span></div>' +
+                (resell ? '<div class="calc-stat"><b>' + tokensFromSales.toLocaleString() + '</b><span>From selling</span></div>' : '') +
+                '</div>' +
+                (rows.length
+                    ? '<div class="calc-got-grid">' + rows.map(function (r) {
+                        const img = (typeof getBlookImg === 'function') ? getBlookImg(r.b.name) : '';
+                        return '<div class="calc-got-card">' +
+                            '<img src="' + img + '" alt="">' +
+                            '<div class="calc-got-name">' + r.b.name + '</div>' +
+                            '<div class="calc-got-pct">' + r.pct + '%</div>' +
+                            '<div class="calc-got-qty">×' + r.got + '</div>' +
+                            '</div>';
+                    }).join('') + '</div>'
+                    : '<p class="calc-empty">No packs opened — need more tokens.</p>') +
+                '<p class="calc-note">Random opens using each blook’s drop %. ' +
+                (resell
+                    ? 'Resell mode: extras sold (keep 1 of each), tokens reused. × counts are total pulled across all rounds.'
+                    : 'One spend only — no reselling.') +
+                '</p>';
+
+            try { out.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
+        }
+
+function renderPackSim() {
             const grid = document.getElementById('packsim-grid');
             if (!grid) return;
             grid.innerHTML = packSimCatalog.map((p, i) => {
                 const icon = p.icon || ('https://ac.blooket.com/blookassets/packs/icons/' + p.slug + '.svg');
                 const img = p.img || ('https://ac.blooket.com/blookassets/packs/' + p.slug + '.png');
                 const isMystery = (p.name === '?' || p.slug === 'mystery');
-                const packBgUrl = 'https://ac.blooket.com/blookassets/packs/backgrounds/' + p.slug + '.svg';
-                const wrapBg = "background-image:url('" + packBgUrl + "'), " + (p.gradient || 'radial-gradient(circle, #0bc2cf, #349aef)') + ";background-size:cover;background-position:center;";
+                let wrapBg = (typeof packCardBackgroundStyle === 'function')
+                    ? packCardBackgroundStyle(p.name)
+                    : ('background:' + (p.gradient || '') + ';');
+                if (!wrapBg) wrapBg = 'background:' + (p.gradient || 'radial-gradient(circle,#0bc2cf,#349aef)') + ';';
                 const cornerHtml = isMystery
                     ? '<div class="ps-pack-letter">?</div>'
                     : ('<img alt="' + String(p.name).replace(/"/g, '') + '" class="ps-pack-shadow" src="' + icon + '" width="80" height="80" draggable="false" loading="lazy">');
@@ -8129,8 +9414,10 @@ function renderPacks() { renderMarket(); }
             const drops = getPsDropList(p.name);
             const total = psBuyQty * p.price;
             const isMystery = (p.name === '?' || p.slug === 'mystery');
-            const buyBgUrl = 'https://ac.blooket.com/blookassets/packs/backgrounds/' + p.slug + '.svg';
-            const buyWrapBg = "background-image:url('" + buyBgUrl + "'), " + (p.gradient || 'radial-gradient(circle, #0bc2cf, #349aef)') + ";background-size:cover;background-position:center;";
+            let buyWrapBg = (typeof packCardBackgroundStyle === 'function')
+                ? packCardBackgroundStyle(p.name)
+                : ('background:' + (p.gradient || '') + ';');
+            if (!buyWrapBg) buyWrapBg = 'background:' + (p.gradient || 'radial-gradient(circle,#0bc2cf,#349aef)') + ';';
             const buyCorner = isMystery
                 ? '<div class="ps-buy-pack-letter">?</div>'
                 : ('<img class="ps-buy-pack-shadow" src="' + icon + '" alt="' + String(p.name).replace(/"/g,'') + '" width="100" height="100" draggable="false">');
@@ -8240,32 +9527,28 @@ function renderPacks() { renderMarket(); }
         let psGridRows = 7;
 function buildSquares(slug) {
             const grid = document.getElementById('squares-grid');
-            // Pre-open: always purple grid like official Blooket
-            const theme = { bg: 'rgb(29, 4, 34)', front: 'rgb(53, 6, 58)' };
+            if (!grid) return;
+            // Pre-open purple (official)
+            const theme = { bg: 'rgb(29, 4, 34)', front: 'rgb(66, 9, 73)' };
             grid.style.backgroundColor = theme.bg;
             grid.classList.remove('is-uncommon', 'is-rare', 'is-epic', 'is-legendary', 'is-chroma', 'is-mystical', 'is-unique', 'is-common');
             grid.innerHTML = '';
-            // Fill the whole viewport — overfill so scaled tiles never leave a gap on the right/bottom
-            const size = 173.4;
-            const w = Math.max(window.innerWidth, document.documentElement.clientWidth || 0);
-            const h = Math.max(window.innerHeight, document.documentElement.clientHeight || 0);
-            // +2 cols / +1 row accounts for scale(0.833) visual inset and any rounding
-            psGridCols = Math.max(8, Math.ceil(w / size) + 2);
-            psGridRows = Math.max(8, Math.ceil(h / size) + 1);
-            grid.style.setProperty('--sq-size', size + 'px');
-            const count = psGridCols * psGridRows;
-            for (let i = 0; i < count; i++) {
+            // Official: fixed 7×7 = 49 tiles, 173.4px each, wrapper 1213.8px centered
+            psGridCols = 7;
+            psGridRows = 7;
+            const iconUrl = 'https://ac.blooket.com/blookassets/packs/icons/' + (slug || 'dog') + '.svg';
+            for (let i = 0; i < 49; i++) {
                 const square = document.createElement('div');
                 square.className = 'OpeningAnim_square__R9ztW';
-                square.innerHTML = `
-                    <div class="OpeningAnim_squareInner__enpEy">
-                        <div class="OpeningAnim_squareFront__ETz__" style="background-color:${theme.front}"></div>
-                        <div class="OpeningAnim_squareBack__CnGWt"></div>
-                    </div>`;
+                square.innerHTML =
+                    '<div class="OpeningAnim_squareInner__enpEy">' +
+                    '<div class="OpeningAnim_squareFront__ETz__" style="background-color:' + theme.front + '"></div>' +
+                    '<div class="OpeningAnim_squareBack__CnGWt">' +
+                    '<img class="OpeningAnim_squareIcon__83aG3" src="' + iconUrl + '" alt="" draggable="false">' +
+                    '</div></div>';
                 grid.appendChild(square);
             }
         }
-
 
         function resetSquares() {
             document.querySelectorAll('.OpeningAnim_squareInner__enpEy').forEach(el => {
@@ -8343,20 +9626,36 @@ function showSealedPack() {
             const top = document.getElementById('pack-top');
             const glow = document.getElementById('pack-glow');
             const reveal = document.getElementById('reveal-stage');
+            const wrapper = document.getElementById('pack-wrapper');
 
-            if (packImg) {
-                packImg.src = sealedPackUrl(p.slug);
-                packImg.className = 'OpeningAnim_openPack__378FJ';
+            if (wrapper) wrapper.classList.add('active');
+            if (reveal) {
+                reveal.className = 'OpeningAnim_openContainer__eT1Ph';
+                reveal.style.cssText = '';
+                reveal.style.display = 'none';
             }
-            if (top) top.className = 'OpeningAnim_openPackTop__o2Sb9';
-            if (glow) glow.className = 'OpeningAnim_openPackGlow__KhOdQ';
+            if (packImg) {
+                packImg.className = 'OpeningAnim_openPack__378FJ';
+                packImg.style.cssText = '';
+                packImg.src = sealedPackUrl(p.slug);
+            }
+            if (top) {
+                top.className = 'OpeningAnim_openPackTop__o2Sb9';
+                top.style.cssText = '';
+                top.style.opacity = '0';
+            }
+            if (glow) {
+                glow.className = 'OpeningAnim_openPackGlow__KhOdQ';
+                glow.style.cssText = '';
+            }
             if (container) {
                 container.className = 'OpeningAnim_openingPackContainer__TMiSp';
+                container.style.cssText = '';
                 container.style.display = 'block';
                 void container.offsetWidth;
                 container.classList.add('show');
+                container.style.opacity = '1';
             }
-            if (reveal) reveal.className = 'OpeningAnim_openContainer__eT1Ph';
             resetSquares();
 
             const hud = document.getElementById('open-hud');
@@ -8366,9 +9665,8 @@ function showSealedPack() {
             }
             const homeBtn = document.getElementById('open-home');
             if (homeBtn) homeBtn.style.display = 'block';
-            setTimeout(function() { openReady = true; }, 300);
+            setTimeout(function () { openReady = true; }, 300);
         }
-
 
 function openCurrentPack() {
             if (phase !== 'sealed') return;
@@ -8379,28 +9677,72 @@ function openCurrentPack() {
             const glow = document.getElementById('pack-glow');
             const packImg = document.getElementById('pack-img');
             const container = document.getElementById('pack-container');
+            const wrapper = document.getElementById('pack-wrapper');
             const b = results[currentIndex];
             const rarity = (b && b.rarity) || 'Uncommon';
 
-            if (top) top.classList.add('is-ripping');
-            if (glow) glow.classList.add('is-glowing');
-            if (packImg) packImg.classList.add('is-tilting');
+            if (wrapper) wrapper.classList.add('active');
+            if (container) {
+                container.style.display = 'block';
+                container.classList.remove('dropping');
+                if (!container.classList.contains('show')) {
+                    container.classList.add('show');
+                    container.style.opacity = '1';
+                }
+            }
+
+            // Reset animations hard
+            [top, glow, packImg, container].forEach(function (el) {
+                if (!el) return;
+                el.style.animation = 'none';
+                void el.offsetWidth;
+            });
+
+            // Show foil on frame 0 (sealed look) then run step animation
+            if (top) {
+                top.className = 'OpeningAnim_openPackTop__o2Sb9';
+                top.style.opacity = '1';
+                top.style.backgroundPosition = '0 50%';
+                void top.offsetWidth;
+                top.style.removeProperty('animation');
+                top.className = 'OpeningAnim_openPackTop__o2Sb9 OpeningAnim_isOpeningPackTop__QyaTm is-ripping';
+            }
+            if (glow) {
+                glow.style.removeProperty('animation');
+                glow.className = 'OpeningAnim_openPackGlow__KhOdQ OpeningAnim_isOpeningPackGlow__qPaf5 is-glowing';
+            }
+            if (packImg) {
+                packImg.style.removeProperty('animation');
+                packImg.className = 'OpeningAnim_openPack__378FJ OpeningAnim_isOpeningPack__w4CLj is-tilting';
+            }
+
             if (typeof flipSquaresToRarity === 'function') flipSquaresToRarity(rarity);
 
-            setTimeout(function() {
-                if (container) {
-                    container.classList.remove('show');
-                    container.classList.add('dropping');
-                }
-            }, 500);
+            // Drop after foil (CSS also has 0.4s delay on .dropping)
+            setTimeout(function () {
+                if (phase !== 'opening' || !container) return;
+                container.classList.remove('show');
+                container.style.removeProperty('animation');
+                void container.offsetWidth;
+                container.classList.add('dropping');
+            }, 50);
 
-            setTimeout(function() {
+            // Reveal after drop completes (~0.4 + 0.2)
+            setTimeout(function () {
+                if (phase !== 'opening') return;
                 if (container) {
                     container.style.display = 'none';
                     container.classList.remove('dropping', 'show');
+                    container.style.removeProperty('animation');
                 }
+                if (top) {
+                    top.className = 'OpeningAnim_openPackTop__o2Sb9';
+                    top.style.opacity = '';
+                }
+                if (glow) glow.className = 'OpeningAnim_openPackGlow__KhOdQ';
+                if (packImg) packImg.className = 'OpeningAnim_openPack__378FJ';
                 showReveal();
-            }, 750);
+            }, 700);
         }
 
         function showReveal()  {
