@@ -3,26 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blookbase | Restoring…</title>
+<title>Blookbase | Loading…</title>
 <style>
-  body { font-family: system-ui, sans-serif; max-width: 520px; margin: 60px auto; padding: 0 20px; line-height: 1.5; color: #222; }
-  code { background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
-  a.btn { display: inline-block; margin-top: 16px; padding: 12px 20px; background: #349aef; color: #fff; text-decoration: none; border-radius: 8px; font-weight: 600; }
-  a.btn:hover { background: #2980b9; }
-  .warn { background: #fff3cd; border: 1px solid #ffc107; padding: 12px 14px; border-radius: 8px; margin: 16px 0; }
+  html,body{margin:0;height:100%;background:linear-gradient(165deg,#0bc2cf,#349aef);font-family:Nunito,system-ui,sans-serif;color:#fff}
+  .wrap{display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:12px}
+  .spin{width:40px;height:40px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:s .7s linear infinite}
+  @keyframes s{to{transform:rotate(360deg)}}
+  p{opacity:.9;font-size:15px}
 </style>
 </head>
 <body>
-  <h1>Site file needs restore</h1>
-  <div class="warn">During an automated update, <code>index.html</code> was emptied by a size limit. Your last good version is still in git history.</div>
-  <p><b>Fastest fix (about 30 seconds):</b></p>
-  <ol>
-    <li>Open the last good commit on GitHub.</li>
-    <li>Open <code>index.html</code> in that commit.</li>
-    <li>Click the pencil / “Edit” or use the file history “Restore this file” if shown, then commit to <code>main</code>.</li>
-  </ol>
-  <p><a class="btn" href="https://github.com/Lag0ndev/blookbase/blob/688c4c4b4a2aa225f86a4d646c6c06a41528e4b8/index.html">Open last good index.html</a></p>
-  <p>Direct commit: <a href="https://github.com/Lag0ndev/blookbase/commit/688c4c4b4a2aa225f86a4d646c6c06a41528e4b8">688c4c4</a></p>
-  <p>After it’s restored, reply here and the tab-title + calculator fixes will be re-applied cleanly.</p>
+<div class="wrap"><div class="spin"></div><p>Loading Blookbase…</p></div>
+<script>
+(async function () {
+  try {
+    var parts = [];
+    for (var i = 0; i < 12; i++) {
+      var name = 'iparts/p' + String(i).padStart(2, '0') + '.txt';
+      var r = await fetch(name, { cache: 'no-cache' });
+      if (!r.ok) throw new Error('Failed to load ' + name + ' (' + r.status + ')');
+      parts.push(await r.text());
+    }
+    var html = parts.join('');
+    document.open();
+    document.write(html);
+    document.close();
+  } catch (e) {
+    document.body.innerHTML = '<div class="wrap"><p>Failed to load site.</p><p style="font-size:13px;opacity:.8">' +
+      String(e && e.message || e) + '</p><p><a href="/" style="color:#fff">Retry</a></p></div>';
+  }
+})();
+</script>
 </body>
 </html>
