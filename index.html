@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blookbase | Loading…</title>
 <style>
-  html,body{margin:0;height:100%;background:linear-gradient(165deg,#0bc2cf,#349aef);font-family:Nunito,system-ui,sans-serif;color:#fff}
+  html,body{margin:0;height:100%;background:linear-gradient(165deg,#0bc2cf,#349aef);font-family:system-ui,sans-serif;color:#fff}
   .wrap{display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:12px}
   .spin{width:40px;height:40px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:s .7s linear infinite}
   @keyframes s{to{transform:rotate(360deg)}}
@@ -17,14 +17,19 @@
 <script>
 (async function () {
   try {
-    var parts = [];
-    for (var i = 0; i < 12; i++) {
-      var name = 'iparts/p' + String(i).padStart(2, '0') + '.txt';
-      var r = await fetch(name, { cache: 'no-cache' });
-      if (!r.ok) throw new Error('Failed to load ' + name + ' (' + r.status + ')');
-      parts.push(await r.text());
+    if (typeof DecompressionStream === 'undefined') throw new Error('Browser too old for gzip (need DecompressionStream)');
+    var chunks = [];
+    for (var i = 0; i < 4; i++) {
+      var r = await fetch('gzparts/g' + i + '.txt', { cache: 'no-cache' });
+      if (!r.ok) throw new Error('Failed g' + i + ' (' + r.status + ')');
+      chunks.push(await r.text());
     }
-    var html = parts.join('');
+    var b64 = chunks.join('');
+    var binStr = atob(b64);
+    var bytes = new Uint8Array(binStr.length);
+    for (var j = 0; j < binStr.length; j++) bytes[j] = binStr.charCodeAt(j);
+    var stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+    var html = await new Response(stream).text();
     document.open();
     document.write(html);
     document.close();
