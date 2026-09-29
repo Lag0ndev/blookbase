@@ -2,49 +2,79 @@ name: Blooket Asset Tracker
 
 on:
   schedule:
-    # Runs every day at 12:00 UTC
-    - cron: '0 12 * * *'
+    # Every 5 minutes
+    - cron: '*/5 * * * *'
   workflow_dispatch:  # manual run button
 
 jobs:
   track:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Check known Blook assets
+      - name: Check Blooket assets
+        id: check
         run: |
-          echo "Checking a sample of known + possible new assets..."
+          set +e
+          echo "=== Blooket Asset Check $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
+
           urls=(
             "https://ac.blooket.com/marketassets/blooks/pumpkin.svg"
             "https://ac.blooket.com/marketassets/blooks/halfasandwich.svg"
+            "https://ac.blooket.com/marketassets/blooks/ghost.svg"
             "https://ac.blooket.com/marketassets/blooks/purpleastronaut.svg"
+            "https://ac.blooket.com/marketassets/blooks/blueastronaut.svg"
             "https://ac.blooket.com/marketassets/blooks/lemoncrab.svg"
+            "https://ac.blooket.com/marketassets/blooks/rainbownarwhal.svg"
             "https://ac.blooket.com/marketassets/blooks/underconstruction.svg"
             "https://ac.blooket.com/marketassets/blooks/placeholder.svg"
+            "https://ac.blooket.com/marketassets/blooks/fuego.svg"
+            "https://ac.blooket.com/marketassets/blooks/wisecaterpillar.svg"
             "https://ac.blooket.com/marketassets/blooks/clawmania.svg"
             "https://ac.blooket.com/marketassets/blooks/fishtank.svg"
+            "https://ac.blooket.com/marketassets/blooks/starstream.svg"
+            "https://ac.blooket.com/dashclassic/assets/SpookyPackBottom-Bb7nZ1oD.png"
           )
+
+          results=""
+          new_hits=""
           for url in "${urls[@]}"; do
-            code=$(curl -s -o /dev/null -w "%{http_code}" "$url")
-            echo "$code $url"
+            code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$url")
+            line="$code $url"
+            echo "$line"
+            results="${results}${line}\n"
+            # Flag possible new assets that return 200 for speculative names
+            if [[ "$code" == "200" && ( "$url" == *"clawmania"* || "$url" == *"fishtank"* || "$url" == *"starstream"* ) ]]; then
+              new_hits="${new_hits}${url}\n"
+            fi
           done
 
-      - name: Write tracker log
-        run: |
           mkdir -p data
-          echo "{\"checkedAt\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"status\": \"ok\"}" > data/last-check.json
+          cat > data/last-check.json << EOF
+          {
+            "checkedAt": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "status": "ok",
+            "interval": "5m",
+            "sampleResults": $(echo -e "$results" | jq -R -s -c 'split("\n") | map(select(length>0))')
+          }
+          EOF
 
-      - name: Commit log if changed
+          if [ -n "$new_hits" ]; then
+            echo "POSSIBLE NEW ASSETS DETECTED"
+            echo -e "$new_hits"
+          fi
+
+      - name: Commit tracker log
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/last-check.json || true
-          git diff --staged --quiet || git commit -m "chore: update Blooket tracker last-check"
-          git push || true
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: tracker check $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            git push
+          fi
