@@ -1,80 +1,35 @@
-name: Blooket Asset Tracker
+name: Blooket Tracker
 
 on:
   schedule:
-    # Every 5 minutes
     - cron: '*/5 * * * *'
-  workflow_dispatch:  # manual run button
+  workflow_dispatch:
 
 jobs:
-  track:
+  check:
     runs-on: ubuntu-latest
+    timeout-minutes: 1
     permissions:
       contents: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: data
+          sparse-checkout-cone-mode: false
 
-      - name: Check Blooket assets
-        id: check
+      - name: Probe
         run: |
-          set +e
-          echo "=== Blooket Asset Check $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
+          # Parallel HEAD requests (fastest)
+          curl -s -o /dev/null -w '%{http_code} purpleastronaut\n' --max-time 3 -I https://ac.blooket.com/marketassets/blooks/purpleastronaut.svg &
+          curl -s -o /dev/null -w '%{http_code} lemoncrab\n' --max-time 3 -I https://ac.blooket.com/marketassets/blooks/lemoncrab.svg &
+          curl -s -o /dev/null -w '%{http_code} clawmania\n' --max-time 3 -I https://ac.blooket.com/marketassets/blooks/clawmania.svg &
+          curl -s -o /dev/null -w '%{http_code} fishtank\n' --max-time 3 -I https://ac.blooket.com/marketassets/blooks/fishtank.svg &
+          wait
+          printf '{"checkedAt":"%s","status":"ok"}\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > data/last-check.json
 
-          urls=(
-            "https://ac.blooket.com/marketassets/blooks/pumpkin.svg"
-            "https://ac.blooket.com/marketassets/blooks/halfasandwich.svg"
-            "https://ac.blooket.com/marketassets/blooks/ghost.svg"
-            "https://ac.blooket.com/marketassets/blooks/purpleastronaut.svg"
-            "https://ac.blooket.com/marketassets/blooks/blueastronaut.svg"
-            "https://ac.blooket.com/marketassets/blooks/lemoncrab.svg"
-            "https://ac.blooket.com/marketassets/blooks/rainbownarwhal.svg"
-            "https://ac.blooket.com/marketassets/blooks/underconstruction.svg"
-            "https://ac.blooket.com/marketassets/blooks/placeholder.svg"
-            "https://ac.blooket.com/marketassets/blooks/fuego.svg"
-            "https://ac.blooket.com/marketassets/blooks/wisecaterpillar.svg"
-            "https://ac.blooket.com/marketassets/blooks/clawmania.svg"
-            "https://ac.blooket.com/marketassets/blooks/fishtank.svg"
-            "https://ac.blooket.com/marketassets/blooks/starstream.svg"
-            "https://ac.blooket.com/dashclassic/assets/SpookyPackBottom-Bb7nZ1oD.png"
-          )
-
-          results=""
-          new_hits=""
-          for url in "${urls[@]}"; do
-            code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$url")
-            line="$code $url"
-            echo "$line"
-            results="${results}${line}\n"
-            # Flag possible new assets that return 200 for speculative names
-            if [[ "$code" == "200" && ( "$url" == *"clawmania"* || "$url" == *"fishtank"* || "$url" == *"starstream"* ) ]]; then
-              new_hits="${new_hits}${url}\n"
-            fi
-          done
-
-          mkdir -p data
-          cat > data/last-check.json << EOF
-          {
-            "checkedAt": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-            "status": "ok",
-            "interval": "5m",
-            "sampleResults": $(echo -e "$results" | jq -R -s -c 'split("\n") | map(select(length>0))')
-          }
-          EOF
-
-          if [ -n "$new_hits" ]; then
-            echo "POSSIBLE NEW ASSETS DETECTED"
-            echo -e "$new_hits"
-          fi
-
-      - name: Commit tracker log
+      - name: Save
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/last-check.json || true
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "chore: tracker check $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            git push
-          fi
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          git add data/last-check.json
+          git diff --staged --quiet || (git commit -m "chore: check" && git push)
