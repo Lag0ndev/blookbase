@@ -1,7 +1,5 @@
 {
   "rewrites": [
-    { "source": "/tracker", "destination": "/tracker.html" },
-    { "source": "/leaks", "destination": "/leaks.html" },
-    { "source": "/((?!api/|data/|tracker\.html|leaks\.html).*)", "destination": "/index.html" }
+    { "source": "/((?!api/|data/).*)", "destination": "/index.html" }
   ]
 }
