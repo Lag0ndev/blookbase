@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/((?!api/|data/|bb-leaks-tracker\\.js|style\\.css|app\\.js|blooketbase\\.png).*)", "destination": "/index.html" }
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
