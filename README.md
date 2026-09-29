@@ -6,7 +6,6 @@ Fanmade Blooket hub — countdowns, Season 8 leaks, videos, and live streams.
 
 ## Deploy
 
-Import this repo on [Vercel](https://vercel.com). `vercel.json` rewrites all routes to `index.html` so paths like `/countdown`, `/leaks`, `/videos`, `/live`, and `/about` work.
 
 ## Pages
 
