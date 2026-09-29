@@ -1,20 +1,26 @@
 {
-  "lastUpdated": "2026-09-29",
+  "lastUpdated": "2026-09-29T23:55:00Z",
   "entries": [
     {
-      "date": "2026-09-29",
-      "type": "site",
-      "title": "Tracker + Leaks pages added",
-      "body": "New /tracker page (live Action checks + update feed) and expanded /leaks page with unreleased Chromas, Uniques, Mysticals, Color Pack, and gamemode leaks."
+      "date": "2026-09-29T23:55:00Z",
+      "type": "fix",
+      "title": "Leaks & Tracker routes fixed",
+      "body": "/leaks and /tracker no longer 404 or redirect to What's New. Click any Blook on Leaks for rarity, pack, notes, and CDN URL. Tracker shows full date/time on checks and updates."
     },
     {
-      "date": "2026-09-29",
+      "date": "2026-09-29T23:50:00Z",
+      "type": "site",
+      "title": "Tracker + Leaks pages added",
+      "body": "Sidebar entries for Leaks (secrets, Color Pack, gamemode leaks) and Tracker (CDN checks + update feed)."
+    },
+    {
+      "date": "2026-09-29T12:00:00Z",
       "type": "data",
       "title": "Structured data + 5-min asset tracker",
       "body": "data/packs.json, gamemodes.json, special-blooks.json, countdown.json, updates.json. GitHub Action probes CDN every 5 minutes."
     },
     {
-      "date": "2026-09",
+      "date": "2026-09-01T00:00:00Z",
       "type": "gamemode",
       "title": "Snake Escape released",
       "body": "Official Solo/Homework mode. Adventure + Endless. Was previously only a Plushie Panic arcade teaser.",
@@ -24,37 +30,31 @@
       ]
     },
     {
-      "date": "2025",
+      "date": "2025-01-01T00:00:00Z",
       "type": "gamemode",
       "title": "Plushie Panic released",
       "body": "Solo capsule-matching mode. Background arcade machines name Fish Tank Trouble, Snake Escape, and Starstream Odyssey."
     },
     {
-      "date": "leak",
+      "date": "2024-01-01T00:00:00Z",
       "type": "leak",
       "title": "Unreleased Aquatic Chromas still on CDN",
       "body": "lemoncrab, poisondartfrog, rainbownarwhal, rainbowjellyfish, blizzardclownfish, donutblobfish, crimsonoctopus SVGs return 200 but are not in the market."
     },
     {
-      "date": "leak",
+      "date": "2024-01-01T00:00:00Z",
       "type": "leak",
       "title": "Purple & Blue Astronaut assets exist",
       "body": "Space Pack unreleased Chromas hosted at marketassets/blooks/purpleastronaut.svg and blueastronaut.svg (plus cyan/lime variants)."
     },
     {
-      "date": "leak",
-      "type": "leak",
-      "title": "Placeholder & Under Construction Uniques",
-      "body": "Fallback / future Unique Blooks. Appear in Café and sprite sheets. Not obtainable."
-    },
-    {
-      "date": "leak",
+      "date": "2024-01-01T00:00:00Z",
       "type": "leak",
       "title": "Color Pack is the only secret pack",
-      "body": "21 solid-color Commons. Only when all normal Commons are taken in a hosted game. White still unreleased."
+      "body": "Solid-color Commons. Only when all normal Commons are taken in a hosted game."
     },
     {
-      "date": "leak",
+      "date": "2024-01-01T00:00:00Z",
       "type": "gamemode",
       "title": "Claw Mania / Fish Tank Trouble / Starstream Odyssey",
       "body": "Claw Mania expected Season 8. Fish Tank Trouble and Starstream Odyssey only named in Plushie Panic background so far. Imposters was canceled."
