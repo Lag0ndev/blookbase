@@ -1,0 +1,50 @@
+name: Blooket Asset Tracker
+
+on:
+  schedule:
+    # Runs every day at 12:00 UTC
+    - cron: '0 12 * * *'
+  workflow_dispatch:  # manual run button
+
+jobs:
+  track:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check known Blook assets
+        run: |
+          echo "Checking a sample of known + possible new assets..."
+          urls=(
+            "https://ac.blooket.com/marketassets/blooks/pumpkin.svg"
+            "https://ac.blooket.com/marketassets/blooks/halfasandwich.svg"
+            "https://ac.blooket.com/marketassets/blooks/purpleastronaut.svg"
+            "https://ac.blooket.com/marketassets/blooks/lemoncrab.svg"
+            "https://ac.blooket.com/marketassets/blooks/underconstruction.svg"
+            "https://ac.blooket.com/marketassets/blooks/placeholder.svg"
+            "https://ac.blooket.com/marketassets/blooks/clawmania.svg"
+            "https://ac.blooket.com/marketassets/blooks/fishtank.svg"
+          )
+          for url in "${urls[@]}"; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "$url")
+            echo "$code $url"
+          done
+
+      - name: Write tracker log
+        run: |
+          mkdir -p data
+          echo "{\"checkedAt\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\", \"status\": \"ok\"}" > data/last-check.json
+
+      - name: Commit log if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/last-check.json || true
+          git diff --staged --quiet || git commit -m "chore: update Blooket tracker last-check"
+          git push || true

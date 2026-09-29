@@ -1,0 +1,45 @@
+{
+  "lastUpdated": "2026-09-29",
+  "entries": [
+    {
+      "date": "2026-09-29",
+      "type": "data",
+      "title": "Blookbase data tracker added",
+      "body": "Added structured data for packs, gamemodes, special blooks, and this updates feed. GitHub Action tracker scaffold included."
+    },
+    {
+      "date": "2026-09",
+      "type": "gamemode",
+      "title": "Snake Escape released",
+      "body": "Official Solo/Homework gamemode. Help page and YouTube overview live.",
+      "links": [
+        "https://help.blooket.com/hc/en-us/articles/43540816155799-Game-Overview-Snake-Escape",
+        "https://www.youtube.com/watch?v=xZg4eByFmn0"
+      ]
+    },
+    {
+      "date": "2025",
+      "type": "gamemode",
+      "title": "Plushie Panic released",
+      "body": "Solo mode with arcade background that teases Fish Tank Trouble, Snake Escape, and Starstream Odyssey."
+    },
+    {
+      "date": "unknown",
+      "type": "leak",
+      "title": "Unreleased Aquatic Chromas still on server",
+      "body": "Lemon Crab, Poison Dart Frog, Rainbow Narwhal, Rainbow Jellyfish, Blizzard Clownfish, Donut Blobfish, Crimson Octopus assets exist but are not in market."
+    },
+    {
+      "date": "unknown",
+      "type": "leak",
+      "title": "Purple & Blue Astronaut assets exist",
+      "body": "Unreleased Space Pack Chromas still hosted on ac.blooket.com."
+    },
+    {
+      "date": "unknown",
+      "type": "leak",
+      "title": "Placeholder & Under Construction Uniques",
+      "body": "Two Unique-style Blooks used as fallbacks / future content."
+    }
+  ]
+}

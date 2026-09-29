@@ -1,0 +1,26 @@
+{
+  "lastUpdated": "2026-09-29",
+  "events": [
+    {
+      "id": "spooky-2026",
+      "name": "Spooky Pack / Contest of Candy",
+      "start": "2026-10-01",
+      "end": "2026-11-01",
+      "notes": "Typical Halloween window. Exact dates set by Blooket each year."
+    },
+    {
+      "id": "blizzard-2026",
+      "name": "Blizzard Pack",
+      "start": "2026-12-01",
+      "end": "2027-01-05",
+      "notes": "Typical winter holiday window."
+    },
+    {
+      "id": "season-8",
+      "name": "Season 8 (Claw Mania expected)",
+      "start": null,
+      "end": null,
+      "notes": "Claw Mania listed as upcoming for Season 8. No official date yet."
+    }
+  ]
+}
