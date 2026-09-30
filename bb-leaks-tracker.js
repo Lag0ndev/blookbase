@@ -15,6 +15,9 @@
   .bb-chart-label{font-size:10px;font-weight:800;margin-top:6px;text-align:center;text-transform:uppercase;opacity:.9;word-break:break-word;line-height:1.2}
   `;
 
+  let pathHandled = false;
+  let sidebarInjected = false;
+
   function injectStyle() {
     if (document.getElementById('bb-lt-style')) return;
     const s = document.createElement('style');
@@ -302,7 +305,7 @@
             `<div class="bb-tracker-time">UTC: ${check.checkedAt || '?'}</div>`;
         } else {
           checkEl.innerHTML =
-            '<span class="tag">info</span> <div class="bb-tracker-time" style="margin-top:8px;">Changelog below is manual history. Optional CDN probe: run GitHub Action <b>Blooket Tracker</b>.</div>';
+            '<span class="tag">info</span> <div class="bb-tracker-time" style="margin-top:8px;">Changelog below is manual history.</div>';
         }
       }
     } catch (e) {
@@ -339,11 +342,16 @@
   };
 
   function injectSidebar() {
+    if (sidebarInjected || document.querySelector('[data-view="leaks"]')) {
+      sidebarInjected = true;
+      return;
+    }
     const list = document.querySelector('.sidebar-list');
-    if (!list || document.querySelector('[data-view="leaks"]')) return;
+    if (!list) return;
     const whats = list.querySelector('[data-view="whatsnew"]');
     const liParent = whats && whats.closest('li');
     if (!liParent) return;
+
     const leaksLi = document.createElement('li');
     leaksLi.innerHTML = `<button class="sidebar-link" data-view="leaks" type="button">
       <span class="sidebar-listIcon"><i class="fas fa-user-secret"></i></span>
@@ -354,12 +362,17 @@
       <span class="sidebar-listIcon"><i class="fas fa-satellite-dish"></i></span>
       <span class="sidebar-text">Tracker</span>
     </button>`;
-    leaksLi.querySelector('button').onclick = () => window.switchView('leaks');
-    trackerLi.querySelector('button').onclick = () => window.switchView('tracker');
+    leaksLi.querySelector('button').onclick = function (e) {
+      e.preventDefault();
+      window.switchView('leaks');
+    };
+    trackerLi.querySelector('button').onclick = function (e) {
+      e.preventDefault();
+      window.switchView('tracker');
+    };
     liParent.after(trackerLi);
     liParent.after(leaksLi);
 
-    // Rename sidebar labels if present
     list.querySelectorAll('.sidebar-link').forEach((btn) => {
       const v = btn.getAttribute('data-view');
       const text = btn.querySelector('.sidebar-text');
@@ -367,16 +380,16 @@
       if (v === 'market') text.textContent = 'Packs';
       if (v === 'packsim') text.textContent = 'Calculator';
     });
+    sidebarInjected = true;
   }
 
   function injectViews() {
-    if (!document.getElementById('view-leaks')) {
-      const anchor =
-        document.getElementById('view-videos') ||
-        document.getElementById('view-whatsnew') ||
-        document.querySelector('.main-content');
-      if (anchor) anchor.insertAdjacentHTML('beforebegin', LEAKS_HTML + TRACKER_HTML);
-    }
+    if (document.getElementById('view-leaks')) return;
+    const anchor =
+      document.getElementById('view-videos') ||
+      document.getElementById('view-whatsnew') ||
+      document.querySelector('.main-content');
+    if (anchor) anchor.insertAdjacentHTML('beforebegin', LEAKS_HTML + TRACKER_HTML);
   }
 
   function hideAllMainViews() {
@@ -400,15 +413,16 @@
       btn.classList.toggle('active', btn.getAttribute('data-view') === view);
     });
     try {
-      if (location.protocol !== 'file:' && !location.pathname.endsWith('/' + view)) {
-        history.pushState({ view }, '', '/' + view);
+      if (location.protocol !== 'file:') {
+        const want = '/' + view;
+        if (location.pathname.replace(/\/+$/, '') !== want) {
+          history.pushState({ view }, '', want);
+        }
       }
     } catch (e) {}
     if (view === 'leaks') window.renderLeaksPage();
     if (view === 'tracker') window.renderTrackerPage();
-    try {
-      if (typeof closeSidebar === 'function') closeSidebar();
-    } catch (e) {}
+    // Do NOT force-close sidebar here — let user / original switchView handle it
   }
 
   function prettyPath(view) {
@@ -420,26 +434,30 @@
     if (window.switchView.__bbPatched) return true;
     const orig = window.switchView;
     window.switchView = function (view, skipUrl) {
-      // aliases
       if (view === 'packs' || view === 'pack') view = 'market';
       if (view === 'calculator' || view === 'calc') view = 'packsim';
 
       if (view === 'leaks' || view === 'tracker') {
         injectViews();
         showCustom(view);
+        try {
+          if (typeof closeSidebar === 'function') closeSidebar();
+        } catch (e) {}
         return;
       }
+
       const vLeaks = document.getElementById('view-leaks');
       const vTracker = document.getElementById('view-tracker');
       if (vLeaks) vLeaks.style.display = 'none';
       if (vTracker) vTracker.style.display = 'none';
 
       const result = orig.call(this, view, true);
-      // Force pretty URLs
       try {
         if (!skipUrl && location.protocol !== 'file:') {
           const path = view === 'home' ? '/' : '/' + prettyPath(view);
-          if (location.pathname !== path) history.pushState({ view }, '', path);
+          if (location.pathname.replace(/\/+$/, '') !== path.replace(/\/+$/, '')) {
+            history.pushState({ view }, '', path);
+          }
         }
       } catch (e) {}
       return result;
@@ -448,27 +466,30 @@
     return true;
   }
 
-  function handlePath() {
+  function handlePathOnce() {
+    if (pathHandled) return true;
     let seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || '';
+
     if (PATH_ALIAS[seg]) {
+      if (!patchSwitchView()) return false;
       const internal = PATH_ALIAS[seg];
-      if (patchSwitchView() && typeof window.switchView === 'function') {
-        window.switchView(internal, true);
-        try {
-          history.replaceState({ view: internal }, '', '/' + seg);
-        } catch (e) {}
-        return true;
-      }
-      return false;
+      window.switchView(internal, true);
+      try {
+        history.replaceState({ view: internal }, '', '/' + seg);
+      } catch (e) {}
+      pathHandled = true;
+      return true;
     }
+
     if (seg === 'leaks' || seg === 'tracker') {
-      if (patchSwitchView()) {
-        injectViews();
-        showCustom(seg);
-        return true;
-      }
-      return false;
+      if (!patchSwitchView()) return false;
+      injectViews();
+      showCustom(seg);
+      pathHandled = true;
+      return true;
     }
+
+    pathHandled = true;
     return true;
   }
 
@@ -477,18 +498,24 @@
     injectViews();
     injectSidebar();
     patchSwitchView();
-    handlePath();
+    handlePathOnce();
+
     window.addEventListener('popstate', () => {
-      handlePath();
+      pathHandled = false;
+      handlePathOnce();
     });
+
+    // Only retry until switchView exists + sidebar injected — then stop
     let tries = 0;
     const iv = setInterval(() => {
       injectSidebar();
       injectViews();
-      patchSwitchView();
-      handlePath();
-      if (++tries > 60) clearInterval(iv);
-    }, 100);
+      const ok = patchSwitchView();
+      if (ok && !pathHandled) handlePathOnce();
+      if ((ok && sidebarInjected && pathHandled) || ++tries > 40) {
+        clearInterval(iv);
+      }
+    }, 150);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
