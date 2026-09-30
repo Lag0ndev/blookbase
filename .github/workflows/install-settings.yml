@@ -1,0 +1,24 @@
+name: Install settings enhance
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/settings_enh_0.b64'
+      - 'scripts/install_settings_enhance.py'
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/install_settings_enhance.py
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add bb-settings-enhance.js
+          if git diff --staged --quiet; then echo No change; else
+            git commit -m "feat: settings theme picker, extra themes, fonts, gradient toggle"
+            git push
+          fi
