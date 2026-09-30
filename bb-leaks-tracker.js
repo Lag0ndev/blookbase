@@ -1,21 +1,33 @@
-/* Blookbase Leaks + Tracker + route aliases */
+/* Blookbase Leaks + Updates + route aliases */
 (function () {
   'use strict';
 
   const STYLE = `
   .pack-blook.bb-click{cursor:pointer}
   .bb-tracker-time{font-size:13px;font-weight:800;opacity:.9}
-  .bb-tracker-card{background:#9a49aa;border:6px solid rgba(255,255,255,.2);border-radius:10px;padding:16px 18px;margin-bottom:14px;box-shadow:4px 4px rgba(0,0,0,.2);color:#fff;text-align:left}
+  .bb-tracker-card{background:#9a49aa;border:6px solid rgba(255,255,255,.2);border-radius:10px;padding:16px 18px;margin-bottom:14px;box-shadow:4px 4px rgba(0,0,0,.2);color:#fff;text-align:left;width:100%;box-sizing:border-box}
   .bb-tracker-card h3{font-family:'Titan One',sans-serif;font-weight:normal;font-size:20px;margin:0 0 8px}
   .bb-page-hero{display:flex;align-items:center;gap:14px;margin:0 0 18px;justify-content:center;flex-wrap:wrap}
   .bb-page-hero img{width:56px;height:56px;border-radius:14px;box-shadow:3px 3px rgba(0,0,0,.2)}
   .bb-update-row{display:flex;gap:14px;align-items:flex-start;border-top:1px solid rgba(255,255,255,.2);padding:14px 0}
+  .bb-update-row:first-child{border-top:none;padding-top:4px}
   .bb-update-row img{width:44px;height:44px;border-radius:12px;flex-shrink:0;background:rgba(0,0,0,.15)}
   .bb-update-body{flex:1;min-width:0}
+  .bb-latest{background:linear-gradient(145deg,#b85fc7,#7c2d9e);border:6px solid rgba(255,255,255,.28);border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:5px 5px rgba(0,0,0,.25);color:#fff}
+  .bb-latest-badge{display:inline-block;background:rgba(255,255,255,.2);font-weight:900;font-size:11px;text-transform:uppercase;letter-spacing:.04em;padding:4px 10px;border-radius:999px;margin-bottom:10px}
+  .bb-latest-title{font-family:'Titan One',sans-serif;font-size:24px;margin:0 0 8px;line-height:1.15}
+  .bb-latest-meta{font-weight:800;font-size:13px;opacity:.95;margin-bottom:10px}
+  .bb-latest-body{font-weight:700;line-height:1.5;opacity:.98}
+  .bb-latest-top{display:flex;gap:14px;align-items:flex-start}
+  .bb-latest-top img{width:56px;height:56px;border-radius:14px;flex-shrink:0}
+  .bb-stat-row{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 14px}
+  .bb-stat{background:rgba(0,0,0,.2);border-radius:10px;padding:10px 14px;font-weight:800;font-size:13px}
+  .bb-stat b{display:block;font-family:'Titan One',sans-serif;font-size:20px;font-weight:normal;margin-bottom:2px}
   `;
 
   let pathHandled = false;
   let sidebarInjected = false;
+  let bbCurrent = null;
 
   function injectStyle() {
     if (document.getElementById('bb-lt-style')) return;
@@ -63,10 +75,12 @@
         <img src="/assets/icons/tracker.svg" alt="">
         <h1 class="header-title" style="margin:0">Updates</h1>
       </div>
-      <div class="leaks-wrap">
+      <div class="leaks-wrap" style="max-width:720px;width:100%">
+        <div id="bb-latest-slot"></div>
+        <div class="bb-stat-row" id="bb-stats-row"></div>
         <div class="bb-tracker-card">
-          <h3>Blooket update timeline</h3>
-          <p class="bb-tracker-time" style="margin:0 0 8px;">Official seasons, packs, modes, and UI changes. Newest first.</p>
+          <h3>All updates</h3>
+          <p class="bb-tracker-time" style="margin:0 0 8px;">Official Blooket seasons, packs, modes, and UI — newest first.</p>
           <div id="bb-updates-feed">Loading…</div>
         </div>
       </div>
@@ -230,15 +244,10 @@
     const date = e.date || '';
     const time = e.time;
     if (!date) return 'Unknown date';
-    // Partial dates like 2022-10
-    if (/^\d{4}-\d{2}$/.test(date)) {
-      return date + ' · Time: unknown';
-    }
-    if (!time || time === 'unknown') {
-      return date + ' · Time: unknown';
-    }
+    if (/^\d{4}-\d{2}$/.test(date)) return date + ' · Time: unknown';
+    if (!time || time === 'unknown') return date + ' · Time: unknown';
     try {
-      const iso = date + 'T' + time.replace(/Z$/, '') + (time.endsWith('Z') ? 'Z' : 'Z');
+      const iso = date + 'T' + String(time).replace(/Z$/, '') + 'Z';
       const d = new Date(iso);
       if (isNaN(d.getTime())) return date + ' · Time: unknown';
       return d.toLocaleString(undefined, {
@@ -256,34 +265,60 @@
   }
 
   function iconSrc(name) {
-    const n = (name || 'season').toLowerCase();
-    return '/assets/icons/' + n + '.svg';
+    return '/assets/icons/' + (name || 'season').toLowerCase() + '.svg';
   }
 
   window.renderTrackerPage = async function () {
     const feedEl = document.getElementById('bb-updates-feed');
+    const latestSlot = document.getElementById('bb-latest-slot');
+    const statsRow = document.getElementById('bb-stats-row');
     try {
       const data = await fetch('/data/updates.json').then((r) => r.json());
       const entries = data.entries || [];
+      const latest = entries[0];
+
+      if (latestSlot && latest) {
+        latestSlot.innerHTML = `
+          <div class="bb-latest">
+            <div class="bb-latest-badge">Latest update</div>
+            <div class="bb-latest-top">
+              <img src="${iconSrc(latest.icon || latest.type)}" alt="">
+              <div>
+                <div class="bb-latest-meta">${formatEntryDate(latest)}</div>
+                <h2 class="bb-latest-title">${latest.title}</h2>
+                <p class="bb-latest-body">${latest.body || ''}</p>
+              </div>
+            </div>
+          </div>`;
+      } else if (latestSlot) {
+        latestSlot.innerHTML = '';
+      }
+
+      if (statsRow) {
+        const seasons = entries.filter((e) => e.type === 'season').length;
+        const modes = entries.filter((e) => e.type === 'gamemode').length;
+        const ui = entries.filter((e) => e.type === 'ui').length;
+        statsRow.innerHTML = `
+          <div class="bb-stat"><b>${entries.length}</b> total updates</div>
+          <div class="bb-stat"><b>${seasons}</b> seasons</div>
+          <div class="bb-stat"><b>${modes}</b> gamemode changes</div>
+          <div class="bb-stat"><b>${ui}</b> UI changes</div>
+          <div class="bb-stat"><b>${data.lastUpdated || '—'}</b> data refreshed</div>`;
+      }
+
       if (feedEl) {
+        const rest = entries.slice(1);
         feedEl.innerHTML =
-          entries
+          (rest.length ? rest : entries)
             .map((e) => {
               const when = formatEntryDate(e);
               const icon = iconSrc(e.icon || e.type);
-              const links = (e.links || [])
-                .map(
-                  (u) =>
-                    `<p style="margin:8px 0 0;"><a href="${u}" target="_blank" rel="noopener" style="color:#fff3b0;font-weight:800;">Link</a></p>`
-                )
-                .join('');
               return `<div class="bb-update-row">
                 <img src="${icon}" alt="" width="44" height="44">
                 <div class="bb-update-body">
                   <div style="font-size:12px;font-weight:900;opacity:.9;margin-bottom:4px;">${when}</div>
                   <div style="font-family:'Titan One',sans-serif;font-size:18px;margin-bottom:6px;">${e.title}</div>
                   <div style="font-weight:700;line-height:1.45;">${e.body || ''}</div>
-                  ${links}
                 </div>
               </div>`;
             })
@@ -293,6 +328,20 @@
       if (feedEl) feedEl.innerHTML = 'Could not load data/updates.json';
     }
   };
+
+  function setSidebarActive(view) {
+    bbCurrent = view;
+    try {
+      window.currentView = view;
+    } catch (e) {}
+    document.querySelectorAll('.sidebar-link').forEach((btn) => {
+      const v = btn.getAttribute('data-view');
+      const on = v === view;
+      btn.classList.toggle('active', on);
+      if (on) btn.setAttribute('aria-current', 'page');
+      else btn.removeAttribute('aria-current');
+    });
+  }
 
   function injectSidebar() {
     if (sidebarInjected || document.querySelector('[data-view="leaks"]')) {
@@ -317,10 +366,12 @@
     </button>`;
     leaksLi.querySelector('button').onclick = function (e) {
       e.preventDefault();
+      e.stopPropagation();
       window.switchView('leaks');
     };
     trackerLi.querySelector('button').onclick = function (e) {
       e.preventDefault();
+      e.stopPropagation();
       window.switchView('tracker');
     };
     liParent.after(trackerLi);
@@ -362,9 +413,11 @@
       el.style.alignItems = 'center';
     }
     document.title = 'Blookbase | ' + (view === 'leaks' ? 'Leaks' : 'Updates');
-    document.querySelectorAll('.sidebar-link').forEach((btn) => {
-      btn.classList.toggle('active', btn.getAttribute('data-view') === view);
-    });
+    setSidebarActive(view);
+    // Re-apply after site scripts that may reset active state
+    setTimeout(() => setSidebarActive(view), 0);
+    setTimeout(() => setSidebarActive(view), 50);
+    setTimeout(() => setSidebarActive(view), 200);
     try {
       if (location.protocol !== 'file:') {
         const want = '/' + view;
@@ -379,6 +432,20 @@
 
   function prettyPath(view) {
     return PATH_PRETTY[view] || view;
+  }
+
+  function patchUpdateSidebarActive() {
+    if (typeof window.updateSidebarActive !== 'function') return;
+    if (window.updateSidebarActive.__bbPatched) return;
+    const orig = window.updateSidebarActive;
+    window.updateSidebarActive = function () {
+      if (bbCurrent === 'leaks' || bbCurrent === 'tracker') {
+        setSidebarActive(bbCurrent);
+        return;
+      }
+      return orig.apply(this, arguments);
+    };
+    window.updateSidebarActive.__bbPatched = true;
   }
 
   function patchSwitchView() {
@@ -398,6 +465,7 @@
         return;
       }
 
+      bbCurrent = view;
       const vLeaks = document.getElementById('view-leaks');
       const vTracker = document.getElementById('view-tracker');
       if (vLeaks) vLeaks.style.display = 'none';
@@ -415,6 +483,7 @@
       return result;
     };
     window.switchView.__bbPatched = true;
+    patchUpdateSidebarActive();
     return true;
   }
 
@@ -450,6 +519,7 @@
     injectViews();
     injectSidebar();
     patchSwitchView();
+    patchUpdateSidebarActive();
     handlePathOnce();
 
     window.addEventListener('popstate', () => {
@@ -462,7 +532,9 @@
       injectSidebar();
       injectViews();
       const ok = patchSwitchView();
+      patchUpdateSidebarActive();
       if (ok && !pathHandled) handlePathOnce();
+      if (bbCurrent === 'leaks' || bbCurrent === 'tracker') setSidebarActive(bbCurrent);
       if ((ok && sidebarInjected && pathHandled) || ++tries > 40) clearInterval(iv);
     }, 150);
   }
