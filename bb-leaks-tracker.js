@@ -7,12 +7,11 @@
   .bb-tracker-time{font-size:13px;font-weight:800;opacity:.9}
   .bb-tracker-card{background:#9a49aa;border:6px solid rgba(255,255,255,.2);border-radius:10px;padding:16px 18px;margin-bottom:14px;box-shadow:4px 4px rgba(0,0,0,.2);color:#fff;text-align:left}
   .bb-tracker-card h3{font-family:'Titan One',sans-serif;font-weight:normal;font-size:20px;margin:0 0 8px}
-  .bb-chart-wrap{margin-top:12px;background:rgba(0,0,0,.2);border-radius:12px;padding:14px 12px 10px}
-  .bb-chart-bars{display:flex;align-items:flex-end;gap:10px;height:140px;padding:0 4px;flex-wrap:wrap}
-  .bb-chart-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:44px}
-  .bb-chart-bar{width:100%;max-width:48px;border-radius:8px 8px 4px 4px;min-height:4px;transition:height .35s ease;box-shadow:0 2px 0 rgba(0,0,0,.2)}
-  .bb-chart-val{font-size:11px;font-weight:900;margin-bottom:4px;opacity:.95}
-  .bb-chart-label{font-size:10px;font-weight:800;margin-top:6px;text-align:center;text-transform:uppercase;opacity:.9;word-break:break-word;line-height:1.2}
+  .bb-page-hero{display:flex;align-items:center;gap:14px;margin:0 0 18px;justify-content:center;flex-wrap:wrap}
+  .bb-page-hero img{width:56px;height:56px;border-radius:14px;box-shadow:3px 3px rgba(0,0,0,.2)}
+  .bb-update-row{display:flex;gap:14px;align-items:flex-start;border-top:1px solid rgba(255,255,255,.2);padding:14px 0}
+  .bb-update-row img{width:44px;height:44px;border-radius:12px;flex-shrink:0;background:rgba(0,0,0,.15)}
+  .bb-update-body{flex:1;min-width:0}
   `;
 
   let pathHandled = false;
@@ -28,11 +27,14 @@
 
   const LEAKS_HTML = `
     <div class="main-content" id="view-leaks" style="display:none;flex-direction:column;align-items:center;">
-      <h1 class="header-title">Leaks</h1>
+      <div class="bb-page-hero">
+        <img src="/assets/icons/leaks.svg" alt="">
+        <h1 class="header-title" style="margin:0">Leaks</h1>
+      </div>
       <div class="leaks-wrap">
         <div class="leaks-section">
           <h3>Unreleased / Secret Blooks</h3>
-          <p style="font-weight:700;opacity:.95;margin:0 0 10px;">Click a Blook — same popup as Packs.</p>
+          <p style="font-weight:700;opacity:.95;margin:0 0 10px;">Click a Blook for details (same style as Packs).</p>
           <div class="pack-blooks-grid" id="bb-unreleased-grid"></div>
         </div>
         <div class="leaks-section">
@@ -57,20 +59,14 @@
 
   const TRACKER_HTML = `
     <div class="main-content" id="view-tracker" style="display:none;flex-direction:column;align-items:center;">
-      <h1 class="header-title">Tracker</h1>
+      <div class="bb-page-hero">
+        <img src="/assets/icons/tracker.svg" alt="">
+        <h1 class="header-title" style="margin:0">Updates</h1>
+      </div>
       <div class="leaks-wrap">
         <div class="bb-tracker-card">
-          <h3>Official Blooket changelog</h3>
-          <p class="bb-tracker-time" style="margin:0 0 8px;">Seasons, packs, modes, and UI — dated from public records. No leak posts here.</p>
-          <div id="bb-last-check">Loading check status…</div>
-        </div>
-        <div class="bb-tracker-card">
-          <h3>Updates by type</h3>
-          <div class="bb-chart-wrap" id="bb-chart"></div>
-        </div>
-        <div class="bb-tracker-card">
-          <h3>Full timeline</h3>
-          <p class="bb-tracker-time" style="margin:0 0 12px;">Newest first · local time + UTC</p>
+          <h3>Blooket update timeline</h3>
+          <p class="bb-tracker-time" style="margin:0 0 8px;">Official seasons, packs, modes, and UI changes. Newest first.</p>
           <div id="bb-updates-feed">Loading…</div>
         </div>
       </div>
@@ -85,16 +81,6 @@
     Chroma: 'radial-gradient(rgb(94,234,212) 40%, rgb(0,140,130))',
     Mystical: 'radial-gradient(rgb(232,121,249) 40%, rgb(120,30,160))',
     Unique: 'radial-gradient(rgb(45,212,191) 40%, rgb(0,120,110))'
-  };
-
-  const CHART_COLORS = {
-    season: '#a78bfa',
-    gamemode: '#38bdf8',
-    ui: '#34d399',
-    event: '#fbbf24',
-    blook: '#f472b6',
-    pack: '#fb923c',
-    update: '#94a3b8'
   };
 
   const PATH_ALIAS = {
@@ -240,11 +226,21 @@
     } catch (e) {}
   };
 
-  function formatWhen(iso) {
-    if (!iso) return 'Unknown time';
+  function formatEntryDate(e) {
+    const date = e.date || '';
+    const time = e.time;
+    if (!date) return 'Unknown date';
+    // Partial dates like 2022-10
+    if (/^\d{4}-\d{2}$/.test(date)) {
+      return date + ' · Time: unknown';
+    }
+    if (!time || time === 'unknown') {
+      return date + ' · Time: unknown';
+    }
     try {
+      const iso = date + 'T' + time.replace(/Z$/, '') + (time.endsWith('Z') ? 'Z' : 'Z');
       const d = new Date(iso);
-      if (isNaN(d.getTime())) return String(iso);
+      if (isNaN(d.getTime())) return date + ' · Time: unknown';
       return d.toLocaleString(undefined, {
         weekday: 'short',
         year: 'numeric',
@@ -252,86 +248,43 @@
         day: 'numeric',
         hour: '2-digit',
         minute: '2-digit',
-        second: '2-digit',
         timeZoneName: 'short'
       });
-    } catch (e) {
-      return String(iso);
+    } catch (err) {
+      return date + ' · Time: unknown';
     }
   }
 
-  function renderChart(entries) {
-    const el = document.getElementById('bb-chart');
-    if (!el) return;
-    const counts = {};
-    (entries || []).forEach((e) => {
-      const t = (e.type || 'update').toLowerCase();
-      counts[t] = (counts[t] || 0) + 1;
-    });
-    const keys = Object.keys(counts);
-    if (!keys.length) {
-      el.innerHTML = '<p class="bb-tracker-time">No data yet</p>';
-      return;
-    }
-    const max = Math.max(...keys.map((k) => counts[k]), 1);
-    el.innerHTML =
-      '<div class="bb-chart-bars">' +
-      keys
-        .map((k) => {
-          const h = Math.max(8, Math.round((counts[k] / max) * 120));
-          const color = CHART_COLORS[k] || '#c4b5fd';
-          return `<div class="bb-chart-col">
-            <div class="bb-chart-val">${counts[k]}</div>
-            <div class="bb-chart-bar" style="height:${h}px;background:${color};"></div>
-            <div class="bb-chart-label">${k}</div>
-          </div>`;
-        })
-        .join('') +
-      '</div>';
+  function iconSrc(name) {
+    const n = (name || 'season').toLowerCase();
+    return '/assets/icons/' + n + '.svg';
   }
 
   window.renderTrackerPage = async function () {
-    const checkEl = document.getElementById('bb-last-check');
     const feedEl = document.getElementById('bb-updates-feed');
-    try {
-      const check = await fetch('/data/last-check.json')
-        .then((r) => (r.ok ? r.json() : null))
-        .catch(() => null);
-      if (checkEl) {
-        if (check) {
-          checkEl.innerHTML =
-            `<span class="tag released">CDN probe ${check.status || 'ok'}</span>` +
-            `<div class="bb-tracker-time" style="margin-top:8px;">Last automated check: <b>${formatWhen(check.checkedAt)}</b></div>` +
-            `<div class="bb-tracker-time">UTC: ${check.checkedAt || '?'}</div>`;
-        } else {
-          checkEl.innerHTML =
-            '<span class="tag">info</span> <div class="bb-tracker-time" style="margin-top:8px;">Changelog below is manual history.</div>';
-        }
-      }
-    } catch (e) {
-      if (checkEl) checkEl.textContent = '';
-    }
     try {
       const data = await fetch('/data/updates.json').then((r) => r.json());
       const entries = data.entries || [];
-      renderChart(entries);
       if (feedEl) {
         feedEl.innerHTML =
           entries
             .map((e) => {
-              const when = formatWhen(e.date);
+              const when = formatEntryDate(e);
+              const icon = iconSrc(e.icon || e.type);
               const links = (e.links || [])
                 .map(
                   (u) =>
-                    `<p style="margin:8px 0 0;"><a href="${u}" target="_blank" rel="noopener" style="color:#fff3b0;font-weight:800;">${u}</a></p>`
+                    `<p style="margin:8px 0 0;"><a href="${u}" target="_blank" rel="noopener" style="color:#fff3b0;font-weight:800;">Link</a></p>`
                 )
                 .join('');
-              return `<div style="border-top:1px solid rgba(255,255,255,.2);padding:12px 0;">
-                <div style="font-size:12px;font-weight:900;opacity:.9;margin-bottom:4px;"><span class="tag">${e.type || 'update'}</span> ${when}</div>
-                <div class="bb-tracker-time" style="margin:0 0 6px;opacity:.75;">UTC ${e.date}</div>
-                <div style="font-family:'Titan One',sans-serif;font-size:18px;margin-bottom:6px;">${e.title}</div>
-                <div style="font-weight:700;line-height:1.45;">${e.body || ''}</div>
-                ${links}
+              return `<div class="bb-update-row">
+                <img src="${icon}" alt="" width="44" height="44">
+                <div class="bb-update-body">
+                  <div style="font-size:12px;font-weight:900;opacity:.9;margin-bottom:4px;">${when}</div>
+                  <div style="font-family:'Titan One',sans-serif;font-size:18px;margin-bottom:6px;">${e.title}</div>
+                  <div style="font-weight:700;line-height:1.45;">${e.body || ''}</div>
+                  ${links}
+                </div>
               </div>`;
             })
             .join('') || '<div>No updates yet.</div>';
@@ -354,13 +307,13 @@
 
     const leaksLi = document.createElement('li');
     leaksLi.innerHTML = `<button class="sidebar-link" data-view="leaks" type="button">
-      <span class="sidebar-listIcon"><i class="fas fa-user-secret"></i></span>
+      <span class="sidebar-listIcon"><img src="/assets/icons/leaks.svg" alt="" style="width:22px;height:22px;border-radius:6px"></span>
       <span class="sidebar-text">Leaks</span>
     </button>`;
     const trackerLi = document.createElement('li');
     trackerLi.innerHTML = `<button class="sidebar-link" data-view="tracker" type="button">
-      <span class="sidebar-listIcon"><i class="fas fa-satellite-dish"></i></span>
-      <span class="sidebar-text">Tracker</span>
+      <span class="sidebar-listIcon"><img src="/assets/icons/tracker.svg" alt="" style="width:22px;height:22px;border-radius:6px"></span>
+      <span class="sidebar-text">Updates</span>
     </button>`;
     leaksLi.querySelector('button').onclick = function (e) {
       e.preventDefault();
@@ -408,7 +361,7 @@
       el.style.flexDirection = 'column';
       el.style.alignItems = 'center';
     }
-    document.title = 'Blookbase | ' + (view === 'leaks' ? 'Leaks' : 'Tracker');
+    document.title = 'Blookbase | ' + (view === 'leaks' ? 'Leaks' : 'Updates');
     document.querySelectorAll('.sidebar-link').forEach((btn) => {
       btn.classList.toggle('active', btn.getAttribute('data-view') === view);
     });
@@ -422,7 +375,6 @@
     } catch (e) {}
     if (view === 'leaks') window.renderLeaksPage();
     if (view === 'tracker') window.renderTrackerPage();
-    // Do NOT force-close sidebar here — let user / original switchView handle it
   }
 
   function prettyPath(view) {
@@ -505,16 +457,13 @@
       handlePathOnce();
     });
 
-    // Only retry until switchView exists + sidebar injected — then stop
     let tries = 0;
     const iv = setInterval(() => {
       injectSidebar();
       injectViews();
       const ok = patchSwitchView();
       if (ok && !pathHandled) handlePathOnce();
-      if ((ok && sidebarInjected && pathHandled) || ++tries > 40) {
-        clearInterval(iv);
-      }
+      if ((ok && sidebarInjected && pathHandled) || ++tries > 40) clearInterval(iv);
     }, 150);
   }
 
