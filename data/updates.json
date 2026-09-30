@@ -1,102 +1,134 @@
 {
-  "lastUpdated": "2026-09-29T19:00:00Z",
-  "note": "Official Blooket product updates. Dates from Blooket announcements and community wiki records. Times are UTC when known; day-level events use 12:00:00Z.",
+  "lastUpdated": "2026-09-30",
+  "note": "Official Blooket product updates. Exact clock times unknown unless noted.",
   "entries": [
     {
-      "date": "2026-09-16T14:32:00Z",
+      "date": "2026-09-16",
+      "time": "14:32:00Z",
       "type": "season",
       "title": "Season 8 launches",
-      "body": "Season 8 goes live with Dog Pack (25 tokens), Claw Mania (live), Snake Escape (solo), Class Pass rewards, Achievements, Locker, and Arcade. Student experience redesigned."
+      "body": "Dog Pack (25 tokens), Claw Mania (live), Snake Escape (solo), Class Pass, Achievements, Locker, and Arcade.",
+      "icon": "season"
     },
     {
-      "date": "2026-05-20T12:00:00Z",
+      "date": "2026-05-20",
+      "time": "unknown",
       "type": "blook",
-      "title": "Fuego Unique available",
-      "body": "Fuego (Design a Blook Contest winner) appears in Market as a limited Unique from about May 20 to June 2, 2026."
+      "title": "Fuego Unique in Market",
+      "body": "Fuego (Design a Blook Contest winner) available as a limited Unique for a short window (about May 20 – June 2, 2026).",
+      "icon": "blook"
     },
     {
-      "date": "2026-04-10T12:00:00Z",
+      "date": "2026-04-10",
+      "time": "unknown",
       "type": "event",
       "title": "Design a Blook Contest",
-      "body": "Design a Blook Contest runs; Fuego later ships as the winning Unique."
+      "body": "Contest period that led to the Fuego Unique.",
+      "icon": "event"
     },
     {
-      "date": "2026-04-01T12:00:00Z",
+      "date": "2026-04-01",
+      "time": "unknown",
       "type": "ui",
       "title": "Major Market redesign",
-      "body": "Market UI overhaul: smaller pack icons, price under packs, multi-buy flow. Instant-open removed. Pack backgrounds and open animations updated."
+      "body": "Smaller pack icons, price under packs, multi-buy flow. Instant-open removed.",
+      "icon": "ui"
     },
     {
-      "date": "2025-09-16T12:00:00Z",
+      "date": "2025-09-16",
+      "time": "unknown",
       "type": "season",
       "title": "Season 7 — Mining",
-      "body": "Season 7 Class Pass. New gamemodes: Busy Bees, Mini Mine, Zorblitz, Star Grazer. Lunch Pack added to Market. Pirate's Voyage removed. Settings updates; Tag or Treat returns."
+      "body": "Busy Bees, Mini Mine, Zorblitz, Star Grazer. Lunch Pack added. Pirate's Voyage removed.",
+      "icon": "season"
     },
     {
-      "date": "2025-07-31T12:00:00Z",
+      "date": "2025-07-31",
+      "time": "unknown",
       "type": "gamemode",
       "title": "Crazy Kingdom rework",
-      "body": "Crazy Kingdom gets a visual/UI rework aligned with other modes (confetti, settings)."
+      "body": "Visual and UI rework to match other modes.",
+      "icon": "gamemode"
     },
     {
-      "date": "2025-05-08T12:00:00Z",
+      "date": "2025-05-08",
+      "time": "unknown",
       "type": "ui",
       "title": "Blooks page redesign",
-      "body": "Blooks page updated (including Blook points display). Hidden section labeling briefly changes then reverts within days."
+      "body": "Blooks page updated including Blook points display.",
+      "icon": "ui"
     },
     {
-      "date": "2024-11-05T12:00:00Z",
+      "date": "2024-11-05",
+      "time": "unknown",
       "type": "season",
       "title": "Season 6 — Retro",
-      "body": "Season 6 Class Pass. New modes: Laser Tag, Study, Plushie Panic, Coco Cabana / Cocoa Cottage, Pirate Pool. Bug Pack and Autumn Pack (yearly). Reworks to Racing, Deceptive Dinos, Crazy Kingdom, Factory, Cafe. Tower of Doom removed. New login page; Blooks UI update."
+      "body": "Laser Tag, Study, Plushie Panic, Coco Cabana, Pirate Pool. Bug Pack. Tower of Doom removed.",
+      "icon": "season"
     },
     {
-      "date": "2024-10-18T12:00:00Z",
+      "date": "2024-10-18",
+      "time": "unknown",
       "type": "gamemode",
       "title": "Crazy Kingdom bonus removed",
-      "body": "Extra token/XP bonus on Crazy Kingdom is removed."
+      "body": "Extra token/XP bonus on Crazy Kingdom removed.",
+      "icon": "gamemode"
     },
     {
-      "date": "2023-09-21T12:00:00Z",
+      "date": "2023-09-21",
+      "time": "unknown",
       "type": "season",
       "title": "Season 5 — Pirate",
-      "body": "Season 5 Class Pass. Pirate Pack and Pirate's Voyage gamemode. Contest of Candy 2023."
+      "body": "Pirate Pack, Pirate's Voyage, Contest of Candy 2023.",
+      "icon": "season"
     },
     {
-      "date": "2022-10-01T12:00:00Z",
+      "date": "2022-10",
+      "time": "unknown",
       "type": "ui",
       "title": "October 2022 visual redesign",
-      "body": "Site-wide redesign (Ben): cleaner UI, new Market look, new pack open animations by rarity, Weekly Shop for banners/titles, redesigned token art."
+      "body": "Site-wide redesign, new Market look, Weekly Shop. Exact day unknown.",
+      "icon": "ui"
     },
     {
-      "date": "2022-09-13T12:00:00Z",
+      "date": "2022-09-13",
+      "time": "unknown",
       "type": "season",
       "title": "Season 4 — Monsters",
-      "body": "Season 4. Boxes renamed to Packs. Ice Monster Pack, Monster Brawl, Tower Defense 2. Poster art for gamemodes. Weekly Shop rotation. Contest of Candy 2022. Daily Wheel later replaces older token multiplier."
+      "body": "Boxes renamed to Packs. Ice Monster Pack, Monster Brawl, Tower Defense 2.",
+      "icon": "season"
     },
     {
-      "date": "2021-09-22T12:00:00Z",
+      "date": "2021-09-22",
+      "time": "unknown",
       "type": "season",
       "title": "Season 3 — Aquatic",
-      "body": "Season 3. Aquatic Pack and Fishing Frenzy. Tower Defense map Abandoned Mine. Question UI improvements (image zoom, read-aloud, feedback). Stats page redesign. Contest of Candy 2021. Class Pass begins this era."
+      "body": "Aquatic Pack, Fishing Frenzy, Contest of Candy 2021.",
+      "icon": "season"
     },
     {
-      "date": "2020-11-20T12:00:00Z",
+      "date": "2020-11-20",
+      "time": "unknown",
       "type": "gamemode",
       "title": "Crazy Kingdom released",
-      "body": "Solo mode Crazy Kingdom launches (Season 2 period)."
+      "body": "Solo mode Crazy Kingdom launches.",
+      "icon": "gamemode"
     },
     {
-      "date": "2020-09-15T12:00:00Z",
+      "date": "2020-09-15",
+      "time": "unknown",
       "type": "season",
       "title": "Season 2 — Breakfast",
-      "body": "Season 2. Breakfast Pack. Cafe, Gold Quest, Crazy Kingdom era modes, Cyber Hack, Tower Defense, Santa's Workshop. First Contest of Candy (2020)."
+      "body": "Breakfast Pack, Cafe and related modes, first Contest of Candy.",
+      "icon": "season"
     },
     {
-      "date": "2019-09-17T12:00:00Z",
+      "date": "2019-09-17",
+      "time": "unknown",
       "type": "season",
       "title": "Season 1 / site launch",
-      "body": "Blooket launches. Medieval, Bot, and Space packs. Early gamemodes including Classic, Racing, Tower of Doom, Snowball Fight, and Factory."
+      "body": "Blooket launches. Medieval, Bot, and Space packs. Classic and early modes.",
+      "icon": "season"
     }
   ]
 }
