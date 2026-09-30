@@ -4464,12 +4464,6 @@
                     </button>
                 </li>
                 <li>
-                    <button class="sidebar-link" data-view="secret" onclick="switchView('secret')" type="button">
-                        <span class="sidebar-listIcon"><i class="fas fa-lock"></i></span>
-                        <span class="sidebar-text">Secret !!!</span>
-                    </button>
-                </li>
-                <li>
                     <button class="sidebar-link" data-view="videos" onclick="switchView('videos')">
                         <span class="sidebar-listIcon"><i class="fas fa-play"></i></span>
                         <span class="sidebar-text">Videos</span>
@@ -4491,6 +4485,12 @@
                     <button class="sidebar-link" data-view="market" onclick="switchView('market')">
                         <span class="sidebar-listIcon"><i class="fas fa-store"></i></span>
                         <span class="sidebar-text">Packs</span>
+                    </button>
+                </li>
+                <li>
+                    <button class="sidebar-link" data-view="blooks" onclick="switchView('blooks')" type="button">
+                        <span class="sidebar-listIcon"><i class="fas fa-paw"></i></span>
+                        <span class="sidebar-text">Blooks</span>
                     </button>
                 </li>
                 <li>
@@ -4526,27 +4526,18 @@
 
     
     <div class="main-content" id="view-secret" style="display:none;flex-direction:column;align-items:center;">
-      <h1 class="header-title">Secret !!!</h1>
-      <div class="leaks-wrap" style="display:flex;flex-direction:column;align-items:center;width:100%;max-width:520px;">
+      <h1 class="header-title">Secret</h1>
+      <div class="leaks-wrap" style="display:flex;flex-direction:column;align-items:center;width:100%;max-width:420px;">
         <div style="background:#9a49aa;border:6px solid rgba(255,255,255,.2);border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:4px 4px rgba(0,0,0,.2);color:#fff;text-align:center;width:100%;">
           <h3 style="font-family:'Titan One',sans-serif;font-weight:normal;font-size:22px;margin:0 0 12px;">Daily Tokens</h3>
           <div id="bb-bal" style="font-size:28px;font-weight:900;margin:8px 0 4px;text-shadow:2px 2px 0 rgba(0,0,0,.2);">0</div>
           <div style="font-size:13px;font-weight:800;opacity:.85;margin-bottom:12px;">tokens</div>
-          <button type="button" id="bb-claim" style="display:inline-block;background:linear-gradient(180deg,#ffd76a,#f0a020);color:#4a2a00;font-weight:900;font-size:16px;padding:12px 28px;border-radius:12px;border:4px solid rgba(255,255,255,.4);cursor:pointer;font-family:'Nunito',sans-serif;">Claim 500 Tokens</button>
+          <button type="button" id="bb-claim" class="settings-reset-btn" style="background:#fff;color:#4a2a00;font-weight:900;border:3px solid rgba(0,0,0,.15);">Claim 500 Tokens</button>
           <div id="bb-ts" style="font-size:14px;font-weight:800;margin-top:10px;"></div>
         </div>
-        <div style="background:#9a49aa;border:6px solid rgba(255,255,255,.2);border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:4px 4px rgba(0,0,0,.2);color:#fff;text-align:center;width:100%;">
-          <h3 style="font-family:'Titan One',sans-serif;font-weight:normal;font-size:22px;margin:0 0 12px;">Secret Menu</h3>
-          <p style="font-weight:700;opacity:.9;margin:0 0 14px;">Only linked here — not on the main sidebar.</p>
-          <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
-            <button type="button" onclick="switchView('stats')" style="color:#fff;font-weight:900;background:rgba(255,255,255,.18);padding:12px 20px;border-radius:12px;border:3px solid rgba(255,255,255,.35);cursor:pointer;font-family:'Nunito',sans-serif;font-size:15px;">Stats</button>
-            <button type="button" onclick="switchView('bbmarket')" style="color:#fff;font-weight:900;background:rgba(255,255,255,.18);padding:12px 20px;border-radius:12px;border:3px solid rgba(255,255,255,.35);cursor:pointer;font-family:'Nunito',sans-serif;font-size:15px;">Market</button>
-            <button type="button" onclick="switchView('blooks')" style="color:#fff;font-weight:900;background:rgba(255,255,255,.18);padding:12px 20px;border-radius:12px;border:3px solid rgba(255,255,255,.35);cursor:pointer;font-family:'Nunito',sans-serif;font-size:15px;">Blooks</button>
-          </div>
-        </div>
+        <p style="font-weight:700;opacity:.75;text-align:center;">Opened from Settings. Tokens stay on this device.</p>
       </div>
-    </div>
-    <div class="main-content" id="view-stats" style="display:none;flex-direction:column;align-items:center;">
+    </div><div class="main-content" id="view-stats" style="display:none;flex-direction:column;align-items:center;">
       <h1 class="header-title">Stats</h1>
       <div class="leaks-wrap"><div class="leaks-section"><p style="font-weight:800;opacity:.9;">Stats coming soon. Nothing here yet.</p></div></div>
     </div>
@@ -4556,9 +4547,8 @@
     </div>
     <div class="main-content" id="view-blooks" style="display:none;flex-direction:column;align-items:center;">
       <h1 class="header-title">Blooks</h1>
-      <div class="leaks-wrap"><div class="leaks-section"><p style="font-weight:800;opacity:.9;">Blooks inventory coming soon. Nothing here yet.</p></div></div>
-    </div>
-<div class="main-content" id="view-404" style="display: none;">
+      <div class="leaks-wrap"><p style="font-weight:800;">Loading blooks…</p></div>
+    </div><div class="main-content" id="view-404" style="display: none;">
         <div class="err404-code">404</div>
         <h2 class="err404-title">Page not found</h2>
         <p class="err404-desc">That URL doesn’t exist on Blookbase. Check the link or head back home.</p>
@@ -5213,7 +5203,13 @@
                 <p class="settings-hint">Restore default theme, background size, and sidebar.</p>
                 <button class="settings-reset-btn" onclick="resetSettings()">Reset to defaults</button>
             </div>
-            <div class="settings-section" id="admin-gate">
+            
+            <div class="settings-section">
+                <h3>Secret</h3>
+                <p class="settings-hint">Daily tokens (saved on this device only).</p>
+                <button class="settings-reset-btn" type="button" onclick="switchView('secret')">Open Secret</button>
+            </div>
+<div class="settings-section" id="admin-gate">
                 <h3>Admin</h3>
                 <p class="settings-hint">Enter access code to unlock admin tools.</p>
                 <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
@@ -5713,7 +5709,7 @@
         };
 
         function switchView(view, skipUrl) {
-            const allowed = ['home', 'countdown', 'whatsnew', 'videos', 'gamemodes', 'banners', 'market', 'packsim', 'updates', 'settings', 'about', 'secret', 'stats', 'blooks', 'bbmarket', '404'];
+            const allowed = ['home', 'countdown', 'whatsnew', 'videos', 'gamemodes', 'banners', 'market', 'packsim', 'updates', 'settings', 'about', 'secret', 'blooks', '404'];
             if (!allowed.includes(view)) view = '404';
             if (typeof exitOpening === 'function' && typeof phase !== 'undefined' && phase !== 'idle') {
                 exitOpening();
@@ -5733,11 +5729,13 @@
             document.getElementById('view-about').style.display = view === 'about' ? 'flex' : 'none';
             const v404 = document.getElementById('view-404');
             if (v404) v404.style.display = view === '404' ? 'flex' : 'none';
-            ['secret','stats','blooks','bbmarket'].forEach(function(sv){
+            ['secret','blooks'].forEach(function(sv){
                 var el = document.getElementById('view-' + sv);
                 if (el) el.style.display = view === sv ? 'flex' : 'none';
             });
             if (view === 'secret' && typeof window.__bbRenderSecret === 'function') window.__bbRenderSecret();
+            if (view === 'blooks' && typeof window.__bbRenderBlooks === 'function') window.__bbRenderBlooks();
+
 
             const infoBtn = document.getElementById('info-btn');
             if (infoBtn) infoBtn.style.display = 'none';
@@ -10081,7 +10079,7 @@ const counts = {};
 
         function initFromPath() {
             const seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || 'home';
-            const map = { home: 'home', countdown: 'countdown', whatsnew: 'whatsnew', leaks: 'whatsnew', videos: 'videos', gamemodes: 'gamemodes', banners: 'banners', market: 'market', packsim: 'packsim', updates: 'updates', settings: 'settings', about: 'about', secret: 'secret', 'secret!!!': 'secret', stats: 'stats', blooks: 'blooks', 'secret-market': 'bbmarket', smarket: 'bbmarket' };
+            const map = { home: 'home', countdown: 'countdown', whatsnew: 'whatsnew', leaks: 'whatsnew', videos: 'videos', gamemodes: 'gamemodes', banners: 'banners', market: 'market', packsim: 'packsim', updates: 'updates', settings: 'settings', about: 'about', secret: 'secret', blooks: 'blooks' };
             if (map[seg]) {
                 switchView(map[seg], true);
             } else {
