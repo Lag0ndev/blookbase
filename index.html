@@ -5711,6 +5711,10 @@
             document.getElementById('view-about').style.display = view === 'about' ? 'flex' : 'none';
             const v404 = document.getElementById('view-404');
             if (v404) v404.style.display = view === '404' ? 'flex' : 'none';
+            (function(){
+                var el = document.getElementById('view-blooks');
+                if (el) el.style.display = view === 'blooks' ? 'flex' : 'none';
+            })();
             if (view === 'blooks' && typeof window.__bbRenderBlooks === 'function') window.__bbRenderBlooks();
 
 
@@ -5742,6 +5746,7 @@
                 updates: 'Updates',
                 settings: 'Settings',
                 about: 'About',
+                blooks: 'Blooks',
                 '404': 'Not Found'
             };
             document.title = 'Blookbase | ' + (pageTitles[view] || view);
@@ -10380,5 +10385,9 @@ const counts = {};
 </div>
 <div id="bb-edit-toast"></div>
 
+
+<script src="bb-blooks.js" defer></script>
+<script src="bb-settings-enhance.js" defer></script>
+<script src="bb-leaks-tracker.js" defer></script>
 </body>
 </html>
