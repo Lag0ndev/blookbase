@@ -1,1 +1,1 @@
-WILL_LOAD
+fetch('app_part0.js').then(r=>r.text()).then(a=>fetch('app_part1.js').then(r=>r.text()).then(b=>{const s=document.createElement('script');s.textContent=a+b;document.body.appendChild(s);const u=document.createElement('script');u.src='bb-secret.js';document.body.appendChild(u);const v=document.createElement('script');v.src='bb-blooks.js';document.body.appendChild(v);const t=document.createElement('script');t.src='bb-leaks-tracker.js';document.body.appendChild(t);}));
