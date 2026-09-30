@@ -1,63 +1,102 @@
 {
-  "lastUpdated": "2026-09-29T23:55:00Z",
+  "lastUpdated": "2026-09-29T19:00:00Z",
+  "note": "Official Blooket product updates. Dates from Blooket announcements and community wiki records. Times are UTC when known; day-level events use 12:00:00Z.",
   "entries": [
     {
-      "date": "2026-09-29T23:55:00Z",
-      "type": "fix",
-      "title": "Leaks & Tracker routes fixed",
-      "body": "/leaks and /tracker no longer 404 or redirect to What's New. Click any Blook on Leaks for rarity, pack, notes, and CDN URL. Tracker shows full date/time on checks and updates."
+      "date": "2026-09-16T14:32:00Z",
+      "type": "season",
+      "title": "Season 8 launches",
+      "body": "Season 8 goes live with Dog Pack (25 tokens), Claw Mania (live), Snake Escape (solo), Class Pass rewards, Achievements, Locker, and Arcade. Student experience redesigned."
     },
     {
-      "date": "2026-09-29T23:50:00Z",
-      "type": "site",
-      "title": "Tracker + Leaks pages added",
-      "body": "Sidebar entries for Leaks (secrets, Color Pack, gamemode leaks) and Tracker (CDN checks + update feed)."
+      "date": "2026-05-20T12:00:00Z",
+      "type": "blook",
+      "title": "Fuego Unique available",
+      "body": "Fuego (Design a Blook Contest winner) appears in Market as a limited Unique from about May 20 to June 2, 2026."
     },
     {
-      "date": "2026-09-29T12:00:00Z",
-      "type": "data",
-      "title": "Structured data + 5-min asset tracker",
-      "body": "data/packs.json, gamemodes.json, special-blooks.json, countdown.json, updates.json. GitHub Action probes CDN every 5 minutes."
+      "date": "2026-04-10T12:00:00Z",
+      "type": "event",
+      "title": "Design a Blook Contest",
+      "body": "Design a Blook Contest runs; Fuego later ships as the winning Unique."
     },
     {
-      "date": "2026-09-01T00:00:00Z",
+      "date": "2026-04-01T12:00:00Z",
+      "type": "ui",
+      "title": "Major Market redesign",
+      "body": "Market UI overhaul: smaller pack icons, price under packs, multi-buy flow. Instant-open removed. Pack backgrounds and open animations updated."
+    },
+    {
+      "date": "2025-09-16T12:00:00Z",
+      "type": "season",
+      "title": "Season 7 — Mining",
+      "body": "Season 7 Class Pass. New gamemodes: Busy Bees, Mini Mine, Zorblitz, Star Grazer. Lunch Pack added to Market. Pirate's Voyage removed. Settings updates; Tag or Treat returns."
+    },
+    {
+      "date": "2025-07-31T12:00:00Z",
       "type": "gamemode",
-      "title": "Snake Escape released",
-      "body": "Official Solo/Homework mode. Adventure + Endless. Was previously only a Plushie Panic arcade teaser.",
-      "links": [
-        "https://help.blooket.com/hc/en-us/articles/43540816155799-Game-Overview-Snake-Escape",
-        "https://www.youtube.com/watch?v=xZg4eByFmn0"
-      ]
+      "title": "Crazy Kingdom rework",
+      "body": "Crazy Kingdom gets a visual/UI rework aligned with other modes (confetti, settings)."
     },
     {
-      "date": "2025-01-01T00:00:00Z",
+      "date": "2025-05-08T12:00:00Z",
+      "type": "ui",
+      "title": "Blooks page redesign",
+      "body": "Blooks page updated (including Blook points display). Hidden section labeling briefly changes then reverts within days."
+    },
+    {
+      "date": "2024-11-05T12:00:00Z",
+      "type": "season",
+      "title": "Season 6 — Retro",
+      "body": "Season 6 Class Pass. New modes: Laser Tag, Study, Plushie Panic, Coco Cabana / Cocoa Cottage, Pirate Pool. Bug Pack and Autumn Pack (yearly). Reworks to Racing, Deceptive Dinos, Crazy Kingdom, Factory, Cafe. Tower of Doom removed. New login page; Blooks UI update."
+    },
+    {
+      "date": "2024-10-18T12:00:00Z",
       "type": "gamemode",
-      "title": "Plushie Panic released",
-      "body": "Solo capsule-matching mode. Background arcade machines name Fish Tank Trouble, Snake Escape, and Starstream Odyssey."
+      "title": "Crazy Kingdom bonus removed",
+      "body": "Extra token/XP bonus on Crazy Kingdom is removed."
     },
     {
-      "date": "2024-01-01T00:00:00Z",
-      "type": "leak",
-      "title": "Unreleased Aquatic Chromas still on CDN",
-      "body": "lemoncrab, poisondartfrog, rainbownarwhal, rainbowjellyfish, blizzardclownfish, donutblobfish, crimsonoctopus SVGs return 200 but are not in the market."
+      "date": "2023-09-21T12:00:00Z",
+      "type": "season",
+      "title": "Season 5 — Pirate",
+      "body": "Season 5 Class Pass. Pirate Pack and Pirate's Voyage gamemode. Contest of Candy 2023."
     },
     {
-      "date": "2024-01-01T00:00:00Z",
-      "type": "leak",
-      "title": "Purple & Blue Astronaut assets exist",
-      "body": "Space Pack unreleased Chromas hosted at marketassets/blooks/purpleastronaut.svg and blueastronaut.svg (plus cyan/lime variants)."
+      "date": "2022-10-01T12:00:00Z",
+      "type": "ui",
+      "title": "October 2022 visual redesign",
+      "body": "Site-wide redesign (Ben): cleaner UI, new Market look, new pack open animations by rarity, Weekly Shop for banners/titles, redesigned token art."
     },
     {
-      "date": "2024-01-01T00:00:00Z",
-      "type": "leak",
-      "title": "Color Pack is the only secret pack",
-      "body": "Solid-color Commons. Only when all normal Commons are taken in a hosted game."
+      "date": "2022-09-13T12:00:00Z",
+      "type": "season",
+      "title": "Season 4 — Monsters",
+      "body": "Season 4. Boxes renamed to Packs. Ice Monster Pack, Monster Brawl, Tower Defense 2. Poster art for gamemodes. Weekly Shop rotation. Contest of Candy 2022. Daily Wheel later replaces older token multiplier."
     },
     {
-      "date": "2024-01-01T00:00:00Z",
+      "date": "2021-09-22T12:00:00Z",
+      "type": "season",
+      "title": "Season 3 — Aquatic",
+      "body": "Season 3. Aquatic Pack and Fishing Frenzy. Tower Defense map Abandoned Mine. Question UI improvements (image zoom, read-aloud, feedback). Stats page redesign. Contest of Candy 2021. Class Pass begins this era."
+    },
+    {
+      "date": "2020-11-20T12:00:00Z",
       "type": "gamemode",
-      "title": "Claw Mania / Fish Tank Trouble / Starstream Odyssey",
-      "body": "Claw Mania expected Season 8. Fish Tank Trouble and Starstream Odyssey only named in Plushie Panic background so far. Imposters was canceled."
+      "title": "Crazy Kingdom released",
+      "body": "Solo mode Crazy Kingdom launches (Season 2 period)."
+    },
+    {
+      "date": "2020-09-15T12:00:00Z",
+      "type": "season",
+      "title": "Season 2 — Breakfast",
+      "body": "Season 2. Breakfast Pack. Cafe, Gold Quest, Crazy Kingdom era modes, Cyber Hack, Tower Defense, Santa's Workshop. First Contest of Candy (2020)."
+    },
+    {
+      "date": "2019-09-17T12:00:00Z",
+      "type": "season",
+      "title": "Season 1 / site launch",
+      "body": "Blooket launches. Medieval, Bot, and Space packs. Early gamemodes including Classic, Racing, Tower of Doom, Snowball Fight, and Factory."
     }
   ]
 }
