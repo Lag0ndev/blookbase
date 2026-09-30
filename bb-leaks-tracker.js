@@ -1,1 +1,504 @@
-PLACEHOLDER
+/* Blookbase Leaks + Tracker + route aliases */
+(function () {
+  'use strict';
+
+  const STYLE = `
+  .pack-blook.bb-click{cursor:pointer}
+  .bb-tracker-time{font-size:13px;font-weight:800;opacity:.9}
+  .bb-tracker-card{background:#9a49aa;border:6px solid rgba(255,255,255,.2);border-radius:10px;padding:16px 18px;margin-bottom:14px;box-shadow:4px 4px rgba(0,0,0,.2);color:#fff;text-align:left;width:100%;box-sizing:border-box}
+  .bb-tracker-card h3{font-family:'Titan One',sans-serif;font-weight:normal;font-size:20px;margin:0 0 8px}
+  .bb-update-row{border-top:1px solid rgba(255,255,255,.2);padding:14px 0}
+  .bb-update-row:first-child{border-top:none;padding-top:4px}
+  .bb-update-body{min-width:0}
+  .bb-latest{background:linear-gradient(145deg,#b85fc7,#7c2d9e);border:6px solid rgba(255,255,255,.28);border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:5px 5px rgba(0,0,0,.25);color:#fff}
+  .bb-latest-badge{display:inline-block;background:rgba(255,255,255,.2);font-weight:900;font-size:11px;text-transform:uppercase;letter-spacing:.04em;padding:4px 10px;border-radius:999px;margin-bottom:10px}
+  .bb-latest-title{font-family:'Titan One',sans-serif;font-size:24px;margin:0 0 8px;line-height:1.15}
+  .bb-latest-meta{font-weight:800;font-size:13px;opacity:.95;margin-bottom:10px}
+  .bb-latest-body{font-weight:700;line-height:1.5;opacity:.98}
+  .bb-stat-row{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 14px}
+  .bb-stat{background:rgba(0,0,0,.2);border-radius:10px;padding:10px 14px;font-weight:800;font-size:13px}
+  .bb-stat b{display:block;font-family:'Titan One',sans-serif;font-size:20px;font-weight:normal;margin-bottom:2px}
+  `;
+
+  let pathHandled = false;
+  let sidebarInjected = false;
+  let bbCurrent = null;
+
+  function injectStyle() {
+    if (document.getElementById('bb-lt-style')) return;
+    const s = document.createElement('style');
+    s.id = 'bb-lt-style';
+    s.textContent = STYLE;
+    document.head.appendChild(s);
+  }
+
+  const LEAKS_HTML = `
+    <div class="main-content" id="view-leaks" style="display:none;flex-direction:column;align-items:center;">
+      <h1 class="header-title">Leaks</h1>
+      <div class="leaks-wrap">
+        <div class="leaks-section">
+          <h3>Unreleased / Secret Blooks</h3>
+          <p style="font-weight:700;opacity:.95;margin:0 0 10px;">Click a Blook for details (same style as Packs).</p>
+          <div class="pack-blooks-grid" id="bb-unreleased-grid"></div>
+        </div>
+        <div class="leaks-section">
+          <h3>Uniques</h3>
+          <div class="pack-blooks-grid" id="bb-uniques-grid"></div>
+        </div>
+        <div class="leaks-section">
+          <h3>Mysticals</h3>
+          <ul id="bb-mysticals-list"></ul>
+        </div>
+        <div class="leaks-section">
+          <h3>Secret Pack — Color Pack</h3>
+          <p style="font-weight:700;opacity:.95;margin:0 0 10px;">Only when all Commons are taken in a live game.</p>
+          <div class="pack-blooks-grid" id="bb-color-grid"></div>
+        </div>
+        <div class="leaks-section">
+          <h3>Gamemode status</h3>
+          <ul id="bb-gm-list"></ul>
+        </div>
+      </div>
+    </div>`;
+
+  const TRACKER_HTML = `
+    <div class="main-content" id="view-tracker" style="display:none;flex-direction:column;align-items:center;">
+      <h1 class="header-title">Updates</h1>
+      <div class="leaks-wrap" style="max-width:720px;width:100%">
+        <div id="bb-latest-slot"></div>
+        <div class="bb-stat-row" id="bb-stats-row"></div>
+        <div class="bb-tracker-card">
+          <h3>All updates</h3>
+          <p class="bb-tracker-time" style="margin:0 0 8px;">Official Blooket seasons, packs, modes, and UI — newest first.</p>
+          <div id="bb-updates-feed">Loading…</div>
+        </div>
+      </div>
+    </div>`;
+
+  const RARITY_GRADIENTS = {
+    Common: 'radial-gradient(rgb(160,160,160) 40%, rgb(90,90,95))',
+    Uncommon: 'radial-gradient(rgb(125,255,179) 40%, rgb(45,140,70))',
+    Rare: 'radial-gradient(rgb(108,182,255) 40%, rgb(10,20,180))',
+    Epic: 'radial-gradient(rgb(255,100,100) 40%, rgb(180,20,20))',
+    Legendary: 'radial-gradient(rgb(255,179,71) 40%, rgb(200,100,20))',
+    Chroma: 'radial-gradient(rgb(94,234,212) 40%, rgb(0,140,130))',
+    Mystical: 'radial-gradient(rgb(232,121,249) 40%, rgb(120,30,160))',
+    Unique: 'radial-gradient(rgb(45,212,191) 40%, rgb(0,120,110))'
+  };
+
+  const PATH_ALIAS = { packs: 'market', pack: 'market', calculator: 'packsim', calc: 'packsim' };
+  const PATH_PRETTY = { market: 'packs', packsim: 'calculator' };
+
+  function rarityTag(rarity) {
+    if (typeof window.rarityTagHtml === 'function') {
+      try { return window.rarityTagHtml(rarity); } catch (e) {}
+    }
+    return `<span class="bb-shop-tag">${rarity || '—'}</span>`;
+  }
+
+  function openBlookModal(b) {
+    const name = b.name || 'Unknown';
+    const rarity = b.rarity || 'Unique';
+    const packName = b.pack || (b.pack === null ? 'Secret / Unique' : '');
+    const chance =
+      b.chance != null && b.chance !== ''
+        ? Number(b.chance) + '%'
+        : b.notes
+          ? 'Event / Exclusive'
+          : 'Unreleased';
+    const img =
+      b.url ||
+      (typeof window.getBlookImg === 'function' ? window.getBlookImg(name) : '') ||
+      'https://ac.blooket.com/marketassets/blooks/' +
+        name.toLowerCase().replace(/[^a-z0-9]/g, '') +
+        '.svg';
+    const bg = RARITY_GRADIENTS[rarity] || RARITY_GRADIENTS.Uncommon;
+    const body = document.getElementById('blook-detail-body');
+    const modal = document.getElementById('blook-detail-modal');
+    if (body && modal) {
+      body.innerHTML = `
+        <div class="bb-shop-row">
+          <div class="bb-shop-card" style="background:${bg};">
+            <div class="bb-shop-shadow-letter">B</div>
+            <div class="bb-shop-img-wrap">
+              <img class="bb-shop-hero" src="${img}" alt="${name}" draggable="false" onerror="this.style.opacity=.3">
+            </div>
+            <div class="bb-shop-overlay"></div>
+          </div>
+          <div class="bb-shop-form">
+            <div>
+              <h2 class="bb-shop-title">${name}</h2>
+              <div class="bb-shop-tags">
+                ${rarityTag(rarity)}
+                <span class="bb-shop-tag">${chance}</span>
+                ${packName ? `<span class="bb-shop-tag">${packName}</span>` : ''}
+              </div>
+              ${b.notes ? `<p style="font-weight:700;margin:12px 0 0;opacity:.95;line-height:1.4;">${b.notes}</p>` : ''}
+            </div>
+            <button type="button" class="bb-shop-btn" onclick="closeBlookDetail()">
+              <div class="bb-shop-btn-inner">Close</div>
+            </button>
+          </div>
+        </div>`;
+      modal.style.display = 'flex';
+      return;
+    }
+    if (typeof window.openBlookDetail === 'function') {
+      window.openBlookDetail(name, rarity, b.chance != null ? b.chance : null, packName);
+    }
+  }
+
+  function cell(b) {
+    const src = b.url || '';
+    const img = src ? `<img src="${src}" alt="" loading="lazy" onerror="this.style.opacity=.3">` : '';
+    const payload = encodeURIComponent(JSON.stringify(b));
+    return `<div class="pack-blook bb-click" data-bb="${payload}">${img}<div class="bn">${b.name || ''}</div><div class="br">${b.rarity || ''}${b.pack ? ' · ' + b.pack : ''}</div></div>`;
+  }
+
+  function bindClicks(root) {
+    if (!root) return;
+    root.querySelectorAll('.bb-click').forEach((el) => {
+      el.onclick = () => {
+        try {
+          openBlookModal(JSON.parse(decodeURIComponent(el.getAttribute('data-bb'))));
+        } catch (e) {}
+      };
+    });
+  }
+
+  window.renderLeaksPage = async function () {
+    try {
+      const special = await fetch('/data/special-blooks.json').then((r) => r.json());
+      const ug = document.getElementById('bb-unreleased-grid');
+      const uq = document.getElementById('bb-uniques-grid');
+      const ml = document.getElementById('bb-mysticals-list');
+      if (ug) {
+        ug.innerHTML = (special.unreleased || []).map(cell).join('');
+        bindClicks(ug);
+      }
+      if (uq) {
+        uq.innerHTML = (special.uniques || [])
+          .map((u) => cell({ name: u.name, url: u.url, rarity: 'Unique', notes: u.notes || '', pack: null }))
+          .join('');
+        bindClicks(uq);
+      }
+      if (ml) {
+        ml.innerHTML = (special.mysticals || [])
+          .map((m) => `<li><span class="tag">mystical</span> <strong>${m.name}</strong> — ${m.event} (${m.copies} copies)</li>`)
+          .join('');
+      }
+    } catch (e) {}
+    try {
+      const packs = await fetch('/data/packs.json').then((r) => r.json());
+      const color = (packs.packs || []).find((p) => p.id === 'color');
+      const cg = document.getElementById('bb-color-grid');
+      if (cg && color) {
+        cg.innerHTML = (color.blooks || [])
+          .map((b) =>
+            cell({ ...b, pack: 'Color Pack', notes: 'Secret pack — only when all normal Commons are taken' })
+          )
+          .join('');
+        bindClicks(cg);
+      }
+    } catch (e) {}
+    try {
+      const gm = await fetch('/data/gamemodes.json').then((r) => r.json());
+      const gl = document.getElementById('bb-gm-list');
+      if (gl) {
+        gl.innerHTML = (gm.gamemodes || [])
+          .map((g) => {
+            const tag = g.status === 'Released' ? 'released' : 'upcoming';
+            return `<li><span class="tag ${tag}">${g.status}</span> <strong>${g.name}</strong> — ${g.notes || ''}</li>`;
+          })
+          .join('');
+      }
+    } catch (e) {}
+  };
+
+  function formatEntryDate(e) {
+    const date = e.date || '';
+    const time = e.time;
+    if (!date) return 'Unknown date';
+    if (/^\d{4}-\d{2}$/.test(date)) return date + ' · Time: unknown';
+    if (!time || time === 'unknown') return date + ' · Time: unknown';
+    try {
+      const iso = date + 'T' + String(time).replace(/Z$/, '') + 'Z';
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return date + ' · Time: unknown';
+      return d.toLocaleString(undefined, {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZoneName: 'short'
+      });
+    } catch (err) {
+      return date + ' · Time: unknown';
+    }
+  }
+
+  window.renderTrackerPage = async function () {
+    const feedEl = document.getElementById('bb-updates-feed');
+    const latestSlot = document.getElementById('bb-latest-slot');
+    const statsRow = document.getElementById('bb-stats-row');
+    try {
+      const data = await fetch('/data/updates.json').then((r) => r.json());
+      const entries = data.entries || [];
+      const latest = entries[0];
+
+      if (latestSlot && latest) {
+        latestSlot.innerHTML = `
+          <div class="bb-latest">
+            <div class="bb-latest-badge">Latest update</div>
+            <div class="bb-latest-meta">${formatEntryDate(latest)}</div>
+            <h2 class="bb-latest-title">${latest.title}</h2>
+            <p class="bb-latest-body">${latest.body || ''}</p>
+          </div>`;
+      } else if (latestSlot) {
+        latestSlot.innerHTML = '';
+      }
+
+      if (statsRow) {
+        const seasons = entries.filter((e) => e.type === 'season').length;
+        const modes = entries.filter((e) => e.type === 'gamemode').length;
+        const ui = entries.filter((e) => e.type === 'ui').length;
+        statsRow.innerHTML = `
+          <div class="bb-stat"><b>${entries.length}</b> total updates</div>
+          <div class="bb-stat"><b>${seasons}</b> seasons</div>
+          <div class="bb-stat"><b>${modes}</b> gamemode changes</div>
+          <div class="bb-stat"><b>${ui}</b> UI changes</div>
+          <div class="bb-stat"><b>${data.lastUpdated || '—'}</b> data refreshed</div>`;
+      }
+
+      if (feedEl) {
+        const rest = entries.length > 1 ? entries.slice(1) : [];
+        feedEl.innerHTML =
+          rest
+            .map((e) => {
+              const when = formatEntryDate(e);
+              return `<div class="bb-update-row">
+                <div class="bb-update-body">
+                  <div style="font-size:12px;font-weight:900;opacity:.9;margin-bottom:4px;">${when}</div>
+                  <div style="font-family:'Titan One',sans-serif;font-size:18px;margin-bottom:6px;">${e.title}</div>
+                  <div style="font-weight:700;line-height:1.45;">${e.body || ''}</div>
+                </div>
+              </div>`;
+            })
+            .join('') || '<div style="font-weight:700;opacity:.85;">See Latest update above.</div>';
+      }
+    } catch (e) {
+      if (feedEl) feedEl.innerHTML = 'Could not load data/updates.json';
+    }
+  };
+
+  function setSidebarActive(view) {
+    bbCurrent = view;
+    try { window.currentView = view; } catch (e) {}
+    document.querySelectorAll('.sidebar-link').forEach((btn) => {
+      const v = btn.getAttribute('data-view');
+      const on = v === view;
+      btn.classList.toggle('active', on);
+      if (on) btn.setAttribute('aria-current', 'page');
+      else btn.removeAttribute('aria-current');
+    });
+  }
+
+  function injectSidebar() {
+    if (sidebarInjected || document.querySelector('[data-view="leaks"]')) {
+      sidebarInjected = true;
+      return;
+    }
+    const list = document.querySelector('.sidebar-list');
+    if (!list) return;
+    const whats = list.querySelector('[data-view="whatsnew"]');
+    const liParent = whats && whats.closest('li');
+    if (!liParent) return;
+
+    const leaksLi = document.createElement('li');
+    leaksLi.innerHTML = `<button class="sidebar-link" data-view="leaks" type="button">
+      <span class="sidebar-listIcon"><i class="fas fa-user-secret"></i></span>
+      <span class="sidebar-text">Leaks</span>
+    </button>`;
+    const trackerLi = document.createElement('li');
+    trackerLi.innerHTML = `<button class="sidebar-link" data-view="tracker" type="button">
+      <span class="sidebar-listIcon"><i class="fas fa-rss"></i></span>
+      <span class="sidebar-text">Updates</span>
+    </button>`;
+    leaksLi.querySelector('button').onclick = function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.switchView('leaks');
+    };
+    trackerLi.querySelector('button').onclick = function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.switchView('tracker');
+    };
+    liParent.after(trackerLi);
+    liParent.after(leaksLi);
+
+    list.querySelectorAll('.sidebar-link').forEach((btn) => {
+      const v = btn.getAttribute('data-view');
+      const text = btn.querySelector('.sidebar-text');
+      if (!text) return;
+      if (v === 'market') text.textContent = 'Packs';
+      if (v === 'packsim') text.textContent = 'Calculator';
+    });
+    sidebarInjected = true;
+  }
+
+  function injectViews() {
+    if (document.getElementById('view-leaks')) return;
+    const anchor =
+      document.getElementById('view-videos') ||
+      document.getElementById('view-whatsnew') ||
+      document.querySelector('.main-content');
+    if (anchor) anchor.insertAdjacentHTML('beforebegin', LEAKS_HTML + TRACKER_HTML);
+  }
+
+  function hideAllMainViews() {
+    document.querySelectorAll('.main-content').forEach((el) => {
+      el.style.display = 'none';
+    });
+    const v404 = document.getElementById('view-404');
+    if (v404) v404.style.display = 'none';
+  }
+
+  function showCustom(view) {
+    hideAllMainViews();
+    const el = document.getElementById(view === 'leaks' ? 'view-leaks' : 'view-tracker');
+    if (el) {
+      el.style.display = 'flex';
+      el.style.flexDirection = 'column';
+      el.style.alignItems = 'center';
+    }
+    document.title = 'Blookbase | ' + (view === 'leaks' ? 'Leaks' : 'Updates');
+    setSidebarActive(view);
+    setTimeout(() => setSidebarActive(view), 0);
+    setTimeout(() => setSidebarActive(view), 50);
+    setTimeout(() => setSidebarActive(view), 200);
+    try {
+      if (location.protocol !== 'file:') {
+        const want = '/' + view;
+        if (location.pathname.replace(/\/+$/, '') !== want) {
+          history.pushState({ view }, '', want);
+        }
+      }
+    } catch (e) {}
+    if (view === 'leaks') window.renderLeaksPage();
+    if (view === 'tracker') window.renderTrackerPage();
+  }
+
+  function prettyPath(view) {
+    return PATH_PRETTY[view] || view;
+  }
+
+  function patchUpdateSidebarActive() {
+    if (typeof window.updateSidebarActive !== 'function') return;
+    if (window.updateSidebarActive.__bbPatched) return;
+    const orig = window.updateSidebarActive;
+    window.updateSidebarActive = function () {
+      if (bbCurrent === 'leaks' || bbCurrent === 'tracker') {
+        setSidebarActive(bbCurrent);
+        return;
+      }
+      return orig.apply(this, arguments);
+    };
+    window.updateSidebarActive.__bbPatched = true;
+  }
+
+  function patchSwitchView() {
+    if (typeof window.switchView !== 'function') return false;
+    if (window.switchView.__bbPatched) return true;
+    const orig = window.switchView;
+    window.switchView = function (view, skipUrl) {
+      if (view === 'packs' || view === 'pack') view = 'market';
+      if (view === 'calculator' || view === 'calc') view = 'packsim';
+
+      if (view === 'leaks' || view === 'tracker') {
+        injectViews();
+        showCustom(view);
+        try {
+          if (typeof closeSidebar === 'function') closeSidebar();
+        } catch (e) {}
+        return;
+      }
+
+      bbCurrent = view;
+      const vLeaks = document.getElementById('view-leaks');
+      const vTracker = document.getElementById('view-tracker');
+      if (vLeaks) vLeaks.style.display = 'none';
+      if (vTracker) vTracker.style.display = 'none';
+
+      const result = orig.call(this, view, true);
+      try {
+        if (!skipUrl && location.protocol !== 'file:') {
+          const path = view === 'home' ? '/' : '/' + prettyPath(view);
+          if (location.pathname.replace(/\/+$/, '') !== path.replace(/\/+$/, '')) {
+            history.pushState({ view }, '', path);
+          }
+        }
+      } catch (e) {}
+      return result;
+    };
+    window.switchView.__bbPatched = true;
+    patchUpdateSidebarActive();
+    return true;
+  }
+
+  function handlePathOnce() {
+    if (pathHandled) return true;
+    let seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || '';
+
+    if (PATH_ALIAS[seg]) {
+      if (!patchSwitchView()) return false;
+      const internal = PATH_ALIAS[seg];
+      window.switchView(internal, true);
+      try {
+        history.replaceState({ view: internal }, '', '/' + seg);
+      } catch (e) {}
+      pathHandled = true;
+      return true;
+    }
+
+    if (seg === 'leaks' || seg === 'tracker') {
+      if (!patchSwitchView()) return false;
+      injectViews();
+      showCustom(seg);
+      pathHandled = true;
+      return true;
+    }
+
+    pathHandled = true;
+    return true;
+  }
+
+  function boot() {
+    injectStyle();
+    injectViews();
+    injectSidebar();
+    patchSwitchView();
+    patchUpdateSidebarActive();
+    handlePathOnce();
+
+    window.addEventListener('popstate', () => {
+      pathHandled = false;
+      handlePathOnce();
+    });
+
+    let tries = 0;
+    const iv = setInterval(() => {
+      injectSidebar();
+      injectViews();
+      const ok = patchSwitchView();
+      if (ok && !pathHandled) handlePathOnce();
+      if (bbCurrent === 'leaks' || bbCurrent === 'tracker') setSidebarActive(bbCurrent);
+      if ((ok && sidebarInjected && pathHandled) || ++tries > 40) clearInterval(iv);
+    }, 150);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
