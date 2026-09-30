@@ -66,15 +66,10 @@ function ensureShell(){
     else document.body.appendChild(root);
   }
   if (el('bb-blooks-grid')) return root;
-  root.innerHTML = '<h1 class="header-title">Blooks</h1>'+
-    '<div class="leaks-wrap" style="width:100%;max-width:1100px;">'+\n    '<div class="leaks-section" style="margin-bottom:14px;">'+\n    '<p style="font-weight:800;opacity:.9;margin:0 0 12px;">Browse Blooket pack Blooks. Filter by pack, rarity, or search.</p>'+
-    '<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">'+\n    '<input id="bb-blooks-q" type="search" placeholder="Search blooks..." style="flex:1;min-width:160px;padding:10px 14px;border-radius:10px;border:3px solid rgba(0,0,0,.12);font-family:Nunito,sans-serif;font-weight:700;font-size:15px;">'+\n    '<select id="bb-blooks-pack" style="padding:10px 12px;border-radius:10px;border:3px solid rgba(0,0,0,.12);font-family:Nunito,sans-serif;font-weight:800;font-size:14px;"></select>'+
-    '<select id="bb-blooks-rarity" style="padding:10px 12px;border-radius:10px;border:3px solid rgba(0,0,0,.12);font-family:Nunito,sans-serif;font-weight:800;font-size:14px;"></select>'+
-    '<span id="bb-blooks-count" style="font-weight:800;opacity:.85;"></span>'+
-    '</div></div>'+
-    '<div id="bb-blooks-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px;"></div></div>';
+  root.innerHTML = '<h1 class="header-title">Blooks</h1><div class="leaks-wrap" style="width:100%;max-width:1100px;"><div class="leaks-section" style="margin-bottom:14px;"><p style="font-weight:800;opacity:.9;margin:0 0 12px;">Browse Blooket pack Blooks. Filter by pack, rarity, or search.</p><div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;"><input id="bb-blooks-q" type="search" placeholder="Search blooks..." style="flex:1;min-width:160px;padding:10px 14px;border-radius:10px;border:3px solid rgba(0,0,0,.12);font-weight:700;font-size:15px;"><select id="bb-blooks-pack" style="padding:10px 12px;border-radius:10px;border:3px solid rgba(0,0,0,.12);font-weight:800;font-size:14px;"></select><select id="bb-blooks-rarity" style="padding:10px 12px;border-radius:10px;border:3px solid rgba(0,0,0,.12);font-weight:800;font-size:14px;"></select><span id="bb-blooks-count" style="font-weight:800;opacity:.85;"></span></div></div><div id="bb-blooks-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px;"></div></div>';
   return root;
 }
+
 
 function fillFilters(){
   var packs = {}, rarities = {};
