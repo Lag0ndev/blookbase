@@ -1,4 +1,4 @@
-/* Blookbase Leaks + Tracker */
+/* Blookbase Leaks + Tracker + route aliases */
 (function () {
   'use strict';
 
@@ -8,8 +8,8 @@
   .bb-tracker-card{background:#9a49aa;border:6px solid rgba(255,255,255,.2);border-radius:10px;padding:16px 18px;margin-bottom:14px;box-shadow:4px 4px rgba(0,0,0,.2);color:#fff;text-align:left}
   .bb-tracker-card h3{font-family:'Titan One',sans-serif;font-weight:normal;font-size:20px;margin:0 0 8px}
   .bb-chart-wrap{margin-top:12px;background:rgba(0,0,0,.2);border-radius:12px;padding:14px 12px 10px}
-  .bb-chart-bars{display:flex;align-items:flex-end;gap:10px;height:140px;padding:0 4px}
-  .bb-chart-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0}
+  .bb-chart-bars{display:flex;align-items:flex-end;gap:10px;height:140px;padding:0 4px;flex-wrap:wrap}
+  .bb-chart-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:44px}
   .bb-chart-bar{width:100%;max-width:48px;border-radius:8px 8px 4px 4px;min-height:4px;transition:height .35s ease;box-shadow:0 2px 0 rgba(0,0,0,.2)}
   .bb-chart-val{font-size:11px;font-weight:900;margin-bottom:4px;opacity:.95}
   .bb-chart-label{font-size:10px;font-weight:800;margin-top:6px;text-align:center;text-transform:uppercase;opacity:.9;word-break:break-word;line-height:1.2}
@@ -46,7 +46,7 @@
           <div class="pack-blooks-grid" id="bb-color-grid"></div>
         </div>
         <div class="leaks-section">
-          <h3>Gamemode leaks</h3>
+          <h3>Gamemode status</h3>
           <ul id="bb-gm-list"></ul>
         </div>
       </div>
@@ -57,19 +57,18 @@
       <h1 class="header-title">Tracker</h1>
       <div class="leaks-wrap">
         <div class="bb-tracker-card">
-          <h3>Live CDN check</h3>
-          <p class="bb-tracker-time" style="margin:0 0 8px;">GitHub Action ~ every 5 minutes</p>
-          <div id="bb-last-check">Loading…</div>
+          <h3>Official Blooket changelog</h3>
+          <p class="bb-tracker-time" style="margin:0 0 8px;">Seasons, packs, modes, and UI — dated from public records. No leak posts here.</p>
+          <div id="bb-last-check">Loading check status…</div>
         </div>
         <div class="bb-tracker-card">
           <h3>Updates by type</h3>
-          <p class="bb-tracker-time" style="margin:0 0 4px;">Count of entries in the update feed</p>
           <div class="bb-chart-wrap" id="bb-chart"></div>
         </div>
         <div class="bb-tracker-card">
-          <h3>Update feed</h3>
-          <p class="bb-tracker-time" style="margin:0 0 12px;">Newest first</p>
-          <div id="bb-updates-feed">Loading updates…</div>
+          <h3>Full timeline</h3>
+          <p class="bb-tracker-time" style="margin:0 0 12px;">Newest first · local time + UTC</p>
+          <div id="bb-updates-feed">Loading…</div>
         </div>
       </div>
     </div>`;
@@ -86,17 +85,31 @@
   };
 
   const CHART_COLORS = {
-    leak: '#f59e0b',
+    season: '#a78bfa',
     gamemode: '#38bdf8',
-    site: '#a78bfa',
-    data: '#34d399',
-    fix: '#f472b6',
+    ui: '#34d399',
+    event: '#fbbf24',
+    blook: '#f472b6',
+    pack: '#fb923c',
     update: '#94a3b8'
+  };
+
+  const PATH_ALIAS = {
+    packs: 'market',
+    pack: 'market',
+    calculator: 'packsim',
+    calc: 'packsim'
+  };
+  const PATH_PRETTY = {
+    market: 'packs',
+    packsim: 'calculator'
   };
 
   function rarityTag(rarity) {
     if (typeof window.rarityTagHtml === 'function') {
-      try { return window.rarityTagHtml(rarity); } catch (e) {}
+      try {
+        return window.rarityTagHtml(rarity);
+      } catch (e) {}
     }
     return `<span class="bb-shop-tag">${rarity || '—'}</span>`;
   }
@@ -118,7 +131,6 @@
         name.toLowerCase().replace(/[^a-z0-9]/g, '') +
         '.svg';
     const bg = RARITY_GRADIENTS[rarity] || RARITY_GRADIENTS.Uncommon;
-
     const body = document.getElementById('blook-detail-body');
     const modal = document.getElementById('blook-detail-modal');
     if (body && modal) {
@@ -140,7 +152,6 @@
                 ${packName ? `<span class="bb-shop-tag">${packName}</span>` : ''}
               </div>
               ${b.notes ? `<p style="font-weight:700;margin:12px 0 0;opacity:.95;line-height:1.4;">${b.notes}</p>` : ''}
-              ${b.url ? `<p style="font-size:11px;margin:10px 0 0;opacity:.75;word-break:break-all;">${b.url}</p>` : ''}
             </div>
             <button type="button" class="bb-shop-btn" onclick="closeBlookDetail()">
               <div class="bb-shop-btn-inner">Close</div>
@@ -150,8 +161,6 @@
       modal.style.display = 'flex';
       return;
     }
-
-    // Fallback if site modal missing
     if (typeof window.openBlookDetail === 'function') {
       window.openBlookDetail(name, rarity, b.chance != null ? b.chance : null, packName);
     }
@@ -196,9 +205,7 @@
           .map((m) => `<li><span class="tag">mystical</span> <strong>${m.name}</strong> — ${m.event} (${m.copies} copies)</li>`)
           .join('');
       }
-    } catch (e) {
-      console.warn(e);
-    }
+    } catch (e) {}
     try {
       const packs = await fetch('/data/packs.json').then((r) => r.json());
       const color = (packs.packs || []).find((p) => p.id === 'color');
@@ -290,16 +297,16 @@
       if (checkEl) {
         if (check) {
           checkEl.innerHTML =
-            `<span class="tag released">${check.status || 'ok'}</span>` +
-            `<div class="bb-tracker-time" style="margin-top:8px;">Last check: <b>${formatWhen(check.checkedAt)}</b></div>` +
+            `<span class="tag released">CDN probe ${check.status || 'ok'}</span>` +
+            `<div class="bb-tracker-time" style="margin-top:8px;">Last automated check: <b>${formatWhen(check.checkedAt)}</b></div>` +
             `<div class="bb-tracker-time">UTC: ${check.checkedAt || '?'}</div>`;
         } else {
           checkEl.innerHTML =
-            '<span class="tag">waiting</span> <div class="bb-tracker-time" style="margin-top:8px;">No last-check.json yet — run GitHub Action <b>Blooket Tracker</b>.</div>';
+            '<span class="tag">info</span> <div class="bb-tracker-time" style="margin-top:8px;">Changelog below is manual history. Optional CDN probe: run GitHub Action <b>Blooket Tracker</b>.</div>';
         }
       }
     } catch (e) {
-      if (checkEl) checkEl.textContent = 'Could not load last-check.json';
+      if (checkEl) checkEl.textContent = '';
     }
     try {
       const data = await fetch('/data/updates.json').then((r) => r.json());
@@ -318,6 +325,7 @@
                 .join('');
               return `<div style="border-top:1px solid rgba(255,255,255,.2);padding:12px 0;">
                 <div style="font-size:12px;font-weight:900;opacity:.9;margin-bottom:4px;"><span class="tag">${e.type || 'update'}</span> ${when}</div>
+                <div class="bb-tracker-time" style="margin:0 0 6px;opacity:.75;">UTC ${e.date}</div>
                 <div style="font-family:'Titan One',sans-serif;font-size:18px;margin-bottom:6px;">${e.title}</div>
                 <div style="font-weight:700;line-height:1.45;">${e.body || ''}</div>
                 ${links}
@@ -350,6 +358,15 @@
     trackerLi.querySelector('button').onclick = () => window.switchView('tracker');
     liParent.after(trackerLi);
     liParent.after(leaksLi);
+
+    // Rename sidebar labels if present
+    list.querySelectorAll('.sidebar-link').forEach((btn) => {
+      const v = btn.getAttribute('data-view');
+      const text = btn.querySelector('.sidebar-text');
+      if (!text) return;
+      if (v === 'market') text.textContent = 'Packs';
+      if (v === 'packsim') text.textContent = 'Calculator';
+    });
   }
 
   function injectViews() {
@@ -394,11 +411,19 @@
     } catch (e) {}
   }
 
+  function prettyPath(view) {
+    return PATH_PRETTY[view] || view;
+  }
+
   function patchSwitchView() {
     if (typeof window.switchView !== 'function') return false;
     if (window.switchView.__bbPatched) return true;
     const orig = window.switchView;
     window.switchView = function (view, skipUrl) {
+      // aliases
+      if (view === 'packs' || view === 'pack') view = 'market';
+      if (view === 'calculator' || view === 'calc') view = 'packsim';
+
       if (view === 'leaks' || view === 'tracker') {
         injectViews();
         showCustom(view);
@@ -408,14 +433,34 @@
       const vTracker = document.getElementById('view-tracker');
       if (vLeaks) vLeaks.style.display = 'none';
       if (vTracker) vTracker.style.display = 'none';
-      return orig.apply(this, arguments);
+
+      const result = orig.call(this, view, true);
+      // Force pretty URLs
+      try {
+        if (!skipUrl && location.protocol !== 'file:') {
+          const path = view === 'home' ? '/' : '/' + prettyPath(view);
+          if (location.pathname !== path) history.pushState({ view }, '', path);
+        }
+      } catch (e) {}
+      return result;
     };
     window.switchView.__bbPatched = true;
     return true;
   }
 
   function handlePath() {
-    const seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || '';
+    let seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || '';
+    if (PATH_ALIAS[seg]) {
+      const internal = PATH_ALIAS[seg];
+      if (patchSwitchView() && typeof window.switchView === 'function') {
+        window.switchView(internal, true);
+        try {
+          history.replaceState({ view: internal }, '', '/' + seg);
+        } catch (e) {}
+        return true;
+      }
+      return false;
+    }
     if (seg === 'leaks' || seg === 'tracker') {
       if (patchSwitchView()) {
         injectViews();
@@ -434,16 +479,14 @@
     patchSwitchView();
     handlePath();
     window.addEventListener('popstate', () => {
-      const seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || 'home';
-      if (seg === 'leaks' || seg === 'tracker') showCustom(seg);
+      handlePath();
     });
     let tries = 0;
     const iv = setInterval(() => {
       injectSidebar();
       injectViews();
       patchSwitchView();
-      const seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0];
-      if (seg === 'leaks' || seg === 'tracker') handlePath();
+      handlePath();
       if (++tries > 60) clearInterval(iv);
     }, 100);
   }
