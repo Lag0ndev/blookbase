@@ -21,13 +21,17 @@ function ensureShell(){
   if (el('bb-blooks-grid')) return root;
   root.innerHTML =
     '<h1 class="header-title">Blooks</h1>'+
-    '<div class="leaks-wrap" style="width:100%;max-width:1100px;">'+\n      '<div class="leaks-section" style="margin-bottom:14px;">'+\n        '<p style="font-weight:800;opacity:.9;margin:0 0 12px;">Browse Blooket pack Blooks. Filter by pack, rarity, or search.</p>'+
-        '<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">'+\n          '<input id="bb-blooks-q" type="search" placeholder="Search blooks…" style="flex:1;min-width:160px;padding:10px 14px;border-radius:10px;border:3px solid rgba(0,0,0,.12);font-family:Nunito,sans-serif;font-weight:700;font-size:15px;">'+\n          '<select id="bb-blooks-pack" style="padding:10px 12px;border-radius:10px;border:3px solid rgba(0,0,0,.12);font-family:Nunito,sans-serif;font-weight:800;font-size:14px;"></select>'+
+    '<div class="leaks-wrap" style="width:100%;max-width:1100px;">'+
+      '<div class="leaks-section" style="margin-bottom:14px;">'+
+        '<p style="font-weight:800;opacity:.9;margin:0 0 12px;">Browse Blooket pack Blooks. Filter by pack, rarity, or search.</p>'+
+        '<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">'+
+          '<input id="bb-blooks-q" type="search" placeholder="Search blooks…" style="flex:1;min-width:160px;padding:10px 14px;border-radius:10px;border:3px solid rgba(0,0,0,.12);font-family:Nunito,sans-serif;font-weight:700;font-size:15px;">'+
+          '<select id="bb-blooks-pack" style="padding:10px 12px;border-radius:10px;border:3px solid rgba(0,0,0,.12);font-family:Nunito,sans-serif;font-weight:800;font-size:14px;"></select>'+
           '<select id="bb-blooks-rarity" style="padding:10px 12px;border-radius:10px;border:3px solid rgba(0,0,0,.12);font-family:Nunito,sans-serif;font-weight:800;font-size:14px;"></select>'+
           '<span id="bb-blooks-count" style="font-weight:800;opacity:.85;"></span>'+
         '</div>'+
-      '</div>'+
-      '<div id="bb-blooks-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px;"></div>'+
+      </div>'+
+      <div id="bb-blooks-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px;"></div>'+
     '</div>';
   return root;
 }
@@ -44,7 +48,7 @@ function fillFilters(){
   if (!packSel || !rarSel) return;
   packSel.innerHTML = '<option value="all">All packs</option>';
   Object.keys(packs).sort().forEach(function(p){
-    var o=document.createElement('option'); o.value=p; o.textContent=p; packSel.appendChild(o);
+    var o = document.createElement('option'); o.value=p; o.textContent=p; packSel.appendChild(o);
   });
   rarSel.innerHTML = '<option value="all">All rarities</option>';
   RARITY_ORDER.forEach(function(r){
@@ -80,7 +84,9 @@ function render(){
     card.style.cssText = 'background:#fff;border-radius:12px;padding:10px 8px;text-align:center;box-shadow:3px 3px 0 rgba(0,0,0,.12);border:3px solid rgba(0,0,0,.06);';
     var col = RARITY_COLOR[b.rarity] || '#888';
     card.innerHTML =
-      '<div style="height:72px;display:flex;align-items:center;justify-content:center;">'+\n        '<img src="'+b.img+'" alt="'+b.name+'" loading="lazy" style="max-width:64px;max-height:64px;object-fit:contain;">'+\n      '</div>'+
+      '<div style="height:72px;display:flex;align-items:center;justify-content:center;">'+
+        '<img src="'+b.img+'" alt="'+b.name+'" loading="lazy" style="max-width:64px;max-height:64px;object-fit:contain;">'+
+      '</div>'+
       '<div style="font-weight:900;font-size:13px;margin-top:6px;line-height:1.2;">'+b.name+'</div>'+
       '<div style="font-size:11px;font-weight:800;color:'+col+';margin-top:4px;">'+b.rarity+'</div>'+
       '<div style="font-size:10px;font-weight:700;opacity:.65;margin-top:2px;">'+b.pack.replace(/ Pack$/,'')+'</div>';
@@ -107,11 +113,14 @@ function bind(){
 }
 
 function load(cb){
-  if (DATA) { cb(); return; }
-  var urls = ['data/blooks.json','/data/blooks.json','https://cdn.jsdelivr.net/gh/Lag0ndev/blookbase@main/data/blooks.json'];
+  if (DATA && DATA.length) { cb(); return; }
+  DATA = window.__BB_BLOOKS_DATA || [];
+  if (DATA.length) { cb(); return; }
+  // fallback fetch
+  var urls = ['data/blooks.json','/data/blooks.json'];
   var i = 0;
   function next(){
-    if (i >= urls.length) { DATA = []; cb(); return; }
+    if (i >= urls.length) { DATA = DATA||[]; cb(); return; }
     fetch(urls[i++]).then(function(r){ if(!r.ok) throw 0; return r.json(); })
       .then(function(j){ DATA = j; cb(); })
       .catch(next);
