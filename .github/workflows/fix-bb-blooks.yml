@@ -1,0 +1,23 @@
+name: Fix bb-blooks.js
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/fix_bb_blooks.py'
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/fix_bb_blooks.py
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add bb-blooks.js
+          if git diff --staged --quiet; then echo No change; else
+            git commit -m "fix: valid bb-blooks.js (suitcase, no secret)"
+            git push
+          fi
