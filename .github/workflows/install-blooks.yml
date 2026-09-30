@@ -1,0 +1,31 @@
+name: Install Blooks + patch index
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/install_blooks_data_0.py'
+      - 'scripts/install_blooks_data_1.py'
+      - 'scripts/merge_blooks_data.py'
+      - 'scripts/install_blooks_js.py'
+      - 'scripts/patch_blooks_secret.py'
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/install_blooks_data_0.py
+      - run: python3 scripts/install_blooks_data_1.py
+      - run: python3 scripts/merge_blooks_data.py
+      - run: python3 scripts/install_blooks_js.py
+      - run: python3 scripts/patch_blooks_secret.py
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/blooks.json bb-blooks.js scripts/patch_blooks_secret.py index.html
+          if git diff --staged --quiet; then echo No change; else
+            git commit -m "feat: Blooks browser (189 blooks); Secret in Settings only"
+            git push
+          fi
