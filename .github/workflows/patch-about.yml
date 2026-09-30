@@ -1,0 +1,29 @@
+name: Patch About + SEO meta
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/patch_about.py'
+      - '.github/workflows/patch-about.yml'
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch About page and meta tags
+        run: python3 scripts/patch_about.py
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --staged --quiet; then
+            echo "No change"
+          else
+            git commit -m "content: refresh About page + SEO meta (no secret page)"
+            git push
+          fi
