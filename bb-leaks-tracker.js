@@ -1,21 +1,18 @@
-/* Blookbase Leaks + Tracker — full fix */
+/* Blookbase Leaks + Tracker */
 (function () {
   'use strict';
 
   const STYLE = `
-  #bb-blook-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:10000;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
-  #bb-blook-modal.open{display:flex}
-  .bb-modal-box{background:#9a49aa;color:#fff;border:6px solid rgba(255,255,255,.25);border-radius:14px;max-width:360px;width:90vw;padding:22px;text-align:center;box-shadow:6px 6px rgba(0,0,0,.3)}
-  .bb-modal-box img{width:120px;height:120px;object-fit:contain;margin:0 auto 12px;display:block}
-  .bb-modal-box h2{font-family:'Titan One',sans-serif;font-weight:normal;font-size:26px;margin:0 0 8px}
-  .bb-modal-meta{font-weight:800;font-size:14px;opacity:.95;margin:6px 0}
-  .bb-modal-url{font-size:11px;word-break:break-all;opacity:.8;margin-top:10px;background:rgba(0,0,0,.2);padding:8px;border-radius:8px;text-align:left}
-  .bb-modal-close{margin-top:14px;font-family:'Nunito',sans-serif;font-weight:900;border:none;border-radius:10px;padding:10px 18px;background:#fff;color:#9a49aa;cursor:pointer}
-  .pack-blook.bb-click{cursor:pointer;transition:transform .12s}
-  .pack-blook.bb-click:hover{transform:translateY(-3px);filter:brightness(1.08)}
+  .pack-blook.bb-click{cursor:pointer}
   .bb-tracker-time{font-size:13px;font-weight:800;opacity:.9}
   .bb-tracker-card{background:#9a49aa;border:6px solid rgba(255,255,255,.2);border-radius:10px;padding:16px 18px;margin-bottom:14px;box-shadow:4px 4px rgba(0,0,0,.2);color:#fff;text-align:left}
   .bb-tracker-card h3{font-family:'Titan One',sans-serif;font-weight:normal;font-size:20px;margin:0 0 8px}
+  .bb-chart-wrap{margin-top:12px;background:rgba(0,0,0,.2);border-radius:12px;padding:14px 12px 10px}
+  .bb-chart-bars{display:flex;align-items:flex-end;gap:10px;height:140px;padding:0 4px}
+  .bb-chart-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0}
+  .bb-chart-bar{width:100%;max-width:48px;border-radius:8px 8px 4px 4px;min-height:4px;transition:height .35s ease;box-shadow:0 2px 0 rgba(0,0,0,.2)}
+  .bb-chart-val{font-size:11px;font-weight:900;margin-bottom:4px;opacity:.95}
+  .bb-chart-label{font-size:10px;font-weight:800;margin-top:6px;text-align:center;text-transform:uppercase;opacity:.9;word-break:break-word;line-height:1.2}
   `;
 
   function injectStyle() {
@@ -32,7 +29,7 @@
       <div class="leaks-wrap">
         <div class="leaks-section">
           <h3>Unreleased / Secret Blooks</h3>
-          <p style="font-weight:700;opacity:.95;margin:0 0 10px;">Click a Blook for details. CDN assets not in normal market drops.</p>
+          <p style="font-weight:700;opacity:.95;margin:0 0 10px;">Click a Blook — same popup as Packs.</p>
           <div class="pack-blooks-grid" id="bb-unreleased-grid"></div>
         </div>
         <div class="leaks-section">
@@ -45,19 +42,12 @@
         </div>
         <div class="leaks-section">
           <h3>Secret Pack — Color Pack</h3>
-          <p style="font-weight:700;opacity:.95;margin:0 0 10px;">Only when all Commons are taken in a live game. Not in Market.</p>
+          <p style="font-weight:700;opacity:.95;margin:0 0 10px;">Only when all Commons are taken in a live game.</p>
           <div class="pack-blooks-grid" id="bb-color-grid"></div>
         </div>
         <div class="leaks-section">
           <h3>Gamemode leaks</h3>
           <ul id="bb-gm-list"></ul>
-        </div>
-        <div class="leaks-section">
-          <h3>Notes</h3>
-          <ul>
-            <li><span class="tag">info</span> Fan archive only — not affiliated with Blooket.</li>
-            <li><span class="tag">info</span> Asset on CDN does not mean obtainable in-game.</li>
-          </ul>
         </div>
       </div>
     </div>`;
@@ -68,56 +58,110 @@
       <div class="leaks-wrap">
         <div class="bb-tracker-card">
           <h3>Live CDN check</h3>
-          <p class="bb-tracker-time" style="margin:0 0 8px;">GitHub Action runs about every 5 minutes.</p>
+          <p class="bb-tracker-time" style="margin:0 0 8px;">GitHub Action ~ every 5 minutes</p>
           <div id="bb-last-check">Loading…</div>
         </div>
         <div class="bb-tracker-card">
+          <h3>Updates by type</h3>
+          <p class="bb-tracker-time" style="margin:0 0 4px;">Count of entries in the update feed</p>
+          <div class="bb-chart-wrap" id="bb-chart"></div>
+        </div>
+        <div class="bb-tracker-card">
           <h3>Update feed</h3>
-          <p class="bb-tracker-time" style="margin:0 0 12px;">Newest first — dates, types, and links.</p>
+          <p class="bb-tracker-time" style="margin:0 0 12px;">Newest first</p>
           <div id="bb-updates-feed">Loading updates…</div>
         </div>
       </div>
     </div>`;
 
-  const MODAL_HTML = `
-    <div id="bb-blook-modal" role="dialog" aria-modal="true">
-      <div class="bb-modal-box">
-        <img id="bb-modal-img" alt="" />
-        <h2 id="bb-modal-name"></h2>
-        <div class="bb-modal-meta" id="bb-modal-rarity"></div>
-        <div class="bb-modal-meta" id="bb-modal-pack"></div>
-        <div class="bb-modal-meta" id="bb-modal-notes"></div>
-        <div class="bb-modal-url" id="bb-modal-url"></div>
-        <button type="button" class="bb-modal-close" id="bb-modal-close">Close</button>
-      </div>
-    </div>`;
+  const RARITY_GRADIENTS = {
+    Common: 'radial-gradient(rgb(160,160,160) 40%, rgb(90,90,95))',
+    Uncommon: 'radial-gradient(rgb(125,255,179) 40%, rgb(45,140,70))',
+    Rare: 'radial-gradient(rgb(108,182,255) 40%, rgb(10,20,180))',
+    Epic: 'radial-gradient(rgb(255,100,100) 40%, rgb(180,20,20))',
+    Legendary: 'radial-gradient(rgb(255,179,71) 40%, rgb(200,100,20))',
+    Chroma: 'radial-gradient(rgb(94,234,212) 40%, rgb(0,140,130))',
+    Mystical: 'radial-gradient(rgb(232,121,249) 40%, rgb(120,30,160))',
+    Unique: 'radial-gradient(rgb(45,212,191) 40%, rgb(0,120,110))'
+  };
 
-  function ensureModal() {
-    if (document.getElementById('bb-blook-modal')) return;
-    document.body.insertAdjacentHTML('beforeend', MODAL_HTML);
-    const modal = document.getElementById('bb-blook-modal');
-    document.getElementById('bb-modal-close').onclick = () => modal.classList.remove('open');
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.classList.remove('open');
-    });
+  const CHART_COLORS = {
+    leak: '#f59e0b',
+    gamemode: '#38bdf8',
+    site: '#a78bfa',
+    data: '#34d399',
+    fix: '#f472b6',
+    update: '#94a3b8'
+  };
+
+  function rarityTag(rarity) {
+    if (typeof window.rarityTagHtml === 'function') {
+      try { return window.rarityTagHtml(rarity); } catch (e) {}
+    }
+    return `<span class="bb-shop-tag">${rarity || '—'}</span>`;
   }
 
   function openBlookModal(b) {
-    ensureModal();
-    document.getElementById('bb-modal-img').src = b.url || '';
-    document.getElementById('bb-modal-name').textContent = b.name || 'Unknown';
-    document.getElementById('bb-modal-rarity').textContent = b.rarity ? 'Rarity: ' + b.rarity : '';
-    document.getElementById('bb-modal-pack').textContent = b.pack ? 'Pack: ' + b.pack : b.pack === null ? 'Pack: none (secret/unique)' : '';
-    document.getElementById('bb-modal-notes').textContent = b.notes || b.chance != null ? (b.notes || ('Drop: ' + b.chance + '%')) : '';
-    document.getElementById('bb-modal-url').textContent = b.url || '';
-    document.getElementById('bb-blook-modal').classList.add('open');
+    const name = b.name || 'Unknown';
+    const rarity = b.rarity || 'Unique';
+    const packName = b.pack || (b.pack === null ? 'Secret / Unique' : '');
+    const chance =
+      b.chance != null && b.chance !== ''
+        ? Number(b.chance) + '%'
+        : b.notes
+          ? 'Event / Exclusive'
+          : 'Unreleased';
+    const img =
+      b.url ||
+      (typeof window.getBlookImg === 'function' ? window.getBlookImg(name) : '') ||
+      'https://ac.blooket.com/marketassets/blooks/' +
+        name.toLowerCase().replace(/[^a-z0-9]/g, '') +
+        '.svg';
+    const bg = RARITY_GRADIENTS[rarity] || RARITY_GRADIENTS.Uncommon;
+
+    const body = document.getElementById('blook-detail-body');
+    const modal = document.getElementById('blook-detail-modal');
+    if (body && modal) {
+      body.innerHTML = `
+        <div class="bb-shop-row">
+          <div class="bb-shop-card" style="background:${bg};">
+            <div class="bb-shop-shadow-letter">B</div>
+            <div class="bb-shop-img-wrap">
+              <img class="bb-shop-hero" src="${img}" alt="${name}" draggable="false" onerror="this.style.opacity=.3">
+            </div>
+            <div class="bb-shop-overlay"></div>
+          </div>
+          <div class="bb-shop-form">
+            <div>
+              <h2 class="bb-shop-title">${name}</h2>
+              <div class="bb-shop-tags">
+                ${rarityTag(rarity)}
+                <span class="bb-shop-tag">${chance}</span>
+                ${packName ? `<span class="bb-shop-tag">${packName}</span>` : ''}
+              </div>
+              ${b.notes ? `<p style="font-weight:700;margin:12px 0 0;opacity:.95;line-height:1.4;">${b.notes}</p>` : ''}
+              ${b.url ? `<p style="font-size:11px;margin:10px 0 0;opacity:.75;word-break:break-all;">${b.url}</p>` : ''}
+            </div>
+            <button type="button" class="bb-shop-btn" onclick="closeBlookDetail()">
+              <div class="bb-shop-btn-inner">Close</div>
+            </button>
+          </div>
+        </div>`;
+      modal.style.display = 'flex';
+      return;
+    }
+
+    // Fallback if site modal missing
+    if (typeof window.openBlookDetail === 'function') {
+      window.openBlookDetail(name, rarity, b.chance != null ? b.chance : null, packName);
+    }
   }
 
   function cell(b) {
     const src = b.url || '';
     const img = src ? `<img src="${src}" alt="" loading="lazy" onerror="this.style.opacity=.3">` : '';
     const payload = encodeURIComponent(JSON.stringify(b));
-    return `<div class="pack-blook bb-click" data-bb='${payload}'>${img}<div class="bn">${b.name || ''}</div><div class="br">${b.rarity || ''}${b.pack ? ' · ' + b.pack : ''}</div></div>`;
+    return `<div class="pack-blook bb-click" data-bb="${payload}">${img}<div class="bn">${b.name || ''}</div><div class="br">${b.rarity || ''}${b.pack ? ' · ' + b.pack : ''}</div></div>`;
   }
 
   function bindClicks(root) {
@@ -132,7 +176,6 @@
   }
 
   window.renderLeaksPage = async function () {
-    ensureModal();
     try {
       const special = await fetch('/data/special-blooks.json').then((r) => r.json());
       const ug = document.getElementById('bb-unreleased-grid');
@@ -143,9 +186,9 @@
         bindClicks(ug);
       }
       if (uq) {
-        uq.innerHTML = (special.uniques || []).map((u) =>
-          cell({ name: u.name, url: u.url, rarity: 'Unique', notes: u.notes || '', pack: null })
-        ).join('');
+        uq.innerHTML = (special.uniques || [])
+          .map((u) => cell({ name: u.name, url: u.url, rarity: 'Unique', notes: u.notes || '', pack: null }))
+          .join('');
         bindClicks(uq);
       }
       if (ml) {
@@ -154,16 +197,22 @@
           .join('');
       }
     } catch (e) {
-      console.warn('leaks special', e);
+      console.warn(e);
     }
     try {
       const packs = await fetch('/data/packs.json').then((r) => r.json());
       const color = (packs.packs || []).find((p) => p.id === 'color');
       const cg = document.getElementById('bb-color-grid');
       if (cg && color) {
-        cg.innerHTML = (color.blooks || []).map((b) =>
-          cell({ ...b, pack: 'Color Pack', notes: 'Secret pack — Commons only when all normal Commons are taken' })
-        ).join('');
+        cg.innerHTML = (color.blooks || [])
+          .map((b) =>
+            cell({
+              ...b,
+              pack: 'Color Pack',
+              notes: 'Secret pack — only when all normal Commons are taken'
+            })
+          )
+          .join('');
         bindClicks(cg);
       }
     } catch (e) {}
@@ -174,7 +223,7 @@
         gl.innerHTML = (gm.gamemodes || [])
           .map((g) => {
             const tag = g.status === 'Released' ? 'released' : 'upcoming';
-            return `<li><span class="tag ${tag}">${g.status}</span> <strong>${g.name}</strong> — ${g.notes || ''} ${g.type ? '(' + g.type + ')' : ''}</li>`;
+            return `<li><span class="tag ${tag}">${g.status}</span> <strong>${g.name}</strong> — ${g.notes || ''}</li>`;
           })
           .join('');
       }
@@ -185,7 +234,7 @@
     if (!iso) return 'Unknown time';
     try {
       const d = new Date(iso);
-      if (isNaN(d.getTime())) return iso;
+      if (isNaN(d.getTime())) return String(iso);
       return d.toLocaleString(undefined, {
         weekday: 'short',
         year: 'numeric',
@@ -197,8 +246,38 @@
         timeZoneName: 'short'
       });
     } catch (e) {
-      return iso;
+      return String(iso);
     }
+  }
+
+  function renderChart(entries) {
+    const el = document.getElementById('bb-chart');
+    if (!el) return;
+    const counts = {};
+    (entries || []).forEach((e) => {
+      const t = (e.type || 'update').toLowerCase();
+      counts[t] = (counts[t] || 0) + 1;
+    });
+    const keys = Object.keys(counts);
+    if (!keys.length) {
+      el.innerHTML = '<p class="bb-tracker-time">No data yet</p>';
+      return;
+    }
+    const max = Math.max(...keys.map((k) => counts[k]), 1);
+    el.innerHTML =
+      '<div class="bb-chart-bars">' +
+      keys
+        .map((k) => {
+          const h = Math.max(8, Math.round((counts[k] / max) * 120));
+          const color = CHART_COLORS[k] || '#c4b5fd';
+          return `<div class="bb-chart-col">
+            <div class="bb-chart-val">${counts[k]}</div>
+            <div class="bb-chart-bar" style="height:${h}px;background:${color};"></div>
+            <div class="bb-chart-label">${k}</div>
+          </div>`;
+        })
+        .join('') +
+      '</div>';
   }
 
   window.renderTrackerPage = async function () {
@@ -213,11 +292,10 @@
           checkEl.innerHTML =
             `<span class="tag released">${check.status || 'ok'}</span>` +
             `<div class="bb-tracker-time" style="margin-top:8px;">Last check: <b>${formatWhen(check.checkedAt)}</b></div>` +
-            `<div class="bb-tracker-time">Raw UTC: ${check.checkedAt || '?'}</div>` +
-            (check.interval ? `<div class="bb-tracker-time">Interval: ${check.interval}</div>` : '');
+            `<div class="bb-tracker-time">UTC: ${check.checkedAt || '?'}</div>`;
         } else {
           checkEl.innerHTML =
-            '<span class="tag">waiting</span> <div class="bb-tracker-time" style="margin-top:8px;">No last-check.json yet. Enable GitHub Actions → run <b>Blooket Tracker</b> once.</div>';
+            '<span class="tag">waiting</span> <div class="bb-tracker-time" style="margin-top:8px;">No last-check.json yet — run GitHub Action <b>Blooket Tracker</b>.</div>';
         }
       }
     } catch (e) {
@@ -225,14 +303,18 @@
     }
     try {
       const data = await fetch('/data/updates.json').then((r) => r.json());
+      const entries = data.entries || [];
+      renderChart(entries);
       if (feedEl) {
-        const entries = data.entries || [];
         feedEl.innerHTML =
           entries
             .map((e) => {
-              const when = formatWhen(e.date) !== e.date ? formatWhen(e.date) : e.date;
+              const when = formatWhen(e.date);
               const links = (e.links || [])
-                .map((u) => `<p style="margin:8px 0 0;"><a href="${u}" target="_blank" rel="noopener" style="color:#fff3b0;font-weight:800;">${u}</a></p>`)
+                .map(
+                  (u) =>
+                    `<p style="margin:8px 0 0;"><a href="${u}" target="_blank" rel="noopener" style="color:#fff3b0;font-weight:800;">${u}</a></p>`
+                )
                 .join('');
               return `<div style="border-top:1px solid rgba(255,255,255,.2);padding:12px 0;">
                 <div style="font-size:12px;font-weight:900;opacity:.9;margin-bottom:4px;"><span class="tag">${e.type || 'update'}</span> ${when}</div>
@@ -322,7 +404,6 @@
         showCustom(view);
         return;
       }
-      // Leaving custom views: hide them, then run original
       const vLeaks = document.getElementById('view-leaks');
       const vTracker = document.getElementById('view-tracker');
       if (vLeaks) vLeaks.style.display = 'none';
@@ -350,15 +431,12 @@
     injectStyle();
     injectViews();
     injectSidebar();
-    ensureModal();
     patchSwitchView();
     handlePath();
-
     window.addEventListener('popstate', () => {
       const seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || 'home';
       if (seg === 'leaks' || seg === 'tracker') showCustom(seg);
     });
-
     let tries = 0;
     const iv = setInterval(() => {
       injectSidebar();
