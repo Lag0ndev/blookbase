@@ -52,6 +52,7 @@ t = re.sub(
 )
 
 marker = "if (v404) v404.style.display = view === '404' ? 'flex' : 'none';"
+# Only add blooks display if not already handling view-blooks nearby
 snippet = t[t.find(marker):t.find(marker)+900] if marker in t else ""
 if marker in t and "__bbRenderBlooks" not in snippet:
     block = """
@@ -105,23 +106,29 @@ print("cleared old blooks sidebar", n)
 m = re.search(r'data-view="market"[\s\S]*?</li>', t)
 if not m:
     raise SystemExit("market sidebar not found")
+svg = (
+    '<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="suitcase" '
+    'class="svg-inline--fa fa-suitcase fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" '
+    'viewBox="0 0 512 512" style="width:1em;height:1em;vertical-align:-0.125em;">' 
+    '<path fill="currentColor" d="M128 480h256V80c0-26.5-21.5-48-48-48H176c-26.5 0-48 21.5-48 48v400zm64-384h128v32H192V96zm320 80v256c0 26.5-21.5 48-48 48h-48V128h48c26.5 0 48 21.5 48 48zM96 480H48c-26.5 0-48-21.5-48-48V176c0-26.5 21.5-48 48-48h48v352z"></path></svg>'
+)
 insert = (
     '\n                <li>\n'
     '                    <button class="sidebar-link" data-view="blooks" '
     "onclick=\"switchView('blooks')\" type=\"button\">\n"
-    '                        <span class="sidebar-listIcon"><i class="fas fa-suitcase"></i></span>\n'
+    '                        <span class="sidebar-listIcon">' + svg + '</span>\n'
     '                        <span class="sidebar-text">Blooks</span>\n'
     '                    </button>\n'
     '                </li>'
 )
 t = t[: m.end()] + insert + t[m.end() :]
-print("added blooks sidebar suitcase")
+print("added blooks sidebar suitcase SVG")
 
 p.write_text(t, encoding="utf-8")
 print("OK", len(t))
 sb = t[t.find('<ul class="sidebar-list">'): t.find('<ul class="sidebar-list">') + 5000] if '<ul class="sidebar-list">' in t else ''
 print("sidebar secret", 'data-view="secret"' in sb)
-print("fa-suitcase", "fa-suitcase" in t)
+print("data-icon=suitcase", 'data-icon="suitcase"' in t)
 print("Open Secret", "Open Secret" in t)
 print("view-secret", 'id="view-secret"' in t)
 print("view-blooks", 'id="view-blooks"' in t)
