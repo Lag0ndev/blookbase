@@ -1,13 +1,36 @@
 {
+  "cleanUrls": false,
+  "trailingSlash": false,
   "rewrites": [
-    { "source": "/((?!api/|.*\..*).*)", "destination": "/index.html" }
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/countdown", "destination": "/index.html" },
+    { "source": "/whatsnew", "destination": "/index.html" },
+    { "source": "/leaks", "destination": "/index.html" },
+    { "source": "/videos", "destination": "/index.html" },
+    { "source": "/gamemodes", "destination": "/index.html" },
+    { "source": "/banners", "destination": "/index.html" },
+    { "source": "/packs", "destination": "/index.html" },
+    { "source": "/market", "destination": "/index.html" },
+    { "source": "/calculator", "destination": "/index.html" },
+    { "source": "/packsim", "destination": "/index.html" },
+    { "source": "/about", "destination": "/index.html" },
+    { "source": "/blooks", "destination": "/index.html" },
+    { "source": "/updates", "destination": "/index.html" },
+    { "source": "/settings", "destination": "/index.html" }
   ],
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/index.html",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
-        { "key": "X-Blookbase-Deploy", "value": "2026-10-02-load-fix" }
+        { "key": "X-Blookbase-Deploy", "value": "2026-10-02-final-load" }
+      ]
+    },
+    {
+      "source": "/",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
+        { "key": "X-Blookbase-Deploy", "value": "2026-10-02-final-load" }
       ]
     }
   ]
