@@ -11,6 +11,6 @@ jobs:
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/blooks.json bb-blooks.js
-          git commit -m "fix: CDN-verified blooks dataset + fixed Blooks page" || echo nochange
+          git add data/blooks.json
+          git commit -m "fix: CDN-verified blooks dataset (all live images)" || echo nochange
           git push
