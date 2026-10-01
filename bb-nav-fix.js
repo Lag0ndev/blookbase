@@ -1,8 +1,8 @@
-/* Blookbase nav recovery — fixes dead clicks / stuck overlays / missing switchView */
+/* Blookbase nav recovery — safe, no loops */
 (function () {
   'use strict';
-  if (window.__bbNavFixV2) return;
-  window.__bbNavFixV2 = 1;
+  if (window.__bbNavFixV3) return;
+  window.__bbNavFixV3 = 1;
 
   function showView(view) {
     view = view || 'home';
@@ -21,13 +21,11 @@
           history.pushState({ view: view }, '', path);
         }
       } catch (e) {}
-      document.title = 'Blookbase | ' + (view === 'home' ? 'Home' : view.charAt(0).toUpperCase() + view.slice(1));
     } catch (e) {
       console.warn('[bb-nav] showView', e);
     }
   }
 
-  // Always provide working globals even if main script crashed mid-way
   if (typeof window.switchView !== 'function') {
     window.switchView = function (view) {
       showView(view);
@@ -51,7 +49,10 @@
       var overlay = document.getElementById('sidebar-overlay');
       if (!sidebar) return;
       var open = sidebar.classList.toggle('open');
-      if (overlay) overlay.classList.toggle('open', open);
+      if (overlay) {
+        overlay.classList.toggle('open', open);
+        overlay.style.display = open ? 'block' : 'none';
+      }
     };
   }
   if (typeof window.closeSidebar !== 'function') {
@@ -59,58 +60,42 @@
       var sidebar = document.getElementById('sidebar');
       var overlay = document.getElementById('sidebar-overlay');
       if (sidebar) sidebar.classList.remove('open');
-      if (overlay) overlay.classList.remove('open');
+      if (overlay) {
+        overlay.classList.remove('open');
+        overlay.style.display = 'none';
+      }
     };
   }
 
-  // Clear stuck overlays that block all clicks
   function clearBlockers() {
     try {
       document.body.classList.remove('no-scroll', 'ps-opening', 'bb-page-editing');
-      var ids = ['feedback-overlay', 'summary-overlay', 'squares-grid', 'pack-wrapper'];
-      ids.forEach(function (id) {
+      ['feedback-overlay', 'summary-overlay', 'pack-wrapper'].forEach(function (id) {
         var el = document.getElementById(id);
-        if (!el) return;
-        el.classList.remove('open', 'active');
-        if (id === 'feedback-overlay' || id === 'summary-overlay') {
-          el.style.display = '';
-        }
+        if (el) el.style.display = 'none';
       });
-      var editBar = document.getElementById('bb-edit-bar');
-      if (editBar) editBar.style.display = 'none';
+      var ov = document.getElementById('sidebar-overlay');
+      if (ov && !ov.classList.contains('open')) ov.style.display = 'none';
     } catch (e) {}
   }
 
   function rewireClicks() {
-    document.querySelectorAll('[onclick*="switchView"]').forEach(function (btn) {
+    document.querySelectorAll('.sidebar-link[data-view]').forEach(function (btn) {
       if (btn.__bbNav) return;
-      var m = String(btn.getAttribute('onclick') || '').match(/switchView\(\s*['"]([^'"]+)['"]/);
-      if (!m) return;
-      var view = m[1];
       btn.__bbNav = 1;
+      var view = btn.getAttribute('data-view');
       btn.addEventListener(
         'click',
         function (ev) {
           ev.preventDefault();
-          ev.stopPropagation();
           clearBlockers();
-          window.switchView(view);
+          if (typeof window.switchView === 'function') window.switchView(view);
+          else showView(view);
+          if (typeof window.closeSidebar === 'function') window.closeSidebar();
         },
         true
       );
     });
-    var menu = document.querySelector('.menu-btn');
-    if (menu && !menu.__bbNav) {
-      menu.__bbNav = 1;
-      menu.addEventListener(
-        'click',
-        function (ev) {
-          ev.preventDefault();
-          if (typeof window.toggleSidebar === 'function') window.toggleSidebar();
-        },
-        true
-      );
-    }
   }
 
   function boot() {
@@ -120,7 +105,6 @@
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
-  setTimeout(boot, 300);
-  setTimeout(boot, 1000);
-  setTimeout(boot, 2500);
+  setTimeout(boot, 400);
+  setTimeout(boot, 1500);
 })();
