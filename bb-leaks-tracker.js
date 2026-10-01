@@ -1,13 +1,18 @@
-/* Load known-good bb-leaks-tracker from commit 172160576d07 */
+/* Load leaks/tracker implementation */
 (function(){
-  var u='https://cdn.jsdelivr.net/gh/Lag0ndev/blookbase@172160576d07/bb-leaks-tracker.js';
-  var s=document.createElement('script');
-  s.src=u;
-  s.onerror=function(){
-    var x=new XMLHttpRequest();
-    x.open('GET','https://raw.githubusercontent.com/Lag0ndev/blookbase/172160576d07/bb-leaks-tracker.js',true);
-    x.onload=function(){try{(0,eval)(x.responseText);}catch(e){console.error(e);}};
-    x.send();
-  };
-  document.head.appendChild(s);
+  if (window.__bbTrackerLoaded) return;
+  window.__bbTrackerLoaded = 1;
+  var urls = [
+    'https://cdn.jsdelivr.net/gh/Lag0ndev/blookbase@172160576d07/bb-leaks-tracker.js',
+    'https://raw.githubusercontent.com/Lag0ndev/blookbase/172160576d07/bb-leaks-tracker.js'
+  ];
+  var i = 0;
+  function next(){
+    if (i >= urls.length) return;
+    var s = document.createElement('script');
+    s.src = urls[i++] + '?v=2';
+    s.onerror = next;
+    document.head.appendChild(s);
+  }
+  next();
 })();
