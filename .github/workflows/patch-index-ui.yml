@@ -1,0 +1,27 @@
+name: Patch Index UI
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "scripts/patch_index_ui.py"
+      - ".github/workflows/patch-index-ui.yml"
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch index.html
+        run: python3 scripts/patch_index_ui.py
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --staged --quiet; then
+            echo "no changes to commit"
+          else
+            git commit -m "fix: index.html home Spooky LIVE + What's New clickable blooks"
+            git push
+          fi
