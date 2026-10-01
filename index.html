@@ -1,1 +1,40 @@
-PLACEHOLDER_WILL_FAIL
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blookbase | Loading…</title>
+<script>
+(function () {
+  var urls = [
+    'https://cdn.jsdelivr.net/gh/Lag0ndev/blookbase@061558231a8748322d51df5ca9999a797217d56d/index.html',
+    'https://raw.githack.com/Lag0ndev/blookbase/061558231a8748322d51df5ca9999a797217d56d/index.html'
+  ];
+  var i = 0;
+  function tryNext() {
+    if (i >= urls.length) {
+      document.body.innerHTML = '<p style="font-family:sans-serif;padding:2rem;color:#fff">Could not load Blookbase. Try hard-refresh (Ctrl+Shift+R).</p>';
+      return;
+    }
+    var u = urls[i++];
+    fetch(u).then(function (r) {
+      if (!r.ok) throw 0;
+      return r.text();
+    }).then(function (html) {
+      if (!html || html.indexOf('PLACEHOLDER') === 0 || html.length < 10000) throw 0;
+      if (html.indexOf('bb-nav-fix.js') < 0) {
+        html = html.replace('</body>', '<script src="/bb-nav-fix.js" defer><\/script><script src="/bb-blooks.js" defer><\/script></body>');
+      }
+      document.open();
+      document.write(html);
+      document.close();
+    }).catch(tryNext);
+  }
+  tryNext();
+})();
+</script>
+</head>
+<body style="margin:0;font-family:Nunito,sans-serif;background:linear-gradient(165deg,#0bc2cf,#349aef);color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh">
+  <p style="font-weight:800">Loading Blookbase…</p>
+</body>
+</html>
