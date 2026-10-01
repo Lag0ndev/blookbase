@@ -1,0 +1,16 @@
+name: Install Spooky Live
+on: workflow_dispatch
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/install_spooky_live.py
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/packs.json data/countdown.json data/updates.json data/blooks.json
+          git commit -m "feat: Spooky Pack LIVE with official drop rates" || echo nochange
+          git push
