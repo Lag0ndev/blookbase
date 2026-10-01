@@ -41,8 +41,8 @@ var FB=[
 {k:'fredoka',n:'Fredoka',c:"'Fredoka',sans-serif"},
 {k:'comic',n:'Comic Neue',c:"'Comic Neue',cursive"}
 ];
-var hFont=localStorage.getItem('bb_font_h')||'titan';
-var bFont=localStorage.getItem('bb_font_b')||'nunito';
+var hFont=localStorage.getItem('bb_font_h')||localStorage.getItem('blookbase_font_header')||'titan';
+var bFont=localStorage.getItem('bb_font_b')||localStorage.getItem('blookbase_font_body')||'nunito';
 var gradOn=localStorage.getItem('bb_grad')!=='0';
 
 function css(){
