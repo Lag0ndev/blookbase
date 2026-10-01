@@ -1509,6 +1509,9 @@
             font-family: 'Titan One', sans-serif;
             font-size: 40px;
             color: white;
+            text-align: center;
+            width: 100%;
+            padding: 24px 12px;
             text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
         }
 
@@ -4582,23 +4585,9 @@
         <h1 class="header-title countdown-title-btn" id="page-title" onclick="openInfoModal()" title="Switch countdown / info" role="button" tabindex="0">Blooket Spooktober Countdown</h1>
 
         <div class="countdown-grid" id="countdown">
-            <div class="countdown-box">
-                <div class="countdown-number" id="days">--</div>
-                <div class="countdown-label">Days</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-number" id="hours">--</div>
-                <div class="countdown-label">Hours</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-number" id="minutes">--</div>
-                <div class="countdown-label">Minutes</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-number" id="seconds">--</div>
-                <div class="countdown-label">Seconds</div>
-            </div>
+            <div class="countdown-done" id="countdown-done-msg">&#127875; SPOOKY PACK IS LIVE! &#128123;</div>
         </div>
+        <p class="calc-sub" id="countdown-sub" style="margin-top:16px;font-weight:800;opacity:0.9;text-align:center;">Spooky Pack is in the Market right now. Tap the title or ! for other countdowns.</p>
     </div>
 
     
@@ -5095,42 +5084,7 @@
     <div class="main-content" id="view-settings" style="display: none;">
         <h1 class="header-title">Settings</h1>
         <div class="settings-wrap">
-            <div class="settings-section">
-                <h3>Site Theme</h3>
-                <p class="settings-hint">Applies to Home, What's New, Videos, Gamemodes, Packs, Settings &amp; About — background, sidebar, and cards. Countdown pages keep their own event themes.</p>
-                <div class="theme-grid" id="theme-grid"></div>
-                <div id="custom-theme-panel" style="display:none;margin-top:16px;">
-                    <p class="settings-hint" style="margin-bottom:10px;">Pick your gradient and accent colors:</p>
-                    <div class="custom-colors">
-                        <label class="custom-color-item">
-                            <span>Gradient top</span>
-                            <input type="color" id="custom-top" value="#667eea" oninput="updateCustomTheme('bgTop', this.value)">
-                        </label>
-                        <label class="custom-color-item">
-                            <span>Gradient bottom</span>
-                            <input type="color" id="custom-bottom" value="#764ba2" oninput="updateCustomTheme('bgBottom', this.value)">
-                        </label>
-                        <label class="custom-color-item">
-                            <span>Cards / sidebar</span>
-                            <input type="color" id="custom-accent" value="#5b4db8" oninput="updateCustomTheme('accent', this.value)">
-                        </label>
-                        <label class="custom-color-item">
-                            <span>Accent shadow</span>
-                            <input type="color" id="custom-accent-dark" value="#3d2f8c" oninput="updateCustomTheme('accentDark', this.value)">
-                        </label>
-                    </div>
-                </div>
-            </div>
 
-
-            <div class="settings-section">
-                <h3>Blook Checkers Size</h3>
-                <p class="settings-hint">Resize the background pattern (Blooket checker tiles).</p>
-                <div class="bg-size-row">
-                    <input type="range" id="bg-size-slider" min="400" max="2400" step="50" value="1200" oninput="setBgBlookSize(this.value)">
-                    <span class="bg-size-value" id="bg-size-value">1200px</span>
-                </div>
-            </div>
             <div class="settings-section">
                 <h3>Sidebar</h3>
                 <p class="settings-hint">Choose where the menu sits and whether it stays open.</p>
@@ -6666,12 +6620,19 @@
         /* ---------- COUNTDOWN ---------- */
         function updateCountdown() {
             const page = pages[currentPage];
+            if (!page) return;
             const now = new Date();
             const diff = page.target - now;
             const container = document.getElementById('countdown');
+            if (!container) return;
 
             if (diff <= 0) {
-                container.innerHTML = '<div class="countdown-done">' + page.doneText + '</div>';
+                container.innerHTML = '<div class="countdown-done">' + (page.doneText || 'Event is live!') + '</div>';
+                const sub = document.getElementById('countdown-sub');
+                if (sub) {
+                    if (page.key === 'spooktober') sub.textContent = 'Spooky Pack is in the Market right now. Tap the title or ! for other countdowns.';
+                    else sub.textContent = '';
+                }
                 return;
             }
 
@@ -6692,19 +6653,23 @@
                     <div class="countdown-box">
                         <div class="countdown-number" id="seconds">--</div>
                         <div class="countdown-label">Seconds</div>
-                    </div>
-                `;
+                    </div>`;
+                const sub = document.getElementById('countdown-sub');
+                if (sub) sub.textContent = '';
             }
 
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const minutes = Math.floor((diff / (1000 * 60)) % 60);
-            const seconds = Math.floor((diff / 1000) % 60);
-
-            document.getElementById('days').innerText = days;
-            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
-            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            const d = document.getElementById('days');
+            const h = document.getElementById('hours');
+            const m = document.getElementById('minutes');
+            const s = document.getElementById('seconds');
+            if (d) d.textContent = String(days);
+            if (h) h.textContent = String(hours).padStart(2, '0');
+            if (m) m.textContent = String(minutes).padStart(2, '0');
+            if (s) s.textContent = String(seconds).padStart(2, '0');
         }
 
         /* ---------- VIDEOS ---------- */
