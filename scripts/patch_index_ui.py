@@ -7,10 +7,10 @@ path = Path("index.html")
 html = path.read_text(encoding="utf-8")
 changed = False
 
-old1 = (
-    'src="https://ac.blooket.com/marketassets/blooks/pumpkin.svg" alt="Spooktober"'
-)
-if old1 in html:
+EM = "\u2014"
+MID = "\u00b7"
+
+if 'src="https://ac.blooket.com/marketassets/blooks/pumpkin.svg" alt="Spooktober"' in html:
     html = html.replace(
         'src="https://ac.blooket.com/marketassets/blooks/pumpkin.svg" alt="Spooktober"',
         'src="https://ac.blooket.com/marketassets/blooks/spookymoth.svg" alt="Spooky Pack"',
@@ -18,7 +18,7 @@ if old1 in html:
     )
     html = html.replace(
         '<div class="home-banner-label">Spooktober</div>',
-        '<div class="home-banner-label">Spooktober \u00b7 LIVE</div>',
+        '<div class="home-banner-label">Spooktober ' + MID + ' LIVE</div>',
         1,
     )
     html = html.replace(
@@ -26,9 +26,18 @@ if old1 in html:
         '<h2>Spooky Pack is LIVE!</h2>',
         1,
     )
+    new_p = (
+        "Halloween is here "
+        + EM
+        + " Spooky Pack is in the Market with 14 blooks. Open Countdown for event timers and Season updates."
+    )
+
+    def repl_p(m):
+        return m.group(1) + new_p + m.group(2)
+
     html, n = re.subn(
         r'(<div class="home-banner">[\s\S]*?<p>)The Halloween event countdown is live.{0,120}?(</p>)',
-        r'\1Halloween is here \u2014 Spooky Pack is in the Market with 14 blooks. Open Countdown for event timers and Season updates.\2',
+        repl_p,
         html,
         count=1,
     )
@@ -69,8 +78,16 @@ if start > 0 and end > start:
                 carg = "null"
             counter[0] += 1
             return (
-                f'<div class="pack-blook bb-click" style="cursor:pointer" '
-                f'onclick="openBlookDetail(\'{name}\', \'{rarity}\', {carg}, \'Spooky Pack\')">{inner}</div>'
+                '<div class="pack-blook bb-click" style="cursor:pointer" '
+                + "onclick=\"openBlookDetail('"
+                + name
+                + "', '"
+                + rarity
+                + "', "
+                + carg
+                + ", 'Spooky Pack')\">"
+                + inner
+                + "</div>"
             )
 
         grid2 = re.sub(r'<div class="pack-blook">([\s\S]*?)</div>', r2, grid)
