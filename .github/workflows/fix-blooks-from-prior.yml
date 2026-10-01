@@ -1,0 +1,23 @@
+name: Fix bb-blooks from prior good + patches
+on: workflow_dispatch
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore and patch
+        run: |
+          python3 scripts/fix_blooks_from_prior.py
+          node -c bb-blooks.js
+          python3 scripts/patch_glitches.py || true
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add bb-blooks.js index.html || true
+          if git diff --staged --quiet; then echo No change; else
+            git commit -m "fix: restore bb-blooks.js + countdown info-btn glitch fixes"
+            git push
+          fi
