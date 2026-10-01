@@ -1,7 +1,40 @@
 {
-  "lastUpdated": "2026-09-30",
+  "lastUpdated": "2026-10-01",
   "note": "Official Blooket product updates. Exact times unknown unless noted.",
   "entries": [
+    {
+      "date": "2026-09-30",
+      "time": "23:06:00Z",
+      "type": "pack",
+      "title": "Spooky Pack is LIVE",
+      "body": "Spooky Pack is out in the Market with 14 blooks. Drop rates: Pumpkin/Swamp Monster/Frankenstein/Vampire/Zombie 15.2%, Mummy/Caramel Apple/Candy Corn/Crow/Vampire Bat 4%, Werewolf/Goo Monster 1.65%, Ghost 0.65%, Spooky Moth 0.05%.",
+      "images": [
+        {
+          "label": "Goo Monster",
+          "src": "https://ac.blooket.com/marketassets/blooks/goomonster.svg"
+        },
+        {
+          "label": "Spooky Moth",
+          "src": "https://ac.blooket.com/marketassets/blooks/spookymoth.svg"
+        },
+        {
+          "label": "Caramel Apple",
+          "src": "https://ac.blooket.com/marketassets/blooks/caramelapple.svg"
+        },
+        {
+          "label": "Crow",
+          "src": "https://ac.blooket.com/marketassets/blooks/crow.svg"
+        },
+        {
+          "label": "Vampire Bat",
+          "src": "https://ac.blooket.com/marketassets/blooks/vampirebat.svg"
+        },
+        {
+          "label": "Ghost",
+          "src": "https://ac.blooket.com/marketassets/blooks/ghost.svg"
+        }
+      ]
+    },
     {
       "date": "2026-09-16",
       "time": "14:32:00Z",
@@ -9,8 +42,14 @@
       "title": "Season 8 launches",
       "body": "Dog Pack (25 tokens), Claw Mania (live), Snake Escape (solo), Class Pass, Achievements, Locker, and Arcade.",
       "images": [
-        { "label": "Dog", "src": "https://ac.blooket.com/marketassets/blooks/dog.svg" },
-        { "label": "Robot Dog", "src": "https://ac.blooket.com/marketassets/blooks/robotdog.svg" }
+        {
+          "label": "Dog",
+          "src": "https://ac.blooket.com/marketassets/blooks/dog.svg"
+        },
+        {
+          "label": "Robot Dog",
+          "src": "https://ac.blooket.com/marketassets/blooks/robotdog.svg"
+        }
       ]
     },
     {
@@ -18,9 +57,12 @@
       "time": "unknown",
       "type": "blook",
       "title": "Fuego Unique in Market",
-      "body": "Fuego (Design a Blook Contest winner) available as a limited Unique (about May 20 – June 2, 2026).",
+      "body": "Fuego (Design a Blook Contest winner) available as a limited Unique (about May 20 \u2013 June 2, 2026).",
       "images": [
-        { "label": "Fuego", "src": "https://ac.blooket.com/marketassets/blooks/fuego.svg" }
+        {
+          "label": "Fuego",
+          "src": "https://ac.blooket.com/marketassets/blooks/fuego.svg"
+        }
       ]
     },
     {
@@ -38,18 +80,27 @@
       "title": "Major Market redesign",
       "body": "Smaller pack icons, price under packs, multi-buy flow. Instant-open removed.",
       "images": [
-        { "label": "Astronaut", "src": "https://ac.blooket.com/marketassets/blooks/astronaut.svg" }
+        {
+          "label": "Astronaut",
+          "src": "https://ac.blooket.com/marketassets/blooks/astronaut.svg"
+        }
       ]
     },
     {
       "date": "2025-09-16",
       "time": "unknown",
       "type": "season",
-      "title": "Season 7 — Mining",
+      "title": "Season 7 \u2014 Mining",
       "body": "Busy Bees, Mini Mine, Zorblitz, Star Grazer. Lunch Pack added. Pirate's Voyage removed.",
       "images": [
-        { "label": "Sandwich", "src": "https://ac.blooket.com/marketassets/blooks/sandwich.svg" },
-        { "label": "Cheeseburger", "src": "https://ac.blooket.com/marketassets/blooks/cheeseburger.svg" }
+        {
+          "label": "Sandwich",
+          "src": "https://ac.blooket.com/marketassets/blooks/sandwich.svg"
+        },
+        {
+          "label": "Cheeseburger",
+          "src": "https://ac.blooket.com/marketassets/blooks/cheeseburger.svg"
+        }
       ]
     },
     {
@@ -59,7 +110,10 @@
       "title": "Crazy Kingdom rework",
       "body": "Visual and UI rework to match other modes.",
       "images": [
-        { "label": "King", "src": "https://ac.blooket.com/marketassets/blooks/king.svg" }
+        {
+          "label": "King",
+          "src": "https://ac.blooket.com/marketassets/blooks/king.svg"
+        }
       ]
     },
     {
@@ -74,11 +128,17 @@
       "date": "2024-11-05",
       "time": "unknown",
       "type": "season",
-      "title": "Season 6 — Retro",
+      "title": "Season 6 \u2014 Retro",
       "body": "Laser Tag, Study, Plushie Panic, Coco Cabana, Pirate Pool. Bug Pack added. Tower of Doom removed.",
       "images": [
-        { "label": "Mantis", "src": "https://ac.blooket.com/marketassets/blooks/mantis.svg" },
-        { "label": "Autumn Crow", "src": "https://ac.blooket.com/marketassets/blooks/autumncrow.svg" }
+        {
+          "label": "Mantis",
+          "src": "https://ac.blooket.com/marketassets/blooks/mantis.svg"
+        },
+        {
+          "label": "Autumn Crow",
+          "src": "https://ac.blooket.com/marketassets/blooks/autumncrow.svg"
+        }
       ]
     },
     {
@@ -96,19 +156,31 @@
       "title": "Spooky Pack (Season 6 window)",
       "body": "Halloween seasonal pack. Typical window early October through early November.",
       "images": [
-        { "label": "Pumpkin", "src": "https://ac.blooket.com/marketassets/blooks/pumpkin.svg" },
-        { "label": "Ghost", "src": "https://ac.blooket.com/marketassets/blooks/ghost.svg" }
+        {
+          "label": "Pumpkin",
+          "src": "https://ac.blooket.com/marketassets/blooks/pumpkin.svg"
+        },
+        {
+          "label": "Ghost",
+          "src": "https://ac.blooket.com/marketassets/blooks/ghost.svg"
+        }
       ]
     },
     {
       "date": "2023-09-21",
       "time": "unknown",
       "type": "season",
-      "title": "Season 5 — Pirate",
+      "title": "Season 5 \u2014 Pirate",
       "body": "Pirate Pack, Pirate's Voyage, Contest of Candy 2023.",
       "images": [
-        { "label": "Pirate", "src": "https://ac.blooket.com/marketassets/blooks/pirate.svg" },
-        { "label": "Kraken", "src": "https://ac.blooket.com/marketassets/blooks/kraken.svg" }
+        {
+          "label": "Pirate",
+          "src": "https://ac.blooket.com/marketassets/blooks/pirate.svg"
+        },
+        {
+          "label": "Kraken",
+          "src": "https://ac.blooket.com/marketassets/blooks/kraken.svg"
+        }
       ]
     },
     {
@@ -123,22 +195,34 @@
       "date": "2022-09-13",
       "time": "unknown",
       "type": "season",
-      "title": "Season 4 — Monsters",
+      "title": "Season 4 \u2014 Monsters",
       "body": "Boxes renamed to Packs. Ice Monster Pack, Monster Brawl, Tower Defense 2.",
       "images": [
-        { "label": "Ice Slime", "src": "https://ac.blooket.com/marketassets/blooks/iceslime.svg" },
-        { "label": "Bush Monster", "src": "https://ac.blooket.com/marketassets/blooks/bushmonster.svg" }
+        {
+          "label": "Ice Slime",
+          "src": "https://ac.blooket.com/marketassets/blooks/iceslime.svg"
+        },
+        {
+          "label": "Bush Monster",
+          "src": "https://ac.blooket.com/marketassets/blooks/bushmonster.svg"
+        }
       ]
     },
     {
       "date": "2021-09-22",
       "time": "unknown",
       "type": "season",
-      "title": "Season 3 — Aquatic",
+      "title": "Season 3 \u2014 Aquatic",
       "body": "Aquatic Pack, Fishing Frenzy, Contest of Candy 2021.",
       "images": [
-        { "label": "Baby Shark", "src": "https://ac.blooket.com/marketassets/blooks/babyshark.svg" },
-        { "label": "Narwhal", "src": "https://ac.blooket.com/marketassets/blooks/narwhal.svg" }
+        {
+          "label": "Baby Shark",
+          "src": "https://ac.blooket.com/marketassets/blooks/babyshark.svg"
+        },
+        {
+          "label": "Narwhal",
+          "src": "https://ac.blooket.com/marketassets/blooks/narwhal.svg"
+        }
       ]
     },
     {
@@ -148,18 +232,27 @@
       "title": "Crazy Kingdom released",
       "body": "Solo mode Crazy Kingdom launches.",
       "images": [
-        { "label": "King", "src": "https://ac.blooket.com/marketassets/blooks/king.svg" }
+        {
+          "label": "King",
+          "src": "https://ac.blooket.com/marketassets/blooks/king.svg"
+        }
       ]
     },
     {
       "date": "2020-09-15",
       "time": "unknown",
       "type": "season",
-      "title": "Season 2 — Breakfast",
+      "title": "Season 2 \u2014 Breakfast",
       "body": "Breakfast Pack, Cafe and related modes, first Contest of Candy.",
       "images": [
-        { "label": "Toast", "src": "https://ac.blooket.com/marketassets/blooks/toast.svg" },
-        { "label": "French Toast", "src": "https://ac.blooket.com/marketassets/blooks/frenchtoast.svg" }
+        {
+          "label": "Toast",
+          "src": "https://ac.blooket.com/marketassets/blooks/toast.svg"
+        },
+        {
+          "label": "French Toast",
+          "src": "https://ac.blooket.com/marketassets/blooks/frenchtoast.svg"
+        }
       ]
     },
     {
@@ -169,9 +262,18 @@
       "title": "Season 1 / site launch",
       "body": "Blooket launches. Medieval, Bot, and Space packs. Classic and early modes.",
       "images": [
-        { "label": "Astronaut", "src": "https://ac.blooket.com/marketassets/blooks/astronaut.svg" },
-        { "label": "Wizard", "src": "https://ac.blooket.com/marketassets/blooks/wizard.svg" },
-        { "label": "Happy Bot", "src": "https://ac.blooket.com/marketassets/blooks/happybot.svg" }
+        {
+          "label": "Astronaut",
+          "src": "https://ac.blooket.com/marketassets/blooks/astronaut.svg"
+        },
+        {
+          "label": "Wizard",
+          "src": "https://ac.blooket.com/marketassets/blooks/wizard.svg"
+        },
+        {
+          "label": "Happy Bot",
+          "src": "https://ac.blooket.com/marketassets/blooks/happybot.svg"
+        }
       ]
     }
   ]
