@@ -1,0 +1,16 @@
+name: Install Blooks Fix
+on: workflow_dispatch
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/install_blooks_fix.py
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/blooks.json bb-blooks.js
+          git commit -m "fix: CDN-verified blooks dataset + fixed Blooks page" || echo nochange
+          git push
