@@ -1,0 +1,23 @@
+name: Install glitch fixes
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/install_glitch_fixes.py'
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/install_glitch_fixes.py
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add bb-blooks.js bb-settings-enhance.js bb-leaks-tracker.js index.html
+          if git diff --staged --quiet; then echo No change; else
+            git commit -m "fix: glitch fixes (blooks shell upgrade, fonts migrate, countdown info btn)"
+            git push
+          fi
