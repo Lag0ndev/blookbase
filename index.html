@@ -4426,8 +4426,69 @@
         #bb-edit-toast.show { display: block; animation: popIn 0.25s ease; }
 
 </style>
+
+    <style id="bb-critical">
+      html, body { min-height: 100%; margin: 0; }
+      body { color: #1a1a1a; background: #2a9fe8; }
+      .main-content { position: relative; z-index: 1; }
+      #view-home { display: flex !important; }
+      .header-title, .home-banner h2, .home-banner p, .sidebar-text { color: #fff !important; }
+      body.ps-opening .main-content { display: flex !important; }
+    </style>
 </head>
 <body>
+<noscript style="display:block;padding:24px;font-family:sans-serif;background:#fff;color:#000;"><h1>Blookbase</h1><p>Enable JavaScript to use the full site. Static content requires JS for navigation.</p></noscript>
+
+<script id="bb-theme-safe">
+(function () {
+  try {
+    var k = localStorage.getItem('blookbase_theme');
+    if (k && k.length > 40) localStorage.removeItem('blookbase_theme');
+  } catch (e) {}
+  try {
+    var c = localStorage.getItem('blookbase_custom_theme');
+    if (c) {
+      var o = JSON.parse(c);
+      if (!o || typeof o !== 'object') localStorage.removeItem('blookbase_custom_theme');
+    }
+  } catch (e) {
+    try { localStorage.removeItem('blookbase_custom_theme'); } catch (e2) {}
+  }
+})();
+</script>
+
+
+<script id="bb-boot">
+(function () {
+  function rescue() {
+    try {
+      document.body && document.body.classList.remove('ps-opening', 'no-scroll', 'bb-page-editing');
+      var ov = document.getElementById('sidebar-overlay');
+      if (ov) { ov.classList.remove('open'); ov.style.display = 'none'; }
+      var pw = document.getElementById('pack-wrapper');
+      if (pw) pw.style.display = 'none';
+      var home = document.getElementById('view-home');
+      if (!home) return;
+      var visible = false;
+      document.querySelectorAll('.main-content').forEach(function (el) {
+        var d = (el.style && el.style.display) || '';
+        if (d === 'flex' || d === 'block') visible = true;
+      });
+      if (!visible) {
+        document.querySelectorAll('.main-content').forEach(function (el) { el.style.display = 'none'; });
+        home.style.display = 'flex';
+      }
+    } catch (e) {}
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', rescue);
+  else rescue();
+  setTimeout(rescue, 0);
+  setTimeout(rescue, 300);
+  setTimeout(rescue, 1000);
+  setTimeout(rescue, 3000);
+})();
+</script>
+
     <script>
     /* Failsafe: never leave the page blank */
     (function(){
@@ -4558,7 +4619,7 @@
         <button type="button" class="err404-btn" onclick="switchView('home')">Go Home</button>
     </div>
 
-    <div class="main-content" id="view-home">
+    <div class="main-content" id="view-home" style="display:flex;">
         <h1 class="header-title" id="home-title">Welcome To Blookbase</h1>
         <div class="home-wrap">
             <div class="home-banner">
@@ -5261,7 +5322,7 @@
             <span><strong id="online-count">—</strong> online</span>
         </div>
 
-    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js" defer></script>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js" defer async></script>
     <!-- Admin auth: password is SHA-256 only (never plaintext). External /api/session.js optional. -->
     <script>
     (function () {
@@ -9999,7 +10060,7 @@ const counts = {};
             if (map[seg]) {
                 switchView(map[seg], true);
             } else {
-                switchView('404', true);
+                switchView('home', true);
             }
         }
 
