@@ -1,5 +1,5 @@
 /**
- * Vercel serverless: serves client auth JS + loads Leaks/Tracker injector.
+ * Vercel serverless: serves client auth JS + loads Leaks/Tracker + UI fixes.
  * Browser calls /api/session.js as a script tag from index.html.
  */
 module.exports = function handler(req, res) {
@@ -34,16 +34,21 @@ module.exports = function handler(req, res) {
   window.__bbVerify = verify;
   try { Object.freeze(window.__bbVerify); } catch (e) {}
 
-  // Load Leaks + Tracker sidebar pages
-  try {
-    if (!document.querySelector('script[data-bb-leaks]')) {
+  function loadScript(src, attr) {
+    try {
+      if (document.querySelector('script[src="' + src + '"]')) return;
       var s = document.createElement('script');
-      s.src = '/bb-leaks-tracker.js';
+      s.src = src;
       s.defer = true;
-      s.setAttribute('data-bb-leaks', '1');
+      if (attr) s.setAttribute(attr, '1');
       document.head.appendChild(s);
-    }
-  } catch (e) {}
+    } catch (e) {}
+  }
+
+  // Leaks + Tracker sidebar pages
+  loadScript('/bb-leaks-tracker.js', 'data-bb-leaks');
+  // Home LIVE banner + What's New clickable blooks
+  loadScript('/bb-ui-fixes.js', 'data-bb-ui');
 })();
 `;
   res.statusCode = 200;
