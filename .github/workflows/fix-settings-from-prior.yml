@@ -1,0 +1,19 @@
+name: Fix settings enhance from prior
+on: workflow_dispatch
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/fix_settings_from_prior.py && node -c bb-settings-enhance.js
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add bb-settings-enhance.js
+          if git diff --staged --quiet; then echo No change; else
+            git commit -m "fix: restore purple theme picker + font reset glitch fixes"
+            git push
+          fi
