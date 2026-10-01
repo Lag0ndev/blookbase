@@ -18,7 +18,8 @@
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" },
+        { "key": "X-Blookbase-Deploy", "value": "2026-10-01-index-live" }
       ]
     },
     {
