@@ -5721,7 +5721,7 @@
 
 
             const infoBtn = document.getElementById('info-btn');
-            if (infoBtn) infoBtn.style.display = 'none';
+            if (infoBtn) infoBtn.style.display = (view === 'countdown') ? 'flex' : 'none';
             if (view !== 'countdown') {
                 applySiteTheme();
                 toggleSnow(false);
