@@ -1,0 +1,16 @@
+name: Patch Load Fix
+on: workflow_dispatch
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/patch_load_fix.py
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html vercel.json
+          git commit -m "fix: site load - defer mqtt CDN, SPA rewrite, blank-page failsafe" || echo nochange
+          git push
