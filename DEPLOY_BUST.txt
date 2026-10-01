@@ -1,6 +1,2 @@
-redeploy-2026-10-01-01-12
-This file forces Vercel to pick up the latest index.html fixes:
-- countdown LIVE
-- no Site Theme / fonts / BG settings
-- fixed meta : > leak
-- Spooky What's New + video
+Redeploy trigger 2026-10-01T01:45Z
+index.html patched: home Spooky LIVE + What's New clickable blooks
