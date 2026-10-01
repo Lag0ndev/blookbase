@@ -1,0 +1,13 @@
+{
+  "lastChecked": null,
+  "lastChanged": null,
+  "note": "Weekly Shop usually resets Monday or Tuesday at 6:00 PM Central. Items are banners, titles, and sometimes blook parts. Exact live inventory requires Blooket login; this tracker watches public assets + records rotations when detected.",
+  "resetHint": "Mon/Tue ~6:00 PM CST/CDT",
+  "signature": null,
+  "current": {
+    "weekOf": null,
+    "items": [],
+    "source": "pending first successful probe"
+  },
+  "history": []
+}
