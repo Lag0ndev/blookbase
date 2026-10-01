@@ -4,7 +4,6 @@
     { "source": "/countdown", "destination": "/index.html" },
     { "source": "/whatsnew", "destination": "/index.html" },
     { "source": "/leaks", "destination": "/index.html" },
-    { "source": "/tracker", "destination": "/index.html" },
     { "source": "/videos", "destination": "/index.html" },
     { "source": "/gamemodes", "destination": "/index.html" },
     { "source": "/banners", "destination": "/index.html" },
@@ -13,20 +12,15 @@
     { "source": "/calculator", "destination": "/index.html" },
     { "source": "/packsim", "destination": "/index.html" },
     { "source": "/about", "destination": "/index.html" },
-    { "source": "/blooks", "destination": "/index.html" }
+    { "source": "/blooks", "destination": "/index.html" },
+    { "source": "/updates", "destination": "/index.html" }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
-        { "key": "X-Blookbase-Deploy", "value": "2026-10-01-navfix-v2" }
-      ]
-    },
-    {
-      "source": "/index.html",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        { "key": "X-Blookbase-Deploy", "value": "2026-10-01-no-tracker" }
       ]
     }
   ]
