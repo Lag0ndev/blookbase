@@ -1,5 +1,5 @@
 {
-  "lastChecked": "2026-10-01T00:15:00Z",
+  "lastChecked": "2026-10-01T05:54:21Z",
   "lastChanged": null,
   "note": "Tracks public Blooket market assets tied to limited / weekly-style rotations. Full live banner/title list needs a logged-in session; when the asset signature changes, we log a Weekly Shop rotation event on the Tracker.",
   "resetHint": "Mon/Tue ~6:00 PM Central (CST/CDT)",
