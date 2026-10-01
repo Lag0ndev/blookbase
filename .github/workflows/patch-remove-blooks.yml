@@ -1,0 +1,16 @@
+name: Remove Blooks Update Packs
+on: workflow_dispatch
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/patch_remove_blooks_update_packs.py
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html app.js
+          git commit -m "feat: remove Blooks page; Packs fully updated (Spooky LIVE)" || echo nochange
+          git push
