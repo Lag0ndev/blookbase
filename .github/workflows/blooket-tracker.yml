@@ -15,13 +15,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: Probe assets + weekly shop
         run: python3 scripts/probe_weekly_shop.py
-      - name: Ensure weekly shop script on site
-        run: python3 scripts/patch_weekly_shop_script.py || true
-      - name: Commit if changed
+      - name: Commit data only (never rewrite index.html)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/last-check.json data/weekly-shop.json data/updates.json index.html || true
+          # Do NOT add index.html — rewriting it every 5 min forces Vercel redeploys
+          # and can make the live site feel like it auto-refreshes / breaks interactions.
+          git add data/last-check.json data/weekly-shop.json data/updates.json || true
           if git diff --staged --quiet; then
             echo "No change"
           else
