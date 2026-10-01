@@ -1,91 +1,126 @@
-/* Blookbase nav fix — stop broken clicks / accidental full reloads */
+/* Blookbase nav recovery — fixes dead clicks / stuck overlays / missing switchView */
 (function () {
   'use strict';
-  if (window.__bbNavFix) return;
-  window.__bbNavFix = 1;
+  if (window.__bbNavFixV2) return;
+  window.__bbNavFixV2 = 1;
 
-  function ensureSwitchView() {
-    if (typeof window.switchView === 'function') return;
-    window.switchView = function (view) {
+  function showView(view) {
+    view = view || 'home';
+    try {
+      document.querySelectorAll('.main-content').forEach(function (el) {
+        el.style.display = 'none';
+      });
+      var t = document.getElementById('view-' + view) || document.getElementById('view-home');
+      if (t) t.style.display = 'flex';
       try {
-        document.querySelectorAll('.main-content').forEach(function (el) {
-          el.style.display = 'none';
-        });
-        var target = document.getElementById('view-' + view) || document.getElementById('view-home');
-        if (target) target.style.display = 'flex';
-        try {
-          var path = view === 'home' ? '/' : '/' + view;
-          if (location.protocol !== 'file:' && location.pathname !== path) {
-            history.pushState({ view: view }, '', path);
-          }
-        } catch (e) {}
+        window.currentView = view;
       } catch (e) {}
-    };
+      try {
+        var path = view === 'home' ? '/' : '/' + view;
+        if (location.protocol !== 'file:' && location.pathname !== path) {
+          history.pushState({ view: view }, '', path);
+        }
+      } catch (e) {}
+      document.title = 'Blookbase | ' + (view === 'home' ? 'Home' : view.charAt(0).toUpperCase() + view.slice(1));
+    } catch (e) {
+      console.warn('[bb-nav] showView', e);
+    }
   }
-  ensureSwitchView();
 
-  if (typeof window.switchView === 'function' && !window.switchView.__bbNavSafe) {
+  // Always provide working globals even if main script crashed mid-way
+  if (typeof window.switchView !== 'function') {
+    window.switchView = function (view) {
+      showView(view);
+    };
+  } else if (!window.switchView.__bbSafe) {
     var orig = window.switchView;
     window.switchView = function (view, skipUrl) {
       try {
         return orig.apply(this, arguments);
       } catch (err) {
-        console.warn('[bb-nav-fix] switchView error', err);
-        try {
-          document.querySelectorAll('.main-content').forEach(function (el) {
-            el.style.display = 'none';
-          });
-          var t = document.getElementById('view-' + view) || document.getElementById('view-home');
-          if (t) t.style.display = 'flex';
-        } catch (e2) {}
+        console.warn('[bb-nav] switchView failed, fallback', err);
+        showView(view);
       }
     };
-    window.switchView.__bbNavSafe = 1;
+    window.switchView.__bbSafe = 1;
   }
 
-  document.addEventListener(
-    'submit',
-    function (e) {
-      var form = e.target;
-      if (!form || form.id === 'feedback-form') return;
-      if (form.closest && form.closest('#admin-panel, #view-settings, .ps-buy-modal, .summary-modal')) {
-        e.preventDefault();
-      }
-    },
-    true
-  );
+  if (typeof window.toggleSidebar !== 'function') {
+    window.toggleSidebar = function () {
+      var sidebar = document.getElementById('sidebar');
+      var overlay = document.getElementById('sidebar-overlay');
+      if (!sidebar) return;
+      var open = sidebar.classList.toggle('open');
+      if (overlay) overlay.classList.toggle('open', open);
+    };
+  }
+  if (typeof window.closeSidebar !== 'function') {
+    window.closeSidebar = function () {
+      var sidebar = document.getElementById('sidebar');
+      var overlay = document.getElementById('sidebar-overlay');
+      if (sidebar) sidebar.classList.remove('open');
+      if (overlay) overlay.classList.remove('open');
+    };
+  }
 
-  function rewireHome() {
+  // Clear stuck overlays that block all clicks
+  function clearBlockers() {
+    try {
+      document.body.classList.remove('no-scroll', 'ps-opening', 'bb-page-editing');
+      var ids = ['feedback-overlay', 'summary-overlay', 'squares-grid', 'pack-wrapper'];
+      ids.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.classList.remove('open', 'active');
+        if (id === 'feedback-overlay' || id === 'summary-overlay') {
+          el.style.display = '';
+        }
+      });
+      var editBar = document.getElementById('bb-edit-bar');
+      if (editBar) editBar.style.display = 'none';
+    } catch (e) {}
+  }
+
+  function rewireClicks() {
     document.querySelectorAll('[onclick*="switchView"]').forEach(function (btn) {
-      if (btn.__bbRewire) return;
+      if (btn.__bbNav) return;
       var m = String(btn.getAttribute('onclick') || '').match(/switchView\(\s*['"]([^'"]+)['"]/);
       if (!m) return;
       var view = m[1];
-      btn.__bbRewire = 1;
-      btn.addEventListener('click', function (ev) {
-        ev.preventDefault();
-        ev.stopPropagation();
-        if (typeof window.switchView === 'function') window.switchView(view);
-      });
+      btn.__bbNav = 1;
+      btn.addEventListener(
+        'click',
+        function (ev) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          clearBlockers();
+          window.switchView(view);
+        },
+        true
+      );
     });
-  }
-
-  var menu = document.querySelector('.menu-btn');
-  if (menu && !menu.__bbMenu) {
-    menu.__bbMenu = 1;
-    menu.addEventListener('click', function (ev) {
-      ev.preventDefault();
-      if (typeof window.toggleSidebar === 'function') window.toggleSidebar();
-    });
+    var menu = document.querySelector('.menu-btn');
+    if (menu && !menu.__bbNav) {
+      menu.__bbNav = 1;
+      menu.addEventListener(
+        'click',
+        function (ev) {
+          ev.preventDefault();
+          if (typeof window.toggleSidebar === 'function') window.toggleSidebar();
+        },
+        true
+      );
+    }
   }
 
   function boot() {
-    ensureSwitchView();
-    rewireHome();
+    clearBlockers();
+    rewireClicks();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
-  setTimeout(boot, 500);
-  setTimeout(boot, 1500);
+  setTimeout(boot, 300);
+  setTimeout(boot, 1000);
+  setTimeout(boot, 2500);
 })();

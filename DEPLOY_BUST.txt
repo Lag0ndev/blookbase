@@ -1,2 +1,3 @@
-Redeploy trigger 2026-10-01T01:45Z
-index.html patched: home Spooky LIVE + What's New clickable blooks
+deploy-bust 2026-10-01-navfix-v2
+Hard refresh: Ctrl+Shift+R
+If still blank, open Incognito.
