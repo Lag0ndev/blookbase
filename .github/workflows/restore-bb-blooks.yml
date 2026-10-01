@@ -1,0 +1,25 @@
+name: Restore bb-blooks
+on: workflow_dispatch
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore bb-blooks.js from known good commit
+        run: |
+          git show 65590a41db38b33b27182b65faf53d85dd34e63f:bb-blooks.js > bb-blooks.js
+          # cache-bust data fetch
+          sed -i 's|fetch(urls\[i++\])|fetch(urls[i++] + (urls[i-1].indexOf("http")===0 ? "" : "?t=" + Date.now()))|' bb-blooks.js || true
+          wc -c bb-blooks.js
+          head -c 80 bb-blooks.js; echo
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add bb-blooks.js
+          git commit -m "fix: restore bb-blooks.js (pack UI) for CDN-verified data" || echo nochange
+          git push
