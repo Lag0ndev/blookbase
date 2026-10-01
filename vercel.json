@@ -1,6 +1,18 @@
 {
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/countdown", "destination": "/index.html" },
+    { "source": "/whatsnew", "destination": "/index.html" },
+    { "source": "/leaks", "destination": "/index.html" },
+    { "source": "/tracker", "destination": "/index.html" },
+    { "source": "/videos", "destination": "/index.html" },
+    { "source": "/gamemodes", "destination": "/index.html" },
+    { "source": "/banners", "destination": "/index.html" },
+    { "source": "/packs", "destination": "/index.html" },
+    { "source": "/market", "destination": "/index.html" },
+    { "source": "/calculator", "destination": "/index.html" },
+    { "source": "/packsim", "destination": "/index.html" },
+    { "source": "/about", "destination": "/index.html" }
   ],
   "headers": [
     {
