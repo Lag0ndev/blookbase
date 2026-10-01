@@ -1,0 +1,16 @@
+name: Patch Countdown Settings
+on: workflow_dispatch
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/patch_countdown_settings.py
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html bb-settings-enhance.js
+          git commit -m "fix: countdown LIVE display; remove Settings themes/fonts/BG" || echo nochange
+          git push
