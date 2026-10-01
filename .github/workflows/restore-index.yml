@@ -1,0 +1,46 @@
+name: Restore index.html
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/restore-index.yml'
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore index from known good commit and add nav scripts
+        run: |
+          git show 061558231a8748322d51df5ca9999a797217d56d:index.html > index.html
+          python3 << 'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          t = p.read_text(encoding='utf-8')
+          if 'bb-nav-fix.js' not in t:
+              old = '''<script src="bb-ui-fixes.js" defer></script>\n</body>\n</html>'''
+              new = '''<script src="bb-ui-fixes.js" defer></script>\n<script src="bb-blooks.js" defer></script>\n<script src="bb-nav-fix.js" defer></script>\n</body>\n</html>'''
+              if old in t:
+                  t = t.replace(old, new, 1)
+              else:
+                  t = t.replace('</body>', '<script src="bb-blooks.js" defer></script>\n<script src="bb-nav-fix.js" defer></script>\n</body>', 1)
+              p.write_text(t, encoding='utf-8')
+              print('patched scripts')
+          else:
+              print('scripts already present')
+          print('size', p.stat().st_size)
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --staged --quiet; then
+            echo "No change"
+          else
+            git commit -m "fix: restore full index.html + nav/blooks scripts"
+            git push
+          fi
