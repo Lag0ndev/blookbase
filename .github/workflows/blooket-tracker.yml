@@ -1,8 +1,6 @@
 name: Blooket Tracker
 
 on:
-  # GitHub Actions minimum schedule interval is ~5 minutes.
-  # "Every minute" (* * * * *) is not supported and gets throttled.
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch:
@@ -10,125 +8,23 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 5
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            data
-          sparse-checkout-cone-mode: false
-
-      - name: Probe Blooket CDNs for new / changed assets
-        id: probe
-        run: |
-          set +e
-          OUT="data/last-check.json"
-          TMP="$(mktemp)"
-          FOUND="$(mktemp)"
-          MISSING="$(mktemp)"
-
-          # --- URLs to watch (blooks, packs, gamemode logos, dash assets) ---
-          URLS=(
-            # Unreleased / special blooks
-            "https://ac.blooket.com/marketassets/blooks/purpleastronaut.svg"
-            "https://ac.blooket.com/marketassets/blooks/blueastronaut.svg"
-            "https://ac.blooket.com/marketassets/blooks/cyanastronaut.svg"
-            "https://ac.blooket.com/marketassets/blooks/limeastronaut.svg"
-            "https://ac.blooket.com/marketassets/blooks/lemoncrab.svg"
-            "https://ac.blooket.com/marketassets/blooks/poisondartfrog.svg"
-            "https://ac.blooket.com/marketassets/blooks/rainbownarwhal.svg"
-            "https://ac.blooket.com/marketassets/blooks/rainbowjellyfish.svg"
-            "https://ac.blooket.com/marketassets/blooks/blizzardclownfish.svg"
-            "https://ac.blooket.com/marketassets/blooks/donutblobfish.svg"
-            "https://ac.blooket.com/marketassets/blooks/crimsonoctopus.svg"
-            "https://ac.blooket.com/marketassets/blooks/underconstruction.svg"
-            "https://ac.blooket.com/marketassets/blooks/placeholder.svg"
-            "https://ac.blooket.com/marketassets/blooks/fuego.svg"
-            "https://ac.blooket.com/marketassets/blooks/dog.svg"
-            "https://ac.blooket.com/marketassets/blooks/robotdog.svg"
-            "https://ac.blooket.com/marketassets/blooks/clawmania.svg"
-            "https://ac.blooket.com/marketassets/blooks/fishtank.svg"
-            # Pack covers / bottoms
-            "https://ac.blooket.com/dashclassic/assets/Lunch_Pack-DWYwdJdz.png"
-            "https://ac.blooket.com/dashclassic/assets/SpookyPackBottom-Bb7nZ1oD.png"
-            # Gamemode logos
-            "https://ac.blooket.com/gamemodes/logos/snake.png"
-            "https://ac.blooket.com/gamemodes/logos/bubble.png"
-            "https://ac.blooket.com/gamemodes/logos/fish.png"
-            "https://ac.blooket.com/gamemodes/logos/bricks.png"
-            "https://ac.blooket.com/gamemodes/logos/brawl.png"
-            "https://ac.blooket.com/gamemodes/logos/kingdom.png"
-            "https://media.blooket.com/image/upload/v1776987136/Media/logos/snake.png"
-            # Common market / dash roots (existence probe)
-            "https://ac.blooket.com/marketassets/blooks/"
-            "https://ac.blooket.com/gamemodes/logos/"
-            "https://ac.blooket.com/dashclassic/assets/"
-          )
-
-          probe_one() {
-            local url="$1"
-            local code
-            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 4 -L -I "$url" 2>/dev/null || echo "000")
-            local name
-            name=$(basename "$url")
-            [ -z "$name" ] || [ "$name" = "/" ] && name="$(echo "$url" | sed 's|https://||;s|/$||' | tr '/' '_')"
-            if [ "$code" = "200" ] || [ "$code" = "301" ] || [ "$code" = "302" ]; then
-              echo "$code $name $url" >> "$FOUND"
-            else
-              echo "$code $name $url" >> "$MISSING"
-            fi
-            echo "$code $name"
-          }
-
-          # Parallel probes (batches of 8)
-          i=0
-          for url in "${URLS[@]}"; do
-            probe_one "$url" &
-            i=$((i + 1))
-            if [ $((i % 8)) -eq 0 ]; then wait; fi
-          done
-          wait
-
-          FOUND_N=$(wc -l < "$FOUND" | tr -d ' ')
-          MISS_N=$(wc -l < "$MISSING" | tr -d ' ')
-          NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-
-          # Build JSON (compact, no jq required)
-          {
-            printf '{\n'
-            printf '  "checkedAt": "%s",\n' "$NOW"
-            printf '  "status": "ok",\n'
-            printf '  "interval": "every 5 minutes (GitHub Actions minimum)",\n'
-            printf '  "found": %s,\n' "$FOUND_N"
-            printf '  "missing": %s,\n' "$MISS_N"
-            printf '  "assets": [\n'
-            first=1
-            while read -r code name url; do
-              [ -z "$code" ] && continue
-              if [ $first -eq 1 ]; then first=0; else printf ',\n'; fi
-              printf '    {"code": "%s", "name": "%s", "url": "%s", "ok": true}' "$code" "$name" "$url"
-            done < "$FOUND"
-            while read -r code name url; do
-              [ -z "$code" ] && continue
-              if [ $first -eq 1 ]; then first=0; else printf ',\n'; fi
-              printf '    {"code": "%s", "name": "%s", "url": "%s", "ok": false}' "$code" "$name" "$url"
-            done < "$MISSING"
-            printf '\n  ]\n}\n'
-          } > "$OUT"
-
-          echo "Probe done: found=$FOUND_N missing=$MISS_N at $NOW"
-          cat "$OUT"
-
+      - name: Probe assets + weekly shop
+        run: python3 scripts/probe_weekly_shop.py
+      - name: Ensure weekly shop script on site
+        run: python3 scripts/patch_weekly_shop_script.py || true
       - name: Commit if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/last-check.json
+          git add data/last-check.json data/weekly-shop.json data/updates.json index.html || true
           if git diff --staged --quiet; then
             echo "No change"
           else
-            git commit -m "chore: blooket asset check $(date -u +%Y-%m-%dT%H:%MZ)"
+            git commit -m "chore: blooket asset + weekly shop check $(date -u +%Y-%m-%dT%H:%MZ)"
             git push
           fi
