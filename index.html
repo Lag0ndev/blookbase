@@ -4428,6 +4428,28 @@
 </style>
 </head>
 <body>
+    <script>
+    /* Failsafe: never leave the page blank */
+    (function(){
+      function show(){
+        try{
+          document.body && document.body.classList.remove('ps-opening','no-scroll','bb-page-editing');
+          var home=document.getElementById('view-home');
+          var any=document.querySelector('.main-content[style*="display: flex"], .main-content[style*="display:flex"]');
+          if(home && !any){
+            document.querySelectorAll('.main-content').forEach(function(el){ el.style.display='none'; });
+            home.style.display='flex';
+          }
+        }catch(e){}
+      }
+      if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', show);
+      else show();
+      setTimeout(show, 400);
+      setTimeout(show, 1500);
+      setTimeout(show, 4000);
+    })();
+    </script>
+
 
     <div class="background">
         <div class="bgBlooks"></div>
@@ -5239,7 +5261,7 @@
             <span><strong id="online-count">—</strong> online</span>
         </div>
 
-    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js" defer></script>
     <!-- Admin auth: password is SHA-256 only (never plaintext). External /api/session.js optional. -->
     <script>
     (function () {
