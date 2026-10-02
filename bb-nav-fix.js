@@ -1,18 +1,8 @@
-/* Blookbase nav + sidebar fix — loads Download + Thumbnail Maker */
+/* Blookbase nav + sidebar fix only (Download + Thumbnail removed from site) */
 (function () {
   'use strict';
-  if (window.__bbNavFixV5) return;
-  window.__bbNavFixV5 = 1;
-
-  function loadScript(src) {
-    if (document.querySelector('script[src*="' + src.split('?')[0].split('/').pop() + '"]')) return;
-    var s = document.createElement('script');
-    s.src = src;
-    s.defer = true;
-    document.head.appendChild(s);
-  }
-  if (!window.__bbDownloadPage) loadScript('/bb-download.js?v=3');
-  if (!window.__bbThumbMaker) loadScript('/bb-thumbnail.js?v=1');
+  if (window.__bbNavFixV6) return;
+  window.__bbNavFixV6 = 1;
 
   function forceCloseSidebar() {
     try {
@@ -61,19 +51,32 @@
   };
 
   function ensureSwitchView() {
-    if (typeof window.switchView === 'function' && window.switchView.__bbSafeV5) return;
+    if (typeof window.switchView === 'function' && window.switchView.__bbSafeV6) return;
     if (typeof window.switchView === 'function') {
       var orig = window.switchView;
       window.switchView = function (view, skipUrl) {
         try {
           forceCloseSidebar();
-          return orig.apply(this, arguments);
+          if (view === 'download' || view === 'thumbnail' || view === 'thumbnails') view = 'home';
+          return orig.call(this, view, skipUrl);
         } catch (err) {
           console.warn('[bb-nav] switchView', err);
         }
       };
-      window.switchView.__bbSafeV5 = 1;
+      window.switchView.__bbSafeV6 = 1;
     }
+  }
+
+  function removeExtraNav() {
+    document.querySelectorAll('[data-view="download"], [data-view="thumbnail"]').forEach(function (btn) {
+      var li = btn.closest('li');
+      if (li) li.remove();
+      else btn.remove();
+    });
+    ['view-download', 'view-thumbnail'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.remove();
+    });
   }
 
   function wireOverlay() {
@@ -96,14 +99,6 @@
         e.stopPropagation();
         window.toggleSidebar();
       }, true);
-    });
-  }
-
-  function wireSidebarLinks() {
-    document.querySelectorAll('.sidebar-link[data-view], .sidebar-foot-btn[data-view]').forEach(function (btn) {
-      if (btn.__bbLinkWired) return;
-      btn.__bbLinkWired = 1;
-      btn.addEventListener('click', function () { setTimeout(forceCloseSidebar, 0); }, false);
     });
   }
 
@@ -133,13 +128,12 @@
     ensureSwitchView();
     wireOverlay();
     wireMenuBtn();
-    wireSidebarLinks();
     wireEscape();
+    removeExtraNav();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
   setTimeout(boot, 300);
-  setTimeout(boot, 1000);
-  setTimeout(boot, 2500);
+  setTimeout(boot, 1200);
 })();
