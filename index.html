@@ -4429,11 +4429,8 @@
 
     <style id="bb-critical">
       html, body { min-height: 100%; margin: 0; }
-      body { color: #1a1a1a; background: #2a9fe8; }
+      body { color: #1a1a1a; }
       .main-content { position: relative; z-index: 1; }
-      #view-home { display: flex !important; }
-      .header-title, .home-banner h2, .home-banner p, .sidebar-text { color: #fff !important; }
-      body.ps-opening .main-content { display: flex !important; }
     </style>
 </head>
 <body>
@@ -4460,32 +4457,32 @@
 
 <script id="bb-boot">
 (function () {
+  var done = false;
   function rescue() {
+    if (done) return;
     try {
       document.body && document.body.classList.remove('ps-opening', 'no-scroll', 'bb-page-editing');
       var ov = document.getElementById('sidebar-overlay');
-      if (ov) { ov.classList.remove('open'); ov.style.display = 'none'; }
+      if (ov && !ov.classList.contains('open')) {
+        ov.style.display = 'none';
+      }
       var pw = document.getElementById('pack-wrapper');
       if (pw) pw.style.display = 'none';
-      var home = document.getElementById('view-home');
-      if (!home) return;
-      var visible = false;
+      var any = false;
       document.querySelectorAll('.main-content').forEach(function (el) {
-        var d = (el.style && el.style.display) || '';
-        if (d === 'flex' || d === 'block') visible = true;
+        var d = (el.style && el.style.display) || window.getComputedStyle(el).display;
+        if (d === 'flex' || d === 'block') any = true;
       });
-      if (!visible) {
-        document.querySelectorAll('.main-content').forEach(function (el) { el.style.display = 'none'; });
-        home.style.display = 'flex';
+      if (!any) {
+        var home = document.getElementById('view-home');
+        if (home) home.style.display = 'flex';
       }
+      done = true;
     } catch (e) {}
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', rescue);
   else rescue();
-  setTimeout(rescue, 0);
-  setTimeout(rescue, 300);
-  setTimeout(rescue, 1000);
-  setTimeout(rescue, 3000);
+  setTimeout(rescue, 50);
 })();
 </script>
 
@@ -5696,6 +5693,7 @@
                 exitOpening();
             }
             currentView = view;
+            document.querySelectorAll('.main-content').forEach(function(el){ el.style.display = 'none'; });
             document.getElementById('view-home').style.display = view === 'home' ? 'flex' : 'none';
             document.getElementById('view-countdown').style.display = view === 'countdown' ? 'flex' : 'none';
             document.getElementById('view-whatsnew').style.display = view === 'whatsnew' ? 'flex' : 'none';
