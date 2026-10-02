@@ -1,8 +1,16 @@
-/* Blookbase nav recovery — safe, no loops */
+/* Blookbase nav recovery — safe, no loops + load Download page */
 (function () {
   'use strict';
   if (window.__bbNavFixV3) return;
   window.__bbNavFixV3 = 1;
+
+  // Load Download page module once
+  if (!window.__bbDownloadPage && !document.querySelector('script[src*="bb-download"]')) {
+    var s = document.createElement('script');
+    s.src = '/bb-download.js';
+    s.defer = true;
+    document.head.appendChild(s);
+  }
 
   function showView(view) {
     view = view || 'home';
