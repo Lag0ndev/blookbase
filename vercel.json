@@ -14,7 +14,6 @@
     { "source": "/calculator", "destination": "/index.html" },
     { "source": "/packsim", "destination": "/index.html" },
     { "source": "/about", "destination": "/index.html" },
-    { "source": "/blooks", "destination": "/index.html" },
     { "source": "/updates", "destination": "/index.html" },
     { "source": "/settings", "destination": "/index.html" }
   ],
