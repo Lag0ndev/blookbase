@@ -1,0 +1,43 @@
+name: Deploy bb-download.js
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/deploy-download.yml'
+      - 'gzparts/dl_b64_0.txt'
+      - 'gzparts/dl_b64_1.txt'
+      - 'gzparts/dl_b64_2.txt'
+      - 'gzparts/dl_b64_3.txt'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble and write bb-download.js
+        run: |
+          python3 << 'PY'
+          from pathlib import Path
+          import base64
+          parts = []
+          for i in range(0, 20):
+              p = Path(f'gzparts/dl_b64_{i}.txt')
+              if not p.exists():
+                  break
+              parts.append(p.read_text().strip())
+          raw = base64.b64decode(''.join(parts))
+          Path('bb-download.js').write_bytes(raw)
+          print('wrote', len(raw))
+          assert b'renderDownloadPage' in raw
+          assert b'Copy URL' in raw
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add bb-download.js
+          if git diff --staged --quiet; then
+            echo No change
+          else
+            git commit -m "feat: Download page — all assets, site UI, copy Blookbase URLs"
+            git push
+          fi
