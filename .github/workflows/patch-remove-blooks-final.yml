@@ -1,0 +1,16 @@
+name: Remove Blooks Final
+on: workflow_dispatch
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/patch_remove_blooks_final.py
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html vercel.json bb-blooks.js
+          git commit -m "fix: remove Blooks page completely; neutralize injector" || echo nochange
+          git push
