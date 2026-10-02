@@ -1,0 +1,43 @@
+name: Inject bb-download script into index
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/inject-download.yml'
+      - 'bb-download.js'
+
+jobs:
+  inject:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add script tag if missing
+        run: |
+          python3 << 'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          t = p.read_text(encoding='utf-8')
+          if 'bb-download.js' in t:
+              print('already present')
+          else:
+              needle = '<script src="bb-nav-fix.js" defer></script>'
+              insert = '<script src="bb-download.js" defer></script>\n<script src="bb-nav-fix.js" defer></script>'
+              if needle in t:
+                  t = t.replace(needle, insert, 1)
+              else:
+                  t = t.replace('</body>', '<script src="bb-download.js" defer></script>\n</body>', 1)
+              p.write_text(t, encoding='utf-8')
+              print('injected')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --staged --quiet; then
+            echo "No change"
+          else
+            git commit -m "chore: load bb-download.js on index"
+            git push
+          fi

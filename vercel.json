@@ -6,6 +6,7 @@
     { "source": "/countdown", "destination": "/index.html" },
     { "source": "/whatsnew", "destination": "/index.html" },
     { "source": "/leaks", "destination": "/index.html" },
+    { "source": "/download", "destination": "/index.html" },
     { "source": "/videos", "destination": "/index.html" },
     { "source": "/gamemodes", "destination": "/index.html" },
     { "source": "/banners", "destination": "/index.html" },
@@ -22,14 +23,14 @@
       "source": "/index.html",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
-        { "key": "X-Blookbase-Deploy", "value": "2026-10-02-final-load" }
+        { "key": "X-Blookbase-Deploy", "value": "2026-10-02-download-page" }
       ]
     },
     {
       "source": "/",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
-        { "key": "X-Blookbase-Deploy", "value": "2026-10-02-final-load" }
+        { "key": "X-Blookbase-Deploy", "value": "2026-10-02-download-page" }
       ]
     }
   ]
