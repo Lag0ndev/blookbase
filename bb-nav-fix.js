@@ -1,8 +1,8 @@
 /* Blookbase nav + sidebar fix only (Download + Thumbnail removed from site) */
 (function () {
   'use strict';
-  if (window.__bbNavFixV6) return;
-  window.__bbNavFixV6 = 1;
+  if (window.__bbNavFixV7) return;
+  window.__bbNavFixV7 = 1;
 
   function forceCloseSidebar() {
     try {
@@ -51,29 +51,33 @@
   };
 
   function ensureSwitchView() {
-    if (typeof window.switchView === 'function' && window.switchView.__bbSafeV6) return;
+    if (typeof window.switchView === 'function' && window.switchView.__bbSafeV7) return;
     if (typeof window.switchView === 'function') {
       var orig = window.switchView;
       window.switchView = function (view, skipUrl) {
         try {
           forceCloseSidebar();
           if (view === 'download' || view === 'thumbnail' || view === 'thumbnails') view = 'home';
+          if (view === 'leaks') view = 'whatsnew';
+          if (view === 'packsim' && !skipUrl) {
+            try { history.pushState({ view: 'packsim' }, '', '/calculator'); } catch (e) {}
+          }
           return orig.call(this, view, skipUrl);
         } catch (err) {
           console.warn('[bb-nav] switchView', err);
         }
       };
-      window.switchView.__bbSafeV6 = 1;
+      window.switchView.__bbSafeV7 = 1;
     }
   }
 
   function removeExtraNav() {
-    document.querySelectorAll('[data-view="download"], [data-view="thumbnail"]').forEach(function (btn) {
+    document.querySelectorAll('[data-view="download"], [data-view="thumbnail"], [data-view="leaks"]').forEach(function (btn) {
       var li = btn.closest('li');
       if (li) li.remove();
       else btn.remove();
     });
-    ['view-download', 'view-thumbnail'].forEach(function (id) {
+    ['view-download', 'view-thumbnail', 'view-leaks'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.remove();
     });
@@ -119,14 +123,19 @@
       '#sidebar-overlay:not(.open){pointer-events:none!important;}' +
       'body:not(.sb-always) #sidebar:not(.open){transform:translateX(-100%)!important;}' +
       'body:not(.sb-always):not(.sb-right):not(.sb-top):not(.sb-bottom) #sidebar.open{transform:translateX(0)!important;}' +
-      '@media(max-width:900px){body.sb-always #sidebar:not(.open){transform:translateX(-100%)!important;}body.sb-always #sidebar.open{transform:translateX(0)!important;}body.sb-always #sidebar-overlay.open{display:block!important;pointer-events:auto!important;}}';
+      '@media(max-width:900px){body.sb-always #sidebar:not(.open){transform:translateX(-100%)!important;}body.sb-always #sidebar.open{transform:translateX(0)!important;}body.sb-always #sidebar-overlay.open{display:block!important;pointer-events:auto!important;}}' +
+      /* Online + watermark never under sidebar */
+      '.online-counter{position:fixed!important;z-index:80!important;right:14px!important;left:auto!important;bottom:14px!important;}' +
+      'body.sb-right .online-counter{left:14px!important;right:auto!important;}' +
+      '.watermark{position:fixed!important;z-index:40!important;right:12px!important;left:auto!important;bottom:48px!important;}' +
+      'body.sb-right .watermark{left:12px!important;right:auto!important;}';
     document.head.appendChild(st);
   }
 
   function loadCalcOnlineFix() {
     if (document.querySelector('script[data-bb-calc-online]')) return;
     var s = document.createElement('script');
-    s.src = '/bb-calc-online-fix.js?v=2';
+    s.src = '/bb-calc-online-fix.js?v=3';
     s.defer = true;
     s.setAttribute('data-bb-calc-online', '1');
     document.head.appendChild(s);
