@@ -1,8 +1,8 @@
 /* Blookbase nav + sidebar fix only (Download + Thumbnail removed from site) */
 (function () {
   'use strict';
-  if (window.__bbNavFixV11) return;
-  window.__bbNavFixV11 = 1;
+  if (window.__bbNavFixV12) return;
+  window.__bbNavFixV12 = 1;
 
   function forceCloseSidebar() {
     try {
@@ -51,7 +51,7 @@
   };
 
   function ensureSwitchView() {
-    if (typeof window.switchView === 'function' && window.switchView.__bbSafeV11) return;
+    if (typeof window.switchView === 'function' && window.switchView.__bbSafeV12) return;
     if (typeof window.switchView === 'function') {
       var orig = window.switchView;
       window.switchView = function (view, skipUrl) {
@@ -68,7 +68,7 @@
           console.warn('[bb-nav] switchView', err);
         }
       };
-      window.switchView.__bbSafeV11 = 1;
+      window.switchView.__bbSafeV12 = 1;
     }
   }
 
@@ -81,6 +81,15 @@
     ['view-download', 'view-thumbnail', 'view-leaks'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.remove();
+    });
+    // Remove any leftover Pack Sim nav/card from older deploys
+    document.querySelectorAll('[data-bb-packsim-nav]').forEach(function (btn) {
+      var li = btn.closest('li');
+      if (li) li.remove();
+      else btn.remove();
+    });
+    document.querySelectorAll('[data-bb-packsim-card]').forEach(function (el) {
+      el.remove();
     });
   }
 
@@ -153,58 +162,13 @@
     });
   }
 
-  function injectPackSimNav() {
-    try {
-      if (document.querySelector('[data-bb-packsim-nav]')) return;
-
-      var packsimBtn = document.querySelector('.sidebar-link[data-view="packsim"]');
-      var marketBtn = document.querySelector('.sidebar-link[data-view="market"]');
-      var anchorLi = (packsimBtn && packsimBtn.closest('li')) || (marketBtn && marketBtn.closest('li'));
-      if (anchorLi && anchorLi.parentNode) {
-        var li = document.createElement('li');
-        li.innerHTML =
-          '<button type="button" class="sidebar-link" data-bb-packsim-nav="1" onclick="window.location.href=\'/packsim\'">' +
-          '<span class="sidebar-listIcon"><i class="fas fa-box-open"></i></span>' +
-          '<span class="sidebar-text">Pack Sim</span>' +
-          '</button>';
-        if (packsimBtn && packsimBtn.closest('li')) {
-          anchorLi.parentNode.insertBefore(li, packsimBtn.closest('li').nextSibling);
-        } else {
-          anchorLi.parentNode.insertBefore(li, anchorLi.nextSibling);
-        }
-      }
-
-      var homeGrid = document.querySelector('#view-home .home-grid');
-      if (homeGrid && !document.querySelector('[data-bb-packsim-card]')) {
-        var card = document.createElement('div');
-        card.className = 'home-card';
-        card.setAttribute('data-bb-packsim-card', '1');
-        card.innerHTML =
-          '<div class="home-card-top">' +
-            '<span class="home-card-label">Pack Sim</span>' +
-            '<span class="home-card-badge">New</span>' +
-          '</div>' +
-          '<h3>Open packs for free</h3>' +
-          '<p>Visual pack simulator with real drop rates — click a pack, open it, and see what you get.</p>' +
-          '<button type="button" class="home-card-btn" onclick="window.location.href=\'/packsim\'">Open Pack Sim →</button>';
-        if (homeGrid.firstElementChild && homeGrid.firstElementChild.nextSibling) {
-          homeGrid.insertBefore(card, homeGrid.firstElementChild.nextSibling);
-        } else {
-          homeGrid.appendChild(card);
-        }
-      }
-    } catch (e) {
-      console.warn('[bb-nav] packsim inject', e);
-    }
-  }
-
   function fixCalculatorPath() {
     try {
       var view = null;
       try { view = sessionStorage.getItem('bb_view'); if (view) sessionStorage.removeItem('bb_view'); } catch (e) {}
       if (!view) {
         var seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || '';
-        var map = { calculator: 'packsim', packsim: 'packsim', market: 'market', packs: 'market', countdown: 'countdown', whatsnew: 'whatsnew', videos: 'videos', gamemodes: 'gamemodes', banners: 'banners', about: 'about', updates: 'updates', settings: 'settings' };
+        var map = { calculator: 'packsim', market: 'market', packs: 'market', countdown: 'countdown', whatsnew: 'whatsnew', videos: 'videos', gamemodes: 'gamemodes', banners: 'banners', about: 'about', updates: 'updates', settings: 'settings' };
         view = map[seg] || null;
       }
       if (view && typeof window.switchView === 'function') {
@@ -223,11 +187,10 @@
     removeExtraNav();
     loadFixes();
     forceWatermark();
-    injectPackSimNav();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
   setTimeout(boot, 300);
-  setTimeout(function () { boot(); forceWatermark(); injectPackSimNav(); }, 1200);
+  setTimeout(function () { boot(); forceWatermark(); }, 1200);
 })();
