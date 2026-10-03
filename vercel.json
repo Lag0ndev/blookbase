@@ -1,9 +1,4 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false,
-  "rewrites": [
-    { "source": "/packsim", "destination": "/packsim.html" },
-    { "source": "/pack-sim", "destination": "/packsim.html" },
-    { "source": "/:path*", "destination": "/index.html" }
-  ]
+  "trailingSlash": false
 }
