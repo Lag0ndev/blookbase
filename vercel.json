@@ -2,7 +2,6 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/", "destination": "/index.html" },
     { "source": "/countdown", "destination": "/index.html" },
     { "source": "/whatsnew", "destination": "/index.html" },
     { "source": "/leaks", "destination": "/index.html" },
@@ -15,42 +14,17 @@
     { "source": "/packs", "destination": "/index.html" },
     { "source": "/market", "destination": "/index.html" },
     { "source": "/calculator", "destination": "/index.html" },
-    { "source": "/packsim", "destination": "/pack-sim.html" },
+    { "source": "/packsim", "destination": "/packsim.html" },
     { "source": "/about", "destination": "/index.html" },
     { "source": "/updates", "destination": "/index.html" },
     { "source": "/settings", "destination": "/index.html" }
   ],
   "headers": [
     {
-      "source": "/index.html",
+      "source": "/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
-        { "key": "X-Blookbase-Deploy", "value": "2026-10-03-packsim-v2" }
-      ]
-    },
-    {
-      "source": "/",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
-        { "key": "X-Blookbase-Deploy", "value": "2026-10-03-packsim-v2" }
-      ]
-    },
-    {
-      "source": "/pack-sim.html",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/pack-sim.js",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/bb-nav-fix.js",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+        { "key": "X-Blookbase-Deploy", "value": "2026-10-03-packsim-fix" }
       ]
     }
   ]
