@@ -1,8 +1,8 @@
 /* Blookbase nav + sidebar fix only (Download + Thumbnail removed from site) */
 (function () {
   'use strict';
-  if (window.__bbNavFixV7) return;
-  window.__bbNavFixV7 = 1;
+  if (window.__bbNavFixV8) return;
+  window.__bbNavFixV8 = 1;
 
   function forceCloseSidebar() {
     try {
@@ -51,7 +51,7 @@
   };
 
   function ensureSwitchView() {
-    if (typeof window.switchView === 'function' && window.switchView.__bbSafeV7) return;
+    if (typeof window.switchView === 'function' && window.switchView.__bbSafeV8) return;
     if (typeof window.switchView === 'function') {
       var orig = window.switchView;
       window.switchView = function (view, skipUrl) {
@@ -67,7 +67,7 @@
           console.warn('[bb-nav] switchView', err);
         }
       };
-      window.switchView.__bbSafeV7 = 1;
+      window.switchView.__bbSafeV8 = 1;
     }
   }
 
@@ -124,21 +124,32 @@
       'body:not(.sb-always) #sidebar:not(.open){transform:translateX(-100%)!important;}' +
       'body:not(.sb-always):not(.sb-right):not(.sb-top):not(.sb-bottom) #sidebar.open{transform:translateX(0)!important;}' +
       '@media(max-width:900px){body.sb-always #sidebar:not(.open){transform:translateX(-100%)!important;}body.sb-always #sidebar.open{transform:translateX(0)!important;}body.sb-always #sidebar-overlay.open{display:block!important;pointer-events:auto!important;}}' +
-      /* Online + watermark never under sidebar */
       '.online-counter{position:fixed!important;z-index:80!important;right:14px!important;left:auto!important;bottom:14px!important;}' +
       'body.sb-right .online-counter{left:14px!important;right:auto!important;}' +
-      '.watermark{position:fixed!important;z-index:40!important;right:12px!important;left:auto!important;bottom:48px!important;}' +
+      '.watermark{position:fixed!important;z-index:40!important;right:12px!important;left:auto!important;bottom:48px!important;' +
+      'max-width:none!important;overflow:visible!important;text-overflow:clip!important;white-space:nowrap!important;width:auto!important;min-width:max-content!important;}' +
       'body.sb-right .watermark{left:12px!important;right:auto!important;}';
     document.head.appendChild(st);
   }
 
-  function loadCalcOnlineFix() {
-    if (document.querySelector('script[data-bb-calc-online]')) return;
+  function loadScript(src, attr) {
+    if (document.querySelector('script[' + attr + ']')) return;
     var s = document.createElement('script');
-    s.src = '/bb-calc-online-fix.js?v=3';
+    s.src = src;
     s.defer = true;
-    s.setAttribute('data-bb-calc-online', '1');
+    s.setAttribute(attr, '1');
     document.head.appendChild(s);
+  }
+
+  function loadFixes() {
+    loadScript('/bb-calc-online-fix.js?v=4', 'data-bb-calc-online');
+    loadScript('/bb-watermark-fix.js?v=1', 'data-bb-wm-fix');
+  }
+
+  function forceWatermark() {
+    document.querySelectorAll('.watermark').forEach(function (el) {
+      el.textContent = 'Lag0n';
+    });
   }
 
   function boot() {
@@ -148,11 +159,12 @@
     wireMenuBtn();
     wireEscape();
     removeExtraNav();
-    loadCalcOnlineFix();
+    loadFixes();
+    forceWatermark();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
   setTimeout(boot, 300);
-  setTimeout(boot, 1200);
+  setTimeout(function () { boot(); forceWatermark(); }, 1200);
 })();
