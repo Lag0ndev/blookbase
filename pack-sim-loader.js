@@ -1,0 +1,1 @@
+(function(){var parts=[],need=3,done=0;function go(){if(done<need)return;var s=document.createElement("script");s.textContent=parts.join("");document.head.appendChild(s);}for(var i=0;i<3;i++){(function(i){fetch("/pack-sim-p"+i+".js").then(function(r){return r.text()}).then(function(t){parts[i]=t;done++;go();});})(i);}})();
