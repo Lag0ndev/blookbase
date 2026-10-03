@@ -200,9 +200,15 @@
 
   function fixCalculatorPath() {
     try {
-      var seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || '';
-      if (seg === 'calculator' && typeof window.switchView === 'function') {
-        window.switchView('packsim', true);
+      var view = null;
+      try { view = sessionStorage.getItem('bb_view'); if (view) sessionStorage.removeItem('bb_view'); } catch (e) {}
+      if (!view) {
+        var seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || '';
+        var map = { calculator: 'packsim', packsim: 'packsim', market: 'market', packs: 'market', countdown: 'countdown', whatsnew: 'whatsnew', videos: 'videos', gamemodes: 'gamemodes', banners: 'banners', about: 'about', updates: 'updates', settings: 'settings' };
+        view = map[seg] || null;
+      }
+      if (view && typeof window.switchView === 'function') {
+        window.switchView(view, true);
       }
     } catch (e) {}
   }
