@@ -4,6 +4,6 @@
   "rewrites": [
     { "source": "/packsim", "destination": "/packsim.html" },
     { "source": "/pack-sim", "destination": "/packsim.html" },
-    { "source": "/((?!packsim\.html|pack-sim\.js|packsim-boot\.js|bb-.*\.js|data/|.*\\..*).*)", "destination": "/index.html" }
+    { "source": "/:path*", "destination": "/index.html" }
   ]
 }
