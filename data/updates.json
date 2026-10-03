@@ -1,7 +1,15 @@
 {
-  "lastUpdated": "2026-10-01",
+  "lastUpdated": "2026-10-02",
   "note": "Official Blooket product updates. Exact times unknown unless noted. Newest first.",
   "entries": [
+    {
+      "date": "2026-10-02",
+      "time": "19:00:00Z",
+      "type": "ui",
+      "title": "Blookbase site updates",
+      "body": "Pack Calculator at /calculator with clearer drop % and average results. Autumn & Blizzard packs locked until they return to the Market. Leaks page removed (use What's New + Updates). Online count and Lag0n watermark stay visible with any sidebar layout. Live videos filter is Blooket-only.",
+      "images": []
+    },
     {
       "date": "2026-09-30",
       "time": "23:06:00Z",
