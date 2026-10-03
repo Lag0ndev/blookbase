@@ -1,8 +1,8 @@
 /* Blookbase nav + sidebar fix only (Download + Thumbnail removed from site) */
 (function () {
   'use strict';
-  if (window.__bbNavFixV8) return;
-  window.__bbNavFixV8 = 1;
+  if (window.__bbNavFixV9) return;
+  window.__bbNavFixV9 = 1;
 
   function forceCloseSidebar() {
     try {
@@ -51,7 +51,7 @@
   };
 
   function ensureSwitchView() {
-    if (typeof window.switchView === 'function' && window.switchView.__bbSafeV8) return;
+    if (typeof window.switchView === 'function' && window.switchView.__bbSafeV9) return;
     if (typeof window.switchView === 'function') {
       var orig = window.switchView;
       window.switchView = function (view, skipUrl) {
@@ -67,7 +67,7 @@
           console.warn('[bb-nav] switchView', err);
         }
       };
-      window.switchView.__bbSafeV8 = 1;
+      window.switchView.__bbSafeV9 = 1;
     }
   }
 
@@ -152,6 +152,56 @@
     });
   }
 
+  function injectPackSimNav() {
+    try {
+      // Avoid duplicates
+      if (document.querySelector('[data-bb-packsim-nav]')) return;
+
+      // Sidebar: add Pack Sim after Calculator / packsim item
+      var packsimBtn = document.querySelector('.sidebar-link[data-view="packsim"]');
+      var marketBtn = document.querySelector('.sidebar-link[data-view="market"]');
+      var anchorLi = (packsimBtn && packsimBtn.closest('li')) || (marketBtn && marketBtn.closest('li'));
+      if (anchorLi && anchorLi.parentNode) {
+        var li = document.createElement('li');
+        li.innerHTML =
+          '<button type="button" class="sidebar-link" data-bb-packsim-nav="1" onclick="window.location.href=\'/pack-sim.html\'">' +
+          '<span class="sidebar-listIcon"><i class="fas fa-box-open"></i></span>' +
+          '<span class="sidebar-text">Pack Sim</span>' +
+          '</button>';
+        // Insert after Calculator if present, else after Packs
+        if (packsimBtn && packsimBtn.closest('li')) {
+          anchorLi.parentNode.insertBefore(li, packsimBtn.closest('li').nextSibling);
+        } else {
+          anchorLi.parentNode.insertBefore(li, anchorLi.nextSibling);
+        }
+      }
+
+      // Home card: insert Pack Sim card near Calculator card
+      var homeGrid = document.querySelector('#view-home .home-grid');
+      if (homeGrid && !document.querySelector('[data-bb-packsim-card]')) {
+        var card = document.createElement('div');
+        card.className = 'home-card';
+        card.setAttribute('data-bb-packsim-card', '1');
+        card.innerHTML =
+          '<div class="home-card-top">' +
+            '<span class="home-card-label">Pack Sim</span>' +
+            '<span class="home-card-badge">New</span>' +
+          '</div>' +
+          '<h3>Open packs for free</h3>' +
+          '<p>Visual pack simulator with real drop rates — click a pack, open it, and see what you get.</p>' +
+          '<button type="button" class="home-card-btn" onclick="window.location.href=\'/pack-sim.html\'">Open Pack Sim →</button>';
+        // Prefer after first card (Calculator)
+        if (homeGrid.firstElementChild && homeGrid.firstElementChild.nextSibling) {
+          homeGrid.insertBefore(card, homeGrid.firstElementChild.nextSibling);
+        } else {
+          homeGrid.appendChild(card);
+        }
+      }
+    } catch (e) {
+      console.warn('[bb-nav] packsim inject', e);
+    }
+  }
+
   function boot() {
     injectCss();
     ensureSwitchView();
@@ -161,10 +211,11 @@
     removeExtraNav();
     loadFixes();
     forceWatermark();
+    injectPackSimNav();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
   setTimeout(boot, 300);
-  setTimeout(function () { boot(); forceWatermark(); }, 1200);
+  setTimeout(function () { boot(); forceWatermark(); injectPackSimNav(); }, 1200);
 })();
