@@ -1,8 +1,8 @@
 /* Blookbase nav + sidebar fix only (Download + Thumbnail removed from site) */
 (function () {
   'use strict';
-  if (window.__bbNavFixV10) return;
-  window.__bbNavFixV10 = 1;
+  if (window.__bbNavFixV11) return;
+  window.__bbNavFixV11 = 1;
 
   function forceCloseSidebar() {
     try {
@@ -51,7 +51,7 @@
   };
 
   function ensureSwitchView() {
-    if (typeof window.switchView === 'function' && window.switchView.__bbSafeV10) return;
+    if (typeof window.switchView === 'function' && window.switchView.__bbSafeV11) return;
     if (typeof window.switchView === 'function') {
       var orig = window.switchView;
       window.switchView = function (view, skipUrl) {
@@ -61,13 +61,14 @@
           if (view === 'leaks') view = 'whatsnew';
           if (view === 'packsim' && !skipUrl) {
             try { history.pushState({ view: 'packsim' }, '', '/calculator'); } catch (e) {}
+            return orig.call(this, view, true);
           }
           return orig.call(this, view, skipUrl);
         } catch (err) {
           console.warn('[bb-nav] switchView', err);
         }
       };
-      window.switchView.__bbSafeV10 = 1;
+      window.switchView.__bbSafeV11 = 1;
     }
   }
 
@@ -197,7 +198,17 @@
     }
   }
 
+  function fixCalculatorPath() {
+    try {
+      var seg = (location.pathname.replace(/\/+$/, '') || '/').split('/').filter(Boolean)[0] || '';
+      if (seg === 'calculator' && typeof window.switchView === 'function') {
+        window.switchView('packsim', true);
+      }
+    } catch (e) {}
+  }
+
   function boot() {
+    fixCalculatorPath();
     injectCss();
     ensureSwitchView();
     wireOverlay();
