@@ -123,6 +123,15 @@
     document.head.appendChild(st);
   }
 
+  function loadCalcOnlineFix() {
+    if (document.querySelector('script[data-bb-calc-online]')) return;
+    var s = document.createElement('script');
+    s.src = '/bb-calc-online-fix.js?v=2';
+    s.defer = true;
+    s.setAttribute('data-bb-calc-online', '1');
+    document.head.appendChild(s);
+  }
+
   function boot() {
     injectCss();
     ensureSwitchView();
@@ -130,6 +139,7 @@
     wireMenuBtn();
     wireEscape();
     removeExtraNav();
+    loadCalcOnlineFix();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
